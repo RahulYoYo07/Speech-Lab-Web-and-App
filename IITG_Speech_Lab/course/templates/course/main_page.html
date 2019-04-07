@@ -11,7 +11,7 @@
       <div class = "card">
 
       <div class="card-body">
-        <h5 class="card-title">{{ course.CourseID }}</h5>
+        <h5 class="card-title"><a href="{% url 'course:view_course' course.CourseID %}">{{ course.CourseID }}</a></h5>
         {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
         <p class="card-text overflow-auto" style="height:8rem;">{{ course.AboutCourse }}</p>
       

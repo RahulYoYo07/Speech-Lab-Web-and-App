@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 # import firebase_admin
 # from firebase_admin import credentials
 # from firebase_admin import firestore
@@ -42,8 +44,65 @@ def dashboard(request):
     return render(request,'course/main_page.html',context)
 
 def AddCourse(request):
-
+    username = "pradip"
     if request.method == 'POST':
-        return render(request, 'course/main_page.html')
+        ref_prof = db.collection(u'Users').document(username)
+        data = {
+            u'AboutCourse' : request.POST.get("AboutCourse",""),
+            u'CourseID' : request.POST.get("CourseID",""),
+            u'CourseName' : request.POST.get("CourseName",""),
+            u'Weightage' : int(request.POST.get("Weightage","")),
+            u'EnrollmentKey' : request.POST.get("EnrollmentKey",""),
+            u'EndSemester':{
+                u'SemesterType' :  request.POST.get("EndSemesterType",""),
+                u'Session' : int(request.POST.get("EndSemesterSession",""))
+            },
+            u'StartSemester':{
+                u'SemesterType' :  request.POST.get("StartSemesterType",""),
+                u'Session' : int(request.POST.get("StartSemesterSession",""))
+            },
+            u'FacultyList' : [ ref_prof ]
+        }
+        cid = request.POST.get("CourseID","")
+        db.collection(u'Courses').document(cid).set(data)
+
+        course_ref = db.collection(u'Courses').document(cid)
+
+        prof_data = db.collection(u'Users').document(username).get().to_dict()
+        CoursesList = prof_data['ProfCourseList']
+        CoursesList.append(course_ref)
+
+        print(CoursesList)
+        db.collection(u'Users').document(username).update({
+            u'ProfCourseList' : CoursesList
+        })
+
+        return render(request,'course/main_page.html')
+        #return HttpResponseRedirect(reverse('course:dashboard'))
 
     return render(request, 'course/addcourseform.html')
+
+def ViewCourse(request, cid):
+
+    username = "pradip"
+    assgn_ref = db.collection(u'Courses').document(cid).collection(u'Assignments').get()
+    AssgnDetails = []
+    for assgn in assgn_ref:
+        AssgnDetails.append(assgn.to_dict())
+    context = {
+        'AssgnDetails' : AssgnDetails,
+        'CourseID' : cid
+    }
+    return render(request, 'course/viewcourse.html', context)
+
+def ViewAssgn(request, cid, aid):
+
+    username = "pradip"
+    group_ref = db.collection(u'Courses').document(cid).collection(u'Assignments').document(aid).collection(u'Groups').get()
+    GroupDetails = []
+    for group in group_ref:
+        GroupDetails.append(group.to_dict())
+    context = {
+        'GroupDetails' : GroupDetails,
+    }
+    return render(request, 'course/viewassgn.html', context)
