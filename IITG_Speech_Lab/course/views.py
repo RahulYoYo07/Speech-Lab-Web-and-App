@@ -42,7 +42,6 @@ def dashboard(request):
     return render(request,'course/main_page.html',context)
 
 def AddCourse(request):
-
     if request.method == 'POST':
         return render(request, 'course/main_page.html')
 
