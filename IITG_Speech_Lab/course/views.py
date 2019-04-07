@@ -29,9 +29,20 @@ def dashboard(request):
     username = "pradip"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    profCourseList = user_dict['profCourseList']
-    print(profCourseList)
-    return render(request,'course/main_page.html')
+    ProfCourseList = user_dict['ProfCourseList']
+    #i=0
+    CourseDetails = []
+    for course in ProfCourseList:
+        CourseDetails.append(course.get().to_dict())
+        #print(CourseDetails[i].id)
+        #print(course.get().id)
+        #i+=1
+
+    context = {
+        'CourseDetails' : CourseDetails
+    }
+
+    return render(request,'course/main_page.html',context)
 
 def AddCourse(request):
 

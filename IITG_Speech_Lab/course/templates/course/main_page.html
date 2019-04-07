@@ -1,4 +1,10 @@
 {% extends "base_generic.html"%}
 {% block content %}
 <a href="{% url 'course:add_course'%}"><p class="options">Add Courses</p></a>
+
+{% for course in CourseDetails %}
+  <div>
+    <h1>{{ course.AboutCourse }}</h1>
+  </div>
+{% endfor %}
 {% endblock %}
