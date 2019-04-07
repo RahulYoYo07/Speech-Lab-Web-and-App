@@ -2,10 +2,21 @@
 {% block content %}
 <a href="{% url 'course:add_course'%}"><p class="options">Add Courses</p></a>
 
+<div class="row">
+  <div class="col-sm-6">
 {% for course in CourseDetails %}
-  <div>
-    <h1>{{ course.AboutCourse }}</h1>
-    <h1>{{ course.CourseID }}</h1>
-  </div>
+
+    <div class="card" style="width: 25rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ course.CourseID }}</h5>
+        {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
+        <p class="card-text">{{ course.AboutCourse }}</p>
+        <a href="#" class="card-link">Course Link</a>
+        <a href="#" class="card-link">Discussion Group Link</a>
+      </div>
+    </div>
+
 {% endfor %}
+  </div>
+</div>
 {% endblock %}
