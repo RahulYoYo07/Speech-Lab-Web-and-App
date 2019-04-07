@@ -42,6 +42,7 @@ def dashboard(request):
     return render(request,'course/main_page.html',context)
 
 def AddCourse(request):
+
     if request.method == 'POST':
         return render(request, 'course/main_page.html')
 
@@ -55,7 +56,8 @@ def ViewCourse(request, cid):
     for assgn in assgn_ref:
         AssgnDetails.append(assgn.to_dict())
     context = {
-        'AssgnDetails' : AssgnDetails
+        'AssgnDetails' : AssgnDetails,
+        'CourseID' : cid
     }
     return render(request, 'course/viewcourse.html', context)
 
@@ -67,6 +69,6 @@ def ViewAssgn(request, cid, aid):
     for group in group_ref:
         GroupDetails.append(group.to_dict())
     context = {
-        'GroupDetails' : GroupDetails
+        'GroupDetails' : GroupDetails,
     }
     return render(request, 'course/viewassgn.html', context)
