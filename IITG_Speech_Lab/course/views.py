@@ -1,4 +1,7 @@
 from django.shortcuts import render
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import firestore
 
 import firebase_admin
 from firebase_admin import credentials
@@ -26,5 +29,13 @@ def dashboard(request):
     username = "pradip"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    print(user_dict['About'])
+    profCourseList = user_dict['profCourseList']
+    print(profCourseList)
     return render(request,'course/main_page.html')
+
+def AddCourse(request):
+
+    if request.method == 'POST':
+        return render(request, 'course/main_page.html')
+
+    return render(request, 'course/addcourseform.html')
