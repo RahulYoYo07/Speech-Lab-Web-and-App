@@ -66,16 +66,16 @@ def AddCourse(request):
         cid = request.POST.get("CourseID","")
         db.collection(u'Courses').document(cid).set(data)
 
-        #course_ref = db.collection(u'Courses').document(cid)
+        course_ref = db.collection(u'Courses').document(cid)
 
-        #prof_data = db.collection(u'Users').document(username).get().to_dict()
-        #oldCourses = prof_data['ProfCourseList']
-        #newList = oldCourses.append(course_ref)
+        prof_data = db.collection(u'Users').document(username).get().to_dict()
+        CoursesList = prof_data['ProfCourseList']
+        CoursesList.append(course_ref)
 
-        #print(newList)
-        #db.collection(u'Users').document(username).update({
-        #    u'ProfCourseList' : newList
-        #})
+        print(CoursesList)
+        db.collection(u'Users').document(username).update({
+            u'ProfCourseList' : CoursesList
+        })
 
         return render(request,'course/main_page.html')
         #return HttpResponseRedirect(reverse('course:dashboard'))
