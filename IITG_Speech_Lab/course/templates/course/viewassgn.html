@@ -1,0 +1,19 @@
+{% extends "base_generic.html"%}
+{% block content %}
+<a href="{% url 'course:dashboard'%}"><p class="options">Add Group</p></a>
+
+<div class="row">
+  <div class="col-sm-6">
+{% for group in GroupDetails %}
+
+    <div class="card" style="width: 25rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ group.GroupID }}</h5>
+        {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
+      </div>
+    </div>
+
+{% endfor %}
+  </div>
+</div>
+{% endblock %}

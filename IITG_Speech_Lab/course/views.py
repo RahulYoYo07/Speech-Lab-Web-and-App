@@ -90,6 +90,19 @@ def ViewCourse(request, cid):
     for assgn in assgn_ref:
         AssgnDetails.append(assgn.to_dict())
     context = {
-        'AssgnDetails' : AssgnDetails
+        'AssgnDetails' : AssgnDetails,
+        'CourseID' : cid
     }
     return render(request, 'course/viewcourse.html', context)
+
+def ViewAssgn(request, cid, aid):
+
+    username = "pradip"
+    group_ref = db.collection(u'Courses').document(cid).collection(u'Assignments').document(aid).collection(u'Groups').get()
+    GroupDetails = []
+    for group in group_ref:
+        GroupDetails.append(group.to_dict())
+    context = {
+        'GroupDetails' : GroupDetails,
+    }
+    return render(request, 'course/viewassgn.html', context)
