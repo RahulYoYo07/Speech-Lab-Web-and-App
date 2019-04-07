@@ -30,13 +30,10 @@ def dashboard(request):
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     ProfCourseList = user_dict['ProfCourseList']
-    i=0
+
     CourseDetails = []
     for course in ProfCourseList:
         CourseDetails.append(course.get().to_dict())
-        CourseDetails[i]['id'] = course.get().id
-        print(CourseDetails[i]['id'])
-        i+=1
 
     context = {
         'CourseDetails' : CourseDetails
