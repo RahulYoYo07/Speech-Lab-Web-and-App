@@ -46,3 +46,15 @@ def AddCourse(request):
         return render(request, 'course/main_page.html')
 
     return render(request, 'course/addcourseform.html')
+
+def ViewCourse(request, cid):
+
+    username = "pradip"
+    assgn_ref = db.collection(u'Courses').document(cid).collection(u'Assignments').get()
+    AssgnDetails = []
+    for assgn in assgn_ref:
+        AssgnDetails.append(assgn.to_dict())
+    context = {
+        'AssgnDetails' : AssgnDetails
+    }
+    return render(request, 'course/viewcourse.html', context)
