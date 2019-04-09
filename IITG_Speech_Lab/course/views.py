@@ -33,9 +33,12 @@ def dashboard(request):
     user_dict = user_ref.to_dict()
     ProfCourseList = user_dict['ProfCourseList']
 
+    i=0
     CourseDetails = []
     for course in ProfCourseList:
         CourseDetails.append(course.get().to_dict())
+        print(CourseDetails[i])
+        i=i+1
 
     context = {
         'CourseDetails' : CourseDetails
@@ -61,13 +64,16 @@ def AddCourse(request):
                 u'SemesterType' :  request.POST.get("StartSemesterType",""),
                 u'Session' : int(request.POST.get("StartSemesterSession",""))
             },
-            u'FacultyList' : [ ref_prof ]
+            u'FacultyList' : [ ref_prof ],
+            u'CourseInfo' : request.POST.get("CourseID","") + "_" + username + "_" + request.POST.get("StartSemesterSession","")
         }
         cid = request.POST.get("CourseID","")
-        cid += "_" + username + "_" + request.POST.get("StartSemesterSession","")
-        db.collection(u'Courses').document(cid).set(data)
 
-        course_ref = db.collection(u'Courses').document(cid)
+        cinfo = cid + "_" + username + "_" + request.POST.get("StartSemesterSession","")
+
+        db.collection(u'Courses').document(cinfo).set(data)
+
+        course_ref = db.collection(u'Courses').document(cinfo)
 
         prof_data = db.collection(u'Users').document(username).get().to_dict()
         CoursesList = prof_data['ProfCourseList']
@@ -82,23 +88,25 @@ def AddCourse(request):
 
     return render(request, 'course/addcourseform.html')
 
-def ViewCourse(request, cid):
+def ViewCourse(request, cinfo ):
 
     username = "pradip"
-    assgn_ref = db.collection(u'Courses').document(cid).collection(u'Assignments').get()
+    #cid += "_" + username + " _" + cyear
+    assgn_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').get()
     AssgnDetails = []
     for assgn in assgn_ref:
         AssgnDetails.append(assgn.to_dict())
     context = {
         'AssgnDetails' : AssgnDetails,
-        'CourseID' : cid
+        'CourseInfo' : cinfo
     }
     return render(request, 'course/viewcourse.html', context)
 
-def ViewAssgn(request, cid, aid):
+def ViewAssgn(request, cinfo, aid ):
 
     username = "pradip"
-    group_ref = db.collection(u'Courses').document(cid).collection(u'Assignments').document(aid).collection(u'Groups').get()
+    #cid += "_" + username + " _" + cyear
+    group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').get()
     GroupDetails = []
     for group in group_ref:
         GroupDetails.append(group.to_dict())
