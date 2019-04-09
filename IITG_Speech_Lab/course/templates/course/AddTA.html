@@ -1,0 +1,92 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<form>
+
+    <div class="form-group">
+      <label for="">TA Branch</label>
+      <select class="form-control" name="" id="TA_BRANCH">
+        <option onselect="AddTaFormfun()">B.Tech</option>
+        <option onselect="AddTaFormfun()">M.Tech</option>
+        <option selected onselect="AddTaFormfun()">PhD</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="display:none;" id = "B.TechTA">
+      <label for="">TA ID</label>
+      <select class="form-control" name="" id="">
+        <option>B.Tech</option>
+        <option>M.Tech</option>
+        <option selected >PhD</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="display:none;" id = "M.TechTA">
+      <label for="">TA ID</label>
+      <select class="form-control" name="" id="">
+        <option>B.Tech</option>
+        <option>M.Tech</option>
+        <option selected >PhD</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="display:none;" id = PhDTA>
+      <label for="">TA ID</label>
+      <select class="form-control" name="" id="">
+        <option>B.Tech</option>
+        <option>M.Tech</option>
+        <option selected >PhD</option>
+      </select>
+    </div>
+
+    <h3> TA Permissions </h3>
+
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" name="ManAssgn" id="ManAssgn" value="" unchecked>
+        Manage Assignments
+      </label>
+    </div>
+
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" name="ManAttn" id="ManAttn" value="" unchecked>
+        Manage Attendance
+      </label>
+    </div>
+
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" name="ManNotice" id="ManNotice" value="" unchecked>
+        Manage NoticeBoard
+      </label>
+    </div>
+
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" name="ManCM" id="ManCM" value="" unchecked>
+        Manage Course Materials
+      </label>
+    </div>
+
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" name="ManGrad" id="ManGrad" value="" unchecked>
+        Manage Grading
+      </label>
+    </div>
+
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" name="ManPlan" id="ManPlan" value="" unchecked>
+        Manage Planner
+      </label>
+    </div>
+
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" name="ManSubDeadline" id="ManSubDeadline" value="" unchecked>
+        Manage Submission Deadline
+      </label>
+    </div>
+</form>
+{% endblock content %}
