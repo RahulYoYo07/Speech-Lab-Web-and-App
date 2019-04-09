@@ -8,7 +8,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title"><a href="{% url 'course:view_assgn' CourseID assgn.AssignmentID %}">{{ assgn.AssignmentID }}</a></h5>
+        <h5 class="card-title"><a href="{% url 'course:view_assgn' CourseInfo assgn.AssignmentID %}">{{ assgn.AssignmentID }}</a></h5>
         <p class="card-text">{{ assgn.Name }}</p>
         <p class="card-text">{{ assgn.Deadline }}</p>
       </div>

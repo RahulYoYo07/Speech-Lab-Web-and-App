@@ -1,7 +1,7 @@
 {% extends "base_generic.html"%}
 {% block content %}
 
-<a href="{% url 'course:add_course'%}"><p class="options">Add Group</p></a>
+{% comment %} <a href="{% url 'course:add_course'%}"><p class="options">Add Group</p></a> {% endcomment %}
 
 <div class="row">
 {% for group in GroupDetails %}

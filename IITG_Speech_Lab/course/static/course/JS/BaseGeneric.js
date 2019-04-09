@@ -1,5 +1,5 @@
 function AddTaFormfun() {
-    let selectedBranch = document.getElementById("TA_Branch").val();
+    let selectedBranch = document.getElementById("TA_BRANCH").value;
     let x = document.getElementById(selectedBranch + "TA");
     document.getElementById("B.TechTA").style.display = "none";
     document.getElementById("M.TechTA").style.display = "none";
@@ -7,4 +7,5 @@ function AddTaFormfun() {
     if (x.style.display === "none") {
         x.style.display = "block";
     }
+    console.log(5);
 }

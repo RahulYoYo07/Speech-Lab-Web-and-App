@@ -4,10 +4,10 @@
 
     <div class="form-group">
       <label for="">TA Branch</label>
-      <select class="form-control" name="" id="TA_BRANCH">
-        <option onselect="AddTaFormfun()">B.Tech</option>
-        <option onselect="AddTaFormfun()">M.Tech</option>
-        <option selected onselect="AddTaFormfun()">PhD</option>
+      <select class="form-control" onchange="AddTaFormfun()" name="" id="TA_BRANCH">
+        <option onselect="">B.Tech</option>
+        <option onselect="">M.Tech</option>
+        <option selected onselect="">PhD</option>
       </select>
     </div>
 
@@ -15,25 +15,19 @@
       <label for="">TA ID</label>
       <select class="form-control" name="" id="">
         <option>B.Tech</option>
-        <option>M.Tech</option>
-        <option selected >PhD</option>
       </select>
     </div>
 
     <div class="form-group" style="display:none;" id = "M.TechTA">
       <label for="">TA ID</label>
       <select class="form-control" name="" id="">
-        <option>B.Tech</option>
         <option>M.Tech</option>
-        <option selected >PhD</option>
       </select>
     </div>
 
-    <div class="form-group" style="display:none;" id = PhDTA>
+    <div class="form-group" style="" id = PhDTA>
       <label for="">TA ID</label>
       <select class="form-control" name="" id="">
-        <option>B.Tech</option>
-        <option>M.Tech</option>
         <option selected >PhD</option>
       </select>
     </div>
