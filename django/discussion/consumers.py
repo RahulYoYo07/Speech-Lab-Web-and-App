@@ -82,7 +82,7 @@ class ChatConsumer(WebsocketConsumer):
             # })
             # print(y)
             self.send(text_data=json.dumps({
-                # 'messageHead' : x['MessageHead'],
+                'messageHead' : x['MessageHead'],
                 'message': x['MessageBody'],
             }))
 
@@ -101,12 +101,12 @@ class ChatConsumer(WebsocketConsumer):
         print(text_data)
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-        # messageHead = text_data_json['messageHead']
+        messageHead = text_data_json['messageHead']
         #Sending message to firebase
         if open==1:
             CourseID = text_data_json['CourseID']
             CourseGroupID = text_data_json['CourseGroupID']
-            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : 'lol', 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
+            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
 
 
         # Send message to room group
@@ -114,7 +114,7 @@ class ChatConsumer(WebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
-                # 'messageHead': messageHead,
+                'messageHead': messageHead,
                 'message': message
             }
         )
@@ -122,10 +122,10 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self, event):
         message = event['message']
-        # messageHead = event['message']
+        messageHead = event['messageHead']
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({
-            # 'messageHead' : messageHead,
+            'messageHead' : messageHead,
             'message': message,
         }))
