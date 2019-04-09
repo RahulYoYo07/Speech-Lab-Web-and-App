@@ -143,6 +143,7 @@ a.article:hover {
 .card{
     max-height: 16rem;
     min-height: 16rem;
+    max-width: 27rem !important;
 }
 
 /* ---------------------------------------------------

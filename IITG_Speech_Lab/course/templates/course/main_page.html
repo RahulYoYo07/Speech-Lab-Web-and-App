@@ -1,6 +1,5 @@
 {% extends "base_generic.html"%}
 {% block content %}
-<div class="flex row-md-8">
 
 <a href="{% url 'course:add_course'%}"><p class="options">Add Courses</p></a>
 
@@ -21,25 +20,8 @@
       </div>
     </div>
 
-
-  {% comment %} <div class = "col-md-4 align-items-crop"> {% endcomment %}
-    <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
-      <div class = "card">
-      <div class="card-body">
-        <h5 class="card-title ">{{ course.CourseID }}</h5>
-        {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
-        <p class="card-text overflow-auto" style="height:8rem;">{{ course.AboutCourse }}{{ course.AboutCourse }}{{ course.AboutCourse }}{{ course.AboutCourse }}{{ course.AboutCourse }}{{ course.AboutCourse }}</p>
-
-      </div>
-        <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
-
-      </div>
-    {% comment %} </div> {% endcomment %}
-  </div>
-
 {% endfor %}
   
-</div>
 </div>
 {% endblock %}
 
