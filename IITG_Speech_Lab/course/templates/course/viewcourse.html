@@ -1,6 +1,6 @@
 {% extends "base_generic.html"%}
 {% block content %}
-<a href="{% url 'course:dashboard'%}"><p class="options">Add Assignment</p></a>
+<a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment</p></a>
 
 <div class="row">
   <div class="col-sm-6">
@@ -8,7 +8,7 @@
 
     <div class="card" style="width: 25rem;">
       <div class="card-body">
-        <h5 class="card-title"><a href="{% url 'course:view_assgn' CourseID assgn.AssignmentID %}">{{ assgn.AssignmentID }}</a></h5>
+        <h5 class="card-title"><a href="{% url 'course:view_assgn' CourseInfo assgn.AssignmentID %}">{{ assgn.AssignmentID }}</a></h5>
         {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
         <p class="card-text">{{ assgn.Name }}</p>
         <p class="card-text">{{ assgn.Deadline }}</p>
