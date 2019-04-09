@@ -1,4 +1,14 @@
 {% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Portfolio</a>
+  </li>
+  <li>
+    <a href="#">Contact</a>
+  </li>
+{% endblock %}
+
 {% block content %}
 
 <a href="{% url 'course:add_course'%}"><p class="options">Add Courses</p></a>
@@ -13,7 +23,7 @@
         <h5 class="card-title"><a href="{% url 'course:view_course' course.CourseID %}">{{ course.CourseID }}</a></h5>
         {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
         <p class="card-text overflow-auto" style="height:8rem;">{{ course.AboutCourse }}</p>
-      
+
       </div>
         <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
 
@@ -21,13 +31,13 @@
     </div>
 
 {% endfor %}
-  
+
 </div>
 {% endblock %}
 
             <div class="col-xs-12 col-sm-6 col-md-4">
-      
-                
+
+
                         <div class="backside">
                             <div class="card">
                                 <div class="card-body text-center mt-4">
@@ -57,7 +67,7 @@
                                     </ul>
                                 </div>
                             </div>
-          
+
                     </div>
-              
+
             </div>

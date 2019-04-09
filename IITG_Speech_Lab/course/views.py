@@ -31,17 +31,31 @@ def dashboard(request):
     username = "pradip"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    ProfCourseList = user_dict['ProfCourseList']
+    Designation = user_dict['Designation']
 
-    CourseDetails = []
-    for course in ProfCourseList:
-        CourseDetails.append(course.get().to_dict())
+    if Designation == "Faculty" :
+        ProfCourseList = user_dict['ProfCourseList']
+        CourseDetails = []
+        for course in ProfCourseList:
+            CourseDetails.append(course.get().to_dict())
 
-    context = {
-        'CourseDetails' : CourseDetails
-    }
+        context = {
+            'CourseDetails' : CourseDetails
+        }
 
-    return render(request,'course/main_page.html',context)
+        return render(request,'course/main_page.html',context)
+    elif Designation == "Student" :
+        ProfCourseList = user_dict['ProfCourseList']
+        CourseDetails = []
+        for course in ProfCourseList:
+            CourseDetails.append(course.get().to_dict())
+
+        context = {
+            'CourseDetails' : CourseDetails
+        }
+
+        return render(request,'course/main_page.html',context)
+
 
 def AddCourse(request):
     username = "pradip"
