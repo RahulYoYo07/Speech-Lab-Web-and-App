@@ -95,6 +95,25 @@ def ViewCourse(request, cid):
     }
     return render(request, 'course/viewcourse.html', context)
 
+def AddAssgn(request, cid):
+    username = "pradip"
+    if request.method == 'POST':
+        ref_prof = db.collection(u'Users').document(username)
+        data = {
+            u'About' : request.POST.get("About",""),
+            u'AssignmentID' : request.POST.get("AssignmentID",""),
+            u'Deadline' : request.POST.get("Deadline",""),
+            u'Name' : request.POST.get("Name",""),
+        }
+        aid = request.POST.get("AssignmentID","")
+        db.collection(u'Courses').document(cid).collection(Assignments).document(aid).set(data)
+
+        return render(request,'course/main_page.html')
+        #return HttpResponseRedirect(reverse('course:dashboard'))
+
+    return render(request, 'course/addassgnform.html')
+
+
 def ViewAssgn(request, cid, aid):
 
     username = "pradip"
