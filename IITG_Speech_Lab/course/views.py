@@ -32,20 +32,30 @@ def dashboard(request):
     username = "pradip"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    ProfCourseList = user_dict['ProfCourseList']
+    Designation = user_dict['Designation']
 
-    i = 0
-    CourseDetails = []
-    for course in ProfCourseList:
-        CourseDetails.append(course.get().to_dict())
-        print(CourseDetails[i])
-        i = i+1
+    if Designation == "Faculty" :
+        ProfCourseList = user_dict['ProfCourseList']
+        CourseDetails = []
+        for course in ProfCourseList:
+            CourseDetails.append(course.get().to_dict())
 
-    context = {
-        'CourseDetails': CourseDetails
-    }
+        context = {
+            'CourseDetails' : CourseDetails
+        }
 
-    return render(request, 'course/main_page.html', context)
+        return render(request,'course/main_page.html',context)
+    elif Designation == "Student" :
+        ProfCourseList = user_dict['ProfCourseList']
+        CourseDetails = []
+        for course in ProfCourseList:
+            CourseDetails.append(course.get().to_dict())
+
+        context = {
+            'CourseDetails' : CourseDetails
+        }
+
+        return render(request,'course/main_page.html',context)
 
 
 def AddCourse(request):
@@ -107,9 +117,27 @@ def ViewCourse(request, cinfo):
     }
     return render(request, 'course/viewcourse.html', context)
 
+def AddAssgn(request, cinfo):
+    username = "pradip"
+    if request.method == 'POST':
+        ref_prof = db.collection(u'Users').document(username)
+        data = {
+            u'About' : request.POST.get("About",""),
+            u'AssignmentID' : request.POST.get("AssignmentID",""),
+            u'Deadline' : request.POST.get("Deadline",""),
+            u'Name' : request.POST.get("Name",""),
+        }
+        aid = request.POST.get("AssignmentID","")
+        db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).set(data)
 
-def ViewAssgn(request, cinfo, aid):
+        return render(request,'course/main_page.html')
+        #return HttpResponseRedirect(reverse('course:dashboard'))
 
+    return render(request, 'course/addassgnform.html')
+
+
+
+def ViewAssgn(request, cinfo, aid ):
     username = "pradip"
     #cid += "_" + username + " _" + cyear
     group_ref = db.collection(u'Courses').document(cinfo).collection(
