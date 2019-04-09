@@ -64,6 +64,7 @@ def AddCourse(request):
             u'FacultyList' : [ ref_prof ]
         }
         cid = request.POST.get("CourseID","")
+        cid += "_" + username + "_" + request.POST.get("StartSemesterSession","")
         db.collection(u'Courses').document(cid).set(data)
 
         course_ref = db.collection(u'Courses').document(cid)
@@ -72,13 +73,12 @@ def AddCourse(request):
         CoursesList = prof_data['ProfCourseList']
         CoursesList.append(course_ref)
 
-        print(CoursesList)
         db.collection(u'Users').document(username).update({
             u'ProfCourseList' : CoursesList
         })
 
-        return render(request,'course/main_page.html')
-        #return HttpResponseRedirect(reverse('course:dashboard'))
+        #return render(request,'course/main_page.html')
+        return HttpResponseRedirect(reverse('course:dashboard'))
 
     return render(request, 'course/addcourseform.html')
 
