@@ -1,4 +1,23 @@
 {% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Set Deadline</a>
+  </li>
+  <li>
+    <a href="#">Grading</a>
+  </li>
+  <li>
+    <a href="#">Manually Form Group</a>
+  </li>
+  <li>
+    <a href="#">Randomly Allocate Groups</a>
+  </li>
+  <li>
+    <a href="#">View Submissions</a>
+  </li>
+{% endblock %}
+
 {% block content %}
 <a href="{% url 'course:dashboard'%}"><p class="options">Add Group</p></a>
 

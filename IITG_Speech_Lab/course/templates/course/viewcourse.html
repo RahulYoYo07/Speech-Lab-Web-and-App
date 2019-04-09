@@ -1,4 +1,21 @@
 {% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Attendance</a>
+  </li>
+  <li>
+    <a href="#">Study Material</a>
+  </li>
+  <li>
+    <a href="#">Teaching Assistants (TAs)</a>
+  </li>
+  <li>
+    <a href="#">Grading</a>
+  </li>
+{% endblock %}
+
+
 {% block content %}
 <a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment</p></a>
 
