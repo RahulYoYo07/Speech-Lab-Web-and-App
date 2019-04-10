@@ -27,6 +27,7 @@ db = firestore.client()
 
 # Create your views here.
 
+
 def dashboard(request):
     username = "gulat170123030"
     user_ref = db.collection(u'Users').document(username).get()
@@ -91,25 +92,26 @@ def AddCourse(request):
     if request.method == 'POST':
         ref_prof = db.collection(u'Users').document(username)
         data = {
-            u'AboutCourse' : request.POST.get("AboutCourse",""),
-            u'CourseID' : request.POST.get("CourseID",""),
-            u'CourseName' : request.POST.get("CourseName",""),
-            u'Weightage' : int(request.POST.get("Weightage","")),
-            u'EnrollmentKey' : request.POST.get("EnrollmentKey",""),
-            u'EndSemester':{
-                u'SemesterType' :  request.POST.get("EndSemesterType",""),
-                u'Session' : int(request.POST.get("EndSemesterSession",""))
+            u'AboutCourse': request.POST.get("AboutCourse", ""),
+            u'CourseID': request.POST.get("CourseID", ""),
+            u'CourseName': request.POST.get("CourseName", ""),
+            u'Weightage': int(request.POST.get("Weightage", "")),
+            u'EnrollmentKey': request.POST.get("EnrollmentKey", ""),
+            u'EndSemester': {
+                u'SemesterType':  request.POST.get("EndSemesterType", ""),
+                u'Session': int(request.POST.get("EndSemesterSession", ""))
             },
-            u'StartSemester':{
-                u'SemesterType' :  request.POST.get("StartSemesterType",""),
-                u'Session' : int(request.POST.get("StartSemesterSession",""))
+            u'StartSemester': {
+                u'SemesterType':  request.POST.get("StartSemesterType", ""),
+                u'Session': int(request.POST.get("StartSemesterSession", ""))
             },
-            u'FacultyList' : [ ref_prof ],
-            u'CourseInfo' : request.POST.get("CourseID","") + "_" + username + "_" + request.POST.get("StartSemesterSession","")
+            u'FacultyList': [ref_prof],
+            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", "")
         }
-        cid = request.POST.get("CourseID","")
+        cid = request.POST.get("CourseID", "")
 
-        cinfo = cid + "_" + username + "_" + request.POST.get("StartSemesterSession","")
+        cinfo = cid + "_" + username + "_" + \
+            request.POST.get("StartSemesterSession", "")
 
         db.collection(u'Courses').document(cinfo).set(data)
 
@@ -120,10 +122,10 @@ def AddCourse(request):
         CoursesList.append(course_ref)
 
         db.collection(u'Users').document(username).update({
-            u'ProfCourseList' : CoursesList
+            u'ProfCourseList': CoursesList
         })
 
-        #return render(request,'course/main_page.html')
+        # return render(request,'course/main_page.html')
         return HttpResponseRedirect(reverse('course:dashboard'))
 
     return render(request, 'course/addcourseform.html')
@@ -132,13 +134,14 @@ def ViewCourse(request, cinfo):
 
     username = "pradip"
     #cid += "_" + username + " _" + cyear
-    assgn_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').get()
+    assgn_ref = db.collection(u'Courses').document(
+        cinfo).collection(u'Assignments').get()
     AssgnDetails = []
     for assgn in assgn_ref:
         AssgnDetails.append(assgn.to_dict())
     context = {
-        'AssgnDetails' : AssgnDetails,
-        'CourseInfo' : cinfo
+        'AssgnDetails': AssgnDetails,
+        'CourseInfo': cinfo
     }
     return render(request, 'course/viewcourse.html', context)
 
@@ -165,11 +168,16 @@ def AddAssgn(request, cinfo):
 def ViewAssgn(request, cinfo, aid ):
     username = "pradip"
     #cid += "_" + username + " _" + cyear
-    group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').get()
+    group_ref = db.collection(u'Courses').document(cinfo).collection(
+        u'Assignments').document(aid).collection(u'Groups').get()
     GroupDetails = []
     for group in group_ref:
         GroupDetails.append(group.to_dict())
     context = {
-        'GroupDetails' : GroupDetails,
+        'GroupDetails': GroupDetails,
     }
     return render(request, 'course/viewassgn.html', context)
+
+
+def AddTA(request, cinfo):
+    return render(request, 'course/AddTA.html')

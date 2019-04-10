@@ -1,19 +1,41 @@
 {% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Set Deadline</a>
+  </li>
+  <li>
+    <a href="#">Grading</a>
+  </li>
+  <li>
+    <a href="#">Manually Form Group</a>
+  </li>
+  <li>
+    <a href="#">Randomly Allocate Groups</a>
+  </li>
+  <li>
+    <a href="#">View Submissions</a>
+  </li>
+{% endblock %}
+
 {% block content %}
-<a href="{% url 'course:dashboard'%}"><p class="options">Add Group</p></a>
+
+{% comment %} <a href="{% url 'course:add_course'%}"><p class="options">Add Group</p></a> {% endcomment %}
 
 <div class="row">
-  <div class="col-sm-6">
 {% for group in GroupDetails %}
 
-    <div class="card" style="width: 25rem;">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
+      <div class = "card">
+
       <div class="card-body">
         <h5 class="card-title">{{ group.GroupID }}</h5>
-        {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
+      </div>
+        <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
       </div>
     </div>
 
 {% endfor %}
-  </div>
+  
 </div>
 {% endblock %}
