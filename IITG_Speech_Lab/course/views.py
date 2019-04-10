@@ -28,7 +28,7 @@ db = firestore.client()
 # Create your views here.
 
 def dashboard(request):
-    username = "pradip"
+    username = "gulat170123030"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
@@ -38,23 +38,52 @@ def dashboard(request):
         CourseDetails = []
         for course in ProfCourseList:
             CourseDetails.append(course.get().to_dict())
+            print(course.get())
 
         context = {
             'CourseDetails' : CourseDetails
         }
 
         return render(request,'course/main_page.html',context)
+
     elif Designation == "Student" :
-        ProfCourseList = user_dict['ProfCourseList']
-        CourseDetails = []
-        for course in ProfCourseList:
-            CourseDetails.append(course.get().to_dict())
+        StudCourseList = user_dict['CourseList']
+        RegisteredCourses = []
+        TotalCourses = []
+        # print(StudCourseList)
+        # for course in StudCourseList:
+        #     # RegisteredCourses.append(course.get().to_dict())
+        #     print("\n\n\n\n\n\n\n\n\n")
+        #     deep = course.get('CourseID').to_dict()
+        #     print(deep)
+
+        Courses = db.collection(u'Courses').get()
+        for course in Courses :
+            TotalCourses.append(course.to_dict())
 
         context = {
-            'CourseDetails' : CourseDetails
+            'RegisteredCourses' : RegisteredCourses,
+            'TotalCourses' : TotalCourses
         }
 
-        return render(request,'course/main_page.html',context)
+        return render(request,'course/main_page_stud.html',context)
+
+def Enroll_CoursePage(request, cinfo):
+    username = "avira170101014"
+    if request.method == 'POST':
+        postdata = request.POST.get("Enrollment")
+        main = db.collection(u'Courses').document(cinfo).get().to_dict()
+        dbdata = main['EnrollmentKey']
+        if dbdata == postdata :
+            data = {
+                u'CourseList' : {
+                    u'CourseID' :  db.collection(u'Courses').document(cinfo)
+                }
+            }
+            # db.collection(u'Users').document(username).add(data)
+        return HttpResponseRedirect(reverse('course:dashboard'))
+    else :
+        return render(request,'course/enrollcourse.html')
 
 
 def AddCourse(request):
@@ -99,7 +128,7 @@ def AddCourse(request):
 
     return render(request, 'course/addcourseform.html')
 
-def ViewCourse(request, cinfo ):
+def ViewCourse(request, cinfo):
 
     username = "pradip"
     #cid += "_" + username + " _" + cyear
