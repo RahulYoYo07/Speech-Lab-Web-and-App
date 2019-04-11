@@ -21,9 +21,9 @@ token_url = '{0}{1}'.format(authority, '/common/oauth2/v2.0/token')
 
 # The scopes required by the app
 scopes = [ 'openid',
+           'profile',
            'offline_access',
-           'User.Read',
-           'Mail.Read' ]
+           'User.Read']
 
 
 def get_token_from_code(auth_code, redirect_uri):
@@ -36,7 +36,7 @@ def get_token_from_code(auth_code, redirect_uri):
                 'client_secret': client_secret
               }
 
-    r = requests.post(token_url, data = post_data)
+    r = requests.post(token_url, data=post_data,)
 
     try:
         return r.json()
@@ -66,7 +66,7 @@ def get_token_from_refresh_token(refresh_token, redirect_uri):
                 'client_secret': client_secret
               }
 
-  r = requests.post(token_url, data = post_data)
+  r = requests.post(token_url, data=post_data)
 
   try:
     return r.json()
@@ -78,9 +78,12 @@ def get_access_token(request, redirect_uri):
   current_token = request.session['access_token']
   expiration = request.session['token_expires']
   now = int(time.time())
+  if not current_token:
+      return current_token
   if (current_token and now < expiration):
     # Token still valid
     return current_token
+
   else:
     # Token expired
     refresh_token = request.session['refresh_token']

@@ -18,8 +18,11 @@ from django.urls import path
 from django.contrib import admin
 from home import views
 
+
 urlpatterns = [
-    path('', views.home, name='home'),
+
     path('home/', include('home.urls', namespace='home')),
     path('admin/', admin.site.urls),
+    path('users/', include('home.user_url', namespace='usr'), name='usr'),
+    # path('microsoft/', include('microsoft_auth.urls', namespace='microsoft')),
 ]
