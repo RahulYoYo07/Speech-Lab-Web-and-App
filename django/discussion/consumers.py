@@ -1,9 +1,10 @@
-'''
-from channels.generic.websocket import WebsocketConsumer
-import json
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from asgiref.sync import async_to_sync
+from channels.generic.websocket import WebsocketConsumer
+import json
 
 # cred = credentials.Certificate("iitg-speech-lab-firebase-adminsdk-ggn1f-2f757184a1.json")
 cred = credentials.Certificate({
@@ -20,7 +21,7 @@ cred = credentials.Certificate({
 })
 firebase_admin.initialize_app(cred)
 db = firestore.client()
-
+'''
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
@@ -33,7 +34,6 @@ class ChatConsumer(WebsocketConsumer):
         message = text_data_json['message']
         CourseID = text_data_json['CourseID']
         CourseGroupID = text_data_json['CourseGroupID']
-        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
 
 
 
@@ -42,42 +42,79 @@ class ChatConsumer(WebsocketConsumer):
         }))
 '''
 
+
 # chat/consumers.py
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
-import json
+open = 0
 
 class ChatConsumer(WebsocketConsumer):
+
     def connect(self):
+        global open
+        open = 0
+        print('Not yet opened', open)
         self.room_name = self.scope['url_route']['kwargs']['CourseGroupID']
-        print(self.room_name)
+        # print(self.room_name)
         self.room_group_name = 'chat_%s' % self.room_name
-        print(self.channel_name)
+        # print(self.channel_name)
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
         )
 
+        #Retrieve messages from Firebase
+        CourseID = self.scope['url_route']['kwargs']['CourseID']
+        CourseGroupID = self.scope['url_route']['kwargs']['CourseGroupID']
+        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages')
+
+        docs = list(doc_ref.get())
+
+        open=1
+        print('Opened',open)
         self.accept()
+
+        for x in docs:
+            x = x.to_dict()
+            # y = json.dumps({
+            #     'message': x['MessageBody'],
+            #     'CourseID': CourseID,
+            #     'CourseGroupID': CourseGroupID,
+            # })
+            # print(y)
+            self.send(text_data=json.dumps({
+                'messageHead' : x['MessageHead'],
+                'message': x['MessageBody'],
+            }))
 
     def disconnect(self, close_code):
         # Leave room group
+        global open
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name,
             self.channel_name
         )
+        open = 0
 
     # Receive message from WebSocket
     def receive(self, text_data):
+        global open
+        print(text_data)
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        messageHead = text_data_json['messageHead']
+        #Sending message to firebase
+        if open==1:
+            CourseID = text_data_json['CourseID']
+            CourseGroupID = text_data_json['CourseGroupID']
+            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
+
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
                 'type': 'chat_message',
+                'messageHead': messageHead,
                 'message': message
             }
         )
@@ -85,8 +122,10 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self, event):
         message = event['message']
+        messageHead = event['messageHead']
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({
-            'message': message
+            'messageHead' : messageHead,
+            'message': message,
         }))
