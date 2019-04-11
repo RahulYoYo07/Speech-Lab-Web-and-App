@@ -4,7 +4,9 @@
     <meta charset="utf-8"/>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
+    <div id='DynamicMessages'>
+    </div>
+    <br>
     <input id="chat-head-input" type="text" size="100"/><br/>
     <input id="chat-message-input" type="text" size="100"/><br/>
     <input id="chat-message-submit" type="button" value="Send"/>
@@ -21,7 +23,39 @@
         var data = JSON.parse(e.data);
         var messageHead = data['messageHead'];
         var message = data['message'];
-        document.querySelector('#chat-log').value += (messageHead + ': ' + message + '\n');
+        var MessageID = data['MessageID'];
+
+        var MessageDiv = document.createElement('div')
+        MessageDiv.id = MessageID
+
+        var MessageBox = document.createElement('p');
+        MessageBox.innerHTML = messageHead + ': ' + message;
+
+        var ReplyInput = document.createElement('input')
+        ReplyInput.type = 'text';
+        ReplyInput.id = MessageID+'_input';
+
+        var ReplyButton = document.createElement('input')
+        ReplyButton.type = 'button';
+        ReplyButton.value = 'Reply';
+        ReplyButton.onclick = function(){
+            alert(MessageID);
+            chatSocket.send(JSON.stringify({
+                'IsReply': true,
+                'messageHead' : '',
+                'message': '',
+                'CourseID': CourseID,
+                'CourseGroupID': CourseGroupID,
+                'ReplyBody': document.getElementById(MessageID+'_input').value,
+                'MessageID': MessageID,
+            }));
+        };
+        ReplyButton.id = MessageID;
+
+        MessageDiv.appendChild(MessageBox)
+        MessageDiv.appendChild(ReplyInput)
+        MessageDiv.appendChild(ReplyButton)
+        document.getElementById("DynamicMessages").appendChild(MessageDiv);
     };
 
     chatSocket.onclose = function(e) {
