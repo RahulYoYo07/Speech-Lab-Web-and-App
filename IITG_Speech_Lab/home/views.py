@@ -35,12 +35,15 @@ db = firestore.client()
 # Create your views here.
 
 
+
 def home(request):
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
     sign_in_url = get_signin_url(redirect_uri)
-    print(os.environ["http_proxy"])
-
-    return HttpResponse('<a href="' + sign_in_url +'">Click here to sign in</a>')
+    # sign_in_url = get_signin_url("https://iitg-speech-lab.firebaseapp.com/__/auth/handler")
+    print(redirect_uri)
+    context = {'sign_in_url': sign_in_url}
+    # return HttpResponse('<a href="' + sign_in_url +'">Click here to sign in</a>')
+    return render(request, 'home/home.html', context)
 
 
 def gettoken(request):
@@ -59,17 +62,24 @@ def gettoken(request):
     user_dict = user_ref.to_dict()
 
     if user_dict is None:
-        if user['jobTitle'] is "BTech" or "MTech":
+        if user['jobTitle'].upper() is "BTECH" or "MTECH" or "PHD" or "BDES" or "MDES":
             des = "Student"
+            data = {
+                u'Name': user['displayName'],
+                u'Program': user['jobTitle'],
+                u'Designation': des,
+            }
+            db.collection(u'Users').document(username).set(data)
         else:
             des = "Faculty"
+            data = {
+                u'Name': user['displayName'],
+                u'CollegeDesignation': user['jobTitle'],
+                u'Designation': des,
+            }
+            db.collection(u'Users').document(username).set(data)
 
-        data = {
-            u'Name': user['displayName'],
-            u'Designation': user['jobTitle'],
-            u'Type': des,
-        }
-        db.collection(u'Users').document(username).set(data)
+
 
     # expires_in is in seconds
     # Get current timestamp (seconds since Unix Epoch) and
@@ -92,7 +102,7 @@ def gettoken(request):
 
 
 def login(request):
-    return render(request, 'home/login.html')
+    return render(request, 'home/home.html')
 
 @csrf_exempt
 def login_add(request):
@@ -122,10 +132,57 @@ def ViewUser(request, uinfo):
     user = get_me(access_token)
     username = user['mail']
     username = username.replace("@iitg.ac.in", "")
-    print(username)
-    print(uinfo)
     if username != uinfo:
         return HttpResponse("Error")
 
     context = {'username': uinfo}
     return render(request, 'home/user.html', context)
+
+
+def people(request):
+    user_ref = db.collection(u'Users').get()
+    user_list = []
+    count = 0
+    counter_list = []
+    for user in user_ref:
+        user_list.append(user.to_dict())
+        counter_list.append(count)
+        count += 1
+    uc_list = zip(user_list, counter_list)
+    context = {'uc_list': uc_list}
+    return render(request, 'home/people.html', context)
+
+
+def student(request):
+    user_ref = db.collection(u'Users').get()
+    user_list = []
+    count = 0
+    counter_list = []
+    for user in user_ref:
+        user_dict = user.to_dict()
+        # print(user_dict["Designation"])
+        if user_dict["Designation"] == 'Student':
+            # print("zinga")
+            user_list.append(user_dict)
+
+            counter_list.append(count % 3)
+            count += 1
+    uc_list = zip(user_list, counter_list)
+    context = {'uc_list': uc_list}
+    return render(request, 'home/people.html', context)
+
+
+def faculty(request):
+    user_ref = db.collection(u'Users').get()
+    user_list = []
+    count = 0
+    counter_list = []
+    for user in user_ref:
+        user_dict = user.to_dict()
+        if user_dict["Designation"] == 'Faculty':
+            user_list.append(user.to_dict())
+            counter_list.append(count%3)
+            count += 1
+    uc_list = zip(user_list, counter_list)
+    context = {'uc_list': uc_list}
+    return render(request, 'home/people.html', context)
