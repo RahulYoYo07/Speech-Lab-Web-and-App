@@ -49,14 +49,11 @@ def dashboard(request):
 
     elif Designation == "Student" :
         StudCourseList = user_dict['CourseList']
+        #print(StudCourseList)
         RegisteredCourses = []
         TotalCourses = []
-        # print(StudCourseList)
-        # for course in StudCourseList:
-        #     # RegisteredCourses.append(course.get().to_dict())
-        #     print("\n\n\n\n\n\n\n\n\n")
-        #     deep = course.get('CourseID').to_dict()
-        #     print(deep)
+        for course in StudCourseList:
+            RegisteredCourses.append(course['CourseID'].get().to_dict())
 
         Courses = db.collection(u'Courses').get()
         for course in Courses :
