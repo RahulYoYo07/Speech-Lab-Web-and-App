@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <div id='DynamicMessages'>
+    </div>
+    <br>
+    <input id="chat-head-input" type="text" size="100"/><br/>
+    <input id="chat-message-input" type="text" size="100"/><br/>
+    <input id="chat-message-submit" type="button" value="Send"/>
+</body>
+<script>
+    var CourseGroupID = {{ CourseGroupID_json }};
+    var CourseID = {{ CourseID_json }};
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/discussion/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
+
+    chatSocket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        var messageHead = data['messageHead'];
+        var message = data['message'];
+        var MessageID = data['MessageID'];
+
+        var MessageDiv = document.createElement('div')
+        MessageDiv.id = MessageID
+
+        var MessageBox = document.createElement('p');
+        MessageBox.innerHTML = messageHead + ': ' + message;
+
+        var ReplyInput = document.createElement('input')
+        ReplyInput.type = 'text';
+        ReplyInput.id = MessageID+'_input';
+
+        var ReplyButton = document.createElement('input')
+        ReplyButton.type = 'button';
+        ReplyButton.value = 'Reply';
+        ReplyButton.onclick = function(){
+            alert(MessageID);
+            chatSocket.send(JSON.stringify({
+                'IsReply': true,
+                'messageHead' : '',
+                'message': '',
+                'CourseID': CourseID,
+                'CourseGroupID': CourseGroupID,
+                'ReplyBody': document.getElementById(MessageID+'_input').value,
+                'MessageID': MessageID,
+            }));
+        };
+        ReplyButton.id = MessageID;
+
+        MessageDiv.appendChild(MessageBox)
+        MessageDiv.appendChild(ReplyInput)
+        MessageDiv.appendChild(ReplyButton)
+        document.getElementById("DynamicMessages").appendChild(MessageDiv);
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        var messageHeadDom = document.querySelector('#chat-head-input');
+        var messageInputDom = document.querySelector('#chat-message-input');
+        var messageHead = messageHeadDom.value;
+        var message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'messageHead' : messageHead,
+            'message': message,
+            'CourseID': CourseID,
+            'CourseGroupID': CourseGroupID,
+        }));
+
+        messageHeadDom.value = '';
+        messageInputDom.value = '';
+    };
+</script>
+</html>
