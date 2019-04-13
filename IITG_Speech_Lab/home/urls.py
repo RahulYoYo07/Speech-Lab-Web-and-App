@@ -13,6 +13,7 @@ urlpatterns = [
     path('student/', views.student, name='student'),
     path('faculty/', views.faculty, name='faculty'),
     path('login/', views.login, name='login'),
+    path('projects/', views.projects, name='projects'),
     path('login/login_add/', views.login_add, name='login_add'),
     path('logout/', views.logout, name='logout')
 ]

@@ -42,10 +42,10 @@
                                 <a class="nav-link active" href="">People</a>
                                   <ul class="nav flex-column">
                                       <li class="nav-item">
-                                        <a class="nav-link" href="#">Student</a>
+                                        <a class="nav-link" href="{% url 'home:student' %}">Student</a>
                                       </li>
                                       <li class="nav-item">
-                                        <a class="nav-link" href="#">Professor</a>
+                                        <a class="nav-link" href="{% url 'home:faculty' %}">Professor</a>
                                       </li>
                                   </ul>
                               </li>
@@ -54,6 +54,9 @@
                               </li>
                               <li class="nav-item">
                                  <a class="nav-link" href="#">Contact Us</a>
+                              </li>
+                                <li class="nav-item">
+                                 <a class="nav-link" href="{% url 'home:projects' %}">Projects</a>
                               </li>
                                 <li class="nav-item">
                                 <a class="nav-link" href="{{sign_in_url}}">Sign in</a>

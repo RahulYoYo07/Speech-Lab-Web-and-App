@@ -1,0 +1,7 @@
+{% extends 'home/layout.html' %}
+
+{% block content %}
+    {% for project in project_list %}
+        {{project.Abstract}}
+    {% endfor%}
+{% endblock %}

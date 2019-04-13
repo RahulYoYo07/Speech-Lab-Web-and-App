@@ -186,3 +186,12 @@ def faculty(request):
     uc_list = zip(user_list, counter_list)
     context = {'uc_list': uc_list}
     return render(request, 'home/people.html', context)
+
+
+def projects(request):
+    project_ref = db.collection(u'Projects').get()
+    project_list = []
+    for project in project_ref:
+        project_list.append(project.to_dict())
+    context = {'project_list':project_list}
+    return render(request, 'home/projects.html', context)
