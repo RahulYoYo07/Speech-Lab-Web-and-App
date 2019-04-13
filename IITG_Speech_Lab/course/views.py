@@ -70,18 +70,25 @@ def dashboard(request):
         return render(request,'course/main_page_stud.html',context)
 
 def Enroll_CoursePage(request, cinfo):
-    username = "avira170101014"
+    username = "ravi170101053"
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
+        copydata = db.collection(u'Users').document(username).get().to_dict()['couseList']
+        print(copydata)
+        datay = {
+            u'CourseID' :  db.collection(u'Courses').document(cinfo)
+        }
+        copydata.append(datay)
+        print(copydata)
         dbdata = main['EnrollmentKey']
         if dbdata == postdata :
             data = {
-                u'CourseList' : {
-                    u'CourseID' :  db.collection(u'Courses').document(cinfo)
-                }
+                 u'couseList' : copydata
             }
-            # db.collection(u'Users').document(username).add(data)
+            updateit = db.collection(u'Users').document(username)
+            updateit.update(data)
+
         return HttpResponseRedirect(reverse('course:dashboard'))
     else :
         return render(request,'course/enrollcourse.html')
