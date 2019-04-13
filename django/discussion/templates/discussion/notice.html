@@ -11,16 +11,22 @@
   <div class="container">
   <h1><center>{{title}} Notice Board</center></h1>
   {% for notice in all_notice %}
-      <h3>{{notice.NoticeHead}}</h3>
+      <div class="bg-success">
+      <h3><center>{{notice.NoticeHead}}</h3>
       <p>{{notice.NoticeBody}}</p>
+      </div>
   {% endfor %}
+  <br>
+  <br>
   <form method="post" enctype="multipart/form-data" action="noticeboard/addnotice">
+    <div class="form-group">
     {% csrf_token %}
     <input type="text" name="NoticeHead" class="form-control" placeholder="Notice Heading" />
     <br>
-    <input type="text" name="NoticeBody" class="form-control" placeholder="Notice Body" />
+    <textarea rows="10" name="NoticeBody" class="form-control" placeholder="Notice Body" /></textarea>
     <br>
     <input type="submit" value="Add Notice">
+  </div>
   </form>
   </div>
 </body>
