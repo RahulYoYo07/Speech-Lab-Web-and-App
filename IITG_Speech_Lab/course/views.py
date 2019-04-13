@@ -34,7 +34,7 @@ def dashboard(request):
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
 
-    if Designation == "Faculty" :
+    if Designation == "Faculty":
         ProfCourseList = user_dict['ProfCourseList']
         CourseDetails = []
         for course in ProfCourseList:
@@ -42,46 +42,54 @@ def dashboard(request):
             print(course.get())
 
         context = {
-            'CourseDetails' : CourseDetails
+            'CourseDetails': CourseDetails
         }
 
-        return render(request,'course/main_page.html',context)
+        return render(request, 'course/main_page.html', context)
 
-    elif Designation == "Student" :
+    elif Designation == "Student":
         StudCourseList = user_dict['CourseList']
-        #print(StudCourseList)
+        # print(StudCourseList)
         RegisteredCourses = []
         TotalCourses = []
         for course in StudCourseList:
             RegisteredCourses.append(course['CourseID'].get().to_dict())
 
         Courses = db.collection(u'Courses').get()
-        for course in Courses :
+        for course in Courses:
             TotalCourses.append(course.to_dict())
 
         context = {
-            'RegisteredCourses' : RegisteredCourses,
-            'TotalCourses' : TotalCourses
+            'RegisteredCourses': RegisteredCourses,
+            'TotalCourses': TotalCourses
         }
 
-        return render(request,'course/main_page_stud.html',context)
+        return render(request, 'course/main_page_stud.html', context)
+
 
 def Enroll_CoursePage(request, cinfo):
-    username = "avira170101014"
+    username = "ravi170101053"
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
+        copydata = db.collection(u'Users').document(username).get().to_dict()['couseList']
+        print(copydata)
+        datay = {
+            u'CourseID' :  db.collection(u'Courses').document(cinfo)
+        }
+        copydata.append(datay)
+        print(copydata)
         dbdata = main['EnrollmentKey']
-        if dbdata == postdata :
+        if dbdata == postdata:
             data = {
-                u'CourseList' : {
-                    u'CourseID' :  db.collection(u'Courses').document(cinfo)
-                }
+                 u'couseList' : copydata
             }
-            # db.collection(u'Users').document(username).add(data)
+            updateit = db.collection(u'Users').document(username)
+            updateit.update(data)
+
         return HttpResponseRedirect(reverse('course:dashboard'))
-    else :
-        return render(request,'course/enrollcourse.html')
+    else:
+        return render(request, 'course/enrollcourse.html')
 
 
 def AddCourse(request):
@@ -127,6 +135,7 @@ def AddCourse(request):
 
     return render(request, 'course/addcourseform.html')
 
+
 def ViewCourse(request, cinfo):
 
     username = "pradip"
@@ -142,27 +151,28 @@ def ViewCourse(request, cinfo):
     }
     return render(request, 'course/viewcourse.html', context)
 
+
 def AddAssgn(request, cinfo):
     username = "pradip"
     if request.method == 'POST':
         ref_prof = db.collection(u'Users').document(username)
         data = {
-            u'About' : request.POST.get("About",""),
-            u'AssignmentID' : request.POST.get("AssignmentID",""),
-            u'Deadline' : request.POST.get("Deadline",""),
-            u'Name' : request.POST.get("Name",""),
+            u'About': request.POST.get("About", ""),
+            u'AssignmentID': request.POST.get("AssignmentID", ""),
+            u'Deadline': request.POST.get("Deadline", ""),
+            u'Name': request.POST.get("Name", ""),
         }
-        aid = request.POST.get("AssignmentID","")
-        db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).set(data)
+        aid = request.POST.get("AssignmentID", "")
+        db.collection(u'Courses').document(cinfo).collection(
+            u'Assignments').document(aid).set(data)
 
-        return render(request,'course/main_page.html')
-        #return HttpResponseRedirect(reverse('course:dashboard'))
+        return render(request, 'course/main_page.html')
+        # return HttpResponseRedirect(reverse('course:dashboard'))
 
     return render(request, 'course/addassgnform.html')
 
 
-
-def ViewAssgn(request, cinfo, aid ):
+def ViewAssgn(request, cinfo, aid):
     username = "pradip"
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').get()
@@ -176,8 +186,39 @@ def ViewAssgn(request, cinfo, aid ):
 
 
 def AddTA(request, cinfo):
-    return render(request, 'course/AddTA.html')
+    username = "pradip"
+    BTech, MTech, Phd = getStudents()
+    context = {
+        'BTech': BTech,
+        'MTech': MTech,
+        'Phd': Phd,
 
+    }
+    return render(request, 'course/AddTA.html', context)
+
+
+def getStudents():
+
+    users_ref = db.collection(u'Users').get()
+    BTech = []
+    MTech = []
+    Phd = []
+
+    for user in users_ref:
+        userdict = user.to_dict()
+
+        if "Designation" in userdict.keys() and userdict["Designation"] == "Student":
+
+            if userdict["Program"] == "Btech":
+                BTech.append(userdict)
+
+            if userdict["Program"] == "Mtech":
+                MTech.append(userdict)
+
+            if userdict["Program"] == "Phd":
+                Phd.append(userdict)
+
+    return BTech, MTech, Phd
 
 def AddCourseMaterial(request, cinfo):
     context = {

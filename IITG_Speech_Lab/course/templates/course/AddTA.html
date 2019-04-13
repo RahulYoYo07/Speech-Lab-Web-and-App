@@ -11,24 +11,32 @@
       </select>
     </div>
 
+    
     <div class="form-group" style="display:none;" id = "B.TechTA">
       <label for="">TA ID</label>
       <select class="form-control" name="" id="">
-        <option>B.Tech</option>
+    {% for stud in BTech %}
+        <option>{{ stud.FirstName }}</option>
+    {% endfor %}
       </select>
     </div>
+
 
     <div class="form-group" style="display:none;" id = "M.TechTA">
       <label for="">TA ID</label>
       <select class="form-control" name="" id="">
-        <option>M.Tech</option>
+    {% for stud in MTech %}
+        <option>{{ stud.FirstName }}</option>
+    {% endfor %}
       </select>
     </div>
 
     <div class="form-group" style="" id = PhDTA>
       <label for="">TA ID</label>
       <select class="form-control" name="" id="">
-        <option selected >PhD</option>
+    {% for stud in Phd %}
+        <option>{{ stud.FirstName }}</option>
+    {% endfor %}
       </select>
     </div>
 
