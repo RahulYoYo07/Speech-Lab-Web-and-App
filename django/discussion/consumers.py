@@ -43,47 +43,27 @@ class ChatConsumer2(WebsocketConsumer):
             self.channel_name
         )
 
-    # Receive message from WebSocket
+    # Receive request reply from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        messageHead = text_data_json['messageHead']
         CourseID = text_data_json['CourseID']
         CourseGroupID = text_data_json['CourseGroupID']
-        IsReply = text_data_json['IsReply']
-        ReplyBody = text_data_json['ReplyBody']
         MessageID = text_data_json['MessageID']
 
-        if not IsReply:
-            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
-        else:
-            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection('Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
-
-        # Send message to room group
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'messageHead': messageHead,
-                'message': message
-            }
-        )
-
-    # Receive message from room group
-    def chat_message(self, event):
-        message = event['message']
-        messageHead = event['messageHead']
-
-        # Send message to WebSocket
+        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies')
+        replies = list(doc_ref.get())
+        for i in range(len(replies)):
+            replies[i] = replies[i].to_dict()
+        # Send reply to user in group
         self.send(text_data=json.dumps({
-            'messageHead' : messageHead,
-            'message': message,
+            'IsReply': True,
+            'Replies': replies,
         }))
+
 
 # -------------------------------------------------------------------------------------------------------------------------------
 #Receive and sending messages
 class ChatConsumer(WebsocketConsumer):
-
     def connect(self):
         print('Not yet opened', open)
         self.room_name = self.scope['url_route']['kwargs']['CourseGroupID']
@@ -106,6 +86,7 @@ class ChatConsumer(WebsocketConsumer):
         # print('Opened',open)
         self.accept()
 
+        print("Send")
         for i in range(len(docs)):
             id = docs[i].id
             doc = docs[i]
@@ -114,6 +95,7 @@ class ChatConsumer(WebsocketConsumer):
                 'messageHead' : doc['MessageHead'],
                 'message': doc['MessageBody'],
                 'MessageID': id,
+                'IsReply': False,
             }))
 
     def disconnect(self, close_code):
@@ -131,22 +113,27 @@ class ChatConsumer(WebsocketConsumer):
         messageHead = text_data_json['messageHead']
         CourseID = text_data_json['CourseID']
         CourseGroupID = text_data_json['CourseGroupID']
-        # IsReply = text_data_json['IsReply']
-        # ReplyBody = text_data_json['ReplyBody']
-        # MessageID = text_data_json['MessageID']
+        IsReply = text_data_json['IsReply']
+        ReplyBody = text_data_json['ReplyBody']
+        MessageID = ''
 
-        # if not IsReply:
-        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
-        # else:
-        #     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection('Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
+        if not IsReply:
+            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
+
+        else:
+            MessageID = text_data_json['MessageID']
+            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection('Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'messageHead': messageHead,
-                'message': message
+                'IsReply': IsReply,
+                'messageHead' : messageHead,
+                'message': message,
+                'ReplyBody': ReplyBody,
+                'MessageID': MessageID,
             }
         )
 
@@ -154,9 +141,14 @@ class ChatConsumer(WebsocketConsumer):
     def chat_message(self, event):
         message = event['message']
         messageHead = event['messageHead']
-
+        IsReply = event['IsReply']
+        ReplyBody = event['ReplyBody']
+        MessageID = event['MessageID']
         # Send message to WebSocket
         self.send(text_data=json.dumps({
+            'IsReply': IsReply,
             'messageHead' : messageHead,
             'message': message,
+            'ReplyBody': ReplyBody,
+            'MessageID': MessageID,
         }))

@@ -18,6 +18,7 @@
     <input id="chat-message-input" type="text" size="100"/><br/>
     <input id="chat-message-submit" type="button" value="Send"/>
 </body>
+
 <script>
     var CourseGroupID = {{ CourseGroupID_json }};
     var CourseID = {{ CourseID_json }};
@@ -26,60 +27,84 @@
         'ws://' + window.location.host +
         '/ws/discussion/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
     var chatSocket2;
+    alert("fuck");
+
 
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
-        var messageHead = data['messageHead'];
-        var message = data['message'];
-        var MessageID = data['MessageID'];
+        var IsReply = data['IsReply'];
 
-        var MessageDiv = document.createElement('div')
-        MessageDiv.id = MessageID
+        if (IsReply == false){
+            var messageHead = data['messageHead'];
+            var message = data['message'];
+            var ReplyBody = data['ReplyBody'];
+            var MessageID = data['MessageID'];
+            var open = false;
+            var MessageDiv = document.createElement('div');
+            MessageDiv.id = MessageID;
 
-        var MessageBox = document.createElement('p');
-        MessageBox.setAttribute("style","display: inline")
-        MessageBox.innerHTML = messageHead + ': ' + message;
+            var MessageBox = document.createElement('p');
+            MessageBox.setAttribute("style","display: inline");
+            MessageBox.innerHTML = messageHead + ': ' + message;
 
-        var ReplyInput = document.createElement('input')
-        ReplyInput.type = 'text';
-        ReplyInput.id = MessageID+'_input';
+            var ReplyInput = document.createElement('input');
+            ReplyInput.type = 'text';
+            ReplyInput.id = MessageID+'_input';
 
-        var ReplyButton = document.createElement('input')
-        ReplyButton.type = 'button';
-        ReplyButton.setAttribute("style", "margin-left: 2em")
-        ReplyButton.value = 'Reply';
-        ReplyButton.onclick = function(){
-            alert(MessageID);
-            chatSocket.send(JSON.stringify({
-                'IsReply': true,
-                'messageHead' : '',
-                'message': '',
-                'CourseID': CourseID,
-                'CourseGroupID': CourseGroupID,
-                'ReplyBody': document.getElementById(MessageID+'_input').value,
-                'MessageID': MessageID,
-            }));
-        };
-        ReplyButton.id = MessageID;
+            var ReplyButton = document.createElement('input');
+            ReplyButton.type = 'button';
+            ReplyButton.setAttribute("style", "margin-left: 2em");
+            ReplyButton.value = 'Reply';
+            ReplyButton.onclick = function(){
+                alert(MessageID);
+                chatSocket.send(JSON.stringify({
+                    'IsReply': true,
+                    'messageHead' : '',
+                    'message': '',
+                    'CourseID': CourseID,
+                    'CourseGroupID': CourseGroupID,
+                    'ReplyBody': document.getElementById(MessageID+'_input').value,
+                    'MessageID': MessageID,
+                }));
+            };
+            ReplyButton.id = MessageID;
+            alert(IsReply);
 
-        var ShowReplies = document.createElement('input')
-        ShowReplies.setAttribute("style", "margin-left: 2em")
-        ShowReplies.type = 'button';
-        ShowReplies.value = 'Show Replies';
-        ShowReplies.onclick = function(){
-            chatSocket2 = new WebSocket('ws://' + window.location.host + '/ws/discussion/courses/'+ CourseID + '/coursegroup/' + CourseGroupID + '/' + MessageID);
+            var ShowReplies = document.createElement('input');
+            ShowReplies.type = 'button';
+            ShowReplies.setAttribute("style", "margin-left: 2em");
+            ShowReplies.value = 'Show Replies';
+            ShowReplies.onclick = function(){
+                if (open == false){
+                  open = true;
+                  ShowReplies.value = 'Hide Replies';
+                  chatSocket2 = new WebSocket('ws://' + window.location.host + '/ws/discussion/courses/'+ CourseID + '/coursegroup/' + CourseGroupID + '/' + MessageID);
+                  chatSocket.send(JSON.stringify({
+                      'CourseID': CourseID,
+                      'CourseGroupID': CourseGroupID,
+                      'MessageID': MessageID,
+                  }));
+                }
+                else {
+                  open = false;
+                  ShowReplies.value = 'Show Replies';
+                }
 
+            }
+
+            MessageDiv.appendChild(MessageBox);
+            // MessageDiv.appendChild(ShowReplies);
+            MessageDiv.appendChild(document.createElement('p'));
+            // MessageDiv.appendChild(document.createElement('br'))
+            MessageDiv.appendChild(ReplyInput);
+            MessageDiv.appendChild(ReplyButton);
+            MessageDiv.appendChild(document.createElement('p'));
+            // MessageDiv.appendChild(document.createElement('p'))
+            document.getElementById("DynamicMessages").appendChild(MessageDiv);
         }
-
-        MessageDiv.appendChild(MessageBox)
-        MessageDiv.appendChild(ShowReplies)
-        MessageDiv.appendChild(document.createElement('p'))
-        // MessageDiv.appendChild(document.createElement('br'))
-        MessageDiv.appendChild(ReplyInput)
-        MessageDiv.appendChild(ReplyButton)
-        MessageDiv.appendChild(document.createElement('p'))
-        // MessageDiv.appendChild(document.createElement('p'))
-        document.getElementById("DynamicMessages").appendChild(MessageDiv);
+        else{
+          ;
+        }
     };
 
     chatSocket.onclose = function(e) {
@@ -99,15 +124,18 @@
         var messageHead = messageHeadDom.value;
         var message = messageInputDom.value;
         chatSocket.send(JSON.stringify({
+            'IsReply': false,
             'messageHead' : messageHead,
             'message': message,
             'CourseID': CourseID,
             'CourseGroupID': CourseGroupID,
-            // 'IsReply': false,
+            'ReplyBody': '',
+            // 'MessageID': MessageID,
         }));
 
         messageHeadDom.value = '';
         messageInputDom.value = '';
     };
+
 </script>
 </html>
