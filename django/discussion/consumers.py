@@ -22,12 +22,70 @@ cred = credentials.Certificate({
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-# chat/consumers.py
+#Show replies
+class ChatConsumer2(WebsocketConsumer):
 
+    def connect(self):
+        self.room_name = self.scope['url_route']['kwargs']['CourseGroupID']
+        # print(self.room_name)
+        self.room_group_name = 'chat_%s' % self.room_name
+        # print(self.channel_name)
+        # Join room group
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    def disconnect(self, close_code):
+        # Leave room group
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    # Receive message from WebSocket
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+        messageHead = text_data_json['messageHead']
+        CourseID = text_data_json['CourseID']
+        CourseGroupID = text_data_json['CourseGroupID']
+        IsReply = text_data_json['IsReply']
+        ReplyBody = text_data_json['ReplyBody']
+        MessageID = text_data_json['MessageID']
+
+        if not IsReply:
+            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
+        else:
+            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection('Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
+
+        # Send message to room group
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'messageHead': messageHead,
+                'message': message
+            }
+        )
+
+    # Receive message from room group
+    def chat_message(self, event):
+        message = event['message']
+        messageHead = event['messageHead']
+
+        # Send message to WebSocket
+        self.send(text_data=json.dumps({
+            'messageHead' : messageHead,
+            'message': message,
+        }))
+
+# -------------------------------------------------------------------------------------------------------------------------------
+#Receive and sending messages
 class ChatConsumer(WebsocketConsumer):
 
     def connect(self):
-        # print('Not yet opened', open)
+        print('Not yet opened', open)
         self.room_name = self.scope['url_route']['kwargs']['CourseGroupID']
         # print(self.room_name)
         self.room_group_name = 'chat_%s' % self.room_name
@@ -67,19 +125,20 @@ class ChatConsumer(WebsocketConsumer):
 
     # Receive message from WebSocket
     def receive(self, text_data):
+        print("Jeronemo")
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         messageHead = text_data_json['messageHead']
         CourseID = text_data_json['CourseID']
         CourseGroupID = text_data_json['CourseGroupID']
-        IsReply = text_data_json['IsReply']
-        ReplyBody = text_data_json['ReplyBody']
-        MessageID = text_data_json['MessageID']
+        # IsReply = text_data_json['IsReply']
+        # ReplyBody = text_data_json['ReplyBody']
+        # MessageID = text_data_json['MessageID']
 
-        if not IsReply:
-            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
-        else:
-            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection('Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
+        # if not IsReply:
+        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
+        # else:
+        #     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection('Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
