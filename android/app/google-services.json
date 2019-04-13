@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "257927035950",
+    "firebase_url": "https://iitg-speech-lab.firebaseio.com",
+    "project_id": "iitg-speech-lab",
+    "storage_bucket": "iitg-speech-lab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257927035950:android:5b5ddc9837f4b04b",
+        "android_client_info": {
+          "package_name": "com.example.iitg_speech_lab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257927035950-locdvqnr6f8vtjlcp99qmgqu7de9b9cb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.iitg_speech_lab",
+            "certificate_hash": "42c6cc80727e4f5030e7279ad858a33f8b430573"
+          }
+        },
+        {
+          "client_id": "257927035950-uh6p8thidck8jq534cqh1kg13f5i1qu1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt42fdx__uIg6l3KLf0zjy63TGMwAClbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257927035950-uh6p8thidck8jq534cqh1kg13f5i1qu1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
