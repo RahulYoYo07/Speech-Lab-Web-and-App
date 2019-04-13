@@ -9,3 +9,9 @@ function AddTaFormfun() {
     }
     console.log(5);
 }
+
+function seperateStudents(){
+    
+}
+
+
