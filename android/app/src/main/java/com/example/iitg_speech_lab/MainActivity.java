@@ -10,6 +10,7 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity {
 
+
     public static final String EXTRA_MESSAGE = "com.example.iitg_speech_lab.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,5 +24,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
 
+    }
+    public void viewNotice(View view){
+        Intent intent = new Intent(this, Discussion_Notice_Board.class);
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 }
