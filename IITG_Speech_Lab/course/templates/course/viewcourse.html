@@ -5,7 +5,7 @@
     <a href="#">Attendance</a>
   </li>
   <li>
-    <a href="#">Study Material</a>
+    <a href="{% url 'course:add_course_material' CourseInfo %}">Study Material</a>
   </li>
   <li>
     <a href="#">Teaching Assistants (TAs)</a>
@@ -28,11 +28,11 @@
         <p class="card-text">{{ assgn.Name }}</p>
         <p class="card-text">{{ assgn.Deadline }}</p>
       </div>
-      
+
         <div class = "card-footer">
           <a href="#" class="card-link">Assignment Link</a>
         </div>
-    
+
     </div>
   </div>
   {% endfor %}

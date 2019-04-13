@@ -29,7 +29,7 @@ db = firestore.client()
 
 
 def dashboard(request):
-    username = "gulat170123030"
+    username = "pradip"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
@@ -164,7 +164,6 @@ def AddAssgn(request, cinfo):
 
 def ViewAssgn(request, cinfo, aid ):
     username = "pradip"
-    #cid += "_" + username + " _" + cyear
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').get()
     GroupDetails = []
@@ -178,3 +177,10 @@ def ViewAssgn(request, cinfo, aid ):
 
 def AddTA(request, cinfo):
     return render(request, 'course/AddTA.html')
+
+
+def AddCourseMaterial(request, cinfo):
+    context = {
+        'cinfo': cinfo,
+    }
+    return render(request, 'course/addcoursematerial.html', context)

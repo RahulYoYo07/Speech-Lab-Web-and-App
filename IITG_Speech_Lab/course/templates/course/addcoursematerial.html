@@ -1,0 +1,58 @@
+<html>
+<head><title>to</title></head>
+<body>
+<h1>Add</h1>
+
+<form>
+<input type="file" value="cmuploader" id="cmuploader" />
+<progress  value="0" max="100" id="progrescmupload">0%</progress>
+<button type=”submit” id="submitcm" >Upload</button>
+</form>
+
+<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCInoPg95lxzWl9Vt9GOwG4Wsx-qzVopV4",
+    authDomain: "iitg-speech-lab.firebaseapp.com",
+    databaseURL: "https://iitg-speech-lab.firebaseio.com",
+    projectId: "iitg-speech-lab",
+    storageBucket: "iitg-speech-lab.appspot.com",
+    messagingSenderId: "257927035950"
+  };
+  firebase.initializeApp(config);
+
+  var cmuploader = document.getElementById('cmuploader');
+  var progrescmupload = document.getElementById('progrescmupload');
+  //var submitbut = document.getElementById('submitcm');
+
+  //Listener
+  var form = document.querySelector('form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    var file = cmuploader.files[0];
+    var subfolder = "{{ cinfo }}"
+    //var file = event.target.files[0];
+    var storageRef = firebase.storage().ref('Courses/' + subfolder + '/' + file.name );
+    var task = storageRef.put(file);
+
+    task.on('state_changed',
+      function progress(snapshot){
+        var perc = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progrescmupload.value = perc;
+      },
+
+      function error(err) {
+
+      },
+
+      function complete() {
+        alert(file.name + " Upload Success!");
+        window.location.reload();
+      }
+    );
+  });
+
+</script>
+</body>
+</html>

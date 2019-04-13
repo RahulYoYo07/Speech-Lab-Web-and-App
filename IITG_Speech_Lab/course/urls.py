@@ -14,5 +14,6 @@ urlpatterns = [
     path('<slug:cinfo>/assignments/<slug:aid>/',
          views.ViewAssgn, name='view_assgn'),
     path('<slug:cinfo>/addta', views.AddTA, name='add_TA'),
+    path('<slug:cinfo>/cm/add', views.AddCourseMaterial, name='add_course_material'),
 
 ]
