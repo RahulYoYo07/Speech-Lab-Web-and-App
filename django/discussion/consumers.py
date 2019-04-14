@@ -1,7 +1,10 @@
+from course import views
 
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+
+
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
@@ -19,7 +22,7 @@ cred = credentials.Certificate({
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ggn1f%40iitg-speech-lab.iam.gserviceaccount.com"
 })
-firebase_admin.initialize_app(cred)
+# firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 # #Show replies
