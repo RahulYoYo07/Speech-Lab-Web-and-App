@@ -19,4 +19,5 @@ urlpatterns = [
     path('<slug:cinfo>/cm/add', views.AddCourseMaterial, name='add_course_material'),
     path('<slug:cinfo>/cm', views.ViewCourseMaterial, name='view_course_material'),
     path('<slug:cinfo>/cm/storecmindb/', views.StoreCMinDb, name='store_course_material'),
+    path('<slug:cinfo>/assignments/<slug:aid>/groups/<slug:gid>', views.ViewGroup, name='view_group'),
 ]

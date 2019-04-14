@@ -361,3 +361,15 @@ def StoreCMinDb(request, cinfo):
         return HttpResponseRedirect(reverse('course:view_course_material', kwargs={'cinfo':cinfo}))
     else:
         return HttpResponseRedirect(reverse('course:view_course_material', kwargs={'cinfo':cinfo}))
+
+def ViewGroup(request, cinfo, aid, gid):
+    username = "pradip"
+    #cid += "_" + username + " _" + cyear
+    group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).get()
+    GroupDetails = group_ref.to_dict()
+    context = {
+        'CourseInfo' : cinfo,
+        'AssgnInfo' : aid,
+        'GroupDetails' : GroupDetails,
+    }
+    return render(request, 'course/viewgroup.html', context)
