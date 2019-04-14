@@ -123,8 +123,6 @@ def Update_Attendance(request, cinfo, aid, gid):
 
         return HttpResponseRedirect(reverse('course:dashboard'))
     else :
-        cinfo = "CS243"
-        aid = "As_01"
         group_ref = db.collection(u'Courses').document(cinfo).collection(
             u'Assignments').document(aid).collection(u'Groups').document(gid).get()
         studentlist = group_ref.to_dict()['StudentList']
@@ -256,6 +254,8 @@ def ViewAssgn(request, cinfo, aid):
     for group in group_ref:
         GroupDetails.append(group.to_dict())
     context = {
+        'cinfo':cinfo,
+        'aid':aid,
         'GroupDetails': GroupDetails,
     }
     return render(request, 'course/viewassgn.html', context)

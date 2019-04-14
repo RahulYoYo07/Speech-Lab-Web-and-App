@@ -22,7 +22,10 @@
 
 {% comment %} <a href="{% url 'course:add_course'%}"><p class="options">Add Group</p></a> {% endcomment %}
 
+
+
 <div class="row">
+{% if GroupDetails %}
 {% for group in GroupDetails %}
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
@@ -35,8 +38,12 @@
         <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
       </div>
     </div>
-
 {% endfor %}
+{% else %}
+<div class="jumbotron">
+<p>  No Groups Right Now !!! </p>
+</div>
+{% endif %}
 
 </div>
 {% endblock %}
