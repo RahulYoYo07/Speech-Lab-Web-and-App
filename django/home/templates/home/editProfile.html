@@ -1,0 +1,40 @@
+{% extends 'home/user.html' %}
+{% block content %}
+    <form action="edit/" method="post">
+    <div class="container">
+
+        Hi {{user.FullName}}! <br>
+        Username: {{user.id}} <br>
+        Department: {{user.Department}}<br>
+        {% if isStudent == 1%}
+            Program: {{user.Program}} <br>
+            Roll Number: {{user.RollNumber}}<br>
+        {% endif %}
+        {% if isStudent == 0%}
+            Designation: {{user.CollegeDesignation}} <br>
+        {% endif %}
+
+    <label ><b>About Me</b></label>
+    <input type="text" value="{{user.About}}" name="about_me" required><br>
+
+
+    <label><b>Contact</b></label>
+    <input type="text" value="{{user.Contact}}" name="contact" required><br>
+
+
+     <label><b>Home Page</b></label>
+    <input type="text" value="{{user.URL.Homepage}}" name="homepage" ><br>
+
+    <label><b>Github</b></label>
+    <input type="text" value="{{user.URL.Github}}" name="github"><br>
+
+
+    <label><b>LinkedIn</b></label>
+    <input type="text" value="{{user.URL.Linkedin}}" name="linkedin" ><br>
+
+    {% csrf_token %}
+    <button  type="submit">Edit Profile</button>
+
+    </div>
+    </form>
+{% endblock %}
