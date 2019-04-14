@@ -123,6 +123,8 @@ def Update_Attendance(request, cinfo, aid, gid):
 
         return HttpResponseRedirect(reverse('course:dashboard'))
     else :
+        cinfo = "CS243"
+        aid = "As_01"
         group_ref = db.collection(u'Courses').document(cinfo).collection(
             u'Assignments').document(aid).collection(u'Groups').document(gid).get()
         studentlist = group_ref.to_dict()['StudentList']
@@ -254,9 +256,9 @@ def ViewAssgn(request, cinfo, aid):
     for group in group_ref:
         GroupDetails.append(group.to_dict())
     context = {
-        'cinfo':cinfo,
-        'aid':aid,
         'GroupDetails': GroupDetails,
+        'cinfo' : cinfo,
+        'aid' : aid,
     }
     return render(request, 'course/viewassgn.html', context)
 
@@ -368,8 +370,33 @@ def ViewGroup(request, cinfo, aid, gid):
     group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).get()
     GroupDetails = group_ref.to_dict()
     context = {
-        'CourseInfo' : cinfo,
-        'AssgnInfo' : aid,
+        'cinfo' : cinfo,
+        'aid' : aid,
         'GroupDetails' : GroupDetails,
     }
+    print("Hello")
+    print(GroupDetails)
+    print("Hello")
     return render(request, 'course/viewgroup.html', context)
+
+def UpdateGroup(request, cinfo, aid, gid):
+    username = "pradip"
+    if request.method == 'POST':
+        #ref_prof = db.collection(u'Users').document(username)
+        data = {
+            u'ProjectTitle' : request.POST.get("ProjectTitle",""),
+            u'ProblemStatement' : request.POST.get("ProblemStatement","")
+        }
+        print(data)
+        db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).update(data)
+        group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).get()
+        GroupDetails = group_ref.to_dict()
+        context = {
+            'cinfo' : cinfo,
+            'aid' : aid,
+            'GroupDetails' : GroupDetails,
+        }
+
+        return render(request,'course/viewgroup.html', context)
+
+    return render(request, 'course/updategroupform.html')
