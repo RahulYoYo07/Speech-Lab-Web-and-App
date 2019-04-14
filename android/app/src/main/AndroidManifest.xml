@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Discussion_Notice_Board"></activity>
+        <activity
+            android:name=".CoursesActivity"
+            android:label="@string/title_activity_courses"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ViewCourse"
+            android:label="@string/title_activity_view_course"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".DisplayMessageActivity"
             android:parentActivityName=".MainActivity">
