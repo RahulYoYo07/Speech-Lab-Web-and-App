@@ -35,12 +35,11 @@ db = firestore.client()
 # Create your views here.
 
 
-
 def home(request):
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
     sign_in_url = get_signin_url(redirect_uri)
     # sign_in_url = get_signin_url("https://iitg-speech-lab.firebaseapp.com/__/auth/handler")
-    print(redirect_uri)
+    # print(redirect_uri)
     context = {'sign_in_url': sign_in_url}
     # return HttpResponse('<a href="' + sign_in_url +'">Click here to sign in</a>')
     return render(request, 'home/home.html', context)
@@ -65,9 +64,20 @@ def gettoken(request):
         if user['jobTitle'].upper() is "BTECH" or "MTECH" or "PHD" or "BDES" or "MDES":
             des = "Student"
             data = {
-                u'Name': user['displayName'],
+                u'FullName': user['displayName'],
                 u'Program': user['jobTitle'],
                 u'Designation': des,
+                u'About': "",
+                u'Contact': "",
+                u'Department': user["department"],
+                u'ProfilePic': "",
+                u'RollNumber': user["surname"],
+                u'URL': {
+                    'Github': '',
+                    'Homepage': '',
+                    'Linkedin': ''
+                },
+                u'Email': user['mail']
             }
             db.collection(u'Users').document(username).set(data)
         else:
@@ -76,6 +86,17 @@ def gettoken(request):
                 u'Name': user['displayName'],
                 u'CollegeDesignation': user['jobTitle'],
                 u'Designation': des,
+                u'About': "",
+                u'Contact': "",
+                u'Department': user["department"],
+                u'ProfilePic': "",
+                u'RoomNumber': "",
+                u'URL': {
+                    'Github': '',
+                    'Homepage': '',
+                    'Linkedin': ''
+                },
+                u'Email': user['mail']
             }
             db.collection(u'Users').document(username).set(data)
 
@@ -139,20 +160,6 @@ def ViewUser(request, uinfo):
     return render(request, 'home/user.html', context)
 
 
-def people(request):
-    user_ref = db.collection(u'Users').get()
-    user_list = []
-    count = 0
-    counter_list = []
-    for user in user_ref:
-        user_list.append(user.to_dict())
-        counter_list.append(count)
-        count += 1
-    uc_list = zip(user_list, counter_list)
-    context = {'uc_list': uc_list}
-    return render(request, 'home/people.html', context)
-
-
 def student(request):
     user_ref = db.collection(u'Users').get()
     user_list = []
@@ -162,7 +169,6 @@ def student(request):
         user_dict = user.to_dict()
         # print(user_dict["Designation"])
         if user_dict["Designation"] == 'Student':
-            # print("zinga")
             user_list.append(user_dict)
 
             counter_list.append(count % 3)
@@ -181,7 +187,7 @@ def faculty(request):
         user_dict = user.to_dict()
         if user_dict["Designation"] == 'Faculty':
             user_list.append(user.to_dict())
-            counter_list.append(count%3)
+            counter_list.append(count % 3)
             count += 1
     uc_list = zip(user_list, counter_list)
     context = {'uc_list': uc_list}
@@ -192,6 +198,79 @@ def projects(request):
     project_ref = db.collection(u'Projects').get()
     project_list = []
     for project in project_ref:
-        project_list.append(project.to_dict())
+        project_dict = project.to_dict()
+        project_dict["id"] = project.id
+        mentor_list = project_dict["MentorsList"]
+        MentorName = []
+        for mentor in mentor_list:
+            mentor_dict = mentor.get().to_dict()
+            MentorName.append(mentor_dict["FullName"])
+        project_dict["MentorName"] = MentorName
+        project_list.append(project_dict)
+
     context = {'project_list':project_list}
+
     return render(request, 'home/projects.html', context)
+
+
+def projectView(request, pinfo):
+    project_ref = db.collection(u'Projects').document(pinfo).get()
+    project_dict = project_ref.to_dict()
+    mentor_list = project_dict["MentorsList"]
+    MentorList = []
+    for mentor in mentor_list:
+        mentor_dict = mentor.get().to_dict()
+        MentorList.append(mentor_dict["FullName"])
+    project_dict["MentorList"] = MentorList
+    context = {'project': project_dict}
+
+    return render(request, 'home/viewProject.html', context)
+
+
+def editProfile(request, uinfo):
+    access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
+    if not access_token:
+        return HttpResponse("You are not logged in")
+    user = get_me(access_token)
+    username = user['mail'].replace("@iitg.ac.in", "")
+    if username != uinfo:
+        return HttpResponse("Error")
+    user = db.collection(u'Users').document(username).get()
+    user_dict = user.to_dict()
+    user_dict["id"] = user.id
+    t = 0
+    if user_dict["Designation"] == "Student":
+        t = 1
+    if user_dict["Designation"] == "Faculty":
+        t = 0
+    context = {'isStudent': t, 'user': user_dict}
+    return render(request, 'home/editProfile.html', context)
+
+
+def edit(request, uinfo):
+    if request.method == 'POST':
+        access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
+        if not access_token:
+            return HttpResponse("You are not logged in")
+        user = get_me(access_token)
+        username = user['mail'].replace("@iitg.ac.in", "")
+        if username != uinfo:
+            return HttpResponse("Error")
+        user = db.collection(u'Users').document(username).get()
+        user_dict = user.to_dict()
+        user_dict["About"] = request.POST.get('about_me')
+        user_dict["Contact"] = request.POST.get('contact')
+        user_dict["URL"]["Github"] = request.POST.get('github')
+        user_dict["URL"]["Linkedin"] = request.POST.get('linkedin')
+        user_dict["URL"]["Homepage"] = request.POST.get('homepage')
+        db.collection(u'Users').document(username).set(user_dict)
+        return HttpResponseRedirect("http://localhost:8000/users/" + username)
+
+
+def redirect_user(request):
+    access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
+    if not access_token:
+        return HttpResponse("You are not logged in")
+    user = get_me(access_token)
+    username = user['mail'].replace("@iitg.ac.in", "")
+    return HttpResponseRedirect("http://localhost:8000/users/" + username)

@@ -28,7 +28,7 @@ scopes = [ 'openid',
 
 def get_token_from_code(auth_code, redirect_uri):
   # Build the post form for the token request
-    post_data =  {'grant_type': 'authorization_code',
+    post_data = {'grant_type': 'authorization_code',
                 'code': auth_code,
                 'redirect_uri': redirect_uri,
                 'scope': ' '.join(str(i) for i in scopes),

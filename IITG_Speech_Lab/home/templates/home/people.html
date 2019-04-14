@@ -11,17 +11,29 @@
                 <div class="card" style="width: 18rem;">
               <img src="..." class="card-img-top" alt="...">
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h5 class="card-title">{{i.FullName}}</h5>
+                <p class="card-text">{{i.About}}</p>
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{j}}</li>
-                <li class="list-group-item">okay</li>
-                <li class="list-group-item">{{i.Designation}}</li>
+                <li class="list-group-item">{{i.Department}}</li>
+                  {% if i.Designation == "Student" %}
+                    <li class="list-group-item">{{i.Program}}</li>
+                 {% endif %}
+                 {% if i.Designation == "Faculty" %}
+                    <li class="list-group-item">{{i.CollegeDesignation}}</li>
+                 {% endif %}
+                <li class="list-group-item">{{i.Email}}</li>
               </ul>
               <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                {% if i.URL.Homepage != "" %}
+                <a href="//{{i.URL.Homepage}}" target="_blank" class="card-link">Home Page</a>
+                 {% endif %}
+                  {% if i.URL.Github != "" %}
+                <a href="//{{i.URL.Github}}" target="_blank" class="card-link">Github</a>
+                 {% endif %}
+                {% if i.URL.Linkedin != "" %}
+                <a href="//{{i.URL.Linkedin}}" target="_blank" class="card-link">Linkedin</a>
+                 {% endif %}
               </div>
             </div>
               </div>

@@ -23,6 +23,6 @@ urlpatterns = [
 
     path('home/', include('home.urls', namespace='home')),
     path('admin/', admin.site.urls),
-    path('users/', include('home.user_url', namespace='usr'), name='usr'),
+    path('users/', include('home.user_url', namespace='usr')),
     # path('microsoft/', include('microsoft_auth.urls', namespace='microsoft')),
 ]

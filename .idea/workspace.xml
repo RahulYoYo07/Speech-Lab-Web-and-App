@@ -3,9 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="ac46f56a-f13b-4f06-a61c-7c04cdea10c9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/authhelper.py" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/authhelper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/outlookservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/outlookservice.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/people.html" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/people.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/projects.html" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/projects.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/user.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/user_url.py" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/user_url.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IITG_Speech_Lab/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IITG_Speech_Lab/home/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,105 +25,105 @@
     <session id="-1802269002">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.10" value="1" />
-          <entry key="project.open.time.15" value="1" />
+          <entry key="project.open.time.15" value="2" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.33" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.open.time.34" value="1" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="469" />
-          <entry key="py" value="1925" />
+          <entry key="html" value="2162" />
+          <entry key="py" value="3542" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="469" />
-          <entry key="Python" value="1925" />
+          <entry key="HTML" value="2162" />
+          <entry key="Python" value="3542" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="html" value="14" />
-          <entry key="py" value="14" />
+          <entry key="html" value="32" />
+          <entry key="py" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="14" />
-          <entry key="Python" value="14" />
+          <entry key="HTML" value="32" />
+          <entry key="Python" value="25" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3145">
-              <caret line="197" lean-forward="true" selection-start-line="197" selection-end-line="197" />
+            <state relative-caret-position="367">
+              <caret line="273" column="31" lean-forward="true" selection-start-line="273" selection-start-column="31" selection-end-line="273" selection-end-column="31" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <marker date="1555156142001" expanded="true" signature="6223:6224" ph="..." />
-                <marker date="1555156142001" expanded="true" signature="6223:6228" ph="..." />
-                <marker date="1555156142001" expanded="true" signature="6223:6267" ph="..." />
-                <marker date="1555156142001" expanded="true" signature="7114:7119" ph="..." />
+                <marker date="1555238769090" expanded="true" signature="6985:6986" ph="..." />
+                <marker date="1555238769090" expanded="true" signature="6985:6990" ph="..." />
+                <marker date="1555238769090" expanded="true" signature="6985:7029" ph="..." />
+                <marker date="1555238769090" expanded="true" signature="7555:7557" ph="..." />
+                <marker date="1555238769090" expanded="true" signature="9687:9688" ph="..." />
+                <marker date="1555238769090" expanded="true" signature="11383:11384" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/projects.html">
+        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/editProfile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+            <state relative-caret-position="418">
+              <caret line="37" column="10" lean-forward="true" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/top_nav.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="214">
+              <caret line="37" column="17" lean-forward="true" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/urls.py">
+        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="46" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="46" />
+            <state relative-caret-position="408">
+              <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/authhelper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="103" column="37" lean-forward="true" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/home.html">
+        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/user.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="4" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/people.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="25" selection-start-line="5" selection-end-line="5" selection-end-column="25" />
-              <folding>
-                <element signature="e#219#240#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/login.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+            <state relative-caret-position="418">
+              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
             </state>
           </provider>
         </entry>
@@ -124,8 +131,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="58" column="94" selection-start-line="58" selection-start-column="94" selection-end-line="58" selection-end-column="94" />
+            <state>
+              <caret lean-forward="true" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -140,6 +147,15 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>mentor</find>
+      <find>Profile</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>contributor</replace>
+    </replaceStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -148,17 +164,22 @@
       <list>
         <option value="$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/settings.py" />
         <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/test.html" />
-        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/user_url.py" />
-        <option value="$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/urls.py" />
-        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/authhelper.py" />
-        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/user.html" />
         <option value="$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/wsgi.py" />
-        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/outlookservice.py" />
-        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/people.html" />
-        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/urls.py" />
-        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/layout.html" />
         <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/courses.html" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/projects.html" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/viewProject.html" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/outlookservice.py" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/urls.py" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/urls.py" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/people.html" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/layout.html" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/user_url.py" />
         <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/views.py" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/authhelper.py" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/profile_template.html" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/editProfile.html" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/user.html" />
+        <option value="$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/top_nav.html" />
       </list>
     </option>
   </component>
@@ -181,7 +202,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -225,6 +245,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -261,9 +282,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2624161" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -278,7 +299,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32885906" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32885906" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -286,11 +307,11 @@
       <window_info anchor="right" id="Database" order="4" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25973153" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32885906" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -300,7 +321,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32885906" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -330,45 +351,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/user_url.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="60" lean-forward="true" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/outlookservice.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="50" column="55" selection-start-line="50" selection-start-column="55" selection-end-line="50" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="19" column="65" selection-start-line="19" selection-start-column="65" selection-end-line="19" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/authhelper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -379,58 +365,125 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/viewProject.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="18" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/outlookservice.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="401">
+          <caret line="49" column="9" lean-forward="true" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/projects.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="54" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/people.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="25" selection-start-line="5" selection-end-line="5" selection-end-column="25" />
+        <state>
+          <caret lean-forward="true" selection-end-column="32" />
           <folding>
             <element signature="e#219#240#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="46" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="46" />
+        <state relative-caret-position="170">
+          <caret line="10" column="55" selection-start-line="10" selection-start-column="55" selection-end-line="10" selection-end-column="55" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/layout.html">
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/user_url.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="58" column="94" selection-start-line="58" selection-start-column="94" selection-end-line="58" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/projects.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+        <state relative-caret-position="85">
+          <caret line="5" column="56" lean-forward="true" selection-start-line="5" selection-start-column="56" selection-end-line="5" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3145">
-          <caret line="197" lean-forward="true" selection-start-line="197" selection-end-line="197" />
+        <state relative-caret-position="367">
+          <caret line="273" column="31" lean-forward="true" selection-start-line="273" selection-start-column="31" selection-end-line="273" selection-end-column="31" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1555156142001" expanded="true" signature="6223:6224" ph="..." />
-            <marker date="1555156142001" expanded="true" signature="6223:6228" ph="..." />
-            <marker date="1555156142001" expanded="true" signature="6223:6267" ph="..." />
-            <marker date="1555156142001" expanded="true" signature="7114:7119" ph="..." />
+            <marker date="1555238769090" expanded="true" signature="6985:6986" ph="..." />
+            <marker date="1555238769090" expanded="true" signature="6985:6990" ph="..." />
+            <marker date="1555238769090" expanded="true" signature="6985:7029" ph="..." />
+            <marker date="1555238769090" expanded="true" signature="7555:7557" ph="..." />
+            <marker date="1555238769090" expanded="true" signature="9687:9688" ph="..." />
+            <marker date="1555238769090" expanded="true" signature="11383:11384" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/authhelper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="103" column="37" lean-forward="true" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/profile_template.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="30" column="18" lean-forward="true" selection-end-line="30" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/editProfile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="37" column="10" lean-forward="true" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/IITG_Speech_Lab/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITG_Speech_Lab/home/templates/home/top_nav.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="37" column="17" lean-forward="true" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
         </state>
       </provider>
     </entry>
