@@ -72,30 +72,33 @@ def Enroll_CoursePage(request, cinfo):
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
-        copydata = db.collection(u'Users').document(username).get().to_dict()['CourseList']
+        copydata = db.collection(u'Users').document(
+            username).get().to_dict()['CourseList']
         datay = {
-            u'CourseID' :  db.collection(u'Courses').document(cinfo)
+            u'CourseID':  db.collection(u'Courses').document(cinfo)
         }
         copydata.append(datay)
-        attendance_list = db.collection(u'Courses').document(cinfo).get().to_dict()['AttendanceList']
+        attendance_list = db.collection(u'Courses').document(
+            cinfo).get().to_dict()['AttendanceList']
         atndata = {
-            u'StudentID' : db.collection(u'Users').document(username),
-            u'TotalAttendance' : 0
+            u'StudentID': db.collection(u'Users').document(username),
+            u'TotalAttendance': 0
         }
         attendance_list.append(atndata)
         dbdata = main['EnrollmentKey']
-        if dbdata == postdata :
+        if dbdata == postdata:
             data = {
-                 u'CourseList' : copydata
+                u'CourseList': copydata
             }
             attndata = {
-                u'AttendanceList' : attendance_list
+                u'AttendanceList': attendance_list
             }
             db.collection(u'Users').document(username).update(data)
             db.collection(u'Courses').document(cinfo).update(attndata)
         return HttpResponseRedirect(reverse('course:dashboard'))
-    else :
-        return render(request,'course/enrollcourse.html')
+    else:
+        return render(request, 'course/enrollcourse.html')
+
 
 def Update_Attendance(request, cinfo, aid, gid):
     username = "pradip"
@@ -107,13 +110,14 @@ def Update_Attendance(request, cinfo, aid, gid):
             attendance_list = courseref.to_dict()['AttendanceList']
             index = 0
             check = 0
-            while (check == 0) :
+            while (check == 0):
                 try:
-                    stud_username = attendance_list[index]['StudentID'].get().to_dict()['username']
-                    if stud_username == student :
-                        attendance_list[index]['TotalAttendance'] = attendance_list[index]['TotalAttendance']  + 1
+                    stud_username = attendance_list[index]['StudentID'].get().to_dict()[
+                        'username']
+                    if stud_username == student:
+                        attendance_list[index]['TotalAttendance'] = attendance_list[index]['TotalAttendance'] + 1
                         data = {
-                             u'AttendanceList' : attendance_list
+                            u'AttendanceList': attendance_list
                         }
                         db.collection(u'Courses').document(cinfo).update(data)
                         check = 1
@@ -122,7 +126,7 @@ def Update_Attendance(request, cinfo, aid, gid):
                     check = 1
 
         return HttpResponseRedirect(reverse('course:dashboard'))
-    else :
+    else:
         cinfo = "CS243"
         aid = "As_01"
         group_ref = db.collection(u'Courses').document(cinfo).collection(
@@ -132,22 +136,21 @@ def Update_Attendance(request, cinfo, aid, gid):
         studentinfo = []
         check = 0
         while(check == 0):
-            try :
-                studentinfo.append(studentlist[index]['StudentID'].get().to_dict())
+            try:
+                studentinfo.append(
+                    studentlist[index]['StudentID'].get().to_dict())
                 index = index + 1
             except:
                 check = 1
 
         print(studentinfo)
         context = {
-            'cinfo':cinfo ,
-            'aid':aid ,
-            'gid': gid ,
-            'studentinfo' : studentinfo,
+            'cinfo': cinfo,
+            'aid': aid,
+            'gid': gid,
+            'studentinfo': studentinfo,
         }
-        return render(request,'course/updateattendance.html',context)
-
-
+        return render(request, 'course/updateattendance.html', context)
 
 
 def AddCourse(request):
@@ -319,13 +322,15 @@ def getStudents():
 
     return BTech, MTech, Phd
 
+
 def AddCourseMaterial(request, cinfo):
     context = {
         'CourseInfo': cinfo,
     }
     return render(request, 'course/addcoursematerial.html', context)
 
-def ViewCourseMaterial(request , cinfo):
+
+def ViewCourseMaterial(request, cinfo):
     course_data = db.collection(u'Courses').document(cinfo).get().to_dict()
 
     CMaterials = course_data['CourseMaterial']
@@ -336,17 +341,18 @@ def ViewCourseMaterial(request , cinfo):
     }
     return render(request, 'course/viewcoursematerial.html', context)
 
+
 def StoreCMinDb(request, cinfo):
     if request.method == 'POST':
         course_data = db.collection(u'Courses').document(cinfo).get().to_dict()
-        newcm={}
+        newcm = {}
         newcm['Name'] = request.POST.get('filename')
         newcm['Url'] = request.POST.get('cmurl')
 
         if not 'CourseMaterial' in course_data:
-            cm_array=[ newcm ]
+            cm_array = [newcm]
             db.collection(u'Courses').document(cinfo).update({
-                u'CourseMaterial' : cm_array
+                u'CourseMaterial': cm_array
             })
         else:
             cm_array = course_data['CourseMaterial']
@@ -357,7 +363,44 @@ def StoreCMinDb(request, cinfo):
         # print(newcm)
         # print(cm_array)
 
-
-        return HttpResponseRedirect(reverse('course:view_course_material', kwargs={'cinfo':cinfo}))
+        return HttpResponseRedirect(reverse('course:view_course_material', kwargs={'cinfo': cinfo}))
     else:
-        return HttpResponseRedirect(reverse('course:view_course_material', kwargs={'cinfo':cinfo}))
+        return HttpResponseRedirect(reverse('course:view_course_material', kwargs={'cinfo': cinfo}))
+
+
+def Update_Submission(request, cinfo, aid, gid):
+
+    group = db.collection(u'Courses').document(cinfo).collection(
+        u'Assignments').document(aid).collection(u'Groups').document(gid)
+
+    print(group.get().to_dict())
+
+    context = {
+        'sub': '',
+        'CourseInfo': cinfo,
+        'aid': aid,
+        'gid': gid
+    }
+
+    if request.method == 'POST':
+        # get submission file from the request and store it in the database
+        newcm = {
+            'Name': request.POST.get('filename'),
+            'Url': request.POST.get('cmurl')
+        }
+        print(context)
+        group.update({u'SubmissionFile': newcm})
+
+        return HttpResponseRedirect(reverse('course:up_submission', kwargs={
+            'cinfo': cinfo,
+            'aid': aid,
+            'gid': gid
+        }))
+
+    else:
+        # display submission file to the users
+        try:
+            context['sub'] = group.get().to_dict()['SubmissionFile']
+        except:
+            pass
+        return render(request, 'course/addSubmission.html', context)
