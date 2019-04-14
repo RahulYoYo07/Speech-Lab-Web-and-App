@@ -1,46 +1,47 @@
 {% extends "base_generic.html" %}
 {% block content %}
-<form>
+<form method="POST">
+  {% csrf_token %}
 
     <div class="form-group">
-      <label for="">TA Branch</label>
-      <select class="form-control" onchange="AddTaFormfun()" name="" id="TA_BRANCH">
-        <option onselect="">B.Tech</option>
-        <option onselect="">M.Tech</option>
+      <label for="TA_BRANCH">TA Branch</label>
+      <select class="form-control" onchange="AddTaFormfun()" name="TA_BRANCH" id="TA_BRANCH">
+        <option onselect="">BTech</option>
+        <option onselect="">MTech</option>
         <option selected onselect="">PhD</option>
       </select>
     </div>
 
     
-    <div class="form-group" style="display:none;" id = "B.TechTA">
-      <label for="">TA ID</label>
-      <select class="form-control" name="" id="">
+    <div class="form-group" style="display:none;" id = "BTechTA">
+      <label for="BTechTA">TA ID</label>
+      <select class="form-control" name="BTechTA" id="">
     {% for stud in BTech %}
-        <option>{{ stud.FirstName }}</option>
+        <option>{{ stud.FirstName}}-{{ stud.username }}</option>
     {% endfor %}
       </select>
     </div>
 
 
-    <div class="form-group" style="display:none;" id = "M.TechTA">
-      <label for="">TA ID</label>
-      <select class="form-control" name="" id="">
+    <div class="form-group" style="display:none;" id = "MTechTA">
+      <label for="MTechTA">TA ID</label>
+      <select class="form-control" name="MTechTA" id="">
     {% for stud in MTech %}
-        <option>{{ stud.FirstName }}</option>
+        <option>{{ stud.FirstName}}-{{ stud.username }}</option>
     {% endfor %}
       </select>
     </div>
 
-    <div class="form-group" style="" id = PhDTA>
-      <label for="">TA ID</label>
-      <select class="form-control" name="" id="">
+    <div class="form-group" style="display:block;" id = "PhDTA">
+      <label for="PhDTA">TA ID</label>
+      <select class="form-control" name="PhDTA" id="">
     {% for stud in Phd %}
-        <option>{{ stud.FirstName }}</option>
+        <option>{{ stud.FirstName}}-{{ stud.username }}</option>        
     {% endfor %}
       </select>
     </div>
 
-    <h3> TA Permissions </h3>
+    {% comment %} <h3> TA Permissions </h3>
 
     <div class="form-check">
       <label class="form-check-label">
@@ -89,6 +90,7 @@
         <input type="checkbox" class="form-check-input" name="ManSubDeadline" id="ManSubDeadline" value="" unchecked>
         Manage Submission Deadline
       </label>
-    </div>
+    </div> {% endcomment %}
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-{% endblock content %}
+{% endblock %}

@@ -72,17 +72,18 @@ def Enroll_CoursePage(request, cinfo):
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
-        copydata = db.collection(u'Users').document(username).get().to_dict()['couseList']
+        copydata = db.collection(u'Users').document(
+            username).get().to_dict()['couseList']
         print(copydata)
         datay = {
-            u'CourseID' :  db.collection(u'Courses').document(cinfo)
+            u'CourseID':  db.collection(u'Courses').document(cinfo)
         }
         copydata.append(datay)
         print(copydata)
         dbdata = main['EnrollmentKey']
         if dbdata == postdata:
             data = {
-                 u'couseList' : copydata
+                u'couseList': copydata
             }
             updateit = db.collection(u'Users').document(username)
             updateit.update(data)
@@ -172,6 +173,24 @@ def AddAssgn(request, cinfo):
     return render(request, 'course/addassgnform.html')
 
 
+def viewTA(request, cinfo):
+    username = 'pradip'
+    TAList = db.collection(u'Courses').document(
+        cinfo).get().to_dict()["TAList"]
+
+    talist = list()
+
+    for TA in TAList:
+        talist.append(TA.get().to_dict())
+
+    context = {
+        'TA': talist,
+        'CourseInfo': cinfo
+    }
+
+    return render(request, 'course/viewTA.html', context)
+
+
 def ViewAssgn(request, cinfo, aid):
     username = "pradip"
     #cid += "_" + username + " _" + cyear
@@ -195,6 +214,28 @@ def AddTA(request, cinfo):
         'Phd': Phd,
 
     }
+
+    if request.method == 'POST':
+        ref_course = db.collection(u'Courses').document(cinfo)
+        stuType = request.POST.get("TA_BRANCH", "")
+        stuID = request.POST.get(stuType+"TA", "")
+        stuID = stuID.split('-')[1]
+        ref_TA = db.collection(u'Users').document(stuID)
+        currTA = ref_course.get().to_dict()['TAList']
+        if ref_TA not in currTA:
+            currTA.append(ref_TA)
+        else:
+            # show error message or resolve before hand
+            pass
+
+        # aid = request.POST.get("AssignmentID", "")
+        data = {
+            u'TAList': currTA
+        }
+        db.collection(u'Courses').document(cinfo).update(data)
+
+        return render(request, 'course/AddTA.html', context)
+
     return render(request, 'course/AddTA.html', context)
 
 
@@ -207,7 +248,8 @@ def getStudents():
 
     for user in users_ref:
         userdict = user.to_dict()
-    
+
+        # Remove the first if condition
         if "Designation" in userdict.keys() and userdict["Designation"] == "Student":
 
             if userdict["Program"] == "Btech":
