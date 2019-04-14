@@ -260,6 +260,8 @@ def ViewAssgn(request, cinfo, aid):
         GroupDetails.append(group.to_dict())
     context = {
         'GroupDetails': GroupDetails,
+        'cinfo' : cinfo,
+        'aid' : aid,
     }
     return render(request, 'course/viewassgn.html', context)
 
@@ -404,3 +406,40 @@ def Update_Submission(request, cinfo, aid, gid):
         except:
             pass
         return render(request, 'course/addSubmission.html', context)
+
+def ViewGroup(request, cinfo, aid, gid):
+    username = "pradip"
+    #cid += "_" + username + " _" + cyear
+    group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).get()
+    GroupDetails = group_ref.to_dict()
+    context = {
+        'cinfo' : cinfo,
+        'aid' : aid,
+        'GroupDetails' : GroupDetails,
+    }
+    print("Hello")
+    print(GroupDetails)
+    print("Hello")
+    return render(request, 'course/viewgroup.html', context)
+
+def UpdateGroup(request, cinfo, aid, gid):
+    username = "pradip"
+    if request.method == 'POST':
+        #ref_prof = db.collection(u'Users').document(username)
+        data = {
+            u'ProjectTitle' : request.POST.get("ProjectTitle",""),
+            u'ProblemStatement' : request.POST.get("ProblemStatement","")
+        }
+        print(data)
+        db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).update(data)
+        group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).get()
+        GroupDetails = group_ref.to_dict()
+        context = {
+            'cinfo' : cinfo,
+            'aid' : aid,
+            'GroupDetails' : GroupDetails,
+        }
+
+        return render(request,'course/viewgroup.html', context)
+
+    return render(request, 'course/updategroupform.html')

@@ -17,6 +17,7 @@
 
 
 {% block content %}
+{% if studentinfo %}
 <form method="POST">
     {% csrf_token %}
     {% for student in studentinfo %}
@@ -29,6 +30,11 @@
     {% endfor %}
     <button type="submit" class="btn btn-primary">Update Attendance</button>
 </form>
+{% else %}
+<div class="jumbotron">
+  <p>No Students Added</p>
+</div>
+{% endif %}
 
 
 
