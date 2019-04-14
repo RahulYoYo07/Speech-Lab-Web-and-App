@@ -29,7 +29,7 @@ db = firestore.client()
 
 
 def dashboard(request):
-    username = "gulat170123030"
+    username = "pradip"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
@@ -193,7 +193,6 @@ def viewTA(request, cinfo):
 
 def ViewAssgn(request, cinfo, aid):
     username = "pradip"
-    #cid += "_" + username + " _" + cyear
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').get()
     GroupDetails = []
@@ -262,3 +261,46 @@ def getStudents():
                 Phd.append(userdict)
 
     return BTech, MTech, Phd
+
+def AddCourseMaterial(request, cinfo):
+    context = {
+        'CourseInfo': cinfo,
+    }
+    return render(request, 'course/addcoursematerial.html', context)
+
+def ViewCourseMaterial(request , cinfo):
+    course_data = db.collection(u'Courses').document(cinfo).get().to_dict()
+
+    CMaterials = course_data['CourseMaterial']
+
+    context = {
+        'CMaterials': CMaterials,
+        'CourseInfo': cinfo
+    }
+    return render(request, 'course/viewcoursematerial.html', context)
+
+def StoreCMinDb(request, cinfo):
+    if request.method == 'POST':
+        course_data = db.collection(u'Courses').document(cinfo).get().to_dict()
+        newcm={}
+        newcm['Name'] = request.POST.get('filename')
+        newcm['Url'] = request.POST.get('cmurl')
+
+        if not 'CourseMaterial' in course_data:
+            cm_array=[ newcm ]
+            db.collection(u'Courses').document(cinfo).update({
+                u'CourseMaterial' : cm_array
+            })
+        else:
+            cm_array = course_data['CourseMaterial']
+            cm_array.append(newcm)
+            db.collection(u'Courses').document(cinfo).update({
+                u'CourseMaterial': cm_array
+            })
+        # print(newcm)
+        # print(cm_array)
+
+
+        return HttpResponseRedirect(reverse('course:view_course_material', kwargs={'cinfo':cinfo}))
+    else:
+        return HttpResponseRedirect(reverse('course:view_course_material', kwargs={'cinfo':cinfo}))

@@ -1,0 +1,76 @@
+{% extends "base_generic.html"%}
+
+{% block content %}
+
+<h1>Add</h1>
+
+<form action="{% url 'course:store_course_material' CourseInfo %}" id="cmform" method="POST">
+{% csrf_token %}
+<input type="file" value="cmuploader" id="cmuploader" required /><br><br>
+<button type="button" onclick="uploadcm()" >Upload</button><br><br>
+<progress value="0" max="100" id="progrescmupload">0%</progress>
+<input type="hidden" name="cmurl" id="cmurl">
+<input type="hidden" name="filename" id="filename">
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCInoPg95lxzWl9Vt9GOwG4Wsx-qzVopV4",
+    authDomain: "iitg-speech-lab.firebaseapp.com",
+    databaseURL: "https://iitg-speech-lab.firebaseio.com",
+    projectId: "iitg-speech-lab",
+    storageBucket: "iitg-speech-lab.appspot.com",
+    messagingSenderId: "257927035950"
+  };
+  firebase.initializeApp(config);
+
+
+
+  //Listener
+  // var form = document.querySelector('form');
+  // form.addEventListener('submit', function(event) {
+    // event.preventDefault();
+  function uploadcm() {
+    var cmuploader = document.getElementById('cmuploader');
+    var progrescmupload = document.getElementById('progrescmupload');
+    var file = cmuploader.files[0];
+    var subfolder = "{{ CourseInfo }}"
+    //var file = event.target.files[0];
+    var storageRef = firebase.storage().ref('Courses/' + subfolder + '/' + file.name );
+    var task = storageRef.put(file);
+
+    task.on('state_changed',
+      function progress(snapshot){
+        var perc = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progrescmupload.value = perc;
+      },
+
+      function error(err) {
+
+      },
+
+      function complete() {
+        task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          console.log('File available at', downloadURL);
+          document.getElementById('cmurl').value = downloadURL;
+          document.getElementById('filename').value = file.name;
+          document.getElementById("cmform").submit();
+          //var cmurl = "{% url 'course:store_course_material' CourseInfo %}";
+          //window.alert(cmurl);
+          alert(file.name + " Upload Success!");
+          //document.location.href = cmurl;
+
+        });
+
+      }
+    );
+  }
+
+
+</script>
+{% endblock %}
