@@ -1,0 +1,40 @@
+{% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Attendance</a>
+  </li>
+  <li>
+    <a href="{% url 'course:view_course_material' CourseInfo %}">Study Material</a>
+  </li>
+  <li>
+    <a href="#">Teaching Assistants (TAs)</a>
+  </li>
+  <li>
+    <a href="#">Grading</a>
+  </li>
+{% endblock %}
+
+
+{% block content %}
+<a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment</p></a>
+
+<div class="row">
+  {% for assgn in AssgnDetails %}
+  <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'course:view_assgn' CourseInfo assgn.AssignmentID %}">{{ assgn.AssignmentID }}</a></h5>
+        <p class="card-text">{{ assgn.Name }}</p>
+        <p class="card-text">{{ assgn.Deadline }}</p>
+      </div>
+
+        <div class = "card-footer">
+          <a href="#" class="card-link">Assignment Link</a>
+        </div>
+
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

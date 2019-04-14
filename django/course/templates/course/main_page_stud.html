@@ -1,0 +1,105 @@
+{% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Portfolio</a>
+  </li>
+  <li>
+    <a href="#">Contact</a>
+  </li>
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'course:add_course'%}"><p class="options">Add Courses</p></a>
+
+<div class="row">
+<p> Course Registered </p><br />
+{% if RegisteredCourses %}
+{% for course in RegisteredCourses %}
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
+      <div class = "card">
+
+      <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'course:view_course' course.CourseInfo %}">{{ course.CourseID }}</a></h5>
+        {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
+        <p class="card-text overflow-auto" style="height:8rem;">{{ course.AboutCourse }}</p>
+
+      </div>
+        <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
+
+      </div>
+    </div>
+
+{% endfor %}
+{% else %}
+<div class="jumbotron">You Have Not Registered In Any Course </div>
+{% endif %}
+
+<br><br>
+
+<p> Total Courses </p><br />
+{% if TotalCourses %}
+{% for course in TotalCourses %}
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
+      <div class = "card">
+
+      <div class="card-body">
+        <h5 class="card-title">{{ course.CourseID }}</h5>
+        {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
+        <p class="card-text overflow-auto" style="height:8rem;">{{ course.AboutCourse }}</p>
+
+      </div>
+        <div class="card-footer">
+          <a href="{% url 'course:enroll_course_page' course.CourseInfo %}"><button class="btn btn-success">Enroll Now</button></a>
+        </div>
+
+      </div>
+    </div>
+
+{% endfor %}
+{% else %}
+<div class="jumbotron">No Other Courses Available</div>
+{% endif %}
+
+</div>
+{% endblock %}
+
+            <div class="col-xs-12 col-sm-6 col-md-4">
+
+
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title">Sunlimetech</h4>
+                                    <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fa fa-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fa fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fa fa-skype"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fa fa-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                    </div>
+
+            </div>
