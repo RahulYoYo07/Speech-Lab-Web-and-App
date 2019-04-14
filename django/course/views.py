@@ -68,29 +68,86 @@ def dashboard(request):
 
 
 def Enroll_CoursePage(request, cinfo):
-    username = "ravi170101053"
+    username = "gulat170123030"
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
-        copydata = db.collection(u'Users').document(
-            username).get().to_dict()['couseList']
-        print(copydata)
+        copydata = db.collection(u'Users').document(username).get().to_dict()['CourseList']
         datay = {
-            u'CourseID':  db.collection(u'Courses').document(cinfo)
+            u'CourseID' :  db.collection(u'Courses').document(cinfo)
         }
         copydata.append(datay)
-        print(copydata)
+        attendance_list = db.collection(u'Courses').document(cinfo).get().to_dict()['AttendanceList']
+        atndata = {
+            u'StudentID' : db.collection(u'Users').document(username),
+            u'TotalAttendance' : 0
+        }
+        attendance_list.append(atndata)
         dbdata = main['EnrollmentKey']
-        if dbdata == postdata:
+        if dbdata == postdata :
             data = {
-                u'couseList': copydata
+                 u'CourseList' : copydata
             }
-            updateit = db.collection(u'Users').document(username)
-            updateit.update(data)
+            attndata = {
+                u'AttendanceList' : attendance_list
+            }
+            db.collection(u'Users').document(username).update(data)
+            db.collection(u'Courses').document(cinfo).update(attndata)
+        return HttpResponseRedirect(reverse('course:dashboard'))
+    else :
+        return render(request,'course/enrollcourse.html')
+
+def Update_Attendance(request, cinfo, aid, gid):
+    username = "pradip"
+    if request.method == 'POST':
+        checkedstudent = request.POST.getlist('checks[]')
+        for student in checkedstudent:
+            userref = db.collection(u'Users').document(student)
+            courseref = db.collection(u'Courses').document(cinfo).get()
+            attendance_list = courseref.to_dict()['AttendanceList']
+            index = 0
+            check = 0
+            while (check == 0) :
+                try:
+                    stud_username = attendance_list[index]['StudentID'].get().to_dict()['username']
+                    if stud_username == student :
+                        attendance_list[index]['TotalAttendance'] = attendance_list[index]['TotalAttendance']  + 1
+                        data = {
+                             u'AttendanceList' : attendance_list
+                        }
+                        db.collection(u'Courses').document(cinfo).update(data)
+                        check = 1
+                    index = index + 1
+                except:
+                    check = 1
 
         return HttpResponseRedirect(reverse('course:dashboard'))
-    else:
-        return render(request, 'course/enrollcourse.html')
+    else :
+        cinfo = "CS243"
+        aid = "As_01"
+        group_ref = db.collection(u'Courses').document(cinfo).collection(
+            u'Assignments').document(aid).collection(u'Groups').document(gid).get()
+        studentlist = group_ref.to_dict()['StudentList']
+        index = 0
+        studentinfo = []
+        check = 0
+        while(check == 0):
+            try :
+                studentinfo.append(studentlist[index]['StudentID'].get().to_dict())
+                index = index + 1
+            except:
+                check = 1
+
+        print(studentinfo)
+        context = {
+            'cinfo':cinfo ,
+            'aid':aid ,
+            'gid': gid ,
+            'studentinfo' : studentinfo,
+        }
+        return render(request,'course/updateattendance.html',context)
+
+
 
 
 def AddCourse(request):

@@ -10,6 +10,7 @@ urlpatterns = [
     path('<slug:cinfo>/assignments/add_assgn', views.AddAssgn, name='add_assgn'),
     path('<slug:cinfo>/', views.ViewCourse, name='view_course'),
     path('<slug:cinfo>/enrollcoursepage', views.Enroll_CoursePage, name='enroll_course_page'),
+    path('<slug:cinfo>/assignments/<slug:aid>/groups/<slug:gid>', views.Update_Attendance, name='update_attendance'),
     path('<slug:cinfo>/assignments/<slug:aid>/', views.ViewAssgn, name='view_assgn'),
     path('<slug:cinfo>/assignments/<slug:aid>/',
          views.ViewAssgn, name='view_assgn'),
