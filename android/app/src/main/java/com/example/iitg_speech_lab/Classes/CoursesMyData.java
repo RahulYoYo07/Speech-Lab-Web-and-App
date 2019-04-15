@@ -1,4 +1,4 @@
-package com.example.iitg_speech_lab;
+package com.example.iitg_speech_lab.Classes;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +14,10 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.iitg_speech_lab.CoursesActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,16 +25,24 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class CoursesMyData extends AppCompatActivity {
+public class CoursesMyData {
 
-    static String[] courseIDArray = {"CS201","CS333"};
-    static String[] courseNameArray = {"CS","DM"};
-    static Integer[] id_ = {0,1};
+    //static String[] courseIDArray = {};
+    //static String[] courseNameArray = {};
+    //static Integer[] id_ = {};
+    public static ArrayList<String> coursesIDList = new ArrayList<String>();
+    public static ArrayList<String> coursesNameList = new ArrayList<String>();
+    public static ArrayList<Integer> IDList = new ArrayList<Integer>();
 
-    public static void loadData(String username){
+    public static int loadData(String username, final TaskCompletionSource<Integer> taskda){
 
+        coursesIDList.clear();
+        coursesNameList.clear();
+        IDList.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Users").document(username);
         userRef.get()
@@ -42,7 +52,9 @@ public class CoursesMyData extends AppCompatActivity {
                         if( task.isSuccessful()){
                             DocumentSnapshot user = task.getResult();
                             if(user.exists()){
-                                List<DocumentReference> coursesRef = (List<DocumentReference>) user.get("ProfCourseList");
+
+                                final List<DocumentReference> coursesRef = (List<DocumentReference>) user.get("ProfCourseList");
+
                                 for ( DocumentReference cRef : coursesRef ){
                                     cRef.get()
                                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -52,13 +64,34 @@ public class CoursesMyData extends AppCompatActivity {
                                                         DocumentSnapshot course = task1.getResult();
                                                         if(course.exists())
                                                         {
-//                                                            courseIDArray.
+                                                            //Log.d("hi",course.getString("CourseID"));
+                                                            coursesIDList.add(course.getString("CourseID"));
+                                                            coursesNameList.add(course.getString("CourseName"));
+                                                            if(IDList.size()==0){
+                                                                IDList.add(0);
+                                                            }else {
+                                                                IDList.add(IDList.get(IDList.size() - 1) + 1);
+                                                            }
+
+                                                            if(coursesRef.size()==coursesIDList.size())
+                                                            {
+                                                                //Log.d("Manan","dskad");
+                                                                taskda.setResult(1);
+                                                            }
                                                         }
                                                     }
 
                                                 }
                                             });
+//                                    Log.d("Manan",Integer.toString(coursesRef.size()));
+
                                 }
+
+                                //courseIDArray = coursesIDList.toArray(courseIDArray);
+                                //courseNameArray = coursesIDList.toArray(courseNameArray);
+                                //id_ = IDList.toArray(id_);
+
+//                                Log.d("hi",Integer.toString(coursesIDList.size()));
                             }
                             else
                             {
@@ -70,7 +103,10 @@ public class CoursesMyData extends AppCompatActivity {
 
                         }
                     }
-                });
+                }
+                );
+
+        return 1;
     }
 
 
