@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Discussion_Room"></activity>
         <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".DisplayMessageActivity"
