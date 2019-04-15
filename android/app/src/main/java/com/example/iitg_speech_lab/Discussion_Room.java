@@ -47,11 +47,7 @@ public class Discussion_Room extends AppCompatActivity {
         String Heading = "<h1>" + message +" Discussion Room"+"</h1> ";
         DiscussionHeading.setText(Html.fromHtml(Heading));
 
-        // Create LinearLayout
-//        final LinearLayout ll = new LinearLayout(this);
-//        ll.setOrientation(LinearLayout.HORIZONTAL);
-//        final LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
 
         final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout);
 
@@ -65,68 +61,7 @@ public class Discussion_Room extends AppCompatActivity {
 
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        CollectionReference docRef = db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages");
-//        docRef.get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Boolean isPoll=document.getBoolean("IsPoll");
-//                                if(isPoll==false) {
-//                                    final String sourceString = "<h3>" + document.getString("MessageHead") + "</h3> " + "<p>" + document.getString("MessageBody") + "</p>";
-////                                  textView2.append(Html.fromHtml(sourceString));
-//                                    System.out.println(sourceString);
-//                                    final String messageID=document.getId();
-//                                    System.out.println(messageID);
 //
-//                                    // Create TextView
-//
-//                                    final TextView temp = new TextView(help);
-//                                    temp.setTag(messageID);
-//                                    temp.setText(Html.fromHtml(sourceString));
-//                                    final Button btn= new Button(help);
-//                                    btn.setTag(messageID);
-//                                    btn.setText("Show Replies");
-//
-//                                    btn.setOnClickListener(new View.OnClickListener() {
-//                                        public void onClick(View v) {
-//                                            if(btn.getText()=="Show Replies") {
-//                                                FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-//                                                CollectionReference docRef2 = db2.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").document(messageID).collection("Replies");
-//                                                docRef2.get()
-//                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                                            @Override
-//                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                                if (task.isSuccessful()) {
-//                                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                                                        String replyString = "<p>" + document.getString("ReplyBody") + "</p>";
-//                                                                        temp.append(Html.fromHtml(replyString));
-//                                                                    }
-//                                                                }
-//                                                            }
-//                                                        });
-//                                            btn.setText("Hide Replies");
-//                                            }
-//                                            else{
-//                                                temp.setText(Html.fromHtml(sourceString));
-//                                                btn.setText("Show Replies");
-//                                            }
-//
-//                                        }
-//                                    });
-//                                    ll.addView(temp);
-//                                    ll.addView(btn);
-//                                }
-//                            }
-//                        }
-////                        else {
-////                            Log.d(TAG, "Error getting documents: ", task.getException());
-////                        }
-//                    }
-//                });
-
-//        lm.addView(ll);
         final FirebaseFirestore db3 = FirebaseFirestore.getInstance();
         db3.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages")
                 .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
@@ -140,27 +75,58 @@ public class Discussion_Room extends AppCompatActivity {
 
 
                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                            System.out.println("first" + dc.getDocument());
-                            if(dc.getDocument().getMetadata().hasPendingWrites() == true)
-                                return;
+
                             switch (dc.getType()) {
                                 case ADDED:
+                                case MODIFIED:
                                     Boolean isPoll=dc.getDocument().getBoolean("IsPoll");
-                                    System.out.println(dc.getDocument().getString("MessageHead"));
-//                                    if(isPoll==false) {
+//                                    System.out.println(dc.getDocument().getString("MessageHead"));
+                                    if(isPoll!=null && isPoll==false) {
                                         final String sourceString = "<h3>" + dc.getDocument().getString("MessageHead") + "</h3> " + "<p>" + dc.getDocument().getString("MessageBody") + "</p>";
-//                                  textView2.append(Html.fromHtml(sourceString));
-                                        System.out.println(sourceString);
                                         final String messageID=dc.getDocument().getId();
-                                        System.out.println(messageID);
 
                                         // Create TextView
+                                        String helpid=dc.getDocument().getId();
+                                        View parrentView = findViewById( R.id.lol );
+                                        TextView helptext = (TextView) parrentView.findViewWithTag(helpid);
+                                        System.out.println(helptext);
+                                        if(helptext!=null)
+                                            break;
 
                                         final TextView temp = new TextView(help);
                                         temp.setText(Html.fromHtml(sourceString));
+                                        temp.setTag(messageID);
                                         final Button btn= new Button(help);
                                         btn.setTag(messageID);
                                         btn.setText("Show Replies");
+                                        final EditText et = new EditText(help);
+                                        et.setHint("Add Reply");
+                                        final Button replybtn= new Button(help);
+                                        replybtn.setText("Reply");
+                                        replybtn.setTag(messageID);
+
+                                        replybtn.setOnClickListener(new View.OnClickListener() {
+                                            public void onClick(View v) {
+
+                                                if(et.getText().toString()=="")
+                                                    return;
+
+                                                String Body = et.getText().toString();
+
+
+                                                Map<String, Object> data = new HashMap<>();
+                                                data.put("Author", "Udbhav Chugh");
+                                                data.put("ReplyBody",Body);
+                                                data.put("PostTime", FieldValue.serverTimestamp());
+                                                data.put("MessageID",messageID);
+
+                                                db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").document(messageID).collection("Replies")
+                                                        .add(data);
+                                                et.setText("");
+
+                                            }
+                                        });
+
 
                                         btn.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View v) {
@@ -190,9 +156,11 @@ public class Discussion_Room extends AppCompatActivity {
                                         });
                                         ll.addView(temp);
                                         ll.addView(btn);
-//                                    }
+                                        ll.addView(et);
+                                        ll.addView(replybtn);
+                                    }
                                     break;
-//                                case MODIFIED:
+
 //                                    final String modmessageid=dc.getDocument().getId();
 //                                    CollectionReference docRef = (CollectionReference) db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").document(modmessageid).collection("Replies").orderBy("PostTime", Query.Direction.DESCENDING).limit(1);
 //                                    docRef.get()
@@ -238,21 +206,6 @@ public class Discussion_Room extends AppCompatActivity {
 
         db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages")
                 .add(data);
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-//                    }
-//                });
-
-//        finish();
-//        startActivity(getIntent());
     }
 
 
