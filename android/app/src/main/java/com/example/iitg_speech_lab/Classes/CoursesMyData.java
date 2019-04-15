@@ -31,18 +31,15 @@ import java.util.List;
 
 public class CoursesMyData {
 
-    //static String[] courseIDArray = {};
-    //static String[] courseNameArray = {};
-    //static Integer[] id_ = {};
     public static ArrayList<String> coursesIDList = new ArrayList<String>();
     public static ArrayList<String> coursesNameList = new ArrayList<String>();
-    public static ArrayList<Integer> IDList = new ArrayList<Integer>();
+    public static ArrayList<String> coursesInfoList = new ArrayList<String>();
 
     public static int loadData(String username, final TaskCompletionSource<Integer> taskda){
 
         coursesIDList.clear();
         coursesNameList.clear();
-        IDList.clear();
+        coursesInfoList.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Users").document(username);
         userRef.get()
@@ -67,15 +64,10 @@ public class CoursesMyData {
                                                             //Log.d("hi",course.getString("CourseID"));
                                                             coursesIDList.add(course.getString("CourseID"));
                                                             coursesNameList.add(course.getString("CourseName"));
-                                                            if(IDList.size()==0){
-                                                                IDList.add(0);
-                                                            }else {
-                                                                IDList.add(IDList.get(IDList.size() - 1) + 1);
-                                                            }
-
+                                                            coursesInfoList.add(course.getString("CourseInfo"));
+//
                                                             if(coursesRef.size()==coursesIDList.size())
                                                             {
-                                                                //Log.d("Manan","dskad");
                                                                 taskda.setResult(1);
                                                             }
                                                         }
@@ -83,15 +75,9 @@ public class CoursesMyData {
 
                                                 }
                                             });
-//                                    Log.d("Manan",Integer.toString(coursesRef.size()));
 
                                 }
 
-                                //courseIDArray = coursesIDList.toArray(courseIDArray);
-                                //courseNameArray = coursesIDList.toArray(courseNameArray);
-                                //id_ = IDList.toArray(id_);
-
-//                                Log.d("hi",Integer.toString(coursesIDList.size()));
                             }
                             else
                             {

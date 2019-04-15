@@ -3,27 +3,26 @@ package com.example.iitg_speech_lab;
 
 public class CoursesDataModel {
 
+    String id;
     String name;
-    String version;
-    int id_;
+    String info;
 
-    public CoursesDataModel(String name, String version, int id) {
+    public CoursesDataModel(String id, String name, String info) {
+        this.id = id;
         this.name = name;
-        this.version = version;
-        this.id_ = id_;
+        this.info = info;
     }
 
+
+    public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-
-    public int getId() {
-        return id_;
+    public String getInfo() {
+        return info;
     }
 }

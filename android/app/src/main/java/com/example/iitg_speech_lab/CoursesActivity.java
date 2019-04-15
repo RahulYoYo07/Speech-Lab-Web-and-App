@@ -1,5 +1,6 @@
 package com.example.iitg_speech_lab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -81,7 +82,7 @@ public class CoursesActivity extends AppCompatActivity {
                     data.add(new CoursesDataModel(
                             CoursesMyData.coursesIDList.get(i),
                             CoursesMyData.coursesNameList.get(i),
-                            CoursesMyData.IDList.get(i)
+                            CoursesMyData.coursesInfoList.get(i)
                     ));
                 }
 
@@ -96,7 +97,7 @@ public class CoursesActivity extends AppCompatActivity {
     }
 
 
-    private static class MyOnClickListener implements View.OnClickListener {
+    private class MyOnClickListener implements View.OnClickListener {
 
         private final Context context;
 
@@ -106,58 +107,36 @@ public class CoursesActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            removeItem(v);
+            viewCourse(v);
         }
 
-        private void removeItem(View v) {
+        private void viewCourse(View v) {
             int selectedItemPosition = recyclerView.getChildPosition(v);
             RecyclerView.ViewHolder viewHolder
                     = recyclerView.findViewHolderForPosition(selectedItemPosition);
             TextView textViewName
                     = viewHolder.itemView.findViewById(R.id.textViewName);
             String selectedName = ( String ) textViewName.getText();
-            int selectedItemId = -1;
+            //int selectedItemId = -1;
 
-            for (int i = 0; i < CoursesMyData.coursesIDList.size(); i++) {
-                if (selectedName.equals(CoursesMyData.coursesIDList.get(i))) {
-                    selectedItemId = CoursesMyData.IDList.get(i);
-                }
-            }
-            removedItems.add(selectedItemId);
-            data.remove(selectedItemPosition);
-            adapter.notifyItemRemoved(selectedItemPosition);
+//            for (int i = 0; i < CoursesMyData.coursesIDList.size(); i++) {
+//                if (selectedName.equals(CoursesMyData.coursesIDList.get(i))) {
+//                    //selectedItemId = CoursesMyData.coursesInfoList.get(i);
+//                }
+//            }
+//            removedItems.add(selectedItemId);
+//            data.remove(selectedItemPosition);
+//            adapter.notifyItemRemoved(selectedItemPosition);
+
+            Log.d("aman",selectedName);
+            String cinfo = (String) viewHolder.itemView.getTag();
+            Log.d("aman",cinfo);
+            Intent intent = new Intent(CoursesActivity.this, ViewCourse.class);
+            intent.putExtra("courseInfo",cinfo);
+            startActivity(intent);
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_courses, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        if (item.getItemId() == R.id.add_item) {
-            //check if any items to add
-            if (removedItems.size() != 0) {
-                addRemovedItemToList();
-            } else {
-                Toast.makeText(this, "Nothing to add", Toast.LENGTH_SHORT).show();
-            }
-        }
-        return true;
-    }
 
-    private void addRemovedItemToList() {
-        int addItemAtListPosition = 3;
-        data.add(addItemAtListPosition, new CoursesDataModel(
-                CoursesMyData.coursesIDList.get(removedItems.get(0)),
-                CoursesMyData.coursesNameList.get(removedItems.get(0)),
-                CoursesMyData.IDList.get(removedItems.get(0))
-        ));
-        adapter.notifyItemInserted(addItemAtListPosition);
-        removedItems.remove(0);
-    }
 }

@@ -48,8 +48,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         TextView textViewName = holder.textViewName;
         TextView textViewVersion = holder.textViewVersion;
 
-        textViewName.setText(dataSet.get(listPosition).getName());
-        textViewVersion.setText(dataSet.get(listPosition).getVersion());
+        textViewName.setText(dataSet.get(listPosition).getId());
+        textViewVersion.setText(dataSet.get(listPosition).getName());
+
+        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
     }
 
     @Override
