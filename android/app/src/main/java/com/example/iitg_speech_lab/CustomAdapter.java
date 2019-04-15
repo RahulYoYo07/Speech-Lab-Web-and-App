@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,42 +14,42 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     private ArrayList<CoursesDataModel> dataSet;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewName;
-        TextView textViewVersion;
+        TextView textViewCourseID;
+        TextView textViewCourseName;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
-            this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            this.textViewVersion = (TextView) itemView.findViewById(R.id.textViewVersion);
+            this.textViewCourseID = itemView.findViewById(R.id.textViewCourseID);
+            this.textViewCourseName = itemView.findViewById(R.id.textViewCourseName);
         }
     }
 
-    public CustomAdapter(ArrayList<CoursesDataModel> data) {
+    CustomAdapter(ArrayList<CoursesDataModel> data) {
         this.dataSet = data;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent,
+    @NonNull
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                            int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cards_layout, parent, false);
 
         view.setOnClickListener(CoursesActivity.myOnClickListener);
 
-        MyViewHolder myViewHolder = new MyViewHolder(view);
-        return myViewHolder;
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
 
-        TextView textViewName = holder.textViewName;
-        TextView textViewVersion = holder.textViewVersion;
+        TextView textViewCourseID = holder.textViewCourseID;
+        TextView textViewCourseName = holder.textViewCourseName;
 
-        textViewName.setText(dataSet.get(listPosition).getId());
-        textViewVersion.setText(dataSet.get(listPosition).getName());
+        textViewCourseID.setText(dataSet.get(listPosition).getId());
+        textViewCourseName.setText(dataSet.get(listPosition).getName());
 
         holder.itemView.setTag(dataSet.get(listPosition).getInfo());
     }

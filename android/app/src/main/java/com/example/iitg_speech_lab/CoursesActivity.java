@@ -9,13 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.iitg_speech_lab.Classes.CoursesMyData;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,12 +48,12 @@ public class CoursesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Add a new Courses", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
-        myOnClickListener = new MyOnClickListener(this);
+        myOnClickListener = new MyOnClickListener();
 
         recyclerView = ( RecyclerView ) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -99,10 +95,7 @@ public class CoursesActivity extends AppCompatActivity {
 
     private class MyOnClickListener implements View.OnClickListener {
 
-        private final Context context;
-
-        private MyOnClickListener(Context context) {
-            this.context = context;
+        private MyOnClickListener() {
         }
 
         @Override
@@ -111,11 +104,11 @@ public class CoursesActivity extends AppCompatActivity {
         }
 
         private void viewCourse(View v) {
-            int selectedItemPosition = recyclerView.getChildPosition(v);
+            int selectedItemPosition = recyclerView.getChildLayoutPosition(v);
             RecyclerView.ViewHolder viewHolder
-                    = recyclerView.findViewHolderForPosition(selectedItemPosition);
+                    = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
             TextView textViewName
-                    = viewHolder.itemView.findViewById(R.id.textViewName);
+                    = viewHolder.itemView.findViewById(R.id.textViewCourseID);
             String selectedName = ( String ) textViewName.getText();
             //int selectedItemId = -1;
 
