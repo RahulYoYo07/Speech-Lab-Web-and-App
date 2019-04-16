@@ -61,7 +61,7 @@ public class AddCourse extends AppCompatActivity {
                 String CStartType = StartSemType.getSelectedItem().toString();
                 Integer CEndYear = Integer.parseInt(EndYear.getText().toString());
                 String CEndType = EndSemType.getSelectedItem().toString();
-                Integer Weight = Integer.parseInt(Weighted.getText().toString());
+                final Integer Weight = Integer.parseInt(Weighted.getText().toString());
                 Map<String,Object> CourseMap = new HashMap<>();
                 CourseMap.put("AboutCourse",CAbout);
                 CourseMap.put("CourseID",Cid);
@@ -76,13 +76,19 @@ public class AddCourse extends AppCompatActivity {
                 EndSem.put("Session",CEndYear);
                 CourseMap.put("EndSemester",EndSem);
                 CourseMap.put("Weightage",Weight);
-//                ref.document(Cid).set(CourseMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Toast.makeText(AddCourse.this);
-//                    }
-//                });
-                ref.document(Cid).set(CourseMap);
+                ref.document(Cid).set(CourseMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        CourseName.setText("");
+                        CourseID.setText("");
+                        AboutCourse.setText("");
+                        EnrollmentKey.setText("");
+                        StartYear.setText("");
+                        EndYear.setText("");
+                        Weighted.setText("");
+                        Toast.makeText(AddCourse.this, "Course Created", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
