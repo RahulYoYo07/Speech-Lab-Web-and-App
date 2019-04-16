@@ -9,9 +9,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firestore.v1.WriteResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +49,7 @@ public class AddCourse extends AppCompatActivity {
         Add_Course = (Button) findViewById(R.id.Add_Course);
         db = FirebaseFirestore.getInstance();
         ref = db.collection("Courses");
+
         Add_Course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,24 +57,32 @@ public class AddCourse extends AppCompatActivity {
                 String Cid = CourseID.getText().toString();
                 String CAbout = AboutCourse.getText().toString();
                 String CEnroll = EnrollmentKey.getText().toString();
-                String CStartYear = StartYear.getText().toString();
+                Integer CStartYear = Integer.parseInt(StartYear.getText().toString());
                 String CStartType = StartSemType.getSelectedItem().toString();
-                String CEndYear = EndYear.getText().toString();
+                Integer CEndYear = Integer.parseInt(EndYear.getText().toString());
                 String CEndType = EndSemType.getSelectedItem().toString();
                 Integer Weight = Integer.parseInt(Weighted.getText().toString());
-                Courses Course = new Courses(
-                        CAbout,
-                        Cname,
-                        Cid,
-                        CEnroll,
-                        CStartYear,
-                        CStartType,
-                        CEndYear,
-                        CEndType,
-                        Weight
-                );
-                ref.document(Cid).set(Course);
-
+                Map<String,Object> CourseMap = new HashMap<>();
+                CourseMap.put("AboutCourse",CAbout);
+                CourseMap.put("CourseID",Cid);
+                CourseMap.put("EnrollmentKey",CEnroll);
+                CourseMap.put("CourseName",Cname);
+                Map<String,Object> StartSem = new HashMap<>();
+                StartSem.put("SemesterType",CStartType);
+                StartSem.put("Session",CStartYear);
+                CourseMap.put("StartSemester",StartSem);
+                Map<String,Object> EndSem = new HashMap<>();
+                EndSem.put("SemesterType",CEndType);
+                EndSem.put("Session",CEndYear);
+                CourseMap.put("EndSemester",EndSem);
+                CourseMap.put("Weightage",Weight);
+//                ref.document(Cid).set(CourseMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(AddCourse.this);
+//                    }
+//                });
+                ref.document(Cid).set(CourseMap);
             }
         });
     }
