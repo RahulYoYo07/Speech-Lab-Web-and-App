@@ -58,7 +58,7 @@ var tempdata;
             ReplyButton.setAttribute("style", "margin-left: 2em");
             ReplyButton.value = 'Reply';
             ReplyButton.onclick = function(){
-                alert(MessageID);
+                // alert(MessageID);
                 chatSocket.send(JSON.stringify({
                     'IsReply': true,
                     'ShowReply': false,
@@ -89,7 +89,7 @@ var tempdata;
                       'CourseGroupID': CourseGroupID,
                       'MessageID': MessageID,
                   }));
-                  alert('after cht ckt 2');
+                  // alert('after cht ckt 2');
                 }
                 else {
                   open = false;
