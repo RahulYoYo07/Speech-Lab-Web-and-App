@@ -1,0 +1,35 @@
+{% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Attendance</a>
+  </li>
+  <li>
+    <a href="#">Study Material</a>
+  </li>
+  <li>
+    <a href="#">Teaching Assistants (TAs)</a>
+  </li>
+  <li>
+    <a href="#">Grading</a>
+  </li>
+{% endblock %}
+
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {% for student in studentinfo %}
+    <div class="jumbotron">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" name = "checks[]" value = {{student.username}} id = "{{student.username}}">
+        <label class="form-check-label" for="{{student.username}}">{{student.username}}</label>
+      </div>
+   </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Update Attendance</button>
+</form>
+
+
+
+{% endblock %}

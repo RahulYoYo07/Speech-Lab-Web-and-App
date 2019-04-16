@@ -45,10 +45,13 @@ public class CoursesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Add a new Courses", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Intent intent = new Intent(CoursesActivity.this, AddCourse.class);
+                startActivity(intent);
+//                        .setAction("Action", null).show();
             }
         });
+
 
         myOnClickListener = new MyOnClickListener();
 
@@ -86,6 +89,7 @@ public class CoursesActivity extends AppCompatActivity {
 
 
     }
+
 
 
     private class MyOnClickListener implements View.OnClickListener {
