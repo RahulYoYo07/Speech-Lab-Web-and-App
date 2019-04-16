@@ -1,4 +1,4 @@
-package com.example.iitg_speech_lab;
+package com.example.iitg_speech_lab.Class;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +35,7 @@ public class CoursesMyData {
     public static ArrayList<String> coursesNameList = new ArrayList<String>();
     public static ArrayList<String> coursesInfoList = new ArrayList<String>();
 
-    public static int loadData(String username, final TaskCompletionSource<Integer> taskda){
+    public static int loadCourses(String username, final TaskCompletionSource<Integer> taskda){
 
         coursesIDList.clear();
         coursesNameList.clear();

@@ -3,7 +3,6 @@ package com.example.iitg_speech_lab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +12,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
+import com.example.iitg_speech_lab.Class.CoursesMyData;
+import com.example.iitg_speech_lab.Model.CoursesDataModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -65,7 +66,7 @@ public class CoursesActivity extends AppCompatActivity {
         task1 = new TaskCompletionSource<>();
         task2 = task1.getTask();
         Log.d("yo",username);
-        CoursesMyData.loadData(username,task1);
+        CoursesMyData.loadCourses(username,task1);
 
         allTask = Tasks.whenAll(task2);
 

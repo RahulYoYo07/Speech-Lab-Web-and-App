@@ -1,4 +1,4 @@
-package com.example.iitg_speech_lab;
+package com.example.iitg_speech_lab.Model;
 
 
 public class CoursesDataModel {

@@ -16,10 +16,12 @@ import android.widget.Toast;
 
 public class ViewCourse extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static String courseInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String courseInfo = getIntent().getStringExtra("courseInfo");
+        courseInfo = getIntent().getStringExtra("courseInfo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_course);
         Toolbar toolbar = findViewById(R.id.toolbar);

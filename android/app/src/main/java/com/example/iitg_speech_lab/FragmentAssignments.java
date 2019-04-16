@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.iitg_speech_lab.Class.AssignmentsMyData;
+import com.example.iitg_speech_lab.Model.AssignmentsDataModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -24,7 +26,8 @@ import java.util.ArrayList;
 public class FragmentAssignments extends Fragment {
     private static RecyclerView.Adapter adapter;
     private static RecyclerView recyclerView;
-    private static ArrayList<CoursesDataModel> data;
+    private static ArrayList<AssignmentsDataModel> data;
+    static View.OnClickListener myOnClickListener;
     public TaskCompletionSource<Integer> task1;
     public Task task2;
     private Task<Void> allTask;
@@ -42,7 +45,8 @@ public class FragmentAssignments extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.V = view;
-        String username = "pradip";
+        String courseInfo = ViewCourse.courseInfo;
+
         Log.d("yomanas", "onViewCreated");
 
 
@@ -54,7 +58,7 @@ public class FragmentAssignments extends Fragment {
         Log.d("yomanas","before getContext");
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        Log.d("yomanas","after getContext");
+        //Log.d("yomanas","after getContext");
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         Log.d("yomanas","recyclerview Layout and Animator set");
@@ -62,7 +66,7 @@ public class FragmentAssignments extends Fragment {
         task1 = new TaskCompletionSource<>();
         task2 = task1.getTask();
         Log.d("yomanas","about to LoadData");
-        CoursesMyData.loadData(username,task1);
+        AssignmentsMyData.loadAssignments(courseInfo,task1);
 
         allTask = Tasks.whenAll(task2);
 
@@ -70,54 +74,55 @@ public class FragmentAssignments extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 data = new ArrayList<>();
-                Log.d("yo",Integer.toString(CoursesMyData.coursesIDList.size()));
-                for (int i = 0; i < CoursesMyData.coursesIDList.size(); i++) {
-                    data.add(new CoursesDataModel(
-                            CoursesMyData.coursesIDList.get(i),
-                            CoursesMyData.coursesNameList.get(i),
-                            CoursesMyData.coursesInfoList.get(i)
+                Log.d("yo",Integer.toString(AssignmentsMyData.assignmentsInfoList.size()));
+                for (int i = 0; i < AssignmentsMyData.assignmentsInfoList.size(); i++) {
+                    data.add(new AssignmentsDataModel(
+                            AssignmentsMyData.assignmentsInfoList.get(i),
+                            AssignmentsMyData.assignmentsNameList.get(i),
+                            AssignmentsMyData.assignmentsDeadlineList.get(i)
                     ));
                 }
 
-                adapter = new CustomAdapter(data);
+                adapter = new AssignmentsCustomAdapter(data);
                 recyclerView.setAdapter(adapter);
             }
         });
     }
-//    private class MyOnClickListener implements View.OnClickListener {
-//
-//        private MyOnClickListener() {
-//        }
-//
-//        @Override
-//        public void onClick(View v) {
-//            viewCourse(v);
-//        }
-//
-//        private void viewCourse(View v) {
-//            int selectedItemPosition = recyclerView.getChildLayoutPosition(v);
-//            RecyclerView.ViewHolder viewHolder
-//                    = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
-//            TextView textViewName
-//                    = viewHolder.itemView.findViewById(R.id.textViewCourseID);
-//            String selectedName = ( String ) textViewName.getText();
-//            //int selectedItemId = -1;
-//
-////            for (int i = 0; i < CoursesMyData.coursesIDList.size(); i++) {
-////                if (selectedName.equals(CoursesMyData.coursesIDList.get(i))) {
-////                    //selectedItemId = CoursesMyData.coursesInfoList.get(i);
-////                }
-////            }
-////            removedItems.add(selectedItemId);
-////            data.remove(selectedItemPosition);
-////            adapter.notifyItemRemoved(selectedItemPosition);
-//
-//            Log.d("aman",selectedName);
-//            String cinfo = (String) viewHolder.itemView.getTag();
-//            Log.d("aman",cinfo);
-//            Intent intent = new Intent(CoursesActivity.this, ViewCourse.class);
+    private class MyOnClickListener implements View.OnClickListener {
+
+        private MyOnClickListener() {
+        }
+
+        @Override
+        public void onClick(View v) {
+            viewAssignment(v);
+        }
+
+        private void viewAssignment(View v) {
+            int selectedItemPosition = recyclerView.getChildLayoutPosition(v);
+            RecyclerView.ViewHolder viewHolder
+                    = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
+            TextView textViewName
+                    = viewHolder.itemView.findViewById(R.id.textViewCourseID);
+            String selectedName = ( String ) textViewName.getText();
+            //int selectedItemId = -1;
+
+//            for (int i = 0; i < AssignmentsMyData.assignmentsIDList.size(); i++) {
+//                if (selectedName.equals(AssignmentsMyData.assignmentsIDList.get(i))) {
+//                    //selectedItemId = AssignmentsMyData.assignmentsInfoList.get(i);
+//                }
+//            }
+//            removedItems.add(selectedItemId);
+//            data.remove(selectedItemPosition);
+//            adapter.notifyItemRemoved(selectedItemPosition);
+
+            Log.d("aman",selectedName);
+            String ainfo = (String) viewHolder.itemView.getTag();
+            Log.d("aman",ainfo);
+//            Intent intent = new Intent(AssignmentsActivity.this, ViewCourse.class);
 //            intent.putExtra("courseInfo",cinfo);
 //            startActivity(intent);
-//        }
+        }
+    }
 }
 
