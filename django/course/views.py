@@ -146,6 +146,43 @@ def Update_Attendance(request, cinfo, aid, gid):
         return render(request,'course/updateattendance.html',context)
 
 
+def Show_Attendance(request, cinfo):
+    username = "pradip"
+    course_ref = db.collection(u'Courses').document(cinfo).get()
+    course_arr = course_ref.to_dict()['AttendanceList']
+    list = []
+    for user in course_arr :
+        temp_dict = {
+		      "StudentName" : user['StudentID'].get().to_dict()['FullName'],
+              "Attendance" : user['TotalAttendance']
+	    }
+        list.append(temp_dict)
+
+    context = {
+        'list':list,
+        'CourseInfo':cinfo,
+    }
+
+    return render(request,'course/show_attendance.html',context)
+
+
+def Add_Grade(request, cinfo, aid, gid) :
+    if request.method == "POST":
+
+
+
+    else :
+        group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid)
+        group_data = group_ref.get().to_dict()['StudentList']
+        user_list = []
+        for user in group_data :
+            user_list.append(user.get().to_dict())
+
+        print(user_list)
+
+
+        return render(request,"course/")
+
 
 
 def AddCourse(request):

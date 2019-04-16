@@ -2,7 +2,7 @@
 
 {% block sidebar %}
   <li>
-    <a href="#">Attendance</a>
+    <a href="{% url 'course:show_attendance' CourseInfo %}">View Attendance</a>
   </li>
   <li>
     <a href="{% url 'course:view_course_material' CourseInfo %}">Study Material</a>

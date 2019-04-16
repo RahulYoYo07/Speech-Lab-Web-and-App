@@ -1,0 +1,31 @@
+{% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="{% url 'course:show_attendance' CourseInfo %}">View Attendance</a>
+  </li>
+  <li>
+    <a href="{% url 'course:view_course_material' CourseInfo %}">Study Material</a>
+  </li>
+  <li>
+    <a href="#">Teaching Assistants (TAs)</a>
+  </li>
+  <li>
+    <a href="#">Grading</a>
+  </li>
+{% endblock %}
+
+
+{% block content %}
+{% if list %}
+{% for people in list %}
+<div class="jumbotron">
+  <p>Student : {{people.StudentName}} <br /> Attendance: {{people.Attendance}}</p>
+</div>
+{% endfor %}
+{% else %}
+<div class="jumbotron">
+  <p>No Studeents In This Course Yet</p>
+</div>
+{% endif %}
+{% endblock %}
