@@ -1,0 +1,40 @@
+{% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Set Deadline</a>
+  </li>
+  <li>
+    <a href="#">Grading</a>
+  </li>
+  <li>
+    <a href="#">Manually Form Group</a>
+  </li>
+  <li>
+    <a href="#">Randomly Allocate Groups</a>
+  </li>
+  <li>
+    <a href="#">View Submissions</a>
+  </li>
+{% endblock %}
+
+
+{% block content %}
+{% if user_list %}
+<form method="POST">
+  {% csrf_token %}
+  {% for student in user_list %}
+    <div class="form-group">
+      <label for="exampleInputEmail1">{{student.FullName}}</label>
+      <input type="number" class="form-control" name={{student.username}} aria-describedby="aboutcourse" value=0>
+    </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-success">Submit Grade</button>
+</form>
+{% else %}
+<div class="jumbotron">
+  <p>No Students Present To Be Graded In This Group</p>
+</div>
+{% endif %}
+
+{% endblock %}

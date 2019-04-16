@@ -13,7 +13,7 @@ urlpatterns = [
     path('<slug:cinfo>/assignments/<slug:aid>/groups/<slug:gid>', views.Update_Attendance, name='update_attendance'),
     path('<slug:cinfo>/course_attendance', views.Show_Attendance, name='show_attendance'),
     path('<slug:cinfo>/assignments/<slug:aid>/', views.ViewAssgn, name='view_assgn'),
-    path('<slug:cinfo>/assignments/<slug:aid>/groups/<slug:gid>', views.Add_Grade, name='add_grade'),
+    path('<slug:cinfo>/assignments/<slug:aid>/groups/<slug:gid>/add_grade', views.Add_Grade, name='add_grade'),
     path('<slug:cinfo>/assignments/<slug:aid>/',
          views.ViewAssgn, name='view_assgn'),
     path('<slug:cinfo>/addta', views.AddTA, name='add_TA'),

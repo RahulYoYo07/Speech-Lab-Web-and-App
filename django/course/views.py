@@ -167,23 +167,39 @@ def Show_Attendance(request, cinfo):
 
 
 def Add_Grade(request, cinfo, aid, gid) :
-    if request.method == "POST":
-
-
+    group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid)
+    group_data = group_ref.get().to_dict()['StudentList']
+    if request.method == "POST" :
+        for user in group_data :
+            Igrade = user['Grade']
+            user['Grade'] = int(request.POST.get(user['StudentID'].get().to_dict()['username']))
+            user_ref = user['StudentID']
+            Course_Data = db.collection(u'Courses').document(cinfo).get().to_dict()['StudentList']
+            for users in Course_Data :
+                if users['StudentID'] == user['StudentID'] :
+                    users['Grade'] = users['Grade'] + user['Grade'] - Igrade
+            data = {
+                u'StudentList' : Course_Data
+            }
+            db.collection(u'Courses').document(cinfo).update(data)
+        data_main = {
+            u'StudentList' : group_data
+        }
+        db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).update(data_main)
+        return HttpResponseRedirect(reverse('course:dashboard'))
 
     else :
-        group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid)
-        group_data = group_ref.get().to_dict()['StudentList']
         user_list = []
         for user in group_data :
-            user_list.append(user.get().to_dict())
+            user_list.append(user['StudentID'].get().to_dict())
 
-        print(user_list)
-
-
-        return render(request,"course/")
-
-
+        context = {
+            'user_list' : user_list,
+            'cinfo' : cinfo,
+            'aid' : aid,
+            'gid' : gid
+        }
+        return render(request,'course/addgrade.html',context)
 
 def AddCourse(request):
     username = "pradip"
