@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:tag="cards main container"
-    android:background="@android:color/darker_gray">
+    android:background="@color/grey_300">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
@@ -16,43 +16,37 @@
         card_view:cardElevation="8dp"
         card_view:cardUseCompatPadding="true">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_marginTop="12dp"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:baselineAligned="false">
 
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/textViewCourseID"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_weight="3"
-                android:orientation="vertical"
-                >
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="CS242"
+                android:textSize="36sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-                <TextView
-                    android:id="@+id/textViewCourseID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:text="CS242"
-                    android:textSize="36sp"
-                    android:textAppearance="?android:attr/textAppearanceLarge"/>
+            <TextView
+                android:id="@+id/textViewCourseName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
 
-                <TextView
-                    android:id="@+id/textViewCourseName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="10dp"
+                android:text="Software Engineering Course"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-                    android:text="Software Engineering Course"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-            </LinearLayout>
         </LinearLayout>
+
 
     </android.support.v7.widget.CardView>
 

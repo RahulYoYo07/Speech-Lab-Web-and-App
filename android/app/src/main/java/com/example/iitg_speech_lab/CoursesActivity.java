@@ -25,11 +25,9 @@ import java.util.ArrayList;
 public class CoursesActivity extends AppCompatActivity {
 
     private static RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView recyclerView;
     private static ArrayList<CoursesDataModel> data;
     static View.OnClickListener myOnClickListener;
-    private static ArrayList<Integer> removedItems;
     public TaskCompletionSource<Integer> task1;
     public Task task2;
     private Task<Void> allTask;
@@ -55,10 +53,10 @@ public class CoursesActivity extends AppCompatActivity {
 
         myOnClickListener = new MyOnClickListener();
 
-        recyclerView = ( RecyclerView ) findViewById(R.id.my_recycler_view);
+        recyclerView = findViewById(R.id.courses_recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -72,7 +70,7 @@ public class CoursesActivity extends AppCompatActivity {
         allTask.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                data = new ArrayList<CoursesDataModel>();
+                data = new ArrayList<>();
                 Log.d("yo",Integer.toString(CoursesMyData.coursesIDList.size()));
                 for (int i = 0; i < CoursesMyData.coursesIDList.size(); i++) {
                     data.add(new CoursesDataModel(
@@ -81,8 +79,6 @@ public class CoursesActivity extends AppCompatActivity {
                             CoursesMyData.coursesInfoList.get(i)
                     ));
                 }
-
-                removedItems = new ArrayList<Integer>();
 
                 adapter = new CustomAdapter(data);
                 recyclerView.setAdapter(adapter);
