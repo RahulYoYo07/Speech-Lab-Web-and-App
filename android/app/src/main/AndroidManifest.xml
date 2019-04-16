@@ -9,11 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContactUs"
-            android:parentActivityName = ".Master">
-        </activity>
-        <activity android:name=".FAQ"
-            android:parentActivityName = ".Master"/>
+        <activity android:name=".EditHomePageDetails"></activity>
+        <activity android:name=".AddFaq" />
+        <activity android:name=".ProjectDetails" />
+        <activity android:name=".Projects" />
+        <activity android:name=".EditProfile" />
+        <activity android:name=".PrivateProfileDetails" />
+        <activity android:name=".PublicProfileDetails" />
+        <activity
+            android:name=".ContactUs"
+            android:parentActivityName=".Master" />
+        <activity
+            android:name=".FAQ"
+            android:parentActivityName=".Master" />
         <activity
             android:name=".Master"
             android:label="@string/title_activity_master"
@@ -24,8 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewPeople"
-            android:parentActivityName = ".Master"/>
+        <activity
+            android:name=".ViewPeople"
+            android:parentActivityName=".Master" />
         <activity
             android:name=".CoursesActivity"
             android:label="@string/title_activity_courses"
