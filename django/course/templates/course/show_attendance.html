@@ -20,7 +20,7 @@
 {% if list %}
 {% for people in list %}
 <div class="jumbotron">
-  <p>Student : {{people.StudentName}} <br /> Attendance: {{people.Attendance}}</p>
+  <p>Student : {{people.StudentName}} <br /> Attendance: {{people.Attendance}} <br /> Total Marks: {{people.grade}}</p>
 </div>
 {% endfor %}
 {% else %}
