@@ -1,4 +1,4 @@
-package com.example.iitg_speech_lab.Classes;
+package com.example.iitg_speech_lab;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -40,6 +40,7 @@ public class CoursesMyData {
         coursesIDList.clear();
         coursesNameList.clear();
         coursesInfoList.clear();
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Users").document(username);
         userRef.get()
