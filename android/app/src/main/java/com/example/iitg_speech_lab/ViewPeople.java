@@ -66,14 +66,14 @@ public class ViewPeople extends AppCompatActivity {
                                     btn.setTag(document.getId());
                                     btn.setText(document.getString("FullName"));
 
-                                    btn.setOnClickListener(new View.OnClickListener(){
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intent = new Intent(ViewPeople.this, ProfileDetails.class);
-                                            intent.putExtra("username",document.getId());
-                                            startActivity(intent);
-                                        }
-                                    });
+//                                    btn.setOnClickListener(new View.OnClickListener(){
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            Intent intent = new Intent(ViewPeople.this, ProfileDetails.class);
+//                                            intent.putExtra("username",document.getId());
+//                                            startActivity(intent);
+//                                        }
+//                                    });
                                     ll.addView(btn);
                                 }
                             }
@@ -106,14 +106,14 @@ public class ViewPeople extends AppCompatActivity {
                                     btn.setTag(document.getId());
                                     btn.setText(document.getString("FullName"));
 
-                                    btn.setOnClickListener(new View.OnClickListener(){
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intent = new Intent(ViewPeople.this, ProfileDetails.class);
-                                            intent.putExtra("username",document.getId());
-                                            startActivity(intent);
-                                        }
-                                    });
+//                                    btn.setOnClickListener(new View.OnClickListener(){
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            Intent intent = new Intent(ViewPeople.this, ProfileDetails.class);
+//                                            intent.putExtra("username",document.getId());
+//                                            startActivity(intent);
+//                                        }
+//                                    });
                                     ll.addView(btn);
                                 }
                             }
