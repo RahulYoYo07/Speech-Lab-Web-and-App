@@ -1,0 +1,23 @@
+{% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Portfolio</a>
+  </li>
+  <li>
+    <a href="#">Contact</a>
+  </li>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <form method="POST">
+      <div class="form-group">
+        {% csrf_token %}
+        <input type="text" name="Enrollment" placeholder="Enrollment Key">
+        <button type="submit" class="btn btn-success">Enroll Now</button>
+      </div>
+    </form>
+</div>
+
+{% endblock %}

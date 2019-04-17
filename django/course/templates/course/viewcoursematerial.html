@@ -1,0 +1,11 @@
+{% extends "base_generic.html"%}
+
+{% block content %}
+
+<h1>Course Materials</h1>
+<ul>
+{% for cm in CMaterials %}
+  <li>{{ cm.Name }} - <a href="{{ cm.Url }}" target="_blank"> Open/Download </a></li>
+{% endfor %}
+</ul>
+{% endblock %}

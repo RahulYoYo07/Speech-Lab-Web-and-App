@@ -28,8 +28,8 @@ db = firestore.client()
 
 def course_group(request, CourseID, CourseGroupID):
     return render(request, 'discussion/group.html', {
-        'CourseGroupID_json': mark_safe(json.dumps(CourseGroupID)),
-        'CourseID_json': mark_safe(json.dumps(CourseID)),
+        'CourseGroupID_json' : mark_safe(json.dumps(CourseGroupID)),
+        'CourseID_json' : mark_safe(json.dumps(CourseID)),
     })
 
 def group(request, CourseID, AssignmentID, GroupID):
@@ -37,7 +37,7 @@ def group(request, CourseID, AssignmentID, GroupID):
 
 def notice_board(request,CourseID):
     # CourseID = self.scope['url_route']['kwargs']['CourseID']
-    doc_ref = db.collection(u'Courses').document(u'CS243').collection(u'Notices')
+    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices')
     # #
     all_notice=[]
     docs = list(doc_ref.get())

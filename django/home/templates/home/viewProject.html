@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1> {{project.Title}}</h1>
+    <h5> Abstract </h5>
+    <p>  {{project.Abstract}} </p>
+    <h5> Project Mentors </h5>
+    <ul>
+        {% for mentor in project.MentorList %}
+            <li> {{mentor}} </li>
+        {% endfor %}
+    </ul>
+    <h5> Students involved </h5>
+    <ul>
+        {% for contributor in project.ContributorsList %}
+            <li> {{contributor}} </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% extends "base_generic.html"%}
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="exampleInputEmail1">About</label>
+    <input type="text" class="form-control" name="About" aria-describedby="about" placeholder="Tell Us Something About Assignment">
+  </div>
+  <div class="form-group">
+    <label for="AssignmentID">Assignment ID</label>
+    <input type="text" class="form-control" name="AssignmentID" placeholder="Assignment ID">
+  </div>
+  <div class="form-group">
+    <label for="Name">Name</label>
+    <input type="text" class="form-control" name="Name" placeholder="Name Of The Assignment">
+  </div>
+  <div class="form-group">
+    <label for="Deadline">Deadline</label>
+    <input type="datetime-local" class="form-control" name="Deadline" placeholder="Submission Deadline">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

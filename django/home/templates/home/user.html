@@ -1,0 +1,41 @@
+
+
+
+{% extends 'home/top_nav.html' %}
+    {% block your_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <!-- TODO sidebar -->
+                <div class="row">
+                    <div class="col">
+                        <nav class="nav flex-column text-right" data-spy="affix" data-offset-top="205">
+                            <ul class="nav flex-column">
+
+                                <li class="nav-item">
+                                <a class="nav-link" href="editProfile/">Edit Profile</a>
+                              </li>
+                                <li class="nav-item">
+                                 <a class="nav-link" href="https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=http://localhost:8000/home/logout" role="button" id="connect-button"">Log Out</a>
+                              </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-10">
+
+                    {% block content %}
+                    {% endblock %}
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+
+
+
+
+
