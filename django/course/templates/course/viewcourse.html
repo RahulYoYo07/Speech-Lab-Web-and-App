@@ -17,8 +17,9 @@
 
 
 {% block content %}
-<a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment</p></a>
-
+{% if Designation == "Faculty" %}
+    <a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment</p></a>
+{% endif %}
 <div class="row">
   {% for assgn in AssgnDetails %}
   <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">

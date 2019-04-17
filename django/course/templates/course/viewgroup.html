@@ -1,9 +1,11 @@
 {% extends "base_generic.html"%}
 
 {% block sidebar %}
+  {% if Designation == 'Faculty' %}
   <li>
     <a href="{% url 'course:update_grp' cinfo aid GroupDetails.GroupID %}">Update Details</a>
   </li>
+  {% endif %}
 {% endblock %}
 
 {% block content %}

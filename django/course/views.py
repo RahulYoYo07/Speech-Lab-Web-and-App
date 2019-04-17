@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.urls import reverse
+from django.contrib import messages
+
 # import firebase_admin
 # from firebase_admin import credentials
 # from firebase_admin import firestore
@@ -68,7 +70,11 @@ def dashboard(request):
 
 
 def Enroll_CoursePage(request, cinfo):
-    username = "gulat170123030"
+    username = "pradip"
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
+
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
@@ -123,7 +129,10 @@ def Enroll_CoursePage(request, cinfo):
             db.collection(u'Courses').document(cinfo).update(StnList)
         return HttpResponseRedirect(reverse('course:dashboard'))
     else:
-        return render(request, 'course/enrollcourse.html')
+        if Designation == 'Student':
+            return render(request, 'course/enrollcourse.html')
+        elif Designation == 'Faculty':
+            return HttpResponseNotFound('<h1>Page not found</h1>')
 
 
 def Update_Attendance(request, cinfo, aid, gid):
@@ -288,6 +297,9 @@ def AddCourse(request):
 def ViewCourse(request, cinfo):
 
     username = "pradip"
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
     #cid += "_" + username + " _" + cyear
     assgn_ref = db.collection(u'Courses').document(
         cinfo).collection(u'Assignments').get()
@@ -296,7 +308,8 @@ def ViewCourse(request, cinfo):
         AssgnDetails.append(assgn.to_dict())
     context = {
         'AssgnDetails': AssgnDetails,
-        'CourseInfo': cinfo
+        'CourseInfo': cinfo,
+        'Designation': Designation,
     }
     return render(request, 'course/viewcourse.html', context)
 
@@ -340,7 +353,11 @@ def viewTA(request, cinfo):
 
 
 def ViewAssgn(request, cinfo, aid):
-    username = "pradip"
+    username = "gulat170123030"
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
+
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').get()
     GroupDetails = []
@@ -350,6 +367,7 @@ def ViewAssgn(request, cinfo, aid):
         'GroupDetails': GroupDetails,
         'cinfo' : cinfo,
         'aid' : aid,
+        'Designation': Designation,
     }
     return render(request, 'course/viewassgn.html', context)
 
@@ -421,13 +439,21 @@ def AddCourseMaterial(request, cinfo):
 
 
 def ViewCourseMaterial(request, cinfo):
-    course_data = db.collection(u'Courses').document(cinfo).get().to_dict()
+    username = "pradip"
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
 
-    CMaterials = course_data['CourseMaterial']
+    course_data = db.collection(u'Courses').document(cinfo).get().to_dict()
+    if not 'CourseMaterial' in course_data:
+        CMaterials = []
+    else:
+        CMaterials = course_data['CourseMaterial']
 
     context = {
         'CMaterials': CMaterials,
-        'CourseInfo': cinfo
+        'CourseInfo': cinfo,
+        'Designation': Designation
     }
     return render(request, 'course/viewcoursematerial.html', context)
 
@@ -496,7 +522,10 @@ def Update_Submission(request, cinfo, aid, gid):
         return render(request, 'course/addSubmission.html', context)
 
 def ViewGroup(request, cinfo, aid, gid):
-    username = "pradip"
+    username = "gulat170123030"
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
     #cid += "_" + username + " _" + cyear
     group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).get()
     GroupDetails = group_ref.to_dict()
@@ -504,6 +533,7 @@ def ViewGroup(request, cinfo, aid, gid):
         'cinfo' : cinfo,
         'aid' : aid,
         'GroupDetails' : GroupDetails,
+        'Designation': Designation,
     }
     print("Hello")
     print(GroupDetails)
