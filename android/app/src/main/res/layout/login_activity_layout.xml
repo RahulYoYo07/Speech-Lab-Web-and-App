@@ -9,52 +9,43 @@
     tools:context="com.example.iitg_speech_lab.Login_activity">
 
     <TextView
-        android:text="Welcome, "
-        android:textColor="#3f3f3f"
-        android:textSize="50px"
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
-        android:id="@+id/welcome"
-        android:visibility="invisible"/>
-
-    <Button
-        android:id="@+id/callGraph"
-        android:text="Call Microsoft Graph"
-        android:textColor="#FFFFFF"
-        android:background="#00a1f1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:textAllCaps="false" />
+        android:text="Welcome, "
+        android:textColor="#3f3f3f"
+        android:textSize="50px"
+        android:visibility="visible" />
 
     <TextView
-        android:text="Getting Graph Data..."
-        android:textColor="#3f3f3f"
+        android:id="@+id/graphData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:id="@+id/graphData"
-        android:visibility="invisible"/>
+        android:text="Getting Graph Data..."
+        android:textColor="#3f3f3f"
+        android:visibility="visible" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:gravity="center|bottom"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <Button
-            android:text="Sign Out"
+            android:id="@+id/clearCache"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:textColor="#FFFFFF"
             android:background="#00a1f1"
+            android:text="Sign Out"
             android:textAllCaps="false"
-            android:id="@+id/clearCache"
-            android:visibility="invisible" />
+            android:textColor="#FFFFFF"
+            android:visibility="visible" />
     </LinearLayout>
 </LinearLayout>
 
