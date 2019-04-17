@@ -11,16 +11,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
-public class TAMyData {
+public class GradingMyData {
 
-    public static ArrayList<String> assignmentsDeadlineList = new ArrayList<>();
-    public static ArrayList<String> assignmentsNameList = new ArrayList<>();
-    public static ArrayList<String> assignmentsInfoList = new ArrayList<>();
+    public static ArrayList<String> assignmentsDeadlineList = new ArrayList<String>();
+    public static ArrayList<String> assignmentsNameList = new ArrayList<String>();
+    public static ArrayList<String> assignmentsInfoList = new ArrayList<String>();
 
-    public static void loadAssignments(String courseInfo, final TaskCompletionSource<Integer> taskda){
+    public static int loadAssignments(String courseInfo, final TaskCompletionSource<Integer> taskda){
 
         assignmentsDeadlineList.clear();
         assignmentsNameList.clear();
@@ -33,7 +32,7 @@ public class TAMyData {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot assign : Objects.requireNonNull(task.getResult())) {
+                            for (QueryDocumentSnapshot assign : task.getResult()) {
                                 assignmentsInfoList.add(assign.getString("AssignmentID"));
                                 assignmentsNameList.add(assign.getString("Name"));
                                 assignmentsDeadlineList.add(assign.getString("About"));
@@ -42,5 +41,6 @@ public class TAMyData {
                         }
                     }
                 });
+        return 1;
     }
 }
