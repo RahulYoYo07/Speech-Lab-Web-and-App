@@ -16,13 +16,17 @@ public class GnACustomAdapter extends RecyclerView.Adapter<GnACustomAdapter.MyVi
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewCourseID;
-        TextView textViewCourseName;
+        TextView textViewStudentName;
+        TextView textViewRollNo;
+        TextView textViewAttendance;
+        TextView textViewMarks;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            this.textViewCourseID = itemView.findViewById(R.id.textViewCourseID);
-            this.textViewCourseName = itemView.findViewById(R.id.textViewCourseName);
+            this.textViewStudentName = itemView.findViewById(R.id.textViewStudentName);
+            this.textViewRollNo = itemView.findViewById(R.id.textViewRollNo);
+            this.textViewAttendance = itemView.findViewById(R.id.textViewAttendance);
+            this.textViewMarks = itemView.findViewById(R.id.textViewMarks);
         }
     }
 
@@ -34,7 +38,7 @@ public class GnACustomAdapter extends RecyclerView.Adapter<GnACustomAdapter.MyVi
     public GnACustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                             int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cards_layout, parent, false);
+                .inflate(R.layout.gna_cards_layout, parent, false);
 
         view.setOnClickListener(FragmentGnA.myOnClickListener);
 
@@ -43,13 +47,17 @@ public class GnACustomAdapter extends RecyclerView.Adapter<GnACustomAdapter.MyVi
 
     public void onBindViewHolder(final GnACustomAdapter.MyViewHolder holder, final int listPosition) {
 
-        TextView textViewCourseID = holder.textViewCourseID;
-        TextView textViewCourseName = holder.textViewCourseName;
+        TextView textViewStudentName = holder.textViewStudentName;
+        TextView textViewRollNo = holder.textViewRollNo;
+        TextView textViewAttendance = holder.textViewAttendance;
+        TextView textViewMarks = holder.textViewMarks;
 
-        textViewCourseID.setText(dataSet.get(listPosition).getName());
-        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+        textViewStudentName.setText(dataSet.get(listPosition).getName());
+        textViewRollNo.setText(dataSet.get(listPosition).getRollNo());
+        textViewAttendance.setText(Long.toString(dataSet.get(listPosition).getAttendance()));
+        textViewMarks.setText(Long.toString(dataSet.get(listPosition).getMarks()));
 
-        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
+        holder.itemView.setTag(dataSet.get(listPosition).getRollNo());
     }
 
     public int getItemCount() {
