@@ -14,24 +14,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-
-
-public class ViewAssignment extends AppCompatActivity
+public class ViewStudentCourse extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static String assignmentID;
-
     public static String courseInfo;
-    public static String assignmentID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         courseInfo = getIntent().getStringExtra("courseInfo");
-        assignmentID = getIntent().getStringExtra("assignID");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_assignment);
+        setContentView(R.layout.activity_view_student_course);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(assignmentID);
+        toolbar.setTitle(courseInfo);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -53,11 +47,11 @@ public class ViewAssignment extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
-                    new FragmentGroups()).commit();
-            navigationView.setCheckedItem(R.id.nav_groups);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentAssignments()).commit();
+            navigationView.setCheckedItem(R.id.nav_assignments);
         }
-        Toast.makeText(ViewAssignment.this, courseInfo + " " + assignmentID , Toast.LENGTH_LONG).show();
+        Toast.makeText(ViewStudentCourse.this, courseInfo, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -73,7 +67,7 @@ public class ViewAssignment extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_assignment, menu);
+        getMenuInflater().inflate(R.menu.view_course, menu);
         return true;
     }
 
@@ -98,19 +92,15 @@ public class ViewAssignment extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_groups) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
-                    new FragmentGroups()).commit();
-        } else if (id == R.id.nav_submissions) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
-                    new FragmentSubmissions()).commit();
-
-        } else if (id == R.id.nav_grading) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
-                    new FragmentGrading()).commit();
-        } else if (id == R.id.nav_deadline) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
-                    new FragmentDeadline()).commit();
+        if (id == R.id.nav_assignments) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentAssignments()).commit();
+        } else if (id == R.id.nav_study_material) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentStudyMaterial()).commit();
+        } else if (id == R.id.nav_g_n_a) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentGnA()).commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

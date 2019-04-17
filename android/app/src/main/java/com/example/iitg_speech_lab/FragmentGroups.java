@@ -41,28 +41,20 @@ public class FragmentGroups extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.V = view;
-        String courseInfo = ViewCourse.courseInfo;
-
-        Log.d("yomanas", "onViewCreated");
-
+        String courseInfo = ViewAssignment.courseInfo;
+        String assignmentID = ViewAssignment.assignmentID;
+        myOnClickListener = new MyOnClickListener();
 
         recyclerView = view.findViewById(R.id.groups_recycler_view);
-        Log.d("yomanas","recyclerview find by id");
         recyclerView.setHasFixedSize(true);
-        Log.d("yomanas","recyclerview has fixed size set");
-
-        Log.d("yomanas","before getContext");
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        //Log.d("yomanas","after getContext");
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.d("yomanas","recyclerview Layout and Animator set");
 
         task1 = new TaskCompletionSource<>();
         task2 = task1.getTask();
-        Log.d("yomanas","about to LoadData");
-        GroupsMyData.loadAssignments(courseInfo,task1);
+        GroupsMyData.loadGroups(courseInfo,assignmentID,task1);
 
         Task<Void> allTask = Tasks.whenAll(task2);
 
@@ -70,12 +62,10 @@ public class FragmentGroups extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 data = new ArrayList<>();
-                Log.d("yo",Integer.toString(GroupsMyData.assignmentsInfoList.size()));
-                for (int i = 0; i < GroupsMyData.assignmentsInfoList.size(); i++) {
+                for (int i = 0; i < GroupsMyData.GroupIdList.size(); i++) {
                     data.add(new GroupsDataModel(
-                            GroupsMyData.assignmentsInfoList.get(i),
-                            GroupsMyData.assignmentsNameList.get(i),
-                            GroupsMyData.assignmentsDeadlineList.get(i)
+                            GroupsMyData.GroupIdList.get(i),
+                            GroupsMyData.GroupExtraList.get(i)
                     ));
                 }
 
@@ -107,23 +97,9 @@ public class FragmentGroups extends Fragment {
             if (textViewName != null) {
                 selectedName = ( String ) textViewName.getText();
             }
-            //int selectedItemId = -1;
 
-//            for (int i = 0; i < GroupsMyData.assignmentsIDList.size(); i++) {
-//                if (selectedName.equals(GroupsMyData.assignmentsIDList.get(i))) {
-//                    //selectedItemId = GroupsMyData.assignmentsInfoList.get(i);
-//                }
-//            }
-//            removedItems.add(selectedItemId);
-//            data.remove(selectedItemPosition);
-//            adapter.notifyItemRemoved(selectedItemPosition);
-
-            Log.d("aman",selectedName);
             String ainfo = (String) viewHolder.itemView.getTag();
-            Log.d("aman",ainfo);
-//            Intent intent = new Intent(AssignmentsActivity.this, ViewCourse.class);
-//            intent.putExtra("courseInfo",cinfo);
-//            startActivity(intent);
+
         }
     }
 }

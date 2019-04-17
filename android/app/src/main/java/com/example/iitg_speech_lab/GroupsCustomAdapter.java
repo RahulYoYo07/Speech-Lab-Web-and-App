@@ -46,10 +46,10 @@ public class GroupsCustomAdapter extends RecyclerView.Adapter<GroupsCustomAdapte
         TextView textViewCourseID = holder.textViewCourseID;
         TextView textViewCourseName = holder.textViewCourseName;
 
-        textViewCourseID.setText(dataSet.get(listPosition).getName());
-        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+        textViewCourseID.setText(dataSet.get(listPosition).getGID());
+        textViewCourseName.setText(dataSet.get(listPosition).getExtra());
 
-        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
+        holder.itemView.setTag(dataSet.get(listPosition).getGID());
     }
 
     public int getItemCount() {
