@@ -412,10 +412,15 @@ def ViewGroup(request, cinfo, aid, gid):
     #cid += "_" + username + " _" + cyear
     group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).get()
     GroupDetails = group_ref.to_dict()
+    studs = GroupDetails['StudentList']
+    StudentDetails = []
+    for stud in studs:
+        StudentDetails.append(stud['StudentID'].get().to_dict())
     context = {
         'cinfo' : cinfo,
         'aid' : aid,
         'GroupDetails' : GroupDetails,
+        'StudentDetails' : StudentDetails,
     }
     print("Hello")
     print(GroupDetails)
