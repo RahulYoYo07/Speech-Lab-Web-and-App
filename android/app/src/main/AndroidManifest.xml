@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditContactUs"></activity>
+        <activity android:name=".AddProject"></activity>
+        <activity android:name=".EditContactUs" />
         <activity android:name=".Login_activity" />
         <activity android:name=".EditAboutUs" />
         <activity
@@ -60,18 +61,16 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".MainActivity" />
-
-        <activity
-            android:name="com.microsoft.identity.client.BrowserTabActivity">
+        <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-
-
-                <data android:scheme="msald5d4df29-11c6-4150-bacf-deeac3569940"
-                    android:host="auth" />
+                <data
+                    android:host="auth"
+                    android:scheme="msald5d4df29-11c6-4150-bacf-deeac3569940" />
             </intent-filter>
         </activity>
     </application>

@@ -135,7 +135,7 @@ public class Master<sampleApp> extends AppCompatActivity
         }
     }
     public void temp(View view){
-        Intent intent = new Intent(Master.this, EditContactUs.class);
+        Intent intent = new Intent(Master.this, AddProject.class);
         startActivity(intent);
     }
 //
