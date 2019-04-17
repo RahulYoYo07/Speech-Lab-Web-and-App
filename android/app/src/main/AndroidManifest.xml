@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddProject"></activity>
+        <activity
+            android:name=".AdminDashboard"
+            android:label="@string/title_activity_admin_dashboard"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".AddProject" />
         <activity android:name=".EditContactUs" />
         <activity android:name=".Login_activity" />
         <activity android:name=".EditAboutUs" />
@@ -20,7 +24,6 @@
             android:name=".FAQ"
             android:parentActivityName=".Master" />
         <activity android:name=".AddFaq" />
-        <activity android:name=".EditHomePageDetails" />
         <activity android:name=".ProjectDetails" />
         <activity android:name=".Projects" />
         <activity android:name=".EditProfile" />

@@ -134,10 +134,7 @@ public class Master<sampleApp> extends AppCompatActivity
             Log.d(TAG, "Account at this position does not exist: " + e.toString());
         }
     }
-    public void temp(View view){
-        Intent intent = new Intent(Master.this, AddProject.class);
-        startActivity(intent);
-    }
+
 //
     // Core Identity methods used by MSAL
     // ==================================
@@ -395,6 +392,11 @@ public class Master<sampleApp> extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void temp(View view){
+        Intent intent = new Intent(Master.this, AdminDashboard.class);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
