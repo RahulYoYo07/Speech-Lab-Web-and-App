@@ -14,15 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+
+
 public class ViewAssignment extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static String assignmentID;
 
     public static String courseInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         courseInfo = getIntent().getStringExtra("courseInfo");
-        String assignmentID = getIntent().getStringExtra("assignID");
+        assignmentID = getIntent().getStringExtra("assignID");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_assignment);
         Toolbar toolbar = findViewById(R.id.toolbar);

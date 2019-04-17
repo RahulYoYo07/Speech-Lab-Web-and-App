@@ -2,27 +2,24 @@ package com.example.iitg_speech_lab.Model;
 
 public class GroupsDataModel {
 
-        String name;
-        String deadline;
-        //replace by Deadline
-        String info;
+        String gid;
+        String extra;
 
-        public GroupsDataModel(String info, String name, String deadline) {
-            this.deadline = deadline;
-            this.name = name;
-            this.info = info;
+
+        public GroupsDataModel(String gid, String extra) {
+            this.gid = gid;
+            this.extra = extra;
+
         }
 
 
-        public String getDeadline() {
-            return deadline;
+
+
+        public String getGID() {
+            return gid;
         }
 
-        public String getName() {
-            return name;
-        }
-
-        public String getInfo() {
-            return info;
+        public String getExtra() {
+            return extra;
         }
 }
