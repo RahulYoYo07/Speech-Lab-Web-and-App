@@ -370,7 +370,12 @@ def AddTA(request, cinfo):
         stuID = request.POST.get(stuType+"TA", "")
         stuID = stuID.split('-')[1]
         ref_TA = db.collection(u'Users').document(stuID)
-        currTA = ref_course.get().to_dict()['TAList']
+
+        if 'TAList' not in ref_course.get().to_dict():
+            currTA = []
+        else :
+            currTA = ref_course.get().to_dict()['TAList']
+
         if ref_TA not in currTA:
             currTA.append(ref_TA)
         else:
@@ -382,6 +387,20 @@ def AddTA(request, cinfo):
             u'TAList': currTA
         }
         db.collection(u'Courses').document(cinfo).update(data)
+
+        if not 'CoursesListAsTA' in ref_TA.get().to_dict():
+            coursesAsTA = []
+        else:
+            coursesAsTA = ref_TA.get().to_dict()['CoursesListAsTA']
+
+        if not ref_course in coursesAsTA:
+            coursesAsTA.append(ref_course)
+        else:
+            pass
+
+        ref_TA.update({
+            u'CoursesListAsTA' : coursesAsTA
+        })
 
         return render(request, 'course/AddTA.html', context)
 
@@ -401,13 +420,13 @@ def getStudents():
         # Remove the first if condition
         if "Designation" in userdict.keys() and userdict["Designation"] == "Student":
 
-            if userdict["Program"] == "Btech":
+            if userdict["Program"].upper() == "BTECH":
                 BTech.append(userdict)
 
-            if userdict["Program"] == "Mtech":
+            if userdict["Program"].upper() == "MTECH":
                 MTech.append(userdict)
 
-            if userdict["Program"] == "Phd":
+            if userdict["Program"].upper() == "PHD":
                 Phd.append(userdict)
 
     return BTech, MTech, Phd
