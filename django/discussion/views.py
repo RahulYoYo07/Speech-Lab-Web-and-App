@@ -9,6 +9,12 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from . import consumers
 
+from googleapiclient import discovery
+from oauth2client import tools
+from oauth2client.client import OAuth2WebServerFlow
+from oauth2client.file import Storage
+import httplib2
+
 cred = credentials.Certificate({
     "type": "service_account",
     "project_id": "iitg-speech-lab",
@@ -24,7 +30,24 @@ cred = credentials.Certificate({
 # firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-# db = firestore.client()
+
+# Calender
+flags = tools.argparser.parse_args([])
+FLOW = OAuth2WebServerFlow(
+    client_id='378262545952-1r36bf3nd2bjad3641sprit3020rcpem.apps.googleusercontent.com',
+    client_secret='vMX5C3nvgZ2OKkr1b0aXcZex',
+    scope='https://www.googleapis.com/auth/calendar',
+    user_agent='IITG-Speech-Lab'
+    )
+storage = Storage('calendar.dat')
+credentials = storage.get()
+if credentials is None or credentials.invalid == True:
+    credentials = tools.run_flow(FLOW, storage, flags)
+
+httpObject = httplib2.Http()
+httpObject = credentials.authorize(httpObject)
+service = discovery.build('calendar', 'v3', http=httpObject)
+
 
 def course_group(request, CourseID, CourseGroupID):
     return render(request, 'discussion/group.html', {
@@ -69,3 +92,57 @@ def add_notice(request,CourseID):
     print(NoticeBody)
     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices').add({'Author' : 'Udbhav Chugh','NoticeHead' : NoticeHead, 'NoticeBody' : NoticeBody, 'NoticeTime':firestore.SERVER_TIMESTAMP})
     return redirect('/discussion/courses/'+CourseID+'/noticeboard')
+
+def view_calender(request, CourseID):
+    if request.method == 'POST':
+        pass
+    elif request.method == 'GET':
+        return render(request, 'discussion/calender.html')
+
+def add_event(request, CourseID):
+    if request.method == 'POST':
+        Summary = request.POST['Summary']
+        Location = request.POST['Location']
+        Description = request.POST['Description']
+        StartDate = request.POST['Start']
+        EndDate = request.POST['End']
+
+        event = {
+            'summary': Summary,
+            'location': Location,
+            'description': Description,
+            'start': {
+                'dateTime': StartDate+'T00:00:00',
+                'timeZone': 'America/Los_Angeles',
+            },
+            'end': {
+                'dateTime': EndDate+'T23:59:59',
+                'timeZone': 'America/Los_Angeles',
+            },
+            'recurrence': [
+                'RRULE:FREQ=DAILY;COUNT=2'
+            ],
+            'attendees': [
+                {'email': 'lpage@example.com'},
+                {'email': 'sbrin@example.com'},
+            ],
+            'reminders': {
+                'useDefault': False,
+                'overrides': [
+                    {'method': 'email', 'minutes': 24 * 60},
+                    {'method': 'popup', 'minutes': 10},
+                ],
+            },
+        }
+
+        event = service.events().insert(calendarId='primary', body=event).execute()
+        return redirect('/discussion/courses/'+CourseID+'/calender')
+    elif request.method == 'GET':
+        events_result = service.events().list(calendarId='primary', singleEvents=True, orderBy='startTime').execute()
+        events = events_result.get('items', [])
+        print(events[0])
+        return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID})
+
+def delete_event(request, CourseID, EventID):
+    service.events().delete(calendarId='primary', eventId=EventID).execute()
+    return redirect('/discussion/courses/'+CourseID+'/events')
