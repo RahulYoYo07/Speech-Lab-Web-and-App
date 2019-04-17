@@ -34,7 +34,6 @@ public class FragmentGnA extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_g_n_a, container, false);
-        Log.d("yomanas","onCreateView");
         return view;
     }
     @Override
@@ -43,26 +42,17 @@ public class FragmentGnA extends Fragment {
         this.V = view;
         String courseInfo = ViewCourse.courseInfo;
 
-        Log.d("yomanas", "onViewCreated");
-
-
         recyclerView = view.findViewById(R.id.g_n_a_recycler_view);
-        Log.d("yomanas","recyclerview find by id");
         recyclerView.setHasFixedSize(true);
-        Log.d("yomanas","recyclerview has fixed size set");
-
-        Log.d("yomanas","before getContext");
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        //Log.d("yomanas","after getContext");
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.d("yomanas","recyclerview Layout and Animator set");
 
         task1 = new TaskCompletionSource<>();
         task2 = task1.getTask();
-        Log.d("yomanas","about to LoadData");
-        GnAMyData.loadAssignments(courseInfo,task1);
+
+        GnAMyData.loadGnA(courseInfo , task1);
 
         Task<Void> allTask = Tasks.whenAll(task2);
 
@@ -70,12 +60,12 @@ public class FragmentGnA extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 data = new ArrayList<>();
-                Log.d("yo",Integer.toString(GnAMyData.assignmentsInfoList.size()));
-                for (int i = 0; i < GnAMyData.assignmentsInfoList.size(); i++) {
+                for (int i = 0; i < GnAMyData.gnaNameList.size(); i++) {
                     data.add(new GnADataModel(
-                            GnAMyData.assignmentsInfoList.get(i),
-                            GnAMyData.assignmentsNameList.get(i),
-                            GnAMyData.assignmentsDeadlineList.get(i)
+                            GnAMyData.gnaNameList.get(i),
+                            GnAMyData.gnaRollNo.get(i),
+                            GnAMyData.gnaMarksList.get(i),
+                            GnAMyData.gnaAttendance.get(i)
                     ));
                 }
 
@@ -84,46 +74,5 @@ public class FragmentGnA extends Fragment {
             }
         });
     }
-    private class MyOnClickListener implements View.OnClickListener {
 
-        private MyOnClickListener() {
-        }
-
-        @Override
-        public void onClick(View v) {
-            viewAssignment(v);
-        }
-
-        private void viewAssignment(View v) {
-            int selectedItemPosition = recyclerView.getChildLayoutPosition(v);
-            RecyclerView.ViewHolder viewHolder
-                    = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
-            TextView textViewName
-                    = null;
-            if (viewHolder != null) {
-                textViewName = viewHolder.itemView.findViewById(R.id.textViewCourseID);
-            }
-            String selectedName = null;
-            if (textViewName != null) {
-                selectedName = ( String ) textViewName.getText();
-            }
-            //int selectedItemId = -1;
-
-//            for (int i = 0; i < GnAMyData.assignmentsIDList.size(); i++) {
-//                if (selectedName.equals(GnAMyData.assignmentsIDList.get(i))) {
-//                    //selectedItemId = GnAMyData.assignmentsInfoList.get(i);
-//                }
-//            }
-//            removedItems.add(selectedItemId);
-//            data.remove(selectedItemPosition);
-//            adapter.notifyItemRemoved(selectedItemPosition);
-
-            Log.d("aman",selectedName);
-            String ainfo = (String) viewHolder.itemView.getTag();
-            Log.d("aman",ainfo);
-//            Intent intent = new Intent(AssignmentsActivity.this, ViewCourse.class);
-//            intent.putExtra("courseInfo",cinfo);
-//            startActivity(intent);
-        }
-    }
 }

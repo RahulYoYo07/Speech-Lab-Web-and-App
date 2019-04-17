@@ -47,9 +47,9 @@ public class DeadlineCustomAdapter extends RecyclerView.Adapter<DeadlineCustomAd
         TextView textViewCourseName = holder.textViewCourseName;
 
         textViewCourseID.setText(dataSet.get(listPosition).getName());
-        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+//        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
 
-        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
+//        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
     }
 
     public int getItemCount() {

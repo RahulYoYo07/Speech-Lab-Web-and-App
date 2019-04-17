@@ -3,26 +3,31 @@ package com.example.iitg_speech_lab.Model;
 public class GnADataModel {
 
         String name;
-        String deadline;
-        //replace by Deadline
-        String info;
+        String rollno;
+        Long marks;
+        Long attendance;
 
-        public GnADataModel(String info, String name, String deadline) {
-            this.deadline = deadline;
+        public GnADataModel(String name, String rollno, Long marks, Long attendance) {
             this.name = name;
-            this.info = info;
+            this.rollno = rollno;
+            this.marks = marks;
+            this.attendance = attendance;
         }
 
 
-        public String getDeadline() {
-            return deadline;
+        public Long getAttendance() {
+            return attendance;
+        }
+
+        public Long getMarks() {
+            return marks;
         }
 
         public String getName() {
             return name;
         }
 
-        public String getInfo() {
-            return info;
+        public String getRollNo() {
+            return rollno;
         }
 }
