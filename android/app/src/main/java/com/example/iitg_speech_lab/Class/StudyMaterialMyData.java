@@ -22,31 +22,33 @@ import com.google.type.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 public class StudyMaterialMyData {
 
-    public static ArrayList<String> assignmentsDeadlineList = new ArrayList<String>();
-    public static ArrayList<String> assignmentsNameList = new ArrayList<String>();
-    public static ArrayList<String> assignmentsInfoList = new ArrayList<String>();
+    public static ArrayList<String> studyMaterialsNameList = new ArrayList<String>();
+    public static ArrayList<String> studyMaterialsUrlList = new ArrayList<String>();
 
-    public static int loadAssignments(String courseInfo, final TaskCompletionSource<Integer> taskda){
+    public static int loadStudyMaterials(String courseInfo, final TaskCompletionSource<Integer> taskda){
 
-        assignmentsDeadlineList.clear();
-        assignmentsNameList.clear();
-        assignmentsInfoList.clear();
+        studyMaterialsUrlList.clear();
+        studyMaterialsNameList.clear();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference assignsRef = db.collection("Courses").document(courseInfo).collection("Assignments");
-        assignsRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        DocumentReference courseRef = db.collection("Courses").document(courseInfo);
+        courseRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot assign : task.getResult()) {
-                                assignmentsInfoList.add(assign.getString("AssignmentID"));
-                                assignmentsNameList.add(assign.getString("Name"));
-                                assignmentsDeadlineList.add(assign.getString("About"));
+                            DocumentSnapshot course = task.getResult();
+                            ArrayList<Map<String,String>> cms = new ArrayList<Map<String,String>>();
+                            cms = (ArrayList<Map<String, String>>) course.get("CourseMaterial");
+
+                            for (Map<String, String> cm : cms) {
+                                studyMaterialsNameList.add(cm.get("Name"));
+                                studyMaterialsUrlList.add(cm.get("Url"));
                             }
                             taskda.setResult(1);
                         }

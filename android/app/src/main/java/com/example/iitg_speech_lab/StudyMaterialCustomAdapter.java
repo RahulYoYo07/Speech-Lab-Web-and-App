@@ -2,6 +2,7 @@ package com.example.iitg_speech_lab;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +48,11 @@ public class StudyMaterialCustomAdapter extends RecyclerView.Adapter<StudyMateri
         TextView textViewCourseName = holder.textViewCourseName;
 
         textViewCourseID.setText(dataSet.get(listPosition).getName());
-        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+        String url = "<a href='" + dataSet.get(listPosition).getUrl() + "'>Download<a>";
 
-        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
+        textViewCourseName.setText(Html.fromHtml(url));
+
+        holder.itemView.setTag(dataSet.get(listPosition).getUrl());
     }
 
     public int getItemCount() {
