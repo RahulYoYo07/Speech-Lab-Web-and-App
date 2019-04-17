@@ -1,8 +1,18 @@
 <component name="libraryTable">
   <library name="Gradle: io.grpc:grpc-android:1.16.1@aar">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/grpc-android-1.16.1.aar/c932521dc31abd9132659dd00d6473ab/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/grpc-android-1.16.1.aar/c932521dc31abd9132659dd00d6473ab/res" />
+=======
+<<<<<<< Updated upstream
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/grpc-android-1.16.1.aar/e168911ae66eab58e63ce67dcfcad6ad/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/grpc-android-1.16.1.aar/e168911ae66eab58e63ce67dcfcad6ad/jars/classes.jar!/" />
+=======
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/grpc-android-1.16.1.aar/d0c2dcba04bcd6c13eee84cae996d8f9/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/grpc-android-1.16.1.aar/d0c2dcba04bcd6c13eee84cae996d8f9/res" />
+>>>>>>> Stashed changes
+>>>>>>> 6e46096b343dbb445646996565a96e68ae2493a5
     </CLASSES>
     <JAVADOC />
     <SOURCES>

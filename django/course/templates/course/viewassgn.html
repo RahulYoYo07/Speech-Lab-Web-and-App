@@ -31,6 +31,7 @@
       <div class="card-body">
         <h5 class="card-title"><a href="{% url 'course:view_group' cinfo aid group.GroupID %}">{{ group.GroupID }}</a></h5>
         <a href="{% url 'course:update_attendance' cinfo aid group.GroupID %}"><button class="btn btn-success">Update Attandance</button></a>
+        <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn-success">Add Grade</button></a>
       </div>
         <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
       </div>

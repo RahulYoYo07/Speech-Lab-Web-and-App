@@ -29,7 +29,7 @@ db = firestore.client()
 
 
 def dashboard(request):
-    username = "pradip"
+    username = "gulat170123030"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
@@ -72,20 +72,42 @@ def Enroll_CoursePage(request, cinfo):
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
-        copydata = db.collection(u'Users').document(
-            username).get().to_dict()['CourseList']
+
+        try :
+            copydata = db.collection(u'Users').document(username).get().to_dict()['CourseList']
+        except :
+            copydata = []
+
         datay = {
             u'CourseID':  db.collection(u'Courses').document(cinfo)
         }
         copydata.append(datay)
-        attendance_list = db.collection(u'Courses').document(
-            cinfo).get().to_dict()['AttendanceList']
+
         atndata = {
             u'StudentID': db.collection(u'Users').document(username),
             u'TotalAttendance': 0
         }
+
+        try :
+            attendance_list = db.collection(u'Courses').document(cinfo).get().to_dict()['AttendanceList']
+        except :
+            attendance_list = []
+
         attendance_list.append(atndata)
+
         dbdata = main['EnrollmentKey']
+
+        try :
+            stn_list = db.collection(u'Courses').documment(cinfo).get().to_dict()['StudentList']
+        except :
+            stn_list = []
+
+        pushdata = {
+            u'StudentID' : db.collection(u'Users').document(username),
+            u'Grade' : 0
+        }
+        stn_list.append(pushdata)
+
         if dbdata == postdata:
             data = {
                 u'CourseList': copydata
@@ -93,8 +115,12 @@ def Enroll_CoursePage(request, cinfo):
             attndata = {
                 u'AttendanceList': attendance_list
             }
+            StnList = {
+                u'StudentList': stn_list
+            }
             db.collection(u'Users').document(username).update(data)
             db.collection(u'Courses').document(cinfo).update(attndata)
+            db.collection(u'Courses').document(cinfo).update(StnList)
         return HttpResponseRedirect(reverse('course:dashboard'))
     else:
         return render(request, 'course/enrollcourse.html')
@@ -152,6 +178,68 @@ def Update_Attendance(request, cinfo, aid, gid):
         }
         return render(request, 'course/updateattendance.html', context)
 
+
+def Show_Attendance(request, cinfo):
+    username = "pradip"
+    course_ref = db.collection(u'Courses').document(cinfo).get()
+    course_arr = course_ref.to_dict()['AttendanceList']
+    list = []
+    for user in course_arr :
+        grade = 0
+        for users in course_ref.to_dict()['StudentList'] :
+            if users['StudentID'] == user['StudentID'] :
+                grade = users['Grade']
+
+
+        temp_dict = {
+		      "StudentName" : user['StudentID'].get().to_dict()['FullName'],
+              "Attendance" : user['TotalAttendance'],
+              "grade" : grade
+	    }
+        list.append(temp_dict)
+
+    context = {
+        'list':list,
+        'CourseInfo':cinfo,
+    }
+
+    return render(request,'course/show_attendance.html',context)
+
+
+def Add_Grade(request, cinfo, aid, gid) :
+    group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid)
+    group_data = group_ref.get().to_dict()['StudentList']
+    if request.method == "POST" :
+        for user in group_data :
+            Igrade = user['Grade']
+            user['Grade'] = int(request.POST.get(user['StudentID'].get().to_dict()['username']))
+            user_ref = user['StudentID']
+            Course_Data = db.collection(u'Courses').document(cinfo).get().to_dict()['StudentList']
+            for users in Course_Data :
+                if users['StudentID'] == user['StudentID'] :
+                    users['Grade'] = users['Grade'] + user['Grade'] - Igrade
+            data = {
+                u'StudentList' : Course_Data
+            }
+            db.collection(u'Courses').document(cinfo).update(data)
+        data_main = {
+            u'StudentList' : group_data
+        }
+        db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).update(data_main)
+        return HttpResponseRedirect(reverse('course:dashboard'))
+
+    else :
+        user_list = []
+        for user in group_data :
+            user_list.append(user['StudentID'].get().to_dict())
+
+        context = {
+            'user_list' : user_list,
+            'cinfo' : cinfo,
+            'aid' : aid,
+            'gid' : gid
+        }
+        return render(request,'course/addgrade.html',context)
 
 def AddCourse(request):
     username = "pradip"

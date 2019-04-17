@@ -1,8 +1,18 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support.test.espresso:espresso-core:3.0.2@aar">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/espresso-core-3.0.2.aar/8890aa439394a8e0ade7a320d4331763/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/espresso-core-3.0.2.aar/8890aa439394a8e0ade7a320d4331763/res" />
+=======
+<<<<<<< Updated upstream
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/espresso-core-3.0.2.aar/082361cfbcece2044177d8440924c164/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/espresso-core-3.0.2.aar/082361cfbcece2044177d8440924c164/res" />
+=======
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/espresso-core-3.0.2.aar/3f0f68a111265c3bab1285ee43d5db84/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/espresso-core-3.0.2.aar/3f0f68a111265c3bab1285ee43d5db84/jars/classes.jar!/" />
+>>>>>>> Stashed changes
+>>>>>>> 6e46096b343dbb445646996565a96e68ae2493a5
     </CLASSES>
     <JAVADOC />
     <SOURCES>

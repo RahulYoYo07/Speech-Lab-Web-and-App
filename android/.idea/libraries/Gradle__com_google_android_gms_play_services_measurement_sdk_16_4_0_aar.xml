@@ -1,8 +1,18 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.android.gms:play-services-measurement-sdk:16.4.0@aar">
     <CLASSES>
+<<<<<<< HEAD
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-measurement-sdk-16.4.0.aar/cfca96914d49d8a54bd07c18079e1005/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-measurement-sdk-16.4.0.aar/cfca96914d49d8a54bd07c18079e1005/jars/classes.jar!/" />
+=======
+<<<<<<< Updated upstream
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-measurement-sdk-16.4.0.aar/3a4489c390f7b6ade8c08e208a8c5830/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-measurement-sdk-16.4.0.aar/3a4489c390f7b6ade8c08e208a8c5830/res" />
+=======
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-measurement-sdk-16.4.0.aar/a1f8bd5f116b2e0a9427bdb21ae8eb92/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-measurement-sdk-16.4.0.aar/a1f8bd5f116b2e0a9427bdb21ae8eb92/jars/classes.jar!/" />
+>>>>>>> Stashed changes
+>>>>>>> 6e46096b343dbb445646996565a96e68ae2493a5
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-sdk/16.4.0/88561e7c3615c80f0579c3ac4ee9d8ae8bd7df61/play-services-measurement-sdk-16.4.0-javadoc.jar!/" />
