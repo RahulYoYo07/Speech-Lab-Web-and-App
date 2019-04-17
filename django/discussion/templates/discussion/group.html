@@ -70,6 +70,11 @@
                     ReplyButton.value = 'Reply';
                     ReplyButton.onclick = function(){
                         // alert(MessageID);
+                        var Rep = document.getElementById(MessageID+'_input').value;
+                        if (Rep == ""){
+                            alert('Cannot send empty reply');
+                            return;
+                        }
                         chatSocket.send(JSON.stringify({
                             'IsPoll' : false,
                             'IsReply': true,
@@ -78,9 +83,10 @@
                             'message': '',
                             'CourseID': CourseID,
                             'CourseGroupID': CourseGroupID,
-                            'ReplyBody': document.getElementById(MessageID+'_input').value,
+                            'ReplyBody': Rep,
                             'MessageID': MessageID,
                         }));
+                        ReplyInput.value = ""
                     };
                     ReplyButton.id = MessageID+'_ReplyButton';
 
@@ -134,7 +140,12 @@
                         if(data['Replies'].length>0){
                             ShowReplyBox.id=data['Replies'][0]['MessageID']+'_ShowReplyBox';
                             document.getElementById(data['Replies'][0]['MessageID']+'_').parentNode.insertBefore(ShowReplyBox,document.getElementById(data['Replies'][0]['MessageID']+'_').nextSibling);
+                            //document.getElementById('chat-head-input').blur();
+                            //document.getElementById('chat-message-input').blur();
+                            //document.getElementById(data['Replies'][0]['MessageID']+'_').scrollIntoView();
+
                         }
+
                     }
                     if(ShowReply==false && document.getElementById(data['MessageID']+'_').value=='Hide Replies'){
                         document.getElementById(data['MessageID']+'_ShowReplyBox').innerHTML+='<br />'+data['Author']+':'+data['ReplyBody'];
@@ -170,6 +181,10 @@
                             return;
                         }
                         var SelOpt = document.getElementById(MessageID).elements[MessageID].value;
+                        if (SelOpt == ""){
+                            alert('No option selected');
+                            return;
+                        }
                         chatSocket.send(JSON.stringify({
                             'IsPoll' : true,
                             'IsReply' : true,
@@ -270,6 +285,10 @@
                 var messageInputDom = document.querySelector('#chat-message-input');
                 var messageHead = messageHeadDom.value;
                 var message = messageInputDom.value;
+                if (message == "" || messageHead == ""){
+                    alert("Empty message field or body!");
+                    return;
+                }
                 chatSocket.send(JSON.stringify({
                     'IsPoll' : false,
                     'IsReply': false,
@@ -281,7 +300,7 @@
                     'ReplyBody': '',
                     // 'MessageID': MessageID,
                 }));
-
+                alert('New message added successfully!');
                 messageHeadDom.value = '';
                 messageInputDom.value = '';
             };
@@ -324,6 +343,10 @@
             }
             var pollQuesDom = document.querySelector('#poll-question-input');
             var pollQues = pollQuesDom.value;
+            if (pollQues == ""){
+                alert("Poll Question cannot be empty!");
+                return;
+            }
             var pollJSON = {
                 'IsPoll' : true,
                 'IsReply': false,
@@ -335,6 +358,12 @@
                 'PollOptions':[]
             }
             var i;
+            for (i=1; i<=cntPoll; i+=1){
+                if (document.getElementById('poll-option-input' + i.toString()).value == ""){
+                    alert("Poll option cannot be empty");
+                    return;
+                }
+            }
             for (i=1; i<=cntPoll; i+=1){
                 var pollOptFull = document.getElementById('poll-option' + i.toString());
                 var pollOptDom = document.getElementById('poll-option-input' + i.toString());

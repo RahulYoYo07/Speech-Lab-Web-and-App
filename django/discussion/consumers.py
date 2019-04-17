@@ -3,7 +3,7 @@ from course import views
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-
+import ntplib
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
@@ -29,7 +29,7 @@ db = firestore.client()
 #Receive and sending messages
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
-        print('Not yet opened', open)
+        # print('Not yet opened', open)
         self.room_name = self.scope['url_route']['kwargs']['CourseGroupID']
         # print(self.room_name)
         self.room_group_name = 'chat_%s' % self.room_name
@@ -43,14 +43,12 @@ class ChatConsumer(WebsocketConsumer):
         #Retrieve messages from Firebase
         CourseID = self.scope['url_route']['kwargs']['CourseID']
         CourseGroupID = self.scope['url_route']['kwargs']['CourseGroupID']
-        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages')
+        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').order_by(u'PostTime')
 
         docs = list(doc_ref.get())
 
-        # print('Opened',open)
         self.accept()
 
-        print("Send")
         for i in range(len(docs)):
             id = docs[i].id
             doc = docs[i]
@@ -85,7 +83,7 @@ class ChatConsumer(WebsocketConsumer):
 
     # Receive message from WebSocket
     def receive(self, text_data):
-        print("Jeronemo")
+        # print("Jeronemo")
         text_data_json = json.loads(text_data)
         IsPoll = text_data_json['IsPoll']
         CourseID = text_data_json['CourseID']
@@ -96,6 +94,9 @@ class ChatConsumer(WebsocketConsumer):
         # messageHead = ''
         # ReplyBody = ''
         if (IsPoll == False):
+            client = ntplib.NTPClient()
+            response = client.request('pool.ntp.org')
+            MessageID = str(response.tx_time)
             ShowReply = text_data_json['ShowReply']
             if (ShowReply == False):
                 IsReply = text_data_json['IsReply']
@@ -103,11 +104,14 @@ class ChatConsumer(WebsocketConsumer):
                 messageHead = text_data_json['messageHead']
                 ReplyBody = text_data_json['ReplyBody']
                 if not IsReply:
-                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
+                    client = ntplib.NTPClient()
+                    response = client.request('pool.ntp.org')
+                    MessageID = str(response.tx_time)
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).set({'Author' : curAuthor,'MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
 
                 else:
                     MessageID = text_data_json['MessageID']
-                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').add({'Author' : curAuthor,'MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
 
                 # Send message to room group
                 async_to_sync(self.channel_layer.group_send)(
@@ -115,7 +119,7 @@ class ChatConsumer(WebsocketConsumer):
                     {
                         'type': 'chat_message',
                         'ShowReply': False,
-                        'Author': 'Utkarsh',
+                        'Author': curAuthor,
                         'IsReply': IsReply,
                         'messageHead' : messageHead,
                         'message': message,
@@ -125,7 +129,7 @@ class ChatConsumer(WebsocketConsumer):
                 )
             else:
                 MessageID = text_data_json['MessageID']
-                doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies')
+                doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').order_by(u'PostTime')
                 replies = list(doc_ref.get())
                 for i in range(len(replies)):
                     replies[i] = replies[i].to_dict()
@@ -150,35 +154,38 @@ class ChatConsumer(WebsocketConsumer):
                     PollOpt = []
                     for i in range(len(text_data_json['PollOptions'])):
                         PollOpt.append(text_data_json['PollOptions'][i])
-                        DBPoll = {
-                            'Author': 'Utkarsh',
-                            'PollQues': PollQues,
-                            'PollOpt': PollOpt,
-                            'IsPoll': True,
-                            'PostTime':firestore.SERVER_TIMESTAMP,
-                        }
-                        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add(DBPoll)
+                    DBPoll = {
+                        'Author': curAuthor,
+                        'PollQues': PollQues,
+                        'PollOpt': PollOpt,
+                        'IsPoll': True,
+                        'PostTime':firestore.SERVER_TIMESTAMP,
+                    }
+                    client = ntplib.NTPClient()
+                    response = client.request('pool.ntp.org')
+                    MessageID = str(response.tx_time)
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).set(DBPoll)
 
-                        async_to_sync(self.channel_layer.group_send)(
-                        self.room_group_name,
-                        {
-                            'type': 'poll_message',
-                            'Author': 'Utkarsh',
-                            'PollQues': PollQues,
-                            'PollOpt': PollOpt,
-                            'IsReply': IsReply,
-                            'MessageID': MessageID,
-                        })
+                    async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name,
+                    {
+                        'type': 'poll_message',
+                        'Author': curAuthor,
+                        'PollQues': PollQues,
+                        'PollOpt': PollOpt,
+                        'IsReply': IsReply,
+                        'MessageID': MessageID,
+                    })
                 else:
                     UserOpt = int(text_data_json['UserOpt'])
                     MessageID = text_data_json['MessageID']
-                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').document(u'Utkarsh')
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').document(ucurAuthor)
                     # print(UserOpt)
                     DBPollUpdate = {
                         'MessageID': MessageID,
                         'ReplyBody': UserOpt,
                         'PostTime':firestore.SERVER_TIMESTAMP,
-                        'Author': 'Utkarsh',
+                        'Author': curAuthor,
                     }
                     doc_ref.set(DBPollUpdate)
 
@@ -198,7 +205,7 @@ class ChatConsumer(WebsocketConsumer):
                 for i in range(len(replies)):
                     replies[i] = replies[i].to_dict()
                     PollCnt[replies[i]['ReplyBody']] = PollCnt[replies[i]['ReplyBody']] + 1
-                    if (replies[i]['Author'] == 'Utkarsh'):
+                    if (replies[i]['Author'] == curAuthor):
                         userOpt = replies[i]['ReplyBody']
 
                 text_data=json.dumps({
