@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class TAMyData {
+public class AttendanceMyData {
 
     public static ArrayList<String> assignmentsDeadlineList = new ArrayList<>();
     public static ArrayList<String> assignmentsNameList = new ArrayList<>();
