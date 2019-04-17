@@ -22,10 +22,11 @@ public class ViewAssignment extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         courseInfo = getIntent().getStringExtra("courseInfo");
+        String assignmentID = getIntent().getStringExtra("assignID");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_assignment);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(courseInfo);
+        toolbar.setTitle(assignmentID);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -47,11 +48,11 @@ public class ViewAssignment extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
                     new FragmentGroups()).commit();
-            navigationView.setCheckedItem(R.id.nav_assignments);
+            navigationView.setCheckedItem(R.id.nav_groups);
         }
-        Toast.makeText(ViewAssignment.this, courseInfo, Toast.LENGTH_LONG).show();
+        Toast.makeText(ViewAssignment.this, courseInfo + " " + assignmentID , Toast.LENGTH_LONG).show();
     }
 
     @Override

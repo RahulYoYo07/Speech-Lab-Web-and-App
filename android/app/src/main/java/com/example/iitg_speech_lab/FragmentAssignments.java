@@ -105,23 +105,16 @@ public class FragmentAssignments extends Fragment {
             TextView textViewName
                     = viewHolder.itemView.findViewById(R.id.textViewCourseID);
             String selectedName = ( String ) textViewName.getText();
-            //int selectedItemId = -1;
-
-//            for (int i = 0; i < AssignmentsMyData.assignmentsIDList.size(); i++) {
-//                if (selectedName.equals(AssignmentsMyData.assignmentsIDList.get(i))) {
-//                    //selectedItemId = AssignmentsMyData.assignmentsInfoList.get(i);
-//                }
-//            }
-//            removedItems.add(selectedItemId);
-//            data.remove(selectedItemPosition);
-//            adapter.notifyItemRemoved(selectedItemPosition);
 
             Log.d("aman",selectedName);
             String ainfo = (String) viewHolder.itemView.getTag();
             Log.d("aman",ainfo);
-//            Intent intent = new Intent(AssignmentsActivity.this, ViewCourse.class);
-//            intent.putExtra("courseInfo",cinfo);
-//            startActivity(intent);
+
+            Intent intent = new Intent(getActivity(), ViewAssignment.class);
+
+            intent.putExtra("courseInfo",ViewCourse.courseInfo);
+            intent.putExtra("assignID",ainfo);
+            startActivity(intent);
         }
     }
 }
