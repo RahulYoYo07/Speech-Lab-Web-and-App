@@ -1,5 +1,9 @@
 {% extends 'home/layout.html' %}
 
 {% block content %}
+    {% for para in data.paragraphs%}
+        <h3>{{para.title}}</h3>
+        <p>{{para.text}}</p>
+    {% endfor %}
 
 {% endblock %}

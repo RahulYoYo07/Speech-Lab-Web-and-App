@@ -4,100 +4,45 @@
 <br>
 
 {% for i, j in uc_list %}
-     {% if j == 0 %}
-        <div class="row">
-     {% endif %}
-            <div class="col-sm-4">
-                <div class="card" style="width: 18rem;">
-              <img src="..." class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">{{i.FullName}}</h5>
-                <p class="card-text">{{i.About}}</p>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{i.Department}}</li>
-                  {% if i.Designation == "Student" %}
-                    <li class="list-group-item">{{i.Program}}</li>
-                 {% endif %}
-                 {% if i.Designation == "Faculty" %}
-                    <li class="list-group-item">{{i.CollegeDesignation}}</li>
-                 {% endif %}
-                <li class="list-group-item">{{i.Email}}</li>
-              </ul>
-              <div class="card-body">
-                {% if i.URL.Homepage != "" %}
-                <a href="//{{i.URL.Homepage}}" target="_blank" class="card-link">Home Page</a>
-                 {% endif %}
-                  {% if i.URL.Github != "" %}
-                <a href="//{{i.URL.Github}}" target="_blank" class="card-link">Github</a>
-                 {% endif %}
-                {% if i.URL.Linkedin != "" %}
-                <a href="//{{i.URL.Linkedin}}" target="_blank" class="card-link">Linkedin</a>
-                 {% endif %}
-              </div>
-            </div>
-              </div>
-     {% if j == 2 %}
-        </div>
-        <br>
-     {% endif %}
+{% if j == 0 %}
+<div class="row">
+  {% endif %}
+  <div class="col-sm-4">
+    <div class="card" style="width: 18rem;">
+      <img src="{{i.ProfilePic}}" class="card-img-top" alt="">
+      <div class="card-body">
+        <h5 class="card-title">{{i.FullName}}</h5>
+        <p class="card-text">{{i.About}}</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{i.Department}}</li>
+        {% if i.Designation == "Student" %}
+        <li class="list-group-item">{{i.Program}}</li>
+        {% endif %}
+        {% if i.Designation == "Faculty" %}
+        <li class="list-group-item">{{i.CollegeDesignation}}</li>
+        {% endif %}
+        <li class="list-group-item">{{i.Email}}</li>
+      </ul>
+      <div class="card-body">
+        {% if i.URL.Homepage != "" %}
+        <a href="//{{i.URL.Homepage}}" target="_blank" class="card-link">Home Page</a>
+        {% endif %}
+        {% if i.URL.Github != "" %}
+        <a href="//{{i.URL.Github}}" target="_blank" class="card-link">Github</a>
+        {% endif %}
+        {% if i.URL.Linkedin != "" %}
+        <a href="//{{i.URL.Linkedin}}" target="_blank" class="card-link">Linkedin</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% if j == 2 %}
+</div>
+<br>
+{% endif %}
 {% endfor %}
 
-<!--<div class="row">-->
-  <!--<div class="col-sm-4">-->
-    <!--<div class="card" style="width: 18rem;">-->
-  <!--<img src="..." class="card-img-top" alt="...">-->
-  <!--<div class="card-body">-->
-    <!--<h5 class="card-title">Card title</h5>-->
-    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-  <!--</div>-->
-  <!--<ul class="list-group list-group-flush">-->
-    <!--<li class="list-group-item">Cras justo odio</li>-->
-    <!--<li class="list-group-item">Dapibus ac facilisis in</li>-->
-    <!--<li class="list-group-item">Vestibulum at eros</li>-->
-  <!--</ul>-->
-  <!--<div class="card-body">-->
-    <!--<a href="#" class="card-link">Card link</a>-->
-    <!--<a href="#" class="card-link">Another link</a>-->
-  <!--</div>-->
-<!--</div>-->
-  <!--</div>-->
-  <!--<div class="col-sm-4">-->
-    <!--<div class="card" style="width: 18rem;">-->
-  <!--<img src="..." class="card-img-top" alt="...">-->
-  <!--<div class="card-body">-->
-    <!--<h5 class="card-title">Card title</h5>-->
-    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-  <!--</div>-->
-  <!--<ul class="list-group list-group-flush">-->
-    <!--<li class="list-group-item">Cras justo odio</li>-->
-    <!--<li class="list-group-item">Dapibus ac facilisis in</li>-->
-    <!--<li class="list-group-item">Vestibulum at eros</li>-->
-  <!--</ul>-->
-  <!--<div class="card-body">-->
-    <!--<a href="#" class="card-link">Card link</a>-->
-    <!--<a href="#" class="card-link">Another link</a>-->
-  <!--</div>-->
-<!--</div>-->
-  <!--</div>-->
-    <!--<div class="col-sm-4">-->
-    <!--<div class="card" style="width: 18rem;">-->
-  <!--<img src="..." class="card-img-top" alt="...">-->
-  <!--<div class="card-body">-->
-    <!--<h5 class="card-title">Card title</h5>-->
-    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-  <!--</div>-->
-  <!--<ul class="list-group list-group-flush">-->
-    <!--<li class="list-group-item">Cras justo odio</li>-->
-    <!--<li class="list-group-item">Dapibus ac facilisis in</li>-->
-    <!--<li class="list-group-item">Vestibulum at eros</li>-->
-  <!--</ul>-->
-  <!--<div class="card-body">-->
-    <!--<a href="#" class="card-link">Card link</a>-->
-    <!--<a href="#" class="card-link">Another link</a>-->
-  <!--</div>-->
-<!--</div>-->
-  <!--</div>-->
-<!--</div>-->
+
 <br>
 {% endblock %}

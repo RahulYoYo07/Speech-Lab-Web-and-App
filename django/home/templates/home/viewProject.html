@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1> {{project.Title}}</h1>
-    <h5> Abstract </h5>
-    <p>  {{project.Abstract}} </p>
-    <h5> Project Mentors </h5>
-    <ul>
-        {% for mentor in project.MentorList %}
-            <li> {{mentor}} </li>
-        {% endfor %}
-    </ul>
-    <h5> Students involved </h5>
-    <ul>
-        {% for contributor in project.ContributorsList %}
-            <li> {{contributor}} </li>
-        {% endfor %}
-    </ul>
-
-</body>
-</html>
+{% extends 'home/top_nav.html' %}
+{% block your_content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-10">
+      <br>  
+      <h1>{{Project.Title}}</h1>
+      <div class="row">
+        <video src="{{Project.Media}}"></video>
+      </div>
+      
+    </div>
+    <div class="col-lg-1"></div>
+  </div>
+</div>
+{% endblock %}

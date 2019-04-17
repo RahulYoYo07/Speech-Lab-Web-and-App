@@ -39,11 +39,48 @@ db = firestore.client()
 def home(request):
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
     sign_in_url = get_signin_url(redirect_uri)
-    # sign_in_url = get_signin_url("https://iitg-speech-lab.firebaseapp.com/__/auth/handler")
-    # print(redirect_uri)
-    context = {'sign_in_url': sign_in_url}
-    # return HttpResponse('<a href="' + sign_in_url +'">Click here to sign in</a>')
+    data = db.collection(u'Homepage').document("homepage").get().to_dict()
+    context = {'sign_in_url': sign_in_url,
+                'data' : data}
+    context = loginFLOW(request, context)
     return render(request, 'home/home.html', context)
+
+def faq(request):
+    data = db.collection(u'Homepage').document("faq").get().to_dict()
+    temp = [item for item in enumerate(data['qa'])]
+    context = {'stuff' : temp}
+    context = loginFLOW(request, context)
+    return render(request, 'home/faq.html', context)
+
+def contactus(request):
+    data = db.collection(u'Homepage').document("contactUs").get().to_dict()
+    context = loginFLOW(request, data)
+    return render(request, 'home/contactus.html', context)
+
+def addProject(request, uinfo):
+    context = {}
+    context = loginFLOW(request, context)
+    return render(request, 'home/addproject.html', context)
+
+def add(request, uinfo):
+    context = {}
+    if request.method == 'POST':
+        context = loginFLOW(request, context)
+        if context['username'] != uinfo:
+            return HttpResponse("Error")
+        
+        username = context['username']
+        project = {}
+        project['Title'] = request.POST.get('title')
+        project['AboutProject'] = request.POST.get('about')
+        project['Creator'] = db.collection(u'Users').document(username)
+        project['Media'] = request.POST.get('cmurl')
+        project['Mentor'] = request.POST.get('mentors')
+        project['People'] = request.POST.get('people')
+        
+        db.collection(u'Projects').add(project)
+
+        return HttpResponseRedirect("/users/" + username)
 
 
 def gettoken(request):
@@ -71,7 +108,7 @@ def gettoken(request):
                 u'About': "",
                 u'Contact': "",
                 u'Department': user["department"],
-                u'ProfilePic': "",
+                u'ProfilePic': "https://firebasestorage.googleapis.com/v0/b/iitg-speech-lab.appspot.com/o/ProfileImages%2Fprofilepic.png?alt=media&token=bed0c911-cff9-4674-88db-defdca5942a4",
                 u'RollNumber': user["surname"],
                 u'URL': {
                     'Github': '',
@@ -91,17 +128,7 @@ def gettoken(request):
                 u'Contact': "",
                 u'Department': user["department"],
                 u'ProfilePic': "",
-            # from django.urls import path
-# from home import views
-#
-# app_name = 'home'
-# urlpatterns = [
-#     path('', views.redirect_user, name='redirect_user'),
-#     path('<slug:uinfo>/', views.ViewUser, name='view_user'),
-#     path('<slug:uinfo>/editProfile/', views.editProfile, name='editProfile'),
-#     path('<slug:uinfo>/editProfile/edit/', views.edit, name='edit'),
-#
-# ]    u'RoomNumber': "",
+                u'RoomNumber': "",
                 u'URL': {
                     'Github': '',
                     'Homepage': '',
@@ -130,7 +157,7 @@ def gettoken(request):
 
     # return HttpResponseRedirect("https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri =http://localhost:8000/home/")
     # return HttpResponse('Roll {0}'.format(user['jobTitle']))
-    return HttpResponseRedirect("http://localhost:8000/users/" + username)
+    return HttpResponseRedirect("/users/" + username)
 
 
 def login(request):
@@ -149,7 +176,7 @@ def login_add(request):
             sign_in_url = get_signin_url(redirect_uri)
             return HttpResponseRedirect(sign_in_url)
 
-    return HttpResponseRedirect('http://127.0.0.1:8000/home/')
+    return HttpResponseRedirect('/home/')
 
 
 def logout(request):
@@ -158,17 +185,30 @@ def logout(request):
 
 
 def ViewUser(request, uinfo):
-    access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
-    if not access_token:
-        return HttpResponse("You are not logged in")
-    user = get_me(access_token)
-    username = user['mail']
-    username = username.replace("@iitg.ac.in", "")
-    if username != uinfo:
+    context = {}
+    context = loginFLOW(request, context)
+
+    if context['username'] != uinfo:
         return HttpResponse("Error")
 
-    context = {'username': uinfo}
-    return render(request, 'home/user.html', context)
+    profile = db.collection(u'Users').document(context['username'])
+    profile_dict = profile.get().to_dict()
+    
+    context['profile'] = profile_dict
+
+    
+    all_projects = db.collection(u'Projects').where(u'Creator', u'==', profile).get()
+    project_list = []
+    for x in all_projects:
+        project = x.to_dict()
+        project['id'] = x.id
+        project_list.append(project)
+    if 'isAdmin' in profile_dict:
+        context["isAdmin"] = "True"
+    else:
+        context["isAdmin"] = "False"
+    context['projects'] = project_list
+    return render(request, 'home/profile.html', context)
 
 
 def student(request):
@@ -186,6 +226,7 @@ def student(request):
             count += 1
     uc_list = zip(user_list, counter_list)
     context = {'uc_list': uc_list}
+    context = loginFLOW(request, context)
     return render(request, 'home/people.html', context)
 
 
@@ -202,39 +243,30 @@ def faculty(request):
             count += 1
     uc_list = zip(user_list, counter_list)
     context = {'uc_list': uc_list}
+    context = loginFLOW(request, context)
     return render(request, 'home/people.html', context)
 
 
 def projects(request):
-    project_ref = db.collection(u'Projects').get()
+    context = {}
+    projects = db.collection(u'Projects').get()
     project_list = []
-    for project in project_ref:
-        project_dict = project.to_dict()
-        project_dict["id"] = project.id
-        mentor_list = project_dict["MentorsList"]
-        MentorName = []
-        for mentor in mentor_list:
-            mentor_dict = mentor.get().to_dict()
-            MentorName.append(mentor_dict["FullName"])
-        project_dict["MentorName"] = MentorName
-        project_list.append(project_dict)
+    for x in projects:
+        project = x.to_dict()
+        project['id'] = x.id
+        project_list.append(project)
 
-    context = {'project_list':project_list}
-
+    context['projects'] = project_list
+    context = loginFLOW(request, context)
     return render(request, 'home/projects.html', context)
 
 
 def projectView(request, pinfo):
     project_ref = db.collection(u'Projects').document(pinfo).get()
     project_dict = project_ref.to_dict()
-    mentor_list = project_dict["MentorsList"]
-    MentorList = []
-    for mentor in mentor_list:
-        mentor_dict = mentor.get().to_dict()
-        MentorList.append(mentor_dict["FullName"])
-    project_dict["MentorList"] = MentorList
-    context = {'project': project_dict}
-
+    
+    context = {'Project': project_dict}
+    context = loginFLOW(request, context)
     return render(request, 'home/viewProject.html', context)
 
 
@@ -255,7 +287,20 @@ def editProfile(request, uinfo):
     if user_dict["Designation"] == "Faculty":
         t = 0
     context = {'isStudent': t, 'user': user_dict}
+    context = loginFLOW(request, context)
+    if 'isAdmin' in user_dict:
+        context["isAdmin"] = "True"
+    else:
+        context["isAdmin"] = "False"
     return render(request, 'home/editProfile.html', context)
+
+#def editContact(request, uinfo):
+
+
+#def editHome(request, uinfo):
+
+#def editFaq(request, uinfo):
+
 
 
 def edit(request, uinfo):
@@ -269,14 +314,14 @@ def edit(request, uinfo):
             return HttpResponse("Error")
         user = db.collection(u'Users').document(username).get()
         user_dict = user.to_dict()
+        user_dict["ProfilePic"] = request.POST.get('cmurl')
         user_dict["About"] = request.POST.get('about_me')
         user_dict["Contact"] = request.POST.get('contact')
         user_dict["URL"]["Github"] = request.POST.get('github')
         user_dict["URL"]["Linkedin"] = request.POST.get('linkedin')
         user_dict["URL"]["Homepage"] = request.POST.get('homepage')
         db.collection(u'Users').document(username).set(user_dict)
-        return HttpResponseRedirect("http://localhost:8000/users/" + username)
-
+        return HttpResponseRedirect("/users/" + username)
 
 def redirect_user(request):
     access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
@@ -284,4 +329,19 @@ def redirect_user(request):
         return HttpResponse("You are not logged in")
     user = get_me(access_token)
     username = user['mail'].replace("@iitg.ac.in", "")
-    return HttpResponseRedirect("http://localhost:8000/users/" + username)
+    return HttpResponseRedirect("/users/" + username)
+
+def loginFLOW(request, context):
+    redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
+    sign_in_url = get_signin_url(redirect_uri)
+    access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
+    if not access_token:
+        context['username'] = ''
+    else:
+        user = get_me(access_token)
+        username = user['mail'].replace("@iitg.ac.in", "")
+        context['username'] = username
+
+    context['sign_in_url'] = sign_in_url
+
+    return context
