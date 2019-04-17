@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
     <include
         layout="@layout/app_bar_master"
         android:layout_width="match_parent"
@@ -22,12 +23,8 @@
         app:headerLayout="@layout/nav_header_master"
         app:menu="@menu/activity_master_drawer" >
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="temp"
-            android:text="Button" />
+
     </android.support.design.widget.NavigationView>
+    
 
 </android.support.v4.widget.DrawerLayout>

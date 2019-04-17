@@ -43,7 +43,7 @@ public class Master extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
     public void temp(View view){
-        Intent intent = new Intent(Master.this, AddFaq.class);
+        Intent intent = new Intent(Master.this, EditAboutUs.class);
         startActivity(intent);
     }
 

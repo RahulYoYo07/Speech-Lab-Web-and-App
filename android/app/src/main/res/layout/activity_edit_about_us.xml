@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditAboutUs">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/AboutUs"
+                android:text = "About Us(Use enter for new paragraph)"
+                android:textAppearance="@style/EditAboutUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/AboutUsDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditAboutUsDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/Achievements"
+                android:text = "Achievements(Use enter for new detail)"
+                android:textAppearance="@style/EditAboutUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/AchievementsDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditAboutUsDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/Head"
+                android:text = "Head of Lab"
+                android:textAppearance="@style/EditAboutUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/HeadDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditAboutUsDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/People"
+                android:text = "Important People(Use enter for new name)"
+                android:textAppearance="@style/EditAboutUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/PeopleDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditAboutUsDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/Established"
+                android:text = "Established in"
+                android:textAppearance="@style/EditAboutUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/EstablishedDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditAboutUsDetail"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Edit Details"
+                android:id="@+id/EditDetail"
+                android:onClick="editDetails"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
