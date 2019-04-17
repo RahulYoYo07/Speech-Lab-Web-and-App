@@ -25,63 +25,6 @@ cred = credentials.Certificate({
 # firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-# #Show replies
-# class ChatConsumer2(WebsocketConsumer):
-#
-#     def connect(self):
-#         self.room_name = self.scope['url_route']['kwargs']['MessageID']
-#         # print(self.room_name)
-#         self.room_group_name = 'chat_%s' % self.room_name
-#         # print(self.channel_name)
-#         # Join room group
-#         async_to_sync(self.channel_layer.group_add)(
-#             self.room_group_name,
-#             self.channel_name
-#         )
-#         self.accept()
-#
-#         CourseID = self.scope['url_route']['kwargs']['CourseID']
-#         CourseGroupID = self.scope['url_route']['kwargs']['CourseGroupID']
-#         MessageID = self.scope['url_route']['kwargs']['MessageID']
-#         doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies')
-#         replies = list(doc_ref.get())
-#         for i in range(len(replies)):
-#             replies[i] = replies[i].to_dict()
-#         # Send reply to user in group
-#         self.send(text_data=json.dumps({
-#             'IsReply': True,
-#             'Replies': replies,
-#         }))
-#         print('Success')
-#
-#
-#     def disconnect(self, close_code):
-#         # Leave room group
-#         async_to_sync(self.channel_layer.group_discard)(
-#             self.room_group_name,
-#             self.channel_name
-#         )
-#
-#     # Receive request reply from WebSocket
-#     def receive(self, text_data):
-#         print('show replies party time')
-#         text_data_json = json.loads(text_data)
-#         CourseID = text_data_json['CourseID']
-#         CourseGroupID = text_data_json['CourseGroupID']
-#         MessageID = text_data_json['MessageID']
-#         doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies')
-#         replies = list(doc_ref.get())
-#         for i in range(len(replies)):
-#             replies[i] = replies[i].to_dict()
-#         # Send reply to user in group
-#         self.send(text_data=json.dumps({
-#             'IsReply': True,
-#             'Replies': replies,
-#         }))
-#
-#     def chat_message(self, event):
-#         pass
-
 # -------------------------------------------------------------------------------------------------------------------------------
 #Receive and sending messages
 class ChatConsumer(WebsocketConsumer):
@@ -112,14 +55,26 @@ class ChatConsumer(WebsocketConsumer):
             id = docs[i].id
             doc = docs[i]
             doc = doc.to_dict()
-            self.send(text_data=json.dumps({
-                'messageHead' : doc['MessageHead'],
-                'message': doc['MessageBody'],
-                'Author':doc['Author'],
-                'MessageID': id,
-                'IsReply': False,
-                'ShowReply': False,
-            }))
+            if (doc['IsPoll'] == False):
+                self.send(text_data=json.dumps({
+                    'IsPoll': doc['IsPoll'],
+                    'messageHead' : doc['MessageHead'],
+                    'message': doc['MessageBody'],
+                    'Author':doc['Author'],
+                    'MessageID': id,
+                    'IsReply': False,
+                    'ShowReply': False,
+                }))
+            else:
+                self.send(text_data=json.dumps({
+                    'IsPoll': doc['IsPoll'],
+                    'PollQues': doc['PollQues'],
+                    'Author':doc['Author'],
+                    'MessageID': id,
+                    'IsReply': False,
+                    'ShowReply': False,
+                }))
+
 
     def disconnect(self, close_code):
         # Leave room group
@@ -132,7 +87,7 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         print("Jeronemo")
         text_data_json = json.loads(text_data)
-        ShowReply = text_data_json['ShowReply']
+        IsPoll = text_data_json['IsPoll']
         CourseID = text_data_json['CourseID']
         CourseGroupID = text_data_json['CourseGroupID']
         MessageID = ''
@@ -140,49 +95,142 @@ class ChatConsumer(WebsocketConsumer):
         # message = ''
         # messageHead = ''
         # ReplyBody = ''
-        if (ShowReply == False):
-            IsReply = text_data_json['IsReply']
-            message = text_data_json['message']
-            messageHead = text_data_json['messageHead']
-            ReplyBody = text_data_json['ReplyBody']
-            if not IsReply:
-                doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
+        if (IsPoll == False):
+            ShowReply = text_data_json['ShowReply']
+            if (ShowReply == False):
+                IsReply = text_data_json['IsReply']
+                message = text_data_json['message']
+                messageHead = text_data_json['messageHead']
+                ReplyBody = text_data_json['ReplyBody']
+                if not IsReply:
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add({'Author' : 'Utkarsh','MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
+
+                else:
+                    MessageID = text_data_json['MessageID']
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
+
+                # Send message to room group
+                async_to_sync(self.channel_layer.group_send)(
+                    self.room_group_name,
+                    {
+                        'type': 'chat_message',
+                        'ShowReply': False,
+                        'Author': 'Utkarsh',
+                        'IsReply': IsReply,
+                        'messageHead' : messageHead,
+                        'message': message,
+                        'ReplyBody': ReplyBody,
+                        'MessageID': MessageID,
+                    }
+                )
+            else:
+                MessageID = text_data_json['MessageID']
+                doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies')
+                replies = list(doc_ref.get())
+                for i in range(len(replies)):
+                    replies[i] = replies[i].to_dict()
+                    replies[i]['PostTime']=str(replies[i]['PostTime'])
+                    print(replies[i])
+                # Send reply to user in group
+                text_data=json.dumps({
+                    'IsPoll': False,
+                    'ShowReply': True,
+                    'IsReply': True,
+                    'Replies': replies,
+                })
+                # print(text_data)
+                self.send(text_data)
+        else:
+            ShowReply = text_data_json['ShowReply']
+            if (ShowReply == False):
+                IsReply = text_data_json['IsReply']
+                if (IsReply == False):
+                    PollQues = text_data_json['PollQues']
+                    # PollOptNum = text_data_json['PollOptNum']
+                    PollOpt = []
+                    for i in range(len(text_data_json['PollOptions'])):
+                        PollOpt.append(text_data_json['PollOptions'][i])
+                        DBPoll = {
+                            'Author': 'Utkarsh',
+                            'PollQues': PollQues,
+                            'PollOpt': PollOpt,
+                            'IsPoll': True,
+                            'PostTime':firestore.SERVER_TIMESTAMP,
+                        }
+                        doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').add(DBPoll)
+
+                        async_to_sync(self.channel_layer.group_send)(
+                        self.room_group_name,
+                        {
+                            'type': 'poll_message',
+                            'Author': 'Utkarsh',
+                            'PollQues': PollQues,
+                            'PollOpt': PollOpt,
+                            'IsReply': IsReply,
+                            'MessageID': MessageID,
+                        })
+                else:
+                    UserOpt = int(text_data_json['UserOpt'])
+                    MessageID = text_data_json['MessageID']
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').document(u'Utkarsh')
+                    # print(UserOpt)
+                    DBPollUpdate = {
+                        'MessageID': MessageID,
+                        'ReplyBody': UserOpt,
+                        'PostTime':firestore.SERVER_TIMESTAMP,
+                        'Author': 'Utkarsh',
+                    }
+                    doc_ref.set(DBPollUpdate)
 
             else:
                 MessageID = text_data_json['MessageID']
-                doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').add({'Author' : 'Utkarsh','MessageID' : MessageID, 'PostTime' : firestore.SERVER_TIMESTAMP, 'ReplyBody': ReplyBody})
+                doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID)
+                Poll = doc_ref.get().to_dict()
+                PollOpt = Poll['PollOpt']
+                PollCnt = []
+                for i in range(len(PollOpt)):
+                    PollCnt.append(0);
 
-            # Send message to room group
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name,
-                {
-                    'type': 'chat_message',
-                    'ShowReply': False,
-                    'Author': 'Utkarsh',
-                    'IsReply': IsReply,
-                    'messageHead' : messageHead,
-                    'message': message,
-                    'ReplyBody': ReplyBody,
+                rep_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies')
+                replies = list(rep_ref.get())
+
+                userOpt = -1
+                for i in range(len(replies)):
+                    replies[i] = replies[i].to_dict()
+                    PollCnt[replies[i]['ReplyBody']] = PollCnt[replies[i]['ReplyBody']] + 1
+                    if (replies[i]['Author'] == 'Utkarsh'):
+                        userOpt = replies[i]['ReplyBody']
+
+                text_data=json.dumps({
+                    'IsPoll': True,
+                    'ShowReply': True,
+                    'IsReply': True,
+                    'PollOpt': PollOpt,
+                    'PollCnt': PollCnt,
+                    'UserOpt': userOpt,
                     'MessageID': MessageID,
-                }
-            )
-        else:
-            MessageID = text_data_json['MessageID']
-            doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies')
-            replies = list(doc_ref.get())
-            for i in range(len(replies)):
-                replies[i] = replies[i].to_dict()
-                replies[i]['PostTime']=str(replies[i]['PostTime'])
-                print(replies[i])
-            # Send reply to user in group
-            text_data=json.dumps({
-                'ShowReply': True,
-                'IsReply': True,
-                'Replies': replies,
-            })
-            print(text_data)
-            self.send(text_data)
+                })
+                self.send(text_data)
 
+
+    # Receive poll from room group
+    def poll_message(self, event):
+
+        Author=event['Author']
+        PollQues = event['PollQues']
+        PollOpt = event['PollOpt']
+        IsReply = event['IsReply']
+        MessageID = event['MessageID']
+        # Send message to WebSocket
+        self.send(text_data=json.dumps({
+            'ShowReply': False,
+            'Author':Author,
+            'IsReply': IsReply,
+            'IsPoll': True,
+            'PollQues': PollQues,
+            'PollOpt': PollOpt,
+            'MessageID': MessageID,
+        }))
 
     # Receive message from room group
     def chat_message(self, event):
@@ -197,6 +245,7 @@ class ChatConsumer(WebsocketConsumer):
             'ShowReply': False,
             'Author':Author,
             'IsReply': IsReply,
+            'IsPoll': False,
             'messageHead' : messageHead,
             'message': message,
             'ReplyBody': ReplyBody,
