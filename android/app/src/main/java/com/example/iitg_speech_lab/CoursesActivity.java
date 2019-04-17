@@ -25,12 +25,11 @@ import java.util.ArrayList;
 public class CoursesActivity extends AppCompatActivity {
 
     private static RecyclerView.Adapter adapter;
-    private static RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private static ArrayList<CoursesDataModel> data;
     static View.OnClickListener myOnClickListener;
     public TaskCompletionSource<Integer> task1;
     public Task task2;
-    private Task<Void> allTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +45,8 @@ public class CoursesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 Intent intent = new Intent(CoursesActivity.this, AddCourse.class);
                 startActivity(intent);
-//                        .setAction("Action", null).show();
             }
         });
 
@@ -68,7 +65,7 @@ public class CoursesActivity extends AppCompatActivity {
         Log.d("yo",username);
         CoursesMyData.loadCourses(username,task1);
 
-        allTask = Tasks.whenAll(task2);
+        Task<Void> allTask = Tasks.whenAll(task2);
 
         allTask.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -87,11 +84,7 @@ public class CoursesActivity extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
             }
         });
-
-
     }
-
-
 
     private class MyOnClickListener implements View.OnClickListener {
 
@@ -108,21 +101,17 @@ public class CoursesActivity extends AppCompatActivity {
             RecyclerView.ViewHolder viewHolder
                     = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
             TextView textViewName
-                    = viewHolder.itemView.findViewById(R.id.textViewCourseID);
+                    = null;
+            if (viewHolder != null) {
+                textViewName = viewHolder.itemView.findViewById(R.id.textViewCourseID);
+            }
             String selectedName = ( String ) textViewName.getText();
-            //int selectedItemId = -1;
-
-//            for (int i = 0; i < CoursesMyData.coursesIDList.size(); i++) {
-//                if (selectedName.equals(CoursesMyData.coursesIDList.get(i))) {
-//                    //selectedItemId = CoursesMyData.coursesInfoList.get(i);
-//                }
-//            }
-//            removedItems.add(selectedItemId);
-//            data.remove(selectedItemPosition);
-//            adapter.notifyItemRemoved(selectedItemPosition);
 
             Log.d("aman",selectedName);
-            String cinfo = (String) viewHolder.itemView.getTag();
+            String cinfo = null;
+            if (viewHolder != null) {
+                cinfo = (String) viewHolder.itemView.getTag();
+            }
             Log.d("aman",cinfo);
             Intent intent = new Intent(CoursesActivity.this, ViewCourse.class);
             intent.putExtra("courseInfo",cinfo);
