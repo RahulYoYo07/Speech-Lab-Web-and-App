@@ -16,4 +16,8 @@
     <string name="assignments">Assignments</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="grades_attendance"><![CDATA[Grades & Attendance]]></string>
+    <string name="title_activity_view_assignment">ViewAssignment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

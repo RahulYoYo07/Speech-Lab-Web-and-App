@@ -1,20 +1,18 @@
 package com.example.iitg_speech_lab;
 
-
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.annotation.NonNull;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.Model.CoursesDataModel;
+import com.example.iitg_speech_lab.Model.GroupsDataModel;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
-
-    private ArrayList<CoursesDataModel> dataSet;
+public class GroupsCustomAdapter extends RecyclerView.Adapter<GroupsCustomAdapter.MyViewHolder>  {
+    private ArrayList<GroupsDataModel> dataSet;
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,35 +26,32 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         }
     }
 
-    CustomAdapter(ArrayList<CoursesDataModel> data) {
+    GroupsCustomAdapter(ArrayList<GroupsDataModel> data) {
         this.dataSet = data;
     }
 
-    @Override
     @NonNull
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                           int viewType) {
+    public GroupsCustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                               int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cards_layout, parent, false);
 
-        view.setOnClickListener(CoursesActivity.myOnClickListener);
+        view.setOnClickListener(FragmentGroups.myOnClickListener);
 
-        return new MyViewHolder(view);
+        return new GroupsCustomAdapter.MyViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(final GroupsCustomAdapter.MyViewHolder holder, final int listPosition) {
 
         TextView textViewCourseID = holder.textViewCourseID;
         TextView textViewCourseName = holder.textViewCourseName;
 
-        textViewCourseID.setText(dataSet.get(listPosition).getId());
-        textViewCourseName.setText(dataSet.get(listPosition).getName());
+        textViewCourseID.setText(dataSet.get(listPosition).getName());
+        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
 
         holder.itemView.setTag(dataSet.get(listPosition).getInfo());
     }
 
-    @Override
     public int getItemCount() {
         return dataSet.size();
     }

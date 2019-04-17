@@ -80,7 +80,7 @@ public class CoursesActivity extends AppCompatActivity {
                     ));
                 }
 
-                adapter = new CustomAdapter(data);
+                adapter = new CoursesCustomAdapter(data);
                 recyclerView.setAdapter(adapter);
             }
         });
