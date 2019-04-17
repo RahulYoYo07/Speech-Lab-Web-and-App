@@ -33,28 +33,33 @@ public class TAMyData {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot course = task.getResult();
-                            ArrayList<DocumentReference> TA = new ArrayList<DocumentReference>();
-                            TA = (ArrayList<DocumentReference>) course.get("TAList");
-                            final Integer Counter = TA.size();
-                            for (DocumentReference ta : TA) {
-                                ta.get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    DocumentSnapshot User = task.getResult();
-                                                    TANameList.add((String) User.get("FullName"));
-                                                    TAProgramList.add((String) User.get("Program"));
-                                                    TAIDList.add((String) User.get("Username"));
-                                                    if (TAIDList.size() == Counter) {
-                                                        taskda.setResult(1);
+                        try {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot course = task.getResult();
+                                ArrayList<DocumentReference> TA = new ArrayList<DocumentReference>();
+                                TA = (ArrayList<DocumentReference>) course.get("TAList");
+                                final Integer Counter = TA.size();
+                                for (DocumentReference ta : TA) {
+                                    ta.get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot User = task.getResult();
+                                                        TANameList.add((String) User.get("FullName"));
+                                                        TAProgramList.add((String) User.get("Program"));
+                                                        TAIDList.add((String) User.get("Username"));
+                                                        if (TAIDList.size() == Counter) {
+                                                            taskda.setResult(1);
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        });
+                                            });
+                                }
                             }
+                        }
+                        catch (Exception e){
+                            taskda.setResult(1);
                         }
                     }
                 });

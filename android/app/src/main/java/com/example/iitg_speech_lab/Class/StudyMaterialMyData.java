@@ -8,6 +8,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.iitg_speech_lab.CoursesActivity;
+import com.example.iitg_speech_lab.FragmentStudyMaterial;
+import com.example.iitg_speech_lab.MainActivity;
+import com.example.iitg_speech_lab.ViewCourse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -44,13 +47,18 @@ public class StudyMaterialMyData {
                         if (task.isSuccessful()) {
                             DocumentSnapshot course = task.getResult();
                             ArrayList<Map<String,String>> cms = new ArrayList<Map<String,String>>();
-                            cms = (ArrayList<Map<String, String>>) course.get("CourseMaterial");
 
-                            for (Map<String, String> cm : cms) {
-                                studyMaterialsNameList.add(cm.get("Name"));
-                                studyMaterialsUrlList.add(cm.get("Url"));
+                            try {
+                                cms = (ArrayList<Map<String, String>>) course.get("CourseMaterial");
+                                for (Map<String, String> cm : cms) {
+                                    studyMaterialsNameList.add(cm.get("Name"));
+                                    studyMaterialsUrlList.add(cm.get("Url"));
+                                }
+                                taskda.setResult(1);
                             }
-                            taskda.setResult(1);
+                            catch (Exception e) {
+                                taskda.setResult(1);
+                            }
                         }
                     }
                 });
