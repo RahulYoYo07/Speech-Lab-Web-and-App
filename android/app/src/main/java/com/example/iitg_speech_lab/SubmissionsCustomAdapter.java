@@ -47,10 +47,10 @@ public class SubmissionsCustomAdapter extends RecyclerView.Adapter<SubmissionsCu
         TextView textViewCourseID = holder.textViewCourseID;
         TextView textViewCourseName = holder.textViewCourseName;
 
-        textViewCourseID.setText(dataSet.get(listPosition).getName());
-        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+        textViewCourseID.setText(dataSet.get(listPosition).getGID());
+        textViewCourseName.setText(dataSet.get(listPosition).getName());
 
-        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
+        holder.itemView.setTag(dataSet.get(listPosition).getURL());
     }
 
     public int getItemCount() {

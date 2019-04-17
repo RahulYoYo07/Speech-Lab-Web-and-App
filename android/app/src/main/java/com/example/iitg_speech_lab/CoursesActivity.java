@@ -35,12 +35,11 @@ public class CoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         String username = "pradip";
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        toolbar.setTitle("Courses");
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

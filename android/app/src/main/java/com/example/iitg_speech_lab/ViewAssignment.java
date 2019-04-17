@@ -18,11 +18,12 @@ public class ViewAssignment extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String courseInfo;
+    public static String assignmentID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         courseInfo = getIntent().getStringExtra("courseInfo");
-        String assignmentID = getIntent().getStringExtra("assignID");
+        assignmentID = getIntent().getStringExtra("assignID");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_assignment);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -94,17 +95,17 @@ public class ViewAssignment extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_groups) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
                     new FragmentGroups()).commit();
         } else if (id == R.id.nav_submissions) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
                     new FragmentSubmissions()).commit();
 
         } else if (id == R.id.nav_grading) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
                     new FragmentGrading()).commit();
         } else if (id == R.id.nav_deadline) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
                     new FragmentDeadline()).commit();
         }
 

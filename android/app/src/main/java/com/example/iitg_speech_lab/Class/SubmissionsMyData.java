@@ -6,36 +6,42 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class SubmissionsMyData {
 
-    public static ArrayList<String> assignmentsDeadlineList = new ArrayList<String>();
-    public static ArrayList<String> assignmentsNameList = new ArrayList<String>();
-    public static ArrayList<String> assignmentsInfoList = new ArrayList<String>();
+    public static ArrayList<String> submissionNameList = new ArrayList<String>();
+    public static ArrayList<String> submisssionUrlList = new ArrayList<String>();
+    public static ArrayList<String> submissionGIDList = new ArrayList<String>();
 
-    public static int loadAssignments(String courseInfo, final TaskCompletionSource<Integer> taskda){
+    public static int loadSubmissions(String courseInfo,String assignmentID, final TaskCompletionSource<Integer> taskda){
 
-        assignmentsDeadlineList.clear();
-        assignmentsNameList.clear();
-        assignmentsInfoList.clear();
+        submissionNameList.clear();
+        submisssionUrlList.clear();
+        submissionGIDList.clear();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference assignsRef = db.collection("Courses").document(courseInfo).collection("Assignments");
-        assignsRef.get()
+        CollectionReference groupsRef = db.collection("Courses").document(courseInfo).collection("Assignments").document(assignmentID).collection("Groups");
+        groupsRef.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot assign : task.getResult()) {
-                                assignmentsInfoList.add(assign.getString("AssignmentID"));
-                                assignmentsNameList.add(assign.getString("Name"));
-                                assignmentsDeadlineList.add(assign.getString("About"));
+                            for (QueryDocumentSnapshot group : task.getResult()) {
+                                submissionGIDList.add((String) group.getId());
+                                Map<String,String> submission= new HashMap<>();
+                                submission = (Map<String,String>) group.get("SubmissionFile");
+                                submisssionUrlList.add(submission.get("Url"));
+                                submissionNameList.add(submission.get("Name"));
                             }
                             taskda.setResult(1);
                         }
