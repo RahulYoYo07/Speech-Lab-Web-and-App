@@ -41,7 +41,7 @@ public class StudyMaterialCustomAdapter extends RecyclerView.Adapter<StudyMateri
         return new StudyMaterialCustomAdapter.MyViewHolder(view);
     }
 
-    public void onBindViewHolder(final StudyMaterialCustomAdapter.MyViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(@NonNull final StudyMaterialCustomAdapter.MyViewHolder holder, final int listPosition) {
 
         TextView textViewCourseID = holder.textViewCourseID;
         TextView textViewCourseName = holder.textViewCourseName;
