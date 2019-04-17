@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "257927035950-pcehs35954ikdlk8h5o81isc4mishm21.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.iitg_speech_lab",
+            "certificate_hash": "7f8eb9e63fe894d50d21c7178cbfc958e2604f76"
+          }
+        },
+        {
           "client_id": "257927035950-uh6p8thidck8jq534cqh1kg13f5i1qu1.apps.googleusercontent.com",
           "client_type": 3
         }
