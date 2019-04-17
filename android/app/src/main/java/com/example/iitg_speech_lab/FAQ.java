@@ -34,9 +34,6 @@ public class FAQ extends AppCompatActivity {
         setContentView(R.layout.activity_faq);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("FAQ's");
-        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.main_layout);
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
         ll.removeAllViews();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -67,3 +64,4 @@ public class FAQ extends AppCompatActivity {
                 });
     }
 }
+

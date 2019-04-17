@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditHomePageDetails"></activity>
+        <activity android:name=".AboutUs"
+            android:parentActivityName=".Master"/>
+        <activity android:name=".FAQ"
+            android:parentActivityName=".Master"/>
         <activity android:name=".AddFaq" />
+        <activity android:name=".EditHomePageDetails" />
         <activity android:name=".ProjectDetails" />
         <activity android:name=".Projects" />
         <activity android:name=".EditProfile" />
@@ -18,9 +22,6 @@
         <activity android:name=".PublicProfileDetails" />
         <activity
             android:name=".ContactUs"
-            android:parentActivityName=".Master" />
-        <activity
-            android:name=".FAQ"
             android:parentActivityName=".Master" />
         <activity
             android:name=".Master"

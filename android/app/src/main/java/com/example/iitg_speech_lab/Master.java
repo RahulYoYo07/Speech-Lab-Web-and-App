@@ -42,6 +42,10 @@ public class Master extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+    public void temp(View view){
+        Intent intent = new Intent(Master.this, AddFaq.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onBackPressed() {
@@ -89,6 +93,9 @@ public class Master extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.ContactUs){
             Intent intent = new Intent(Master.this, ContactUs.class);
+            startActivity(intent);
+        } else if(id == R.id.AboutUs) {
+            Intent intent = new Intent(Master.this, AboutUs.class);
             startActivity(intent);
         }
 
