@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditAboutUs">
+    tools:context=".EditContactUs">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,72 +19,59 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/AboutUs"
-                android:text = "About Us(Use enter for new paragraph)"
-                android:textAppearance="@style/EditAboutUs"/>
+                android:id = "@+id/PhoneNumber"
+                android:text = "Phone Number (Use enter for multiples)"
+                android:textAppearance="@style/EditContactUs"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/AboutUsDetail"
+                android:id = "@+id/PhoneNumberDetail"
                 android:maxLines="3"
-                android:textAppearance="@style/EditAboutUsDetail"/>
+                android:textAppearance="@style/EditContactUsDetail"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/Achievements"
-                android:text = "Achievements(Use enter for new detail)"
-                android:textAppearance="@style/EditAboutUs"/>
+                android:id = "@+id/Email"
+                android:text = "Email (Use enter for multiples id's)"
+                android:textAppearance="@style/EditContactUs"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/AchievementsDetail"
+                android:id = "@+id/EmailDetail"
                 android:maxLines="3"
-                android:textAppearance="@style/EditAboutUsDetail"/>
+                android:textAppearance="@style/EditContactUsDetail"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/Head"
-                android:text = "Head of Lab"
-                android:textAppearance="@style/EditAboutUs"/>
+                android:id = "@+id/Website"
+                android:text = "Website (Use enter for multiple)"
+                android:textAppearance="@style/EditContactUs"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/HeadDetail"
+                android:id = "@+id/WebsiteDetail"
                 android:maxLines="3"
-                android:textAppearance="@style/EditAboutUsDetail"/>
+                android:textAppearance="@style/EditContactUsDetail"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/People"
-                android:text = "Important People(Use enter for new name)"
-                android:textAppearance="@style/EditAboutUs"/>
+                android:id = "@+id/Location"
+                android:text = "Location (Use enter to break down location)"
+                android:textAppearance="@style/EditContactUs"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/PeopleDetail"
+                android:id = "@+id/LocationDetail"
                 android:maxLines="3"
-                android:textAppearance="@style/EditAboutUsDetail"/>
+                android:textAppearance="@style/EditContactUsDetail"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id = "@+id/Established"
-                android:text = "Established in"
-                android:textAppearance="@style/EditAboutUs"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id = "@+id/EstablishedDetail"
-                android:maxLines="3"
-                android:textAppearance="@style/EditAboutUsDetail"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -92,7 +79,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Edit Details"
                 android:id="@+id/EditDetail"
-                android:onClick="editAboutUsDetails"/>
+                android:onClick="editContactUsDetails"/>
         </LinearLayout>
     </ScrollView>
 

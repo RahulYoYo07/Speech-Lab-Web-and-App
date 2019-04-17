@@ -40,7 +40,7 @@ public class ContactUs extends AppCompatActivity {
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
         ll.removeAllViews();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Homepage").document("contactus");
+        DocumentReference userRef = db.collection("Homepage").document("contactUs");
         userRef.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -48,22 +48,22 @@ public class ContactUs extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
                             if(user.exists()){
-                                final String Head_detail = user.getString("Head");
+                                //final String Head_detail = user.getString("Head");
                                 final String Phone_detail = user.getString("Phone Number");
                                 final String Email_detail = user.getString("Email");
                                 final String Website_detail = user.getString("Website");
                                 final String Location_detail = user.getString("Location");
 
-                                if(Head_detail.length() > 0){
-                                    final TextView txt1 = new TextView(ContactUs.this);
-                                    final TextView txt2 = new TextView(ContactUs.this);
-                                    txt1.setText("Head");
-                                    txt1.setTextAppearance(ContactUs.this,R.style.ContactUsDetailField);
-                                    txt2.setTextAppearance(ContactUs.this,R.style.ContactUsDetail);
-                                    txt2.setText(Head_detail);
-                                    ll.addView(txt1);
-                                    ll.addView(txt2);
-                                }
+//                                if(Head_detail.length() > 0){
+//                                    final TextView txt1 = new TextView(ContactUs.this);
+//                                    final TextView txt2 = new TextView(ContactUs.this);
+//                                    txt1.setText("Head");
+//                                    txt1.setTextAppearance(ContactUs.this,R.style.ContactUsDetailField);
+//                                    txt2.setTextAppearance(ContactUs.this,R.style.ContactUsDetail);
+//                                    txt2.setText(Head_detail);
+//                                    ll.addView(txt1);
+//                                    ll.addView(txt2);
+//                                }
 
                                 if(Phone_detail.length() > 0){
                                     final TextView txt1 = new TextView(ContactUs.this);

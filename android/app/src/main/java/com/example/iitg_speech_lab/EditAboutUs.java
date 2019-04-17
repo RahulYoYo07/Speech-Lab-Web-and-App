@@ -53,7 +53,7 @@ public class EditAboutUs extends AppCompatActivity {
                 });
     }
 
-    public void editDetails(View view){
+    public void editAboutUsDetails(View view){
         EditText AboutUs = (EditText) findViewById(R.id.AboutUsDetail);
         EditText Achievements = (EditText) findViewById(R.id.AchievementsDetail);
         EditText Head = (EditText) findViewById(R.id.HeadDetail);
@@ -96,5 +96,6 @@ public class EditAboutUs extends AppCompatActivity {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Homepage").document("AboutUs");
         userRef.set(map);
+        Toast.makeText(EditAboutUs.this,"Details Edited Successfully",Toast.LENGTH_LONG).show();
     }
 }
