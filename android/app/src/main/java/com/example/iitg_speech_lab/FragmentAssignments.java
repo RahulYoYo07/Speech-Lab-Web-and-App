@@ -48,7 +48,7 @@ public class FragmentAssignments extends Fragment {
         String courseInfo = ViewCourse.courseInfo;
 
         Log.d("yomanas", "onViewCreated");
-
+        myOnClickListener = new MyOnClickListener();
 
         recyclerView = view.findViewById(R.id.assignments_recycler_view);
         Log.d("yomanas","recyclerview find by id");

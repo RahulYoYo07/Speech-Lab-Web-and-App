@@ -53,8 +53,8 @@ public class CoursesActivity extends AppCompatActivity {
             }
         });
 
-
         myOnClickListener = new MyOnClickListener();
+
 
         recyclerView = findViewById(R.id.courses_recycler_view);
         recyclerView.setHasFixedSize(true);
