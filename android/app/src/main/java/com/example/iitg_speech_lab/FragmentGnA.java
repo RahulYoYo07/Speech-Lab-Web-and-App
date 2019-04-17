@@ -60,10 +60,6 @@ public class FragmentGnA extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 data = new ArrayList<>();
-                Log.d("what",Integer.toString(GnAMyData.gnaNameList.size()));
-                Log.d("what",Integer.toString(GnAMyData.gnaMarksList.size()));
-                Log.d("what",Integer.toString(GnAMyData.gnaRollNo.size()));
-                Log.d("what",Integer.toString(GnAMyData.gnaAttendance.size()));
                 for (int i = 0; i < GnAMyData.gnaNameList.size(); i++) {
                     data.add(new GnADataModel(
                             GnAMyData.gnaNameList.get(i),

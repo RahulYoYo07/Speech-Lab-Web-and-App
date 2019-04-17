@@ -53,9 +53,9 @@ public class GnACustomAdapter extends RecyclerView.Adapter<GnACustomAdapter.MyVi
         TextView textViewMarks = holder.textViewMarks;
 
         textViewStudentName.setText(dataSet.get(listPosition).getName());
-        textViewRollNo.setText(dataSet.get(listPosition).getRollNo());
-        textViewAttendance.setText(Long.toString(dataSet.get(listPosition).getAttendance()));
-        textViewMarks.setText(Long.toString(dataSet.get(listPosition).getMarks()));
+        textViewRollNo.setText("Roll No. : " + dataSet.get(listPosition).getRollNo());
+        textViewAttendance.setText("Total Attendance : " + Long.toString(dataSet.get(listPosition).getAttendance()));
+        textViewMarks.setText("Marks Obtained : " + Long.toString(dataSet.get(listPosition).getMarks()));
 
         holder.itemView.setTag(dataSet.get(listPosition).getRollNo());
     }
