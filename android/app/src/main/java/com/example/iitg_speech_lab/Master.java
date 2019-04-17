@@ -97,6 +97,9 @@ public class Master extends AppCompatActivity
         } else if(id == R.id.AboutUs) {
             Intent intent = new Intent(Master.this, AboutUs.class);
             startActivity(intent);
+        } else if(id == R.id.Login) {
+            Intent intent = new Intent(Master.this, Login_activity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
