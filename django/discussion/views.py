@@ -93,13 +93,33 @@ def add_notice(request,CourseID):
     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices').add({'Author' : 'Udbhav Chugh','NoticeHead' : NoticeHead, 'NoticeBody' : NoticeBody, 'NoticeTime':firestore.SERVER_TIMESTAMP})
     return redirect('/discussion/courses/'+CourseID+'/noticeboard')
 
-def view_calender(request, CourseID):
+def view_calendar(request, CourseID):
+    page_token = None
+    while True:
+        calendar_list = service.calendarList().list(pageToken=page_token).execute()
+        for calendar_list_entry in calendar_list['items']:
+            if calendar_list_entry['summary'] == CourseID:
+                CalendarID = calendar_list_entry['id']
+        page_token = calendar_list.get('nextPageToken')
+        if not page_token:
+            break
+
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
-        return render(request, 'discussion/calender.html')
+        return render(request, 'discussion/calendar.html', {'CourseID': CourseID, 'CalendarID': CalendarID})
 
 def add_event(request, CourseID):
+    page_token = None
+    while True:
+        calendar_list = service.calendarList().list(pageToken=page_token).execute()
+        for calendar_list_entry in calendar_list['items']:
+            if calendar_list_entry['summary'] == CourseID:
+                CalendarID = calendar_list_entry['id']
+        page_token = calendar_list.get('nextPageToken')
+        if not page_token:
+            break
+
     if request.method == 'POST':
         Summary = request.POST['Summary']
         Location = request.POST['Location']
@@ -119,30 +139,36 @@ def add_event(request, CourseID):
                 'dateTime': EndDate+'T23:59:59',
                 'timeZone': 'America/Los_Angeles',
             },
-            'recurrence': [
-                'RRULE:FREQ=DAILY;COUNT=2'
-            ],
-            'attendees': [
-                {'email': 'lpage@example.com'},
-                {'email': 'sbrin@example.com'},
-            ],
-            'reminders': {
-                'useDefault': False,
-                'overrides': [
-                    {'method': 'email', 'minutes': 24 * 60},
-                    {'method': 'popup', 'minutes': 10},
-                ],
-            },
         }
 
-        event = service.events().insert(calendarId='primary', body=event).execute()
-        return redirect('/discussion/courses/'+CourseID+'/calender')
+        event = service.events().insert(calendarId=CalendarID, body=event).execute()
+        return redirect('/discussion/courses/'+CourseID+'/calendar')
+
     elif request.method == 'GET':
-        events_result = service.events().list(calendarId='primary', singleEvents=True, orderBy='startTime').execute()
+        events_result = service.events().list(calendarId=CalendarID, singleEvents=True, orderBy='startTime').execute()
         events = events_result.get('items', [])
-        print(events[0])
         return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID})
 
 def delete_event(request, CourseID, EventID):
-    service.events().delete(calendarId='primary', eventId=EventID).execute()
+    page_token = None
+    while True:
+        calendar_list = service.calendarList().list(pageToken=page_token).execute()
+        for calendar_list_entry in calendar_list['items']:
+            if calendar_list_entry['summary'] == CourseID:
+                CalendarID = calendar_list_entry['id']
+        page_token = calendar_list.get('nextPageToken')
+        if not page_token:
+            break
+
+    service.events().delete(calendarId=CalendarID, eventId=EventID).execute()
     return redirect('/discussion/courses/'+CourseID+'/events')
+
+def create_calendar(request, CourseID):
+    calendar = {
+    'summary': CourseID,
+    'timeZone': 'America/Los_Angeles'
+    }
+
+    created_calendar = service.calendars().insert(body=calendar).execute()
+    print(created_calendar['id'])
+    return redirect('/discussion/courses/'+CourseID+'/calendar')
