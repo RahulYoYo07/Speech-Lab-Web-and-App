@@ -66,8 +66,7 @@ public class Discussion_Notice_Board extends AppCompatActivity {
         NoticeHeading.setText(Html.fromHtml(Heading));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference docRef = db.collection("Courses").document(message).collection("Notices");
-        docRef.get()
+        db.collection("Courses").document(message).collection("Notices").orderBy("NoticeTime").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
