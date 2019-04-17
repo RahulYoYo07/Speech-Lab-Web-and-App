@@ -10,9 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".EditContactUs"></activity>
-        <activity
-            android:name=".Login_activity"
-            android:parentActivityName=".Master"/>
+        <activity android:name=".Login_activity" />
         <activity android:name=".EditAboutUs" />
         <activity
             android:name=".AboutUs"
