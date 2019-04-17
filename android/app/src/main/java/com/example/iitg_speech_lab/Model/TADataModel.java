@@ -3,26 +3,22 @@ package com.example.iitg_speech_lab.Model;
 public class TADataModel {
 
         String name;
-        String deadline;
-        //replace by Deadline
-        String info;
+        String program;
+        String TAinfo;
 
-        public TADataModel(String info, String name, String deadline) {
-            this.deadline = deadline;
+        public TADataModel(String name, String program, String TAinfo) {
             this.name = name;
-            this.info = info;
-        }
-
-
-        public String getDeadline() {
-            return deadline;
+            this.program = program;
+            this.TAinfo = TAinfo;
         }
 
         public String getName() {
             return name;
         }
 
-        public String getInfo() {
-            return info;
+        public String getProgram() {
+            return program;
         }
+
+        public String getTAinfo() { return TAinfo; }
 }

@@ -47,9 +47,9 @@ public class TACustomAdapter extends RecyclerView.Adapter<TACustomAdapter.MyView
         TextView textViewCourseName = holder.textViewCourseName;
 
         textViewCourseID.setText(dataSet.get(listPosition).getName());
-        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+        textViewCourseName.setText(dataSet.get(listPosition).getProgram());
 
-        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
+        holder.itemView.setTag(dataSet.get(listPosition).getTAinfo());
     }
 
     public int getItemCount() {

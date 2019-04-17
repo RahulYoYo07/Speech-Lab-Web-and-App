@@ -44,27 +44,20 @@ public class FragmentTA extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.V = view;
         String courseInfo = ViewCourse.courseInfo;
-
-        Log.d("yomanas", "onViewCreated");
+        myOnClickListener = new MyOnClickListener();
 
 
         recyclerView = view.findViewById(R.id.ta_recycler_view);
-        Log.d("yomanas","recyclerview find by id");
         recyclerView.setHasFixedSize(true);
-        Log.d("yomanas","recyclerview has fixed size set");
 
-        Log.d("yomanas","before getContext");
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        //Log.d("yomanas","after getContext");
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.d("yomanas","recyclerview Layout and Animator set");
 
         task1 = new TaskCompletionSource<>();
         task2 = task1.getTask();
-        Log.d("yomanas","about to LoadData");
-        TAMyData.loadAssignments(courseInfo,task1);
+        TAMyData.loadTAs(courseInfo,task1);
 
         allTask = Tasks.whenAll(task2);
 
@@ -72,12 +65,11 @@ public class FragmentTA extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 data = new ArrayList<>();
-                Log.d("yo",Integer.toString(TAMyData.assignmentsInfoList.size()));
-                for (int i = 0; i < TAMyData.assignmentsInfoList.size(); i++) {
+                for (int i = 0; i < TAMyData.TANameList.size(); i++) {
                     data.add(new TADataModel(
-                            TAMyData.assignmentsInfoList.get(i),
-                            TAMyData.assignmentsNameList.get(i),
-                            TAMyData.assignmentsDeadlineList.get(i)
+                            TAMyData.TANameList.get(i),
+                            TAMyData.TAProgramList.get(i),
+                            TAMyData.TAIDList.get(i)
                     ));
                 }
 
@@ -106,23 +98,9 @@ public class FragmentTA extends Fragment {
                 textViewName = viewHolder.itemView.findViewById(R.id.textViewCourseID);
             }
             String selectedName = ( String ) textViewName.getText();
-            //int selectedItemId = -1;
 
-//            for (int i = 0; i < TAMyData.assignmentsIDList.size(); i++) {
-//                if (selectedName.equals(TAMyData.assignmentsIDList.get(i))) {
-//                    //selectedItemId = TAMyData.assignmentsInfoList.get(i);
-//                }
-//            }
-//            removedItems.add(selectedItemId);
-//            data.remove(selectedItemPosition);
-//            adapter.notifyItemRemoved(selectedItemPosition);
+            String TAinfo = (String) viewHolder.itemView.getTag();
 
-            Log.d("aman",selectedName);
-            String ainfo = (String) viewHolder.itemView.getTag();
-            Log.d("aman",ainfo);
-//            Intent intent = new Intent(AssignmentsActivity.this, ViewCourse.class);
-//            intent.putExtra("courseInfo",cinfo);
-//            startActivity(intent);
         }
     }
 }
