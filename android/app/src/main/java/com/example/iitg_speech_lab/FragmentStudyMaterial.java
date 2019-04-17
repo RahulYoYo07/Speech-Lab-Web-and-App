@@ -35,7 +35,7 @@ public class FragmentStudyMaterial extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_assignments_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_study_material, container, false);
         Log.d("yomanas","onCreateView");
         return view;
     }
