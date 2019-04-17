@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.Model.GradingDataModel;
+import com.example.iitg_speech_lab.Model.GnADataModel;
 
 import java.util.ArrayList;
 
-public class GradingCustomAdapter extends RecyclerView.Adapter<GradingCustomAdapter.MyViewHolder>  {
-    private ArrayList<GradingDataModel> dataSet;
+public class GnACustomAdapter extends RecyclerView.Adapter<GnACustomAdapter.MyViewHolder>  {
+    private ArrayList<GnADataModel> dataSet;
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -26,22 +26,22 @@ public class GradingCustomAdapter extends RecyclerView.Adapter<GradingCustomAdap
         }
     }
 
-    GradingCustomAdapter(ArrayList<GradingDataModel> data) {
+    GnACustomAdapter(ArrayList<GnADataModel> data) {
         this.dataSet = data;
     }
 
     @NonNull
-    public GradingCustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                int viewType) {
+    public GnACustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                            int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cards_layout, parent, false);
 
-        view.setOnClickListener(FragmentGrading.myOnClickListener);
+        view.setOnClickListener(FragmentGnA.myOnClickListener);
 
-        return new GradingCustomAdapter.MyViewHolder(view);
+        return new GnACustomAdapter.MyViewHolder(view);
     }
 
-    public void onBindViewHolder(final GradingCustomAdapter.MyViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(final GnACustomAdapter.MyViewHolder holder, final int listPosition) {
 
         TextView textViewCourseID = holder.textViewCourseID;
         TextView textViewCourseName = holder.textViewCourseName;

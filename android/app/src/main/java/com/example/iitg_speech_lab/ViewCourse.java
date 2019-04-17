@@ -102,6 +102,9 @@ public class ViewCourse extends AppCompatActivity
         } else if (id == R.id.nav_study_material) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new FragmentStudyMaterial()).commit();
+        } else if (id == R.id.nav_g_n_a) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentGnA()).commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

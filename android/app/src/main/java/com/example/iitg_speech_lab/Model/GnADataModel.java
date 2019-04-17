@@ -1,13 +1,13 @@
 package com.example.iitg_speech_lab.Model;
 
-public class AttendanceDataModel {
+public class GnADataModel {
 
         String name;
         String deadline;
         //replace by Deadline
         String info;
 
-        public AttendanceDataModel(String info, String name, String deadline) {
+        public GnADataModel(String info, String name, String deadline) {
             this.deadline = deadline;
             this.name = name;
             this.info = info;

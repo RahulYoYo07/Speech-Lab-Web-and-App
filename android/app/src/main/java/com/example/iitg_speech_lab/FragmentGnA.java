@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.Class.AttendanceMyData;
-import com.example.iitg_speech_lab.Model.AttendanceDataModel;
+import com.example.iitg_speech_lab.Class.GnAMyData;
+import com.example.iitg_speech_lab.Model.GnADataModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -22,18 +22,18 @@ import com.google.android.gms.tasks.Tasks;
 
 import java.util.ArrayList;
 
-public class FragmentAttendance extends Fragment {
+public class FragmentGnA extends Fragment {
     private static RecyclerView.Adapter adapter;
     private RecyclerView recyclerView;
-    private static ArrayList<AttendanceDataModel> data;
+    private static ArrayList<GnADataModel> data;
     static View.OnClickListener myOnClickListener;
     public TaskCompletionSource<Integer> task1;
     public Task task2;
     View V;
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_attendance, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_g_n_a, container, false);
         Log.d("yomanas","onCreateView");
         return view;
     }
@@ -46,7 +46,7 @@ public class FragmentAttendance extends Fragment {
         Log.d("yomanas", "onViewCreated");
 
 
-        recyclerView = view.findViewById(R.id.attendance_recycler_view);
+        recyclerView = view.findViewById(R.id.g_n_a_recycler_view);
         Log.d("yomanas","recyclerview find by id");
         recyclerView.setHasFixedSize(true);
         Log.d("yomanas","recyclerview has fixed size set");
@@ -62,7 +62,7 @@ public class FragmentAttendance extends Fragment {
         task1 = new TaskCompletionSource<>();
         task2 = task1.getTask();
         Log.d("yomanas","about to LoadData");
-        AttendanceMyData.loadAssignments(courseInfo,task1);
+        GnAMyData.loadAssignments(courseInfo,task1);
 
         Task<Void> allTask = Tasks.whenAll(task2);
 
@@ -70,16 +70,16 @@ public class FragmentAttendance extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 data = new ArrayList<>();
-                Log.d("yo",Integer.toString(AttendanceMyData.assignmentsInfoList.size()));
-                for (int i = 0; i < AttendanceMyData.assignmentsInfoList.size(); i++) {
-                    data.add(new AttendanceDataModel(
-                            AttendanceMyData.assignmentsInfoList.get(i),
-                            AttendanceMyData.assignmentsNameList.get(i),
-                            AttendanceMyData.assignmentsDeadlineList.get(i)
+                Log.d("yo",Integer.toString(GnAMyData.assignmentsInfoList.size()));
+                for (int i = 0; i < GnAMyData.assignmentsInfoList.size(); i++) {
+                    data.add(new GnADataModel(
+                            GnAMyData.assignmentsInfoList.get(i),
+                            GnAMyData.assignmentsNameList.get(i),
+                            GnAMyData.assignmentsDeadlineList.get(i)
                     ));
                 }
 
-                adapter = new AttendanceCustomAdapter(data);
+                adapter = new GnACustomAdapter(data);
                 recyclerView.setAdapter(adapter);
             }
         });
@@ -109,9 +109,9 @@ public class FragmentAttendance extends Fragment {
             }
             //int selectedItemId = -1;
 
-//            for (int i = 0; i < AttendanceMyData.assignmentsIDList.size(); i++) {
-//                if (selectedName.equals(AttendanceMyData.assignmentsIDList.get(i))) {
-//                    //selectedItemId = AttendanceMyData.assignmentsInfoList.get(i);
+//            for (int i = 0; i < GnAMyData.assignmentsIDList.size(); i++) {
+//                if (selectedName.equals(GnAMyData.assignmentsIDList.get(i))) {
+//                    //selectedItemId = GnAMyData.assignmentsInfoList.get(i);
 //                }
 //            }
 //            removedItems.add(selectedItemId);
