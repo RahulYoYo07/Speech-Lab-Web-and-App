@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddProject">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/Title"
+                android:text = "Project Title"
+                android:textAppearance="@style/AddProject"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/TitleDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/AboutProject"
+                android:text = "About Project"
+                android:textAppearance="@style/AddProject"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/AboutProjectDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/Mentor"
+                android:text = "Project Mentors (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/MentorDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/People"
+                android:text = "ProjectPeople/Students involved (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/ProjectPeopleDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/ProjectAchievements"
+                android:text = "Project Achievements (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/ProjectAchievementsDetails"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Add Project"
+                android:id="@+id/Add"
+                android:onClick="AddProject"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
