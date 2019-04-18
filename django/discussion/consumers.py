@@ -24,7 +24,7 @@ cred = credentials.Certificate({
 })
 # firebase_admin.initialize_app(cred)
 db = firestore.client()
-
+curAuthor = 'Utkarsh'
 # -------------------------------------------------------------------------------------------------------------------------------
 #Receive and sending messages
 class ChatConsumer(WebsocketConsumer):
