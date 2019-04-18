@@ -3,6 +3,7 @@ package com.example.iitg_speech_lab;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
@@ -101,14 +102,14 @@ public class Discussion_Room extends AppCompatActivity {
                                     Boolean isPoll=dc.getDocument().getBoolean("IsPoll");
 //                                    System.out.println(dc.getDocument().getString("MessageHead"));
                                     if(isPoll!=null && isPoll==false) {
-                                        final String sourceString = "<h3>" + dc.getDocument().getString("MessageHead") + "</h3> " + "<p>" + dc.getDocument().getString("MessageBody") + "</p>";
+                                        final String sourceString = "<h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("MessageHead") + "</h3> " + "<h5>" + dc.getDocument().getString("MessageBody") + "</h5>";
                                         final String messageID=dc.getDocument().getId();
 
                                         // Create TextView
                                         String helpid=dc.getDocument().getId();
                                         View parrentView = findViewById( R.id.lol );
                                         TextView helptext = (TextView) parrentView.findViewWithTag(helpid);
-                                        System.out.println(helptext);
+//                                        System.out.println(helptext);
                                         if(helptext!=null)
                                             break;
 
@@ -118,19 +119,24 @@ public class Discussion_Room extends AppCompatActivity {
                                         final Button btn= new Button(help);
                                         btn.setTag(messageID);
                                         btn.setText("Show Replies");
+                                        btn.setHeight(1);
+                                        btn.setWidth(1);
+                                        btn.setBackgroundColor(Color.parseColor("#00b2cc"));
                                         final EditText et = new EditText(help);
                                         et.setHint("Add Reply");
                                         final Button replybtn= new Button(help);
                                         replybtn.setText("Reply");
                                         replybtn.setTag(messageID);
-
+                                        replybtn.setBackgroundColor(Color.parseColor("#d89de7"));
                                         replybtn.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View v) {
 
-                                                if(et.getText().toString()=="")
+                                                if(et.getText().toString().trim().length()==0) {
+                                                    alertDialogempty();
                                                     return;
+                                                }
 
-                                                String Body = et.getText().toString();
+                                                String Body = et.getText().toString().trim();
 
 
                                                 Map<String, Object> data = new HashMap<>();
@@ -155,8 +161,19 @@ public class Discussion_Room extends AppCompatActivity {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                                     if (task.isSuccessful()) {
+                                                                        int cc=0;
                                                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                            String replyString = "<p>" + document.getString("ReplyBody") + "</p>";
+                                                                            String replyString;
+                                                                            if(cc%2==0)
+                                                                            {
+                                                                                replyString="<strong>"+document.getString("Author")+"</strong>:  <b><font color=#00cc37>"+document.getString("ReplyBody") + "</font></b><br>";
+                                                                                cc=1;
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                replyString="<strong>"+document.getString("Author")+"</strong>:  <b><font color=#007fcc>"+document.getString("ReplyBody") + "</font></b><br>";
+                                                                                cc=0;
+                                                                            }
                                                                             temp.append(Html.fromHtml(replyString));
                                                                         }
                                                                     }
@@ -208,14 +225,14 @@ public class Discussion_Room extends AppCompatActivity {
                                     }
 
                                     if(isPoll!=null && isPoll==true) {
-                                        final String sourceString = "<h3>" + dc.getDocument().getString("PollQues") + "</h3> ";
+                                        final String sourceString = "<h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("PollQues") + "</h3> ";
                                         final String messageID2=dc.getDocument().getId();
 
                                         // Create TextView
                                         String helpid=dc.getDocument().getId();
                                         View parrentView = findViewById( R.id.lol );
                                         TextView helptext = (TextView) parrentView.findViewWithTag(helpid);
-                                        System.out.println(helptext);
+//                                        System.out.println(helptext);
                                         if(helptext!=null)
                                             break;
 
@@ -246,17 +263,18 @@ public class Discussion_Room extends AppCompatActivity {
                                                                 View parrentView = findViewById( R.id.lol );
                                                                 String hel=messageID2+Integer.toString(ii);
                                                                 RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
-                                                                System.out.println(rdbtn);
+//                                                                System.out.println(rdbtn);
                                                                 if(rdbtn==null)
                                                                 {
                                                                     rdbtn = new RadioButton(help);
 //                                                                    rdbtn.setId(ii);
                                                                     rdbtn.setTag(hel);
-                                                                    String rdb=pollop.get(ii) + ": Vote Count="+Integer.toString(0);
-                                                                    rdbtn.setText(rdb);
+
+                                                                    String rdb=pollop.get(ii) + "<b>: Vote Count</b>="+Integer.toString(0);
+                                                                    rdbtn.setText(Html.fromHtml(rdb));
                                                                     llradio.addView(rdbtn);
                                                                 }
-                                                                System.out.println(rdbtn);
+//                                                                System.out.println(rdbtn);
                                                             }
                                                             final int sizee=pollop.size();
                                                          final int[] arr = new int[sizee];
@@ -278,12 +296,15 @@ public class Discussion_Room extends AppCompatActivity {
                                                     View parrentView = findViewById( R.id.lol );
                                                     String hel=messageID2+Integer.toString(iii);
                                                     RadioButton rdbtn3=(RadioButton) parrentView.findViewWithTag(hel);
-                                                    String rdb=pollop.get(iii) +": Vote Count="+Integer.toString(0);
-                                                    rdbtn3.setText(rdb);
+                                                    String rdb=pollop.get(iii) +"<b>: Vote Count</b>="+Integer.toString(0);
+                                                    rdbtn3.setText(Html.fromHtml(rdb));
 
                                                 }
+//                                                                 Set<String> voted = new HashSet<String>();
                                                                  for (QueryDocumentSnapshot doc : value) {
                                                                      if (doc.getId() != null) {
+//                                                                         String voter=doc.getString("Author");
+//                                                                         voted.add(voter);
                                                                          long val = doc.getLong("ReplyBody");
                                                                          int val2 = (int) val;
                                                                          View parrentView = findViewById( R.id.lol );
@@ -292,13 +313,22 @@ public class Discussion_Room extends AppCompatActivity {
                                                                          if (rdbtn == null) {
                                                                              rdbtn = new RadioButton(help);
                                                                              rdbtn.setTag(hel);
-                                                                             String rdb5 = pollop.get(val2) + ": Vote Count=" + Integer.toString(0);
-                                                                             rdbtn.setText(rdb5);
+
+                                                                             String rdb5 = pollop.get(val2) + "<b>: Vote Count</b>=" + Integer.toString(0);
+                                                                             rdbtn.setText(Html.fromHtml(rdb5));
                                                                              llradio.addView(rdbtn);
                                                                          }
                                                                          arr[val2]++;
-                                                                         String rdb5 = pollop.get(val2) + ": Vote Count=" + Integer.toString(arr[val2]);
-                                                                         rdbtn.setText(rdb5);
+                                                                         String voter=doc.getString("Author");
+                                                                         System.out.println(voter);
+                                                                         if(voter.equals("Udbhav Chugh"))
+                                                                         {
+                                                                             int oo=rdbtn.getId();
+                                                                             System.out.println(Integer.toString(oo));
+                                                                             llradio.check(rdbtn.getId());
+                                                                         }
+                                                                         String rdb5 = pollop.get(val2) + "<b>: Vote Count</b>=" + Integer.toString(arr[val2]);
+                                                                         rdbtn.setText(Html.fromHtml(rdb5));
 
                                                                      }
                                                                  }
@@ -324,7 +354,7 @@ public class Discussion_Room extends AppCompatActivity {
 
 
                                                 int selectedId = llradio.getCheckedRadioButtonId();
-                                                System.out.println(Integer.toString(selectedId));
+//                                                System.out.println(Integer.toString(selectedId));
 
                                                 int count = llradio.getChildCount();
                                                 int minn=100;
@@ -405,6 +435,10 @@ public class Discussion_Room extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 m_head = titleBox.getText().toString().trim();
                 m_body = descriptionBox.getText().toString().trim();
+                if(m_head.length()==0 || m_body.length()==0){
+                    alertDialogempty();;
+                    return;
+                }
                 Intent intent = getIntent();
                 final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
                 String Head=m_head;
@@ -457,7 +491,7 @@ public class Discussion_Room extends AppCompatActivity {
             public void onClick(View v) {
                 EditText et = new EditText(help2);
                 et.setId(j);
-                System.out.println(Integer.toString(j));
+//                System.out.println(Integer.toString(j));
                 j=j+1;
                 et.setHint("Add Reply");
                 layout.addView(et);
@@ -489,6 +523,11 @@ public class Discussion_Room extends AppCompatActivity {
                     return;
                 }
                 p_head = titleBox.getText().toString().trim();
+                if(p_head.length()==0)
+                {
+                    alertDialogempty();
+                    return;
+                }
                 Intent intent = getIntent();
                 final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
                 List<String> pollop2 = new ArrayList<>();
@@ -496,11 +535,17 @@ public class Discussion_Room extends AppCompatActivity {
                 for (int i = 0; i < j; i++) {
 
                     EditText et = (EditText) layout.findViewById(i);
-                    System.out.println("lolll");
+//                    System.out.println("lolll");
                     if (et == null)
                         continue;
-                    System.out.println("lol");
-                    pollop2.add(et.getText().toString().trim());
+//                    System.out.println("lol");
+                    String kk=et.getText().toString().trim();
+                    if(kk.length()==0)
+                    {
+                        alertDialogempty();
+                        return;
+                    }
+                    pollop2.add(kk);
 
                 }
                 j = 0;
@@ -549,6 +594,28 @@ public class Discussion_Room extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private void alertDialogempty() {
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setMessage("Text field has no text added");
+        dialog.setTitle("Error Message");
+        dialog.setPositiveButton("Close",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+//                        Toast.makeText(getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
+                    }
+                });
+//        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG).show();
+//            }
+//        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
+    }
+
 
 
 }
+

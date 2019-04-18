@@ -19,18 +19,24 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 //@IgnoreExtraProperties
 //public class Notice {
@@ -66,27 +72,33 @@ public class Discussion_Notice_Board extends AppCompatActivity {
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         TextView NoticeHeading = findViewById(R.id.NoticeHeading);
-        String Heading = "<h1>" + message +" Notice Board"+"</h1> ";
+//        "<font color=#cc0029>First Color</font> <font color=#ffcc00>Second Color</font>";
+        String Heading = "<h1>" + message +" NOTICE BOARD"+"</h1>";
+//        NoticeHeading.setBackgroundResource( R.drawable.border_style);
+
         NoticeHeading.setText(Html.fromHtml(Heading));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Courses").document(message).collection("Notices").orderBy("NoticeTime").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        db.collection("Courses").document(message).collection("Notices").orderBy("NoticeTime")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData()
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            return;
+                        }
+                        TextView textV = findViewById(R.id.textView2);
+                        textV.setText("");
+
+                        for (QueryDocumentSnapshot doc : value) {
+                            if (doc.get("NoticeBody") != null) {
+                                System.out.println("lol");
                                 TextView textView2 = findViewById(R.id.textView2);
-                                String sourceString = "<h3>" + document.getString("NoticeHead")+"</h3> " + "<p>"+document.getString("NoticeBody")+"</p>";
+                                String sourceString = "<h2><font color=#990026>" + doc.getString("NoticeHead")+"</font></h2> " + "<p><font color=#007fcc>"+doc.getString("NoticeBody")+"</font></p>";
                                 textView2.append(Html.fromHtml(sourceString));
-//                                textView2.append(document.getString("NoticeHead")+"\n");
-//                                textView2.append(document.getString("NoticeBody")+"\n\n");
                             }
                         }
-//                        else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
                     }
                 });
 
@@ -109,6 +121,7 @@ public class Discussion_Notice_Board extends AppCompatActivity {
 
 // Add another TextView here for the "Description" label
         final EditText descriptionBox = new EditText(this);
+        descriptionBox.setMaxLines(10);
         descriptionBox.setHint("Notice Body");
 //        descriptionBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         layout.addView(descriptionBox); // Another add method
@@ -129,12 +142,12 @@ public class Discussion_Notice_Board extends AppCompatActivity {
                 data.put("Author", "Udbhav Chugh");
                 data.put("NoticeHead", Head);
                 data.put("NoticeBody",Body);
-                data.put("NoticeTime", ServerValue.TIMESTAMP);
+                data.put("NoticeTime", FieldValue.serverTimestamp());
 
                 db.collection("Courses").document(message).collection("Notices")
                         .add(data);
-                finish();
-                startActivity(getIntent());
+//                finish();
+//                startActivity(getIntent());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -148,3 +161,4 @@ public class Discussion_Notice_Board extends AppCompatActivity {
 
     }
 }
+

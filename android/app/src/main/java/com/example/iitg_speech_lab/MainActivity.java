@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         Intent intent = new Intent(this, Discussion_Room.class);
         EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
+        String message = editText.getText().toString().trim();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public void viewNotice(View view) {
         Intent intent = new Intent(this, Discussion_Notice_Board.class);
         EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
+        String message = editText.getText().toString().trim();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public void viewCalendar(View view) {
         Intent intent = new Intent(this, Calendar.class);
         EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
+        String message = editText.getText().toString().trim();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
