@@ -164,20 +164,21 @@ public class AfterLoginHomePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.People) {
+        if (id == R.id.AfterLoginPeople) {
             Intent intent = new Intent(AfterLoginHomePage.this, ViewPeople.class);
             startActivity(intent);
-        } else if (id == R.id.FAQ) {
-            Intent intent = new Intent(AfterLoginHomePage.this, FAQ.class);
+        } else if (id == R.id.AfterLoginFAQ) {
+            Intent intent = new Intent(AfterLoginHomePage.this, ViewFaqListView.class);
             startActivity(intent);
-        } else if (id == R.id.ContactUs){
+        } else if (id == R.id.AfterLoginContactUs){
             Intent intent = new Intent(AfterLoginHomePage.this, ContactUs.class);
             startActivity(intent);
-        } else if(id == R.id.AboutUs) {
+        } else if(id == R.id.AfterLoginAboutUs) {
             Intent intent = new Intent(AfterLoginHomePage.this, AboutUs.class);
             startActivity(intent);
-        } else if(id == R.id.Projects) {
+        } else if(id == R.id.AfterLoginProjects) {
             Intent intent = new Intent(AfterLoginHomePage.this, ProjectsActivity.class);
+            intent.putExtra("username", "");
             startActivity(intent);
         } else if (id ==R.id.AfterLoginDashboard){
             Intent intent = new Intent(AfterLoginHomePage.this, ProfileProjectDashboard.class);

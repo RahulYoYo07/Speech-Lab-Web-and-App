@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ViewFaqListView"/>
         <activity
             android:name=".AfterLoginHomePage"
             android:label="@string/title_activity_after_login_home_page"

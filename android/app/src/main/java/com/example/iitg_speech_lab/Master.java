@@ -76,7 +76,7 @@ public class Master<sampleApp> extends AppCompatActivity
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://graph.microsoft.com/User.Read+profile+openid+offline_access"};
     final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
-
+    static String Username="";
     /* UI & Debugging Variables */
     private static final String TAG = Master.class.getSimpleName();
     Button projects;
@@ -431,7 +431,7 @@ public class Master<sampleApp> extends AppCompatActivity
             Intent intent = new Intent(Master.this, ViewPeople.class);
             startActivity(intent);
         } else if (id == R.id.FAQ) {
-            Intent intent = new Intent(Master.this, FAQ.class);
+            Intent intent = new Intent(Master.this, ViewFaqListView.class);
             startActivity(intent);
         } else if (id == R.id.ContactUs){
             Intent intent = new Intent(Master.this, ContactUs.class);
@@ -443,6 +443,7 @@ public class Master<sampleApp> extends AppCompatActivity
             onCallGraphClicked();
         } else if(id == R.id.Projects) {
             Intent intent = new Intent(Master.this, ProjectsActivity.class);
+            intent.putExtra("username", "");
             startActivity(intent);
         }
 

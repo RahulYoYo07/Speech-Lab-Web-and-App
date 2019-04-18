@@ -103,8 +103,9 @@ public class ProfileProjectDashboard extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.ProfileDashboardMyProjects) {
-
-
+            Intent intent = new Intent(ProfileProjectDashboard.this, ProjectsActivity.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
         } else if (id == R.id.ProfileDashboardAddProjects) {
             Intent intent = new Intent(ProfileProjectDashboard.this, AddProject.class);
             intent.putExtra("username", getIntent().getStringExtra("username"));
@@ -135,6 +136,10 @@ public class ProfileProjectDashboard extends AppCompatActivity
                             }
                         }
                     });
+        } else if (id == R.id.ProfileDashboardHome){
+            Intent intent = new Intent(ProfileProjectDashboard.this, AfterLoginHomePage.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
