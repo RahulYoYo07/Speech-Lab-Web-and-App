@@ -146,9 +146,9 @@ public class StudentCoursesActivity extends AppCompatActivity {
                 cinfo = (String) viewHolder.itemView.getTag();
             }
 
-//            Intent intent = new Intent(StudentCoursesActivity.this, ViewCourse.class);
-//            intent.putExtra("courseInfo",cinfo);
-//            startActivity(intent);
+            Intent intent = new Intent(StudentCoursesActivity.this, StudentViewCourse.class);
+            intent.putExtra("courseInfo",cinfo);
+            startActivity(intent);
         }
     }
 
