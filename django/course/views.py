@@ -628,12 +628,12 @@ def RandomGroups(request, cinfo, aid):
         for i in range(len(GroupList)):
             if len(GroupList[i]) > 0:
                 data = {
-                    u'GroupID': i+1,
+                    u'GroupID': 'GID_'+str(i+1),
                     u'ProblemStatement': '',
                     u'ProjectTitle': '',
                     u'StudentList': GroupList[i],
                 }
 
-                db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(str(i+1)).set(data)
+                db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document('GID_'+str(i+1)).set(data)
 
         return redirect('/courses/'+cinfo+'/assignments/'+aid)
