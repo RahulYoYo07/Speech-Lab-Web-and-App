@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".Discussion_Room">
 
+
+
     <TextView
         android:id="@+id/DiscussionHeading"
         android:layout_width="wrap_content"
@@ -14,149 +16,83 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="DiscussionHeading"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextHead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="Message Head"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/Body"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="Message Body"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/submit_question"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/submit_question"
-        android:layout_width="wrap_content"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:fontFamily="@font/andika"
         android:onClick="addMessage"
         android:text="Add Message"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.014"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.988" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/scrollView2"
-        android:layout_width="410dp"
-        android:layout_height="382dp"
+
+        android:layout_width="381dp"
+        android:layout_height="466dp"
+
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_container"
+        app:layout_constraintBottom_toTopOf="@+id/submit_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DiscussionHeading"
+        app:layout_constraintVertical_bias="0.052"
         tools:context=".MainActivity">
+
 
         <LinearLayout
             android:id="@+id/lol"
-            android:layout_width="395dp"
-            android:layout_height="526dp"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="35dp"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:orientation="vertical">
+            <!--android:layout_marginBottom="10dp"-->
+
+            <!--android:layout_marginTop="10dp"-->
+            <!--tools:layout_editor_absoluteX="8dp"-->
+            <!--tools:layout_editor_absoluteY="35dp">-->
+
+        </LinearLayout>
     </ScrollView>
-
-    <EditText
-        android:id="@+id/pollquestion"
-        android:layout_width="142dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="Poll Question"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/polloption"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.156"
-        app:layout_constraintStart_toEndOf="@+id/editTextHead" />
-
-    <Button
-        android:id="@+id/polloption"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="44dp"
-        android:onClick="addPollOption"
-        android:text="Poll Option"
-        app:layout_constraintBottom_toTopOf="@+id/addpoll"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/addpoll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:fontFamily="@font/andika"
         android:onClick="addPoll"
         android:text="Add poll"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/scrollView3"
-        android:layout_width="164dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/addpoll"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Body"
-        app:layout_constraintTop_toBottomOf="@+id/polloption"
-        tools:context=".MainActivity">
+        app:layout_constraintHorizontal_bias="0.939"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-        <LinearLayout
-            android:id="@+id/layout_polloption"
-            android:layout_width="174dp"
-            android:layout_height="28dp"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="229dp"
-            tools:layout_editor_absoluteY="631dp"></LinearLayout>
-    </ScrollView>
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="128dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="12dp"
-        android:onClick="delPollOption"
-        android:text="Delete Last Option"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/addpoll" />
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="395dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/pollquestion"
-        tools:layout_editor_absoluteX="8dp">
-
-    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.iitg_speech_lab;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +48,10 @@ import java.util.concurrent.TimeUnit;
 public class Discussion_Room extends AppCompatActivity {
 
     public static int j=0;
+    public String m_head;
+    public String m_body;
+    public String p_head;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,8 @@ public class Discussion_Room extends AppCompatActivity {
         final Discussion_Room help=this;
         Intent intent = getIntent();
         final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        TextView heading=(TextView) findViewById(R.id.DiscussionHeading);
+        heading.append(message);
 
         TextView DiscussionHeading = findViewById(R.id.DiscussionHeading);
         String Heading = "<h1>" + message +" Discussion Room"+"</h1> ";
@@ -334,13 +342,6 @@ public class Discussion_Room extends AppCompatActivity {
                                                 }
                                                 int finvote=selectedId-minn;
 
-//                                                String Body = et.getText().toString();
-//                                                int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();
-//                                                View radioButton = radioButtonGroup.findViewById(radioButtonID);
-//                                                int idx = radioButtonGroup.indexOfChild(radioButton);
-//                                                System.out.println("lol"+Integer.toString(idx));
-//
-//
                                                 Map<String, Object> data = new HashMap<>();
 
                                                 data.put("Author", "Udbhav Chugh");
@@ -378,96 +379,153 @@ public class Discussion_Room extends AppCompatActivity {
 //            System.out.println(e.getMessage());
 //        }
 
-        Intent intent = getIntent();
-        final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        EditText MessageHead = (EditText)findViewById(R.id.editTextHead);
-        String Head = MessageHead.getText().toString();
-        EditText MessageBody = (EditText)findViewById(R.id.Body);
-        String Body = MessageBody.getText().toString();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Start a Q&A");
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        Context context = mapView.getContext();
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
-        Map<String, Object> data = new HashMap<>();
-        data.put("Author", "Udbhav Chugh");
-        data.put("MessageHead", Head);
-        data.put("MessageBody",Body);
-        data.put("PostTime", FieldValue.serverTimestamp());
-        data.put("IsPoll",false);
+// Add a TextView here for the "Title" label, as noted in the comments
+        final EditText titleBox = new EditText(this);
+        titleBox.setHint("Message Head");
+//        titleBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(titleBox); // Notice this is an add method
 
-        db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages")
-                .add(data);
-    }
+// Add another TextView here for the "Description" label
+        final EditText descriptionBox = new EditText(this);
+        descriptionBox.setHint("Description");
+//        descriptionBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(descriptionBox); // Another add method
 
-    public void addPollOption(View view){
+        builder.setView(layout);
 
-        final LinearLayout ll = (LinearLayout) findViewById(R.id.layout_polloption);
-        final EditText et = new EditText(this);
-//        et.setTag("EditText"+Integer.toString(j));
-        et.setId(j);
-        System.out.println(Integer.toString(j));
-        j=j+1;
-        et.setHint("Add Reply");
-        ll.addView(et);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                m_head = titleBox.getText().toString().trim();
+                m_body = descriptionBox.getText().toString().trim();
+                Intent intent = getIntent();
+                final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+                String Head=m_head;
+                String Body=m_body;
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("Author", "Udbhav Chugh");
+                data.put("MessageHead", Head);
+                data.put("MessageBody",Body);
+                data.put("PostTime", FieldValue.serverTimestamp());
+                data.put("IsPoll",false);
+
+                db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages")
+                        .add(data);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
     }
 
     public void addPoll(View view){
-        if(j<2){
-            alertDialog();
-            return;
-        }
 
-            Intent intent = getIntent();
-            final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-//        String pollop[]=new String[10];
-            List<String> pollop2 = new ArrayList<>();
 
-            for (int i = 0; i < j; i++) {
-                View parrentView2 = findViewById( R.id.layout_polloption );
-//                String hel="EditText"+Integer.toString(i);
-//                System.out.println(hel);
-//                RadioButton rdbtn=(RadioButton) ;
-                EditText et = (EditText) parrentView2.findViewById(i);
-                System.out.println("lolll");
-                if (et == null)
-                    continue;
-                System.out.println("lol");
-//            pollop2[i]=et.getText().toString().trim();
-                pollop2.add(et.getText().toString().trim());
-//            System.out.println(pollop[i]);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Poll");
 
+//        Context context = mapView.getContext();
+        final LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+// Add a TextView here for the "Title" label, as noted in the comments
+        final EditText titleBox = new EditText(this);
+        titleBox.setHint("Poll Question");
+        layout.addView(titleBox); // Notice this is an add method
+        final Discussion_Room help2=this;
+
+        final Button addopt= new Button(this);
+        addopt.setText("Add Poll Option");
+        layout.addView(addopt);
+
+        addopt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EditText et = new EditText(help2);
+                et.setId(j);
+                System.out.println(Integer.toString(j));
+                j=j+1;
+                et.setHint("Add Reply");
+                layout.addView(et);
             }
-            j = 0;
+        });
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            TextView poll = (EditText) findViewById(R.id.pollquestion);
-            String pollques = poll.getText().toString().trim();
+        final Button delopt= new Button(this);
+        delopt.setText("Delete last Poll Option");
+        layout.addView(delopt);
+
+        delopt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(j==0)
+                    return;
+                EditText et = (EditText) layout.findViewById(j-1);
+                LinearLayout help=(LinearLayout) layout;
+                help.removeView(et);
+                j=j-1;
+            }
+        });
+
+        builder.setView(layout);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(j<2){
+                    alertDialog();
+                    return;
+                }
+                p_head = titleBox.getText().toString().trim();
+                Intent intent = getIntent();
+                final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+                List<String> pollop2 = new ArrayList<>();
+
+                for (int i = 0; i < j; i++) {
+
+                    EditText et = (EditText) layout.findViewById(i);
+                    System.out.println("lolll");
+                    if (et == null)
+                        continue;
+                    System.out.println("lol");
+                    pollop2.add(et.getText().toString().trim());
+
+                }
+                j = 0;
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                String pollques = p_head;
 //        List<String> vowelsList = Arrays.asList(pollop);
-            Map<String, Object> data = new HashMap<>();
-            data.put("Author", "Udbhav Chugh");
-            data.put("PollQues", pollques);
-            data.put("PollOpt", pollop2);
-            data.put("PostTime", FieldValue.serverTimestamp());
-            data.put("IsPoll", true);
-            db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").add(data);
-        LinearLayout lll = (LinearLayout) findViewById(R.id.layout_polloption);
-        lll.removeAllViews();
+                Map<String, Object> data = new HashMap<>();
+                data.put("Author", "Udbhav Chugh");
+                data.put("PollQues", pollques);
+                data.put("PollOpt", pollop2);
+                data.put("PostTime", FieldValue.serverTimestamp());
+                data.put("IsPoll", true);
+                db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").add(data);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
 
-    }
+        builder.show();
 
-    public void delPollOption(View view){
-
-        if(j==0)
-            return;
-        View parrentView2 = findViewById( R.id.layout_polloption );
-        EditText et = (EditText) parrentView2.findViewById(j-1);
-        LinearLayout help=(LinearLayout) parrentView2;
-        help.removeView(et);
-        j=j-1;
-
-//        final LinearLayout ll = (LinearLayout) findViewById(R.id.layout_polloption);
-//        EditText et = (EditText) findViewById(j-1);
-//
-//        j=j-1;
     }
 
     private void alertDialog() {

@@ -1,13 +1,16 @@
 package com.example.iitg_speech_lab;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +22,7 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -89,37 +93,58 @@ public class Discussion_Notice_Board extends AppCompatActivity {
 
     }
     public void addNotice(View view){
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        EditText NoticeHead = (EditText)findViewById(R.id.NoticeHead);
-        String Head = NoticeHead.getText().toString();
-        EditText NoticeBody = (EditText)findViewById(R.id.NoticeBody);
-        String Body = NoticeBody.getText().toString();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("New Notice");
 
-        Map<String, Object> data = new HashMap<>();
-        data.put("Author", "Udbhav Chugh");
-        data.put("NoticeHead", Head);
-        data.put("NoticeBody",Body);
-        data.put("NoticeTime", ServerValue.TIMESTAMP);
+//        Context context = mapView.getContext();
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
-        db.collection("Courses").document(message).collection("Notices")
-                .add(data);
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-//                    }
-//                });
+// Add a TextView here for the "Title" label, as noted in the comments
+        final EditText titleBox = new EditText(this);
+        titleBox.setHint("Notice Title");
+//        titleBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(titleBox); // Notice this is an add method
 
-        finish();
-        startActivity(getIntent());
+// Add another TextView here for the "Description" label
+        final EditText descriptionBox = new EditText(this);
+        descriptionBox.setHint("Notice Body");
+//        descriptionBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(descriptionBox); // Another add method
+
+        builder.setView(layout);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = getIntent();
+                String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+                String Head = titleBox.getText().toString().trim();
+                String Body = descriptionBox.getText().toString().trim();
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("Author", "Udbhav Chugh");
+                data.put("NoticeHead", Head);
+                data.put("NoticeBody",Body);
+                data.put("NoticeTime", ServerValue.TIMESTAMP);
+
+                db.collection("Courses").document(message).collection("Notices")
+                        .add(data);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
     }
 }
