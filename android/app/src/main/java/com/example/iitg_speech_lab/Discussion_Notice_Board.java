@@ -2,12 +2,11 @@ package com.example.iitg_speech_lab;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,11 +20,14 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.CollectionReference;
+<<<<<<< HEAD
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
+=======
+>>>>>>> dd0559410448aa086568b0d256b3b4d5eb84d857
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.IgnoreExtraProperties;

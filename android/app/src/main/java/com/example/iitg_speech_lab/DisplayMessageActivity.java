@@ -1,8 +1,8 @@
 package com.example.iitg_speech_lab;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 public class DisplayMessageActivity extends AppCompatActivity {

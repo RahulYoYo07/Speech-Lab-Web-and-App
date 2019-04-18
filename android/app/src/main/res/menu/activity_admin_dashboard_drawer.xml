@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/AdminAddFaq"
+            android:icon="@drawable/ic_faq"
+            android:title="Add FAQ" />
+        <item
+            android:id="@+id/AdminEditAboutUs"
+            android:icon="@drawable/ic_aboutus"
+            android:title="Edit About Us" />
+        <item
+            android:id="@+id/AdminEditContactUs"
+            android:icon="@drawable/ic_contact"
+            android:title="Edit Contact Us" />
+        <item
+            android:id="@+id/AdminAddProject"
+            android:icon="@drawable/ic_addproject"
+            android:title="Add Project" />
+
+        <item
+            android:id = "@+id/AdminLogOut"
+            android:icon="@drawable/ic_logout"
+            android:title="Log Out"/>
+
+        <item
+            android:id = "@+id/AdminHome"
+            android:icon="@drawable/ic_home"
+            android:title="Home"/>
+    </group>
+
+
+</menu>
