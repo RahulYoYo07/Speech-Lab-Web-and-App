@@ -21,22 +21,11 @@ public class GroupsCustomAdapter extends RecyclerView.Adapter<GroupsCustomAdapte
 
         TextView textViewCourseID;
         TextView textViewCourseName;
-        Button update_attendance;
-        Button add_grade;
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.textViewCourseID = itemView.findViewById(R.id.textViewCourseID);
             this.textViewCourseName = itemView.findViewById(R.id.textViewCourseName);
-            this.add_grade = itemView.findViewById(R.id.Add_Grade);
-            this.update_attendance = itemView.findViewById(R.id.Update_Attendance);
-            
-            add_grade.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
         }
     }
 
@@ -50,7 +39,7 @@ public class GroupsCustomAdapter extends RecyclerView.Adapter<GroupsCustomAdapte
     public GroupsCustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                                int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.group_cards_layout, parent, false);
+                .inflate(R.layout.cards_layout, parent, false);
 
         view.setOnClickListener(FragmentGroups.myOnClickListener);
 
