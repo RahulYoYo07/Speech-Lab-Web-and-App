@@ -60,20 +60,21 @@ public class ViewPeople extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (final QueryDocumentSnapshot document : task.getResult()) {
+                                ll.removeAllViews();
                                 if (document.getString("Designation").equals("Student"))
                                 {
                                     final Button btn = new Button(ViewPeople.this);
                                     btn.setTag(document.getId());
                                     btn.setText(document.getString("FullName"));
 
-//                                    btn.setOnClickListener(new View.OnClickListener(){
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            Intent intent = new Intent(ViewPeople.this, ProfileDetails.class);
-//                                            intent.putExtra("username",document.getId());
-//                                            startActivity(intent);
-//                                        }
-//                                    });
+                                    btn.setOnClickListener(new View.OnClickListener(){
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(ViewPeople.this, PrivateProfileDetails.class);
+                                            intent.putExtra("username",document.getId());
+                                            startActivity(intent);
+                                        }
+                                    });
                                     ll.addView(btn);
                                 }
                             }
@@ -91,7 +92,6 @@ public class ViewPeople extends AppCompatActivity {
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
 
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
-        ll.removeAllViews();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference userRef = db.collection("Users");
         userRef.get()
@@ -99,6 +99,7 @@ public class ViewPeople extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            ll.removeAllViews();
                             for (final QueryDocumentSnapshot document : task.getResult()) {
                                 if (document.getString("Designation").equals("Faculty"))
                                 {
@@ -106,14 +107,16 @@ public class ViewPeople extends AppCompatActivity {
                                     btn.setTag(document.getId());
                                     btn.setText(document.getString("FullName"));
 
-//                                    btn.setOnClickListener(new View.OnClickListener(){
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            Intent intent = new Intent(ViewPeople.this, ProfileDetails.class);
-//                                            intent.putExtra("username",document.getId());
-//                                            startActivity(intent);
-//                                        }
-//                                    });
+                                    btn.setOnClickListener(new View.OnClickListener(){
+                                        @Override
+                                        public void onClick(View v) {
+                                            Log.d("tushar",document.getString("Username"));
+                                            Intent intent = new Intent(ViewPeople.this, PrivateProfileDetails.class);
+                                            intent.putExtra("username",document.getString("Username"));
+                                            Log.d("tushar",document.getString("Username"));
+                                            startActivity(intent);
+                                        }
+                                    });
                                     ll.addView(btn);
                                 }
                             }

@@ -1,5 +1,6 @@
 package com.example.iitg_speech_lab;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,9 +23,11 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PrivateProfileDetails extends AppCompatActivity {
-    final String GetUsername = "pradip";
+    static String GetUsername = new String();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        GetUsername = intent.getStringExtra("username");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_profile_details);
         final TextView Name = (TextView) findViewById(R.id.DisplayNameDetail);
