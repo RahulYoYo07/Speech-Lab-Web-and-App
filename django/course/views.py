@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 # import firebase_admin
@@ -8,6 +8,8 @@ from django.urls import reverse
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+
+import random
 
 #cred = credentials.Certificate('./iitg-speech-lab-firebase-adminsdk-ggn1f-2f757184a1.json')
 cred = credentials.Certificate({
@@ -29,7 +31,7 @@ db = firestore.client()
 
 
 def dashboard(request):
-    username = "gulat170123030"
+    username = "aman170101006"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
@@ -48,7 +50,10 @@ def dashboard(request):
         return render(request, 'course/main_page.html', context)
 
     elif Designation == "Student":
-        StudCourseList = user_dict['CourseList']
+        if not 'CourseList' in user_dict:
+            StudCourseList = []
+        else:
+            StudCourseList = user_dict['CourseList']
         # print(StudCourseList)
         RegisteredCourses = []
         TotalCourses = []
@@ -68,7 +73,7 @@ def dashboard(request):
 
 
 def Enroll_CoursePage(request, cinfo):
-    username = "gulat170123030"
+    username = "aman170101006"
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
@@ -100,7 +105,7 @@ def Enroll_CoursePage(request, cinfo):
         dbdata = main['EnrollmentKey']
 
         try:
-            stn_list = db.collection(u'Courses').documment(
+            stn_list = db.collection(u'Courses').document(
                 cinfo).get().to_dict()['StudentList']
         except:
             stn_list = []
@@ -601,3 +606,34 @@ def UpdateGroup(request, cinfo, aid, gid):
         return render(request, 'course/viewgroup.html', context)
 
     return render(request, 'course/updategroupform.html')
+
+def RandomGroups(request, cinfo, aid):
+    if request.method == 'GET':
+        return render(request, 'course/random_groups.html')
+    elif request.method == 'POST':
+        NumGroups = request.POST['NumGroups']
+        NumGroups = int(NumGroups)
+
+        StudList = db.collection(u'Courses').document(cinfo).get().to_dict()['StudentList']
+        random.shuffle(StudList)
+
+        GroupList = []
+        for i in range(NumGroups):
+            GroupList.append([])
+        for i in range(len(StudList)):
+            GroupList[i%NumGroups].append(StudList[i])
+
+        print(GroupList)
+
+        for i in range(len(GroupList)):
+            if len(GroupList[i]) > 0:
+                data = {
+                    u'GroupID': i+1,
+                    u'ProblemStatement': '',
+                    u'ProjectTitle': '',
+                    u'StudentList': GroupList[i],
+                }
+
+                db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(str(i+1)).set(data)
+
+        return redirect('/courses/'+cinfo+'/assignments/'+aid)
