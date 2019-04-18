@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddProject extends AppCompatActivity {
-
+    static String GetUsername = "tusha170101073";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +67,17 @@ public class AddProject extends AppCompatActivity {
         str.replace("\\n","\n");
         Mentor.setText(str);
 
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         map.put("Title",Title.getText().toString());
         map.put("Achievements",Achievements.getText().toString());
         map.put("Mentor",Mentor.getText().toString());
         map.put("AboutProject",AboutProject.getText().toString());
         map.put("People",People.getText().toString());
 
+
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference dref = db.collection("Users").document(GetUsername);
+        map.put("Creator",dref);
         db.collection("Projects").add(map);
         Title.setText("");
         Achievements.setText("");
