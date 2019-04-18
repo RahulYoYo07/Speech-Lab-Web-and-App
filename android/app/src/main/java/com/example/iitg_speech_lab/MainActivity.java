@@ -22,8 +22,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString().trim();
         intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-
+            startActivity(intent);
     }
 
     public void viewNotice(View view) {
