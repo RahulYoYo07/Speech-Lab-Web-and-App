@@ -11,4 +11,14 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_test_course">TestCourse</string>
     <string name="title_activity_courses">CoursesActivity</string>
+    <string name="study_material">Study Material</string>
+    <string name="ta">TA</string>
+    <string name="assignments">Assignments</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="grades_attendance"><![CDATA[Grades & Attendance]]></string>
+    <string name="title_activity_view_assignment">ViewAssignment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_view_student_course">ViewStudentCourse</string>
 </resources>

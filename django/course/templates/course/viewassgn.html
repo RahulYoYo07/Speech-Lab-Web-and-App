@@ -30,12 +30,13 @@
 
       <div class="card-body">
         <h5 class="card-title">{{ group.GroupID }}</h5>
+        <a href="{% url 'course:update_attendance' cinfo aid group.GroupID %}"><button class="btn btn-success">Update Attandance</button></a>
       </div>
         <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
       </div>
     </div>
 
 {% endfor %}
-  
+
 </div>
 {% endblock %}

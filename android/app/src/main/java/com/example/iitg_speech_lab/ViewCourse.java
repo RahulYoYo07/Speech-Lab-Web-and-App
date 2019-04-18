@@ -13,39 +13,51 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ViewCourse extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static String courseInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        courseInfo = getIntent().getStringExtra("courseInfo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_course);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(courseInfo);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), addAssignment.class);
-                startActivity(intent);
+                Snackbar.make(view, "Add a new Assignment", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentAssignments()).commit();
+            navigationView.setCheckedItem(R.id.nav_assignments);
+        }
+        Toast.makeText(ViewCourse.this, courseInfo, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -81,21 +93,22 @@ public class ViewCourse extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_assignments) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentAssignments()).commit();
+        } else if (id == R.id.nav_ta) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentTA()).commit();
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_study_material) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentStudyMaterial()).commit();
+        } else if (id == R.id.nav_g_n_a) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentGnA()).commit();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
