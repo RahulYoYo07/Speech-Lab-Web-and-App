@@ -326,6 +326,9 @@
                     var i=0;
                     var totalvotes=0;
                     for (i=0; i<PollOptFull.length; i++){
+                        totalvotes += PollCntFull[i]
+                    }
+                    for (i=0; i<PollOptFull.length; i++){
                         // PollOptDiv = document.createElement('div');
                         var PollOptDiv = document.createElement('div');
                         var PollOpt = document.createElement('p');
@@ -338,7 +341,6 @@
                         Opt.value = i;
                         if (UserOpt == i)
                             Opt.checked = true;
-                        totalvotes+=PollCntFull[i];
                         PollOpt.innerHTML += PollCntFull[i] + ' votes: ' + PollOptFull[i];
                         PollOpt.setAttribute("style", "display: inline");
 
