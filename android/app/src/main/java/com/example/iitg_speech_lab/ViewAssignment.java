@@ -22,7 +22,6 @@ public class ViewAssignment extends AppCompatActivity
     public static String assignmentID;
 
     public static String courseInfo;
-    public static String assignmentID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

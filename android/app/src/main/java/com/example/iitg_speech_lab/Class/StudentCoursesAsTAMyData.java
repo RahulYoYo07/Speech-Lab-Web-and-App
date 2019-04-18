@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class StudentCoursesMyData {
+public class StudentCoursesAsTAMyData {
 
     public static ArrayList<String> coursesIDList = new ArrayList<>();
     public static ArrayList<String> coursesNameList = new ArrayList<>();
@@ -36,11 +36,10 @@ public class StudentCoursesMyData {
                             if (user != null) {
                                 if(user.exists()){
 
-                                    final List<Map<String,DocumentReference>> coursesRef = (List<Map<String,DocumentReference>>) user.get("CourseList");
+                                    final List<DocumentReference> coursesRef = (List<DocumentReference>) user.get("CoursesListAsTA");
 
                                     if (coursesRef != null) {
-                                        for ( Map<String,DocumentReference> cRefMap : coursesRef ){
-                                            DocumentReference cRef = cRefMap.get("CourseID");
+                                        for ( DocumentReference cRef : coursesRef ){
                                             cRef.get()
                                                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                         @Override

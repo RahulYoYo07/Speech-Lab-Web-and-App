@@ -39,9 +39,15 @@ public class SubmissionsMyData {
                             for (QueryDocumentSnapshot group : task.getResult()) {
                                 submissionGIDList.add((String) group.getId());
                                 Map<String,String> submission= new HashMap<>();
-                                submission = (Map<String,String>) group.get("SubmissionFile");
-                                submisssionUrlList.add(submission.get("Url"));
-                                submissionNameList.add(submission.get("Name"));
+                                try {
+                                    submission = (Map<String,String>) group.get("SubmissionFile");
+                                    submisssionUrlList.add(submission.get("Url"));
+                                    submissionNameList.add(submission.get("Name"));
+                                }
+                                catch (Exception e){
+
+                                }
+
                             }
                             taskda.setResult(1);
                         }
