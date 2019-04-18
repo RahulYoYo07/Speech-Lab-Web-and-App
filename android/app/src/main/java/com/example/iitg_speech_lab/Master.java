@@ -395,7 +395,7 @@ public class Master<sampleApp> extends AppCompatActivity
     }
 
     public void temp(View view){
-        Intent intent = new Intent(Master.this, PrivateProfileDetails.class);
+        Intent intent = new Intent(Master.this, EditProfile.class);
         startActivity(intent);
     }
 
