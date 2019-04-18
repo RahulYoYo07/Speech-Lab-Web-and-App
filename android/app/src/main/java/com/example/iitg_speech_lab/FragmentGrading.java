@@ -34,35 +34,28 @@ public class FragmentGrading extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grading, container, false);
-        Log.d("yomanas","onCreateView");
         return view;
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.V = view;
-        String courseInfo = ViewCourse.courseInfo;
+        String courseInfo = ViewAssignment.courseInfo;
+        String assignmentID = ViewAssignment.assignmentID;
 
-        Log.d("yomanas", "onViewCreated");
-
+        myOnClickListener = new MyOnClickListener();
 
         recyclerView = view.findViewById(R.id.grading_recycler_view);
-        Log.d("yomanas","recyclerview find by id");
         recyclerView.setHasFixedSize(true);
-        Log.d("yomanas","recyclerview has fixed size set");
 
-        Log.d("yomanas","before getContext");
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        //Log.d("yomanas","after getContext");
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.d("yomanas","recyclerview Layout and Animator set");
 
         task1 = new TaskCompletionSource<>();
         task2 = task1.getTask();
-        Log.d("yomanas","about to LoadData");
-        GradingMyData.loadAssignments(courseInfo,task1);
+        GradingMyData.loadGrades(courseInfo,assignmentID,task1);
 
         Task<Void> allTask = Tasks.whenAll(task2);
 
@@ -70,12 +63,10 @@ public class FragmentGrading extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 data = new ArrayList<>();
-                Log.d("yo",Integer.toString(GradingMyData.assignmentsInfoList.size()));
-                for (int i = 0; i < GradingMyData.assignmentsInfoList.size(); i++) {
+                for (int i = 0; i < GradingMyData.StudentGradeList.size(); i++) {
                     data.add(new GradingDataModel(
-                            GradingMyData.assignmentsInfoList.get(i),
-                            GradingMyData.assignmentsNameList.get(i),
-                            GradingMyData.assignmentsDeadlineList.get(i)
+                            GradingMyData.StudentNameList.get(i),
+                            GradingMyData.StudentGradeList.get(i)
                     ));
                 }
 
@@ -107,23 +98,9 @@ public class FragmentGrading extends Fragment {
             if (textViewName != null) {
                 selectedName = ( String ) textViewName.getText();
             }
-            //int selectedItemId = -1;
 
-//            for (int i = 0; i < GradingMyData.assignmentsIDList.size(); i++) {
-//                if (selectedName.equals(GradingMyData.assignmentsIDList.get(i))) {
-//                    //selectedItemId = GradingMyData.assignmentsInfoList.get(i);
-//                }
-//            }
-//            removedItems.add(selectedItemId);
-//            data.remove(selectedItemPosition);
-//            adapter.notifyItemRemoved(selectedItemPosition);
-
-            Log.d("aman",selectedName);
             String ainfo = (String) viewHolder.itemView.getTag();
-            Log.d("aman",ainfo);
-//            Intent intent = new Intent(AssignmentsActivity.this, ViewCourse.class);
-//            intent.putExtra("courseInfo",cinfo);
-//            startActivity(intent);
+
         }
     }
 }

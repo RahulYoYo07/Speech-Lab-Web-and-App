@@ -14,6 +14,7 @@
             android:label="@string/title_activity_student_view_course"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".VIewGroupDetails" />
+        <activity android:name=".AddGrade"></activity>
         <activity
             android:name=".ViewStudentCourse"
             android:label="@string/title_activity_view_student_course"

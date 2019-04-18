@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.iitg_speech_lab.Model.GradingDataModel;
@@ -48,9 +49,9 @@ public class GradingCustomAdapter extends RecyclerView.Adapter<GradingCustomAdap
         TextView textViewCourseName = holder.textViewCourseName;
 
         textViewCourseID.setText(dataSet.get(listPosition).getName());
-        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+        textViewCourseName.setText(dataSet.get(listPosition).getName());
 
-        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
+        holder.itemView.setTag(dataSet.get(listPosition).getName());
     }
 
     public int getItemCount() {
