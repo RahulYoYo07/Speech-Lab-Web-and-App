@@ -116,4 +116,5 @@ public class ViewAssignment extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

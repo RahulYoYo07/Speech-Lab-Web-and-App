@@ -90,14 +90,17 @@ public class addAssignment extends AppCompatActivity {
                                             int dayOfMonth) {
                 // TODO Auto-generated method stub
 
-                selDate = dayOfMonth +" / " + (month+1) + " / " + year;
+                selDate = dayOfMonth +"/" + (month+1) + "/" + year;
 
             }
         });
     }
 
     public void addAssgn(View view) {
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        if(checkDataEntered()==false)
+                return ;
 
         db.collection("Courses").document(cinfo).collection("Assignments").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -112,6 +115,27 @@ public class addAssignment extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private boolean checkDataEntered(){
+        EditText About = findViewById(R.id.About);
+        EditText Title = findViewById(R.id.Title);
+        if(Title.getText().toString().matches("")) {
+            Toast.makeText(this, "Please Enter the name of the assignment", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(About.getText().toString().matches("")) {
+            Toast.makeText(this, "Please Enter Short description of the assignment", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(selDate.matches("")){
+            Toast.makeText(this, "Please Enter Assignment Deadline", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void up() {
