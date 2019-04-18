@@ -244,6 +244,8 @@ def Add_Grade(request, cinfo, aid, gid) :
 def AddCourse(request):
     username = "pradip"
     if request.method == 'POST':
+        CourseID = request.POST.get("CourseID", "")
+
         ref_prof = db.collection(u'Users').document(username)
         data = {
             u'AboutCourse': request.POST.get("AboutCourse", ""),
@@ -510,9 +512,6 @@ def ViewGroup(request, cinfo, aid, gid):
         'GroupDetails' : GroupDetails,
         'StudentDetails' : StudentDetails,
     }
-    print("Hello")
-    print(GroupDetails)
-    print("Hello")
     return render(request, 'course/viewgroup.html', context)
 
 def UpdateGroup(request, cinfo, aid, gid):
@@ -527,10 +526,15 @@ def UpdateGroup(request, cinfo, aid, gid):
         db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).update(data)
         group_ref = db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document(gid).get()
         GroupDetails = group_ref.to_dict()
+        studs = GroupDetails['StudentList']
+        StudentDetails = []
+        for stud in studs:
+            StudentDetails.append(stud['StudentID'].get().to_dict())
         context = {
             'cinfo' : cinfo,
             'aid' : aid,
             'GroupDetails' : GroupDetails,
+            'StudentDetails' : StudentDetails,
         }
 
         return render(request,'course/viewgroup.html', context)
