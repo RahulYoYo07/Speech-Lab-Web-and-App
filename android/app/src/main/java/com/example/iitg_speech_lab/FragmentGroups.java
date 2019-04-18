@@ -1,5 +1,6 @@
 package com.example.iitg_speech_lab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -98,8 +99,13 @@ public class FragmentGroups extends Fragment {
                 selectedName = ( String ) textViewName.getText();
             }
 
-            String ainfo = (String) viewHolder.itemView.getTag();
+            String gid = (String) viewHolder.itemView.getTag();
+            Intent intent = new Intent(getActivity(), VIewGroupDetails.class);
 
+            intent.putExtra("courseInfo",ViewAssignment.courseInfo);
+            intent.putExtra("assignID",ViewAssignment.assignmentID);
+            intent.putExtra("gid", gid);
+            startActivity(intent);
         }
     }
 }
