@@ -1,0 +1,17 @@
+{% extends "base_generic.html"%}
+
+{% block sidebar %}
+  <li>
+    <a href="{% url 'course:update_grp' cinfo aid GroupDetails.GroupID %}">Update Details</a>
+  </li>
+{% endblock %}
+
+{% block content %}
+
+  <h1> {{ GroupDetails.GroupID }} </h1>
+  <h2><br> {{ GroupDetails.ProjectTitle }} </h2>
+  <br>
+  <p> {{ GroupDetails.ProblemStatement }} </p>
+  <p>Team members: {% for student in StudentDetails %} <br>  Name: {{ student.FullName }} &emsp; Roll No: {{ student.RollNumber }} {% endfor %}<br></p>
+
+{% endblock %}
