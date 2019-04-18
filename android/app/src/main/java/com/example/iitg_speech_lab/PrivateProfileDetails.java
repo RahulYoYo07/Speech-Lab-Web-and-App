@@ -12,14 +12,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PrivateProfileDetails extends AppCompatActivity {
-    final String GetUsername = "tusha170101073";
+    final String GetUsername = "pradip";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +71,11 @@ public class PrivateProfileDetails extends AppCompatActivity {
                                     ProgramDecide.setText("Designation: ");
                                     Room.setText(user.getString("RoomNumber"));
                                 }
-                                //Log.d("tushar",Name.getText().toString());
-                                //Toast.makeText(PrivateProfileDetails.this,Name.getText().toString(),Toast.LENGTH_LONG).show();
+                                if(user.getString("ProfilePic").length() > 0){
+                                    CircleImageView img = (CircleImageView) findViewById(R.id.profile);
+                                    String url = user.getString("ProfilePic");
+                                    Picasso.with(getApplicationContext()).load(url).into(img);
+                                }
                             }
                         }
                     }
