@@ -23,13 +23,12 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PrivateProfileDetails extends AppCompatActivity {
-    static String GetUsername = new String();
+    static String GetUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        GetUsername = intent.getStringExtra("username");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_profile_details);
+        GetUsername = getIntent().getStringExtra("username");
         final TextView Name = (TextView) findViewById(R.id.DisplayNameDetail);
         final TextView Username = (TextView) findViewById(R.id.DisplayUsernameDetail);
         final TextView Program = (TextView) findViewById(R.id.DisplayProgramDetail);

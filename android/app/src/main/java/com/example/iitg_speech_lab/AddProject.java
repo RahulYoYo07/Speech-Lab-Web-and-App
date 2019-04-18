@@ -25,11 +25,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddProject extends AppCompatActivity {
-    static String GetUsername = "tusha170101073";
+    static String GetUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
+        GetUsername = getIntent().getStringExtra("username");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Add Project");
     }

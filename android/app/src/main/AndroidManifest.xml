@@ -18,6 +18,29 @@
         <activity
             android:name=".ProfileProjectDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".VIewGroupDetails"></activity>
+        <activity
+            android:name=".ViewStudentCourse"
+            android:label="@string/title_activity_view_student_course"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StudentCoursesActivity" />
+        <activity
+            android:name=".ViewAssignment"
+            android:label="@string/title_activity_view_assignment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddCourse"
+            android:label="AddCourse"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CoursesActivity"
+            android:label="@string/title_activity_courses"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewCourse"
+            android:label="@string/title_activity_view_course"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".AdminDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -34,9 +57,6 @@
             android:name=".FAQ"
             android:parentActivityName=".Master" />
         <activity android:name=".AddFaq" />
-        <activity android:name=".ProjectDetails" />
-        <activity android:name=".Projects" />
-        <activity android:name=".EditHomePageDetails" />
         <activity android:name=".EditProfile" />
         <activity android:name=".PrivateProfileDetails" />
         <activity
@@ -59,7 +79,6 @@
             android:name=".ProjectsActivity"
             android:label="@string/title_activity_projects"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".DisplayMessageActivity"
             android:parentActivityName=".MainActivity">

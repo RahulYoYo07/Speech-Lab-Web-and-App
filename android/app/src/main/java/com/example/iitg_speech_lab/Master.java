@@ -440,7 +440,7 @@ public class Master<sampleApp> extends AppCompatActivity
             Intent intent = new Intent(Master.this, AboutUs.class);
             startActivity(intent);
         } else if(id == R.id.Login) {
-            onCallGraphClicked();;
+            onCallGraphClicked();
         } else if(id == R.id.Projects) {
             Intent intent = new Intent(Master.this, ProjectsActivity.class);
             startActivity(intent);

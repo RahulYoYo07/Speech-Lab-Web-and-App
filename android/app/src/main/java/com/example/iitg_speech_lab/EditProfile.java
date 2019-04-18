@@ -23,12 +23,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfile extends AppCompatActivity {
 
-    final String GetUsername = "tusha170101073";
+    static String GetUsername ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        GetUsername = getIntent().getStringExtra("username");
         final TextView Name = (TextView) findViewById(R.id.EditProfileDisplayNameDetail);
         final TextView Username = (TextView) findViewById(R.id.EditProfileDisplayUsernameDetail);
         final EditText Program = (EditText) findViewById(R.id.EditProfileDisplayProgramDetail);

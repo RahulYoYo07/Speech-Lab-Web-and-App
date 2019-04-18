@@ -35,7 +35,7 @@
             <item
                 android:id="@+id/AfterLoginDashboard"
                 android:icon="@drawable/ic_login"
-                android:title="Login" />
+                android:title="Dashboard" />
             <item
                 android:id="@+id/AfterLoginLogOut"
                 android:icon="@drawable/ic_login"
