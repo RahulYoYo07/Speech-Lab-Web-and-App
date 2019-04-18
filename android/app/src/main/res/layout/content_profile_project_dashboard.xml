@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditHomePageDetails">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ProfileProjectDashboard"
+    tools:showIn="@layout/app_bar_profile_project_dashboard">
 
 </android.support.constraint.ConstraintLayout>

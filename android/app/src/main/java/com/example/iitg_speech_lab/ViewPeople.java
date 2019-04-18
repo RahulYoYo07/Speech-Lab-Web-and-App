@@ -11,6 +11,7 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,9 +38,63 @@ public class ViewPeople extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_people);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("People");
+        EditText searchUser = (EditText) findViewById(R.id.searchUser);
+        searchUser.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
+                    ll.removeAllViews();
+                    final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    CollectionReference userRef = db.collection("Users");
+                    userRef.get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        ll.removeAllViews();
+                                        for (final QueryDocumentSnapshot document : task.getResult()) {
+
+                                            if (document.getString("FullName").toUpperCase().contains(s.toString().toUpperCase()))
+                                            {
+                                                final Button btn = new Button(ViewPeople.this);
+                                                btn.setTag(document.getId());
+                                                btn.setText(document.getString("FullName"));
+
+                                                btn.setOnClickListener(new View.OnClickListener(){
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        Intent intent = new Intent(ViewPeople.this, PrivateProfileDetails.class);
+                                                        intent.putExtra("username",document.getId());
+                                                        startActivity(intent);
+                                                    }
+                                                });
+                                                ll.addView(btn);
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                }
+                else{
+                    final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
+                    ll.removeAllViews();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     public void StudentClick(View view){
@@ -59,21 +114,23 @@ public class ViewPeople extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            ll.removeAllViews();
                             for (final QueryDocumentSnapshot document : task.getResult()) {
+
                                 if (document.getString("Designation").equals("Student"))
                                 {
                                     final Button btn = new Button(ViewPeople.this);
                                     btn.setTag(document.getId());
                                     btn.setText(document.getString("FullName"));
 
-//                                    btn.setOnClickListener(new View.OnClickListener(){
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            Intent intent = new Intent(ViewPeople.this, ProfileDetails.class);
-//                                            intent.putExtra("username",document.getId());
-//                                            startActivity(intent);
-//                                        }
-//                                    });
+                                    btn.setOnClickListener(new View.OnClickListener(){
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(ViewPeople.this, PrivateProfileDetails.class);
+                                            intent.putExtra("username",document.getId());
+                                            startActivity(intent);
+                                        }
+                                    });
                                     ll.addView(btn);
                                 }
                             }
@@ -91,7 +148,6 @@ public class ViewPeople extends AppCompatActivity {
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
 
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
-        ll.removeAllViews();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference userRef = db.collection("Users");
         userRef.get()
@@ -99,6 +155,7 @@ public class ViewPeople extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            ll.removeAllViews();
                             for (final QueryDocumentSnapshot document : task.getResult()) {
                                 if (document.getString("Designation").equals("Faculty"))
                                 {
@@ -106,14 +163,16 @@ public class ViewPeople extends AppCompatActivity {
                                     btn.setTag(document.getId());
                                     btn.setText(document.getString("FullName"));
 
-//                                    btn.setOnClickListener(new View.OnClickListener(){
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            Intent intent = new Intent(ViewPeople.this, ProfileDetails.class);
-//                                            intent.putExtra("username",document.getId());
-//                                            startActivity(intent);
-//                                        }
-//                                    });
+                                    btn.setOnClickListener(new View.OnClickListener(){
+                                        @Override
+                                        public void onClick(View v) {
+                                            Log.d("tushar",document.getString("Username"));
+                                            Intent intent = new Intent(ViewPeople.this, PrivateProfileDetails.class);
+                                            intent.putExtra("username",document.getString("Username"));
+                                            Log.d("tushar",document.getString("Username"));
+                                            startActivity(intent);
+                                        }
+                                    });
                                     ll.addView(btn);
                                 }
                             }

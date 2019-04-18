@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.iitg_speech_lab">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".ProfileProjectDashboard"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AdminDashboard"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AddProject"
+            android:parentActivityName=".ProfileProjectDashboard" />
         <activity android:name=".EditContactUs" />
         <activity android:name=".Login_activity" />
         <activity android:name=".EditAboutUs" />
@@ -19,10 +28,11 @@
             android:name=".FAQ"
             android:parentActivityName=".Master" />
         <activity android:name=".AddFaq" />
+        <activity android:name=".ProjectDetails" />
+        <activity android:name=".Projects" />
         <activity android:name=".EditHomePageDetails" />
         <activity android:name=".EditProfile" />
         <activity android:name=".PrivateProfileDetails" />
-        <activity android:name=".PublicProfileDetails" />
         <activity
             android:name=".ContactUs"
             android:parentActivityName=".Master" />
@@ -31,7 +41,6 @@
             android:parentActivityName=".ProjectsActivity" />
         <activity
             android:name=".Master"
-            android:label="@string/title_activity_master"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,8 +49,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewPeople"
-            android:parentActivityName=".Master" />
+            android:name=".ViewPeople" />
         <activity
             android:name=".ProjectsActivity"
             android:label="@string/title_activity_projects"

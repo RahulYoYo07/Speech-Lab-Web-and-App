@@ -12,6 +12,8 @@
     <string name="title_activity_test_course">TestCourse</string>
     <string name="title_activity_projects">ProjectsActivity</string>
     <string name="title_activity_master">Master</string>
+    <string name="title_activity_admin_dashboard">AdminDashboard</string>
+    <string name="title_activity_profile_project_dashboard">ProfileProjectDashboard</string>
     <string name="title_activity_projects_details">ProjectsDetails</string>
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>
