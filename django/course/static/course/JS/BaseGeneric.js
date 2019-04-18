@@ -62,13 +62,14 @@ $("input[data-type='date']").on("focus", function () {
 $("input[data-type='date']").datepicker({
     showButtonPanel: true,
     closeText: "OK",
+    dateFormat: "dd/mm/yy",
     onSelect: function (date, inst) {
-        changeMaterialHeader(headerHtml, moment(date, "MM/DD/YYYY"));
+        changeMaterialHeader(headerHtml, moment(date, "DD/MM/YYYY"));
     }
 });
 
 changeMaterialHeader(headerHtml, moment());
-$("trying").datepicker("show");
+var i = $("trying").datepicker("show");
 
 (function () {
 
