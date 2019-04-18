@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <style>
     <meta charset="utf-8"/>
     p_noline {display: inline;
@@ -11,19 +15,24 @@
         </style>
     </head>
     <body>
-        <div id='DynamicMessages'>
+        <div id='DynamicMessages' style='padding:50px 50px 50px 50px'>
         </div>
         <br>
-        <p> Add a new message </p>
-        <input id="chat-head-input" type="text" size="100"/><br/>
-        <input id="chat-message-input" type="text" size="100"/><br/>
-        <input id="chat-message-submit" type="button" value="Add message"/>
-        <p> Add a new poll </p>
-        <input id="poll-question-input" type="text" size="100"/><br/>
-        <div id = "DynamicPollOption" > </div>
-        <input id="poll-option-add" type="button" value="Add Poll Option"/>
-        <input id="poll-option-del" type="button" value="Delete Last Option"/>
-        <input id="poll-submit" type="button" value="Add Poll"/>
+        <div class="card bg-warning">
+          <div class="card-header"> <h4>Add a new message</h4> </div>
+          <input class="card-body" id="chat-head-input" type="text" size="100"/><br/>
+          <input class="card-body" id="chat-message-input" type="text" size="100"/><br/>
+          <input class="btn btn-success" id="chat-message-submit" type="button" value="Add message"/>
+        </div>
+        <br>
+        <div class="card bg-success">
+          <div class="card-header"><h4> Add a new poll</h4> </div>
+          <input id="poll-question-input" type="text" size="100"/><br/>
+          <div class="card-body" id = "DynamicPollOption" > </div>
+          <input class="btn btn-secondary" id="poll-option-add" type="button" value="Add Poll Option"/>
+          <input class="btn btn-secondary" id="poll-option-del" type="button" value="Delete Last Option"/>
+          <input class="btn btn-primary" id="poll-submit" type="button" value="Add Poll"/>
+        </div>
     </body>
 
     <script>
@@ -31,10 +40,19 @@
     var tempdata;
     var CourseGroupID = {{ CourseGroupID_json }};
     var CourseID = {{ CourseID_json }};
-
-    var chatSocket = new WebSocket(
+    var GroupID= {{ GroupID_json}}+"";
+    var AssignmentID={{ AssignmentID_json }}+"";
+    var selectColor=0;
+    var chatSocket;
+    if(GroupID == "")
+    chatSocket = new WebSocket(
         'ws://' + window.location.host +
         '/ws/discussion/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
+    else {
+      chatSocket = new WebSocket(
+          'ws://' + window.location.host +
+          '/ws/discussion/courses/'+ CourseID + '/assignments/' + AssignmentID+'/groups/'+GroupID);
+    }
         // var chatSocket2;
 
 
@@ -48,9 +66,41 @@
                 var IsReply = data['IsReply'];
                 var MessageBox = document.createElement('p');
                 var ReplyInput = document.createElement('input');
+                ReplyInput.size="30";
                 var ReplyButton = document.createElement('input');
                 var ShowReplies = document.createElement('input');
                 var MessageDiv = document.createElement('div');
+                MessageDiv.classList.add("container");
+
+                MessageDiv.classList.add("card");
+                switch (selectColor) {
+                  case 0:
+                    MessageDiv.classList.add("bg-info");
+                    selectColor=(selectColor+1)%4;
+                    break;
+                  case 1:
+                    MessageDiv.classList.add("bg-danger");
+                    selectColor=(selectColor+1)%4;
+                    break;
+                  case 2:
+                    MessageDiv.classList.add("bg-warning");
+                    selectColor=(selectColor+1)%4;
+                    break;
+                  case 3:
+                    MessageDiv.classList.add("bg-success");
+                    selectColor=(selectColor+1)%3;
+                    break;
+                  default:
+
+                }
+                MessageBox.classList.add("card-header");
+                ShowReplies.classList.add("btn");
+                ShowReplies.classList.add("btn-primary");
+                ReplyInput.classList.add("card-footer");
+                ReplyButton.classList.add("card-footer");
+                ReplyButton.classList.add("btn");
+                ReplyButton.classList.add("btn-success");
+
                 if (IsReply == false){
                     var messageHead = data['messageHead'];
                     var message = data['message'];
@@ -61,7 +111,7 @@
 
                     MessageDiv.id = MessageID;
                     MessageBox.setAttribute("style","display: inline");
-                    MessageBox.innerHTML = messageHead + ': ' + message;
+                    MessageBox.innerHTML ='<b>'+Author+'</b>'+'</br>'+ messageHead + ': ' + message;
 
                     ReplyInput.type = 'text';
                     ReplyInput.id = MessageID+'_input';
@@ -131,6 +181,8 @@
                 else{
                     if(ShowReply==true){
                         var ShowReplyBox=document.createElement('p');
+                        ShowReplyBox.classList.add("card-body");
+                        ShowReplyBox.style.padding="0px 20px 0px 0px";
                         var msg='';
                         var i=0
                         for(i=0;i<data['Replies'].length;i++){
@@ -168,14 +220,43 @@
                     var ShowOptions = document.createElement('input');
                     var SubmitVote = document.createElement('input');
 
+                    PollDiv.classList.add("card");
+                    PollDiv.classList.add("container");
+
+                    switch (selectColor) {
+                      case 0:
+                        PollDiv.classList.add("bg-info");
+                        selectColor=(selectColor+1)%4;
+                        break;
+                      case 1:
+                        PollDiv.classList.add("bg-danger");
+                        selectColor=(selectColor+1)%4;
+                        break;
+                      case 2:
+                        PollDiv.classList.add("bg-warning");
+                        selectColor=(selectColor+1)%4;
+                        break;
+                      case 3:
+                        PollDiv.classList.add("bg-success");
+                        selectColor=(selectColor+1)%3;
+                        break;
+                      default:
+
+                    }
+                    PollQuesBox.classList.add("card-header");
+                    ShowOptions.classList.add("btn");
+                    ShowOptions.classList.add("btn-primary");
+                    SubmitVote.classList.add("card-footer");
                     PollDiv.id = MessageID;
                     PollQuesBox.setAttribute("style","display: inline");
-                    PollQuesBox.innerHTML = PollQues;
+                    PollQuesBox.innerHTML = '<b>'+Author+'</b>'+'</br>'+PollQues;
 
                     SubmitVote.type = 'button';
                     SubmitVote.id = MessageID + '_Vote';
                     SubmitVote.setAttribute("style", "margin-left: 2em");
                     SubmitVote.value = 'Submit Vote';
+                    SubmitVote.classList.add("btn");
+                    SubmitVote.classList.add("btn-success");
                     SubmitVote.onclick = function(){
                         if (open == false){
                             return;
@@ -243,6 +324,7 @@
                     var PollCntFull = data['PollCnt'];
                     var UserOpt = data['UserOpt'];
                     var i=0;
+                    var totalvotes=0;
                     for (i=0; i<PollOptFull.length; i++){
                         // PollOptDiv = document.createElement('div');
                         var PollOptDiv = document.createElement('div');
@@ -256,7 +338,7 @@
                         Opt.value = i;
                         if (UserOpt == i)
                             Opt.checked = true;
-
+                        totalvotes+=PollCntFull[i];
                         PollOpt.innerHTML += PollCntFull[i] + ' votes: ' + PollOptFull[i];
                         PollOpt.setAttribute("style", "display: inline");
 

@@ -33,7 +33,11 @@ def course_group(request, CourseID, CourseGroupID):
     })
 
 def group(request, CourseID, AssignmentID, GroupID):
-    pass
+    return render(request, 'discussion/group.html', {
+        'GroupID_json' : mark_safe(json.dumps(GroupID)),
+        'CourseID_json' : mark_safe(json.dumps(CourseID)),
+        'AssignmentID_json' : mark_safe(json.dumps(AssignmentID)),
+    })
 
 def notice_board(request,CourseID):
     # CourseID = self.scope['url_route']['kwargs']['CourseID']
