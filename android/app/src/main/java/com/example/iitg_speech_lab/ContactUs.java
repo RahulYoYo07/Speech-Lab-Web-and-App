@@ -49,7 +49,7 @@ public class ContactUs extends AppCompatActivity {
                             DocumentSnapshot user = task.getResult();
                             if(user.exists()){
                                 //final String Head_detail = user.getString("Head");
-                                final String Phone_detail = user.getString("Phone Number");
+                                final String Phone_detail = user.getString("PhoneNumber");
                                 final String Email_detail = user.getString("Email");
                                 final String Website_detail = user.getString("Website");
                                 final String Location_detail = user.getString("Location");

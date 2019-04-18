@@ -16,6 +16,11 @@
             android:id="@+id/Projects"
             android:icon="@drawable/ic_project"
             android:title="Projects" />
+
+        <item
+            android:id = "@+id/NoticeBoard"
+            android:title="Notice Board"
+            android:icon = "@drawable/ic_notice"/>
         <item
             android:id="@+id/FAQ"
             android:icon="@drawable/ic_faq"

@@ -39,7 +39,7 @@ public class EditContactUs extends AppCompatActivity {
                                 EditText Website = (EditText) findViewById(R.id.WebsiteDetail);
                                 EditText Location = (EditText) findViewById(R.id.LocationDetail);
 
-                                Phone.setText(user.getString("Phone Number"));
+                                Phone.setText(user.getString("PhoneNumber"));
                                 Email.setText(user.getString("Email"));
                                 Website.setText(user.getString("Website"));
                                 Location.setText(user.getString("Location"));

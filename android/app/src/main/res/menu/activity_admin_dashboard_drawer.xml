@@ -18,13 +18,18 @@
             android:title="Edit Contact Us" />
         <item
             android:id="@+id/AdminAddProject"
-            android:icon="@drawable/ic_faq"
+            android:icon="@drawable/ic_addproject"
             android:title="Add Project" />
 
         <item
             android:id = "@+id/AdminLogOut"
             android:icon="@drawable/ic_logout"
             android:title="Log Out"/>
+
+        <item
+            android:id = "@+id/AdminHome"
+            android:icon="@drawable/ic_home"
+            android:title="Home"/>
     </group>
 
 

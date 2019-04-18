@@ -13,4 +13,5 @@
     <string name="title_activity_courses">CoursesActivity</string>
     <string name="title_activity_master">Master</string>
     <string name="title_activity_admin_dashboard">AdminDashboard</string>
+    <string name="title_activity_profile_project_dashboard">ProfileProjectDashboard</string>
 </resources>

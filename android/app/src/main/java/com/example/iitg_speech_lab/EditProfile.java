@@ -101,22 +101,24 @@ public class EditProfile extends AppCompatActivity {
         final TextView ProgramDecide = (TextView) findViewById(R.id.EditProfileDisplayProgram);
         final EditText Room = (EditText) findViewById(R.id.EditProfileDisplayRoomDetail);
         final TextView RoomDecide = (TextView) findViewById(R.id.EditProfileDisplayRoom);
-        final Map <String, Object> map = new HashMap<>();
-        map.put("FullName",Name.getText().toString());
-        map.put("Username",Username.getText().toString());
-        map.put("Department",Dept.getText().toString());
-        map.put("Contact",Contact.getText().toString());
-        map.put("Email",Email.getText().toString());
-        map.put("About",About.getText().toString());
         Map <String,String> url = new HashMap<>();
         url.put("Homepage",Website.getText().toString());
         url.put("Github",Github.getText().toString());
         url.put("Linkedin",LinkedIn.getText().toString());
-        map.put("URL",url);
-        map.put("ProfilePic","");
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference userRef = db.collection("Users").document(GetUsername);
-        userRef.get()
+        userRef.update(
+                "FullName",Name.getText().toString(),
+                "Username",Username.getText().toString(),
+                "Department",Dept.getText().toString(),
+                "Contact",Contact.getText().toString(),
+                "Email",Email.getText().toString(),
+                "About",About.getText().toString(),
+                "URL",url
+        );
+
+        final DocumentReference usertemp = db.collection("Users").document(GetUsername);
+        usertemp.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -125,18 +127,16 @@ public class EditProfile extends AppCompatActivity {
                             if (user.exists()) {
                                 Toast.makeText(getApplicationContext(),"Updated Details",Toast.LENGTH_LONG).show();
                                 if (user.getString("Designation").equals("Student")) {
-                                    map.put("RollNumber",Room.getText().toString());
-                                    map.put("Program",Program.getText().toString());
-                                    map.put("Designation","Student");
-                                    final DocumentReference ins = db.collection("Users").document(GetUsername);
-                                    ins.set(map);
+                                    userRef.update(
+                                            "Program",Program.getText().toString(),
+                                            "RollNumber",Room.getText().toString()
+                                    );
 
                                 } else {
-                                    map.put("RoomNumber",Room.getText().toString());
-                                    map.put("CollegeDesignation",Program.getText().toString());
-                                    map.put("Designation","Faculty");
-                                    final DocumentReference ins = db.collection("Users").document(GetUsername);
-                                    ins.set(map);
+                                    userRef.update(
+                                            "RoomNumber",Room.getText().toString(),
+                                            "CollegeDesignation",Program.getText().toString()
+                                    );
                                 }
                             }
                         }
