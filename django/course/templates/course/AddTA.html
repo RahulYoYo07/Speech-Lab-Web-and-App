@@ -12,12 +12,12 @@
       </select>
     </div>
 
-    
+
     <div class="form-group" style="display:none;" id = "BTechTA">
       <label for="BTechTA">TA ID</label>
       <select class="form-control" name="BTechTA" id="">
     {% for stud in BTech %}
-        <option>{{ stud.FirstName}}-{{ stud.username }}</option>
+        <option>{{ stud.FullName}}-{{ stud.username }}</option>
     {% endfor %}
       </select>
     </div>
@@ -27,7 +27,7 @@
       <label for="MTechTA">TA ID</label>
       <select class="form-control" name="MTechTA" id="">
     {% for stud in MTech %}
-        <option>{{ stud.FirstName}}-{{ stud.username }}</option>
+        <option>{{ stud.FullName}}-{{ stud.username }}</option>
     {% endfor %}
       </select>
     </div>
@@ -36,7 +36,7 @@
       <label for="PhDTA">TA ID</label>
       <select class="form-control" name="PhDTA" id="">
     {% for stud in Phd %}
-        <option>{{ stud.FirstName}}-{{ stud.username }}</option>        
+        <option>{{ stud.FullName}}-{{ stud.username }}</option>        
     {% endfor %}
       </select>
     </div>
