@@ -143,6 +143,7 @@ def add_event(request, CourseID):
                 'dateTime': EndDate+'T23:59:59+0530',
                 'timeZone': 'America/Los_Angeles',
             },
+            'visibility': 'public',
         }
 
         event = service.events().insert(calendarId=CalendarID, body=event).execute()
