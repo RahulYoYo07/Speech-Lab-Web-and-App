@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditContactUs"></activity>
+        <activity android:name=".EditContactUs" />
         <activity android:name=".Login_activity" />
         <activity android:name=".EditAboutUs" />
         <activity
@@ -20,14 +20,15 @@
             android:parentActivityName=".Master" />
         <activity android:name=".AddFaq" />
         <activity android:name=".EditHomePageDetails" />
-        <activity android:name=".ProjectDetails" />
-        <activity android:name=".Projects" />
         <activity android:name=".EditProfile" />
         <activity android:name=".PrivateProfileDetails" />
         <activity android:name=".PublicProfileDetails" />
         <activity
             android:name=".ContactUs"
             android:parentActivityName=".Master" />
+        <activity
+            android:name=".ViewProject"
+            android:parentActivityName=".ProjectsActivity" />
         <activity
             android:name=".Master"
             android:label="@string/title_activity_master"
@@ -42,12 +43,8 @@
             android:name=".ViewPeople"
             android:parentActivityName=".Master" />
         <activity
-            android:name=".CoursesActivity"
-            android:label="@string/title_activity_courses"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ViewCourse"
-            android:label="@string/title_activity_view_course"
+            android:name=".ProjectsActivity"
+            android:label="@string/title_activity_projects"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Discussion_Notice_Board" />
         <activity
@@ -60,18 +57,16 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".MainActivity" />
-
-        <activity
-            android:name="com.microsoft.identity.client.BrowserTabActivity">
+        <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-
-
-                <data android:scheme="msald5d4df29-11c6-4150-bacf-deeac3569940"
-                    android:host="auth" />
+                <data
+                    android:host="auth"
+                    android:scheme="msald5d4df29-11c6-4150-bacf-deeac3569940" />
             </intent-filter>
         </activity>
     </application>

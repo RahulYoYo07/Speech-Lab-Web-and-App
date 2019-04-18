@@ -74,12 +74,12 @@ import java.util.concurrent.TimeUnit;
 public class Master<sampleApp> extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     /* Azure AD v2 Configs */
-    final static String SCOPES [] = {"https://graph.microsoft.com/User.Read"};
+    final static String SCOPES [] = {"https://graph.microsoft.com/User.Read+profile+openid+offline_access"};
     final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
 
     /* UI & Debugging Variables */
     private static final String TAG = Master.class.getSimpleName();
-
+    Button projects;
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
     private AuthenticationResult authResult;
@@ -89,7 +89,12 @@ public class Master<sampleApp> extends AppCompatActivity
         setContentView(R.layout.activity_master);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        projects = (Button) findViewById(R.id.button8);
+        projects.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                projectload();
+            }
+        });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +112,6 @@ public class Master<sampleApp> extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         /* Configure your sample app and save state for this activity */
         sampleApp = null;
         if (sampleApp == null) {
@@ -160,6 +164,10 @@ public class Master<sampleApp> extends AppCompatActivity
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
     }
 
+    private void projectload(){
+        Intent intent = new Intent(Master.this, ProjectsActivity.class);
+        startActivity(intent);
+    }
 
     /* Use Volley to make an HTTP request to the /me endpoint from MS Graph using an access token */
     private void callGraphAPI() {
@@ -250,6 +258,7 @@ public class Master<sampleApp> extends AppCompatActivity
         Url.put("Homepage", "");
         Url.put("Linkedin", "");
         newUser.put("URL", Url);
+        newUser.put("Username", username);
         DocumentReference docref= db.collection("Users").document(username);
         docref.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -273,6 +282,7 @@ public class Master<sampleApp> extends AppCompatActivity
     private void updateSuccessUI(JSONObject graphResponse) {
         Intent intent = new Intent(Master.this, Login_activity.class);
         intent.putExtra("username", graphResponse.optString("mail").replace("@iitg.ac.in", ""));
+        intent.putExtra("JsonString", graphResponse.toString().toString());
         startActivity(intent);
     }
 
@@ -365,13 +375,26 @@ public class Master<sampleApp> extends AppCompatActivity
             }
         };
     }
+
+    int backButtonCount = 0;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(backButtonCount >= 1)
+            {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+            else
+            {
+                Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+                backButtonCount++;
+            }
         }
     }
 
@@ -417,6 +440,9 @@ public class Master<sampleApp> extends AppCompatActivity
             startActivity(intent);
         } else if(id == R.id.Login) {
             onCallGraphClicked();;
+        } else if(id == R.id.Projects) {
+            Intent intent = new Intent(Master.this, ProjectsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
