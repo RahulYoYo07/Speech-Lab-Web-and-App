@@ -21,6 +21,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">32dp</item>
     </style>
+
     <style name="Title">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">26dp</item>

@@ -277,7 +277,7 @@ public class Master<sampleApp> extends AppCompatActivity
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI(JSONObject graphResponse) {
-        Intent intent = new Intent(Master.this, Login_activity.class);
+        Intent intent = new Intent(Master.this, AfterLoginHomePage.class);
         intent.putExtra("username", graphResponse.optString("mail").replace("@iitg.ac.in", ""));
         intent.putExtra("JsonString", graphResponse.toString().toString());
         startActivity(intent);

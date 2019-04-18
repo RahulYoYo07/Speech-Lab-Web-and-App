@@ -3,6 +3,7 @@
     package="com.example.iitg_speech_lab">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,12 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ProfileProjectDashboard"
+            android:name=".AfterLoginHomePage"
+            android:label="@string/title_activity_after_login_home_page"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ProfileProjectDashboard"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AdminDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddProject"
+        <activity
+            android:name=".AddProject"
             android:parentActivityName=".ProfileProjectDashboard" />
         <activity android:name=".EditContactUs" />
         <activity android:name=".Login_activity" />
@@ -48,8 +54,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ViewPeople" />
+        <activity android:name=".ViewPeople" />
         <activity
             android:name=".ProjectsActivity"
             android:label="@string/title_activity_projects"
