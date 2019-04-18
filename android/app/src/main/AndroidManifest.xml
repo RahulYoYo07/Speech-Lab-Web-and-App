@@ -19,7 +19,8 @@
             android:name=".AdminDashboard"
             android:label="@string/title_activity_admin_dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddProject" />
+        <activity android:name=".AddProject"
+            android:parentActivityName=".ProfileProjectDashboard" />
         <activity android:name=".EditContactUs" />
         <activity android:name=".Login_activity" />
         <activity android:name=".EditAboutUs" />
@@ -48,8 +49,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewPeople"
-            android:parentActivityName=".Master" />
+            android:name=".ViewPeople"/>
         <activity
             android:name=".CoursesActivity"
             android:label="@string/title_activity_courses"

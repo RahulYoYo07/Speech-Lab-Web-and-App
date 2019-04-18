@@ -375,7 +375,6 @@ public class Master<sampleApp> extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.master, menu);
         return true;
     }
 
@@ -418,7 +417,7 @@ public class Master<sampleApp> extends AppCompatActivity
             Intent intent = new Intent(Master.this, AboutUs.class);
             startActivity(intent);
         } else if(id == R.id.Login) {
-            onCallGraphClicked();;
+            onCallGraphClicked();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
