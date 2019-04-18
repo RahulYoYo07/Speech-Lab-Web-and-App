@@ -28,7 +28,6 @@
         <activity android:name=".Projects" />
         <activity android:name=".EditProfile" />
         <activity android:name=".PrivateProfileDetails" />
-        <activity android:name=".PublicProfileDetails" />
         <activity
             android:name=".ContactUs"
             android:parentActivityName=".Master" />
