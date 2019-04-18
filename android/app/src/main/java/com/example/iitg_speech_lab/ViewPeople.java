@@ -84,6 +84,10 @@ public class ViewPeople extends AppCompatActivity {
                                 }
                             });
                 }
+                else{
+                    final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
+                    ll.removeAllViews();
+                }
             }
 
             @Override
