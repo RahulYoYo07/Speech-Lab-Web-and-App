@@ -9,12 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".UpdateAttendance"></activity>
         <activity
             android:name=".StudentViewCourse"
             android:label="@string/title_activity_student_view_course"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".VIewGroupDetails" />
-        <activity android:name=".AddGrade"></activity>
+        <activity android:name=".AddGrade" />
         <activity
             android:name=".ViewStudentCourse"
             android:label="@string/title_activity_view_student_course"
