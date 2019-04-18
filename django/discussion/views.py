@@ -132,11 +132,11 @@ def add_event(request, CourseID):
             'location': Location,
             'description': Description,
             'start': {
-                'dateTime': StartDate+'T00:00:00',
+                'dateTime': StartDate+'T00:00:00+0530',
                 'timeZone': 'America/Los_Angeles',
             },
             'end': {
-                'dateTime': EndDate+'T23:59:59',
+                'dateTime': EndDate+'T23:59:59+0530',
                 'timeZone': 'America/Los_Angeles',
             },
         }
