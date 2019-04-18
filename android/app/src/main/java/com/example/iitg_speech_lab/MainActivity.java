@@ -37,4 +37,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CoursesActivity.class);
         startActivity(intent);
     }
+
+    public void studentOpenCourses(View view){
+        Intent intent = new Intent(this, StudentCoursesActivity.class);
+        startActivity(intent);
+    }
 }

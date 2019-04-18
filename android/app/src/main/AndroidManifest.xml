@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AddGrade"></activity>
+        <activity android:name=".VIewGroupDetails"></activity>
         <activity
             android:name=".ViewStudentCourse"
             android:label="@string/title_activity_view_student_course"

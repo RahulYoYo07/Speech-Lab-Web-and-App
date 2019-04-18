@@ -1,5 +1,6 @@
 package com.example.iitg_speech_lab;
 
+
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,13 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.Model.SubmissionsDataModel;
-import com.example.iitg_speech_lab.Model.SubmissionsDataModel;
+import com.example.iitg_speech_lab.Model.StudentCoursesAsTADataModel;
+import com.example.iitg_speech_lab.Model.StudentCoursesDataModel;
 
 import java.util.ArrayList;
 
-public class SubmissionsCustomAdapter extends RecyclerView.Adapter<SubmissionsCustomAdapter.MyViewHolder>  {
-    private ArrayList<SubmissionsDataModel> dataSet;
+public class StudentCoursesAsTACustomAdapter extends RecyclerView.Adapter<StudentCoursesAsTACustomAdapter.MyViewHolder> {
+
+    private ArrayList<StudentCoursesAsTADataModel> dataSet;
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -27,32 +29,35 @@ public class SubmissionsCustomAdapter extends RecyclerView.Adapter<SubmissionsCu
         }
     }
 
-    SubmissionsCustomAdapter(ArrayList<SubmissionsDataModel> data) {
+    StudentCoursesAsTACustomAdapter(ArrayList<StudentCoursesAsTADataModel> data) {
         this.dataSet = data;
     }
 
+    @Override
     @NonNull
-    public SubmissionsCustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                    int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                           int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cards_layout, parent, false);
 
-        view.setOnClickListener(FragmentSubmissions.myOnClickListener);
+        view.setOnClickListener(StudentCoursesActivity.myOnClickListener2);
 
-        return new SubmissionsCustomAdapter.MyViewHolder(view);
+        return new MyViewHolder(view);
     }
 
-    public void onBindViewHolder(final SubmissionsCustomAdapter.MyViewHolder holder, final int listPosition) {
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
 
         TextView textViewCourseID = holder.textViewCourseID;
         TextView textViewCourseName = holder.textViewCourseName;
 
-        textViewCourseID.setText(dataSet.get(listPosition).getGID());
+        textViewCourseID.setText(dataSet.get(listPosition).getId());
         textViewCourseName.setText(dataSet.get(listPosition).getName());
 
-        holder.itemView.setTag(dataSet.get(listPosition).getURL());
+        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
     }
 
+    @Override
     public int getItemCount() {
         return dataSet.size();
     }
