@@ -179,7 +179,7 @@ class ChatConsumer(WebsocketConsumer):
                 else:
                     UserOpt = int(text_data_json['UserOpt'])
                     MessageID = text_data_json['MessageID']
-                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').document(ucurAuthor)
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').document(curAuthor)
                     # print(UserOpt)
                     DBPollUpdate = {
                         'MessageID': MessageID,
@@ -414,7 +414,7 @@ class ChatConsumer2(WebsocketConsumer):
                 else:
                     UserOpt = int(text_data_json['UserOpt'])
                     MessageID = text_data_json['MessageID']
-                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').document(ucurAuthor)
+                    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).collection(u'Replies').document(curAuthor)
                     # print(UserOpt)
                     DBPollUpdate = {
                         'MessageID': MessageID,

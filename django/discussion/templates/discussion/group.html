@@ -333,6 +333,36 @@
                         var PollOptDiv = document.createElement('div');
                         var PollOpt = document.createElement('p');
                         var Opt = document.createElement('input');
+                        var PollProgTot= document.createElement('div');
+                        var PollProg = document.createElement('div');
+
+                        PollProgTot.classList.add("progress");
+                        PollProg.classList.add("progress-bar");
+                        PollProg.classList.add("w3-round");
+                        PollProg.classList.add(".active");
+                        switch (i%4) {
+                          case 0: PollProg.classList.add("progress-bar-success");
+                                  break;
+                          case 1: PollProg.classList.add("progress-bar-info");
+                                  break;
+                          case 2: PollProg.classList.add("progress-bar-warning");
+                                  break;
+                          case 3: PollProg.classList.add("progress-bar-danger");
+                                  break;
+                          default:
+
+                        }
+                        PollProg.role = "progressbar";
+                        PollProg.innerHTML = PollCntFull[i] + " vote(s)";
+                        PollProg.style.width = (PollCntFull[i]*100)/totalvotes + "%";
+                        // PollProg.css("width", (PollCntFull[i]*100)/totalvotes);
+                        // PollProg.attr("aria-valuenow", (PollCntFull[i]*100)/totalvotes);
+                        // PollProg.attr("aria-valuemin", 0);
+                        // PollProg.attr("aria-valuemax", 100);
+                        // PollProg.text(PollCntFull[i] + " votes");
+
+                        PollProgTot.appendChild(PollProg);
+
 
                         PollOptDiv.id = MessageID + '_Poll' + i;
 
@@ -341,12 +371,13 @@
                         Opt.value = i;
                         if (UserOpt == i)
                             Opt.checked = true;
-                        PollOpt.innerHTML += PollCntFull[i] + ' votes: ' + PollOptFull[i];
+                        PollOpt.innerHTML += PollOptFull[i];
                         PollOpt.setAttribute("style", "display: inline");
 
                         PollOptDiv.append(Opt)
-                        PollOptDiv.appendChild(PollOpt);
-                        PollOptDiv.appendChild(document.createElement('br'));
+                        PollOptDiv.append(PollOpt);
+                        PollOptDiv.appendChild(PollProgTot);
+                        // PollOptDiv.appendChild(document.createElement('br'));
                         PollDiv.appendChild(PollOptDiv);
                     }
 
