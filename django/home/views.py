@@ -309,6 +309,7 @@ def faculty(request):
     uc_list = zip(user_list, counter_list)
     context = {'uc_list': uc_list}
     context = loginFLOW(request, context)
+    
     return render(request, 'home/people.html', context)
 
 
