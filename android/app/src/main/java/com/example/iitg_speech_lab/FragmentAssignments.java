@@ -14,12 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.AssignmentsCustomAdapter;
-import com.example.iitg_speech_lab.Classes.AssignmentsMyData;
+import com.example.iitg_speech_lab.Class.AssignmentsMyData;
 import com.example.iitg_speech_lab.Model.AssignmentsDataModel;
-import com.example.iitg_speech_lab.R;
-import com.example.iitg_speech_lab.ViewAssignment;
-import com.example.iitg_speech_lab.ViewCourse;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;

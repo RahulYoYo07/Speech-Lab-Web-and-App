@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-//import com.example.iitg_speech_lab.Classes.SubmissionsMyData;
 
 import com.example.iitg_speech_lab.Class.SubmissionsMyData;
 import com.example.iitg_speech_lab.Model.SubmissionsDataModel;

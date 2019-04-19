@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-//import com.example.iitg_speech_lab.Classes.TAMyData;
-
 import com.example.iitg_speech_lab.Class.TAMyData;
 import com.example.iitg_speech_lab.Model.TADataModel;
 import com.google.android.gms.tasks.OnSuccessListener;
