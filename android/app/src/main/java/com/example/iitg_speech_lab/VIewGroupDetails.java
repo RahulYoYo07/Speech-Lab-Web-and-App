@@ -79,7 +79,7 @@ public class VIewGroupDetails extends AppCompatActivity {
 
 
     public void addAttendance(View view){
-        Intent intent = new Intent(VIewGroupDetails.this, CoursesActivity.class);
+        Intent intent = new Intent(VIewGroupDetails.this, UpdateAttendance.class);
         intent.putExtra("courseInfo",courseInfo);
         intent.putExtra("assignmentID",assignmentID);
         intent.putExtra("groupID",groupID);
@@ -87,7 +87,7 @@ public class VIewGroupDetails extends AppCompatActivity {
     }
 
     public void addGrade(View view){
-        Intent intent = new Intent(VIewGroupDetails.this, CoursesActivity.class);
+        Intent intent = new Intent(VIewGroupDetails.this, AddGrade.class);
         intent.putExtra("courseInfo",courseInfo);
         intent.putExtra("assignmentID",assignmentID);
         intent.putExtra("groupID",groupID);

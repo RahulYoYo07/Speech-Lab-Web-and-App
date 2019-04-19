@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ViewMyGroup"></activity>
-        <activity
+        <activity android:name=".UpdateAttendance"></activity>
             android:name=".StudentViewCourse"
             android:label="@string/title_activity_student_view_course"
             android:theme="@style/AppTheme.NoActionBar" />
