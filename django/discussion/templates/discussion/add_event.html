@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+
+<body>
+    <form method="post" enctype="multipart/form-data" action="{% url 'discussion:events' CourseID %}">
+      {% csrf_token %}
+      <input type="text" name="Summary" placeholder="Summary" />
+      <br>
+      <input type="text" name="Location" placeholder="Location" />
+      <br>
+      <input name="Description" placeholder="Description" />
+      <br>
+      <input type='date' name="Start" placeholder="Start" />
+      <br>
+      <input type='date' name="End" placeholder="End" />
+      <br>
+      <input type="submit" value="Add Event">
+    </form>
+
+    <div id='DeleteEvents'>
+        {% for event in events %}
+            <p>{{event.summary}}<br>{{event.description}}<br>{{event.location}}<br>from {{event.start.dateTime}} to {{event.end.dateTime}}</p>
+            <form method="post" enctype="multipart/form-data" action="{% url 'discussion:delete_event' CourseID event.id %}">
+                {% csrf_token %}
+                <input type="submit" value="Delete Event">
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html>

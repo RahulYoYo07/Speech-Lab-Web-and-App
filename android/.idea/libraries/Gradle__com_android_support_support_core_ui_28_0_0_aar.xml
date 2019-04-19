@@ -1,18 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support:support-core-ui:28.0.0@aar">
     <CLASSES>
-<<<<<<< HEAD
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/44df3951c880de15013d9202defd470a/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/44df3951c880de15013d9202defd470a/jars/classes.jar!/" />
-=======
-<<<<<<< Updated upstream
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/4b3882cd6bd27e584f8455b2cb8602d1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/4b3882cd6bd27e584f8455b2cb8602d1/res" />
-=======
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/79918d77f62951876763b7d63e52c8a5/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/79918d77f62951876763b7d63e52c8a5/res" />
->>>>>>> Stashed changes
->>>>>>> 6e46096b343dbb445646996565a96e68ae2493a5
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/ac2a96ecd3ab9641a4d33fe6ee98929f/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/ac2a96ecd3ab9641a4d33fe6ee98929f/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

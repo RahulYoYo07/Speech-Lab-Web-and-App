@@ -14,6 +14,7 @@
    {% if RegisteredCourses %}
    {% for course in RegisteredCourses %}
    <li class="cards__item">
+
       <div class = "card">
          <div class="card__content">
             <div class="card__title"><a href="{% url 'course:view_course' course.CourseInfo %}">{{ course.CourseID }} <i class="fas fa-sm fa-link"></i></a></div>

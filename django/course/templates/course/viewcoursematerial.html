@@ -3,6 +3,9 @@
 {% block content %}
 
 <h1>Course Materials</h1>
+{% if Designation == "Faculty" %}
+    <a href="{% url 'course:add_course_material' CourseInfo %}"><p class="options">Add course material</p></a>
+{% endif %}
 <ul>
 {% for cm in CMaterials %}
   <li>{{ cm.Name }} - <a href="{{ cm.Url }}" target="_blank"> Open/Download </a></li>

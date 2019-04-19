@@ -1,6 +1,7 @@
 {% extends "base_generic.html"%}
 
 {% block sidebar %}
+  {% if Designation == 'Faculty' %}
   <li>
     <a href="#">Set Deadline</a>
   </li>
@@ -11,10 +12,11 @@
     <a href="#">Manually Form Group</a>
   </li>
   <li>
-    <a href="#">Randomly Allocate Groups</a>
+    <a href="{% url 'course:random_groups' cinfo aid %}">Randomly Allocate Groups</a>
   </li>
+  {% endif %}
   <li>
-    <a href="#">View Submissions</a>
+    <a href="#">Submissions</a>
   </li>
 {% endblock %}
 

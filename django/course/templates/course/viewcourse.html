@@ -19,21 +19,25 @@
 
 
 {% block content %}
-<a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment</p></a>
+
+{% if Designation == "Faculty" %}
+    <a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment</p></a>
+{% endif %}
 
 <ul class="cards">
+
   {% for assgn in AssgnDetails %}
   <li class="cards__item">
     <div class="card">
       <div class="card__content">
         <div class="card__title"><a href="{% url 'course:view_assgn' CourseInfo assgn.AssignmentID %}">{{ assgn.Name }}</a></div>
-        
+
         <div class="card__subtitle">Deadline : {{assgn.Deadline}}</div>
         <p class="card__text">
         {{assgn.About}}
         </p>
 
-  
+
         <a href="{% url 'course:up_assgn' CourseInfo assgn.AssignmentID %}"><button class="btn btn--block card__btn">EDIT DETAILS</button></a>
       </div>
     </div>
@@ -41,5 +45,3 @@
   {% endfor %}
 </ul>
 {% endblock %}
-
-
