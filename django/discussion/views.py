@@ -216,9 +216,11 @@ def add_event(request, CourseID):
         events = events_result.get('items', [])
         context['events'] = events
         context['CourseID'] = CourseID
-        # return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID})
+        context['CalendarID'] = CalendarID
+
         dateToday = datetime.today().strftime('%Y-%m-%d')
-        return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID, 'CalendarID': CalendarID, 'dateToday' : dateToday})
+        context['dateToday'] = dateToday
+        return render(request, 'discussion/add_event.html', context)
 
 def delete_event(request, CourseID, EventID):
     context = {}

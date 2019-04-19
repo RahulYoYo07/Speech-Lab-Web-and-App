@@ -19,13 +19,13 @@
     <a href="#">Submissions</a>
   </li>
   <li>
-    <a href="{% url 'discussion:events' CourseInfo %}">Events</a>
+    <a href="{% url 'discussion:events' cinfo %}">Events</a>
   </li>
   <li>
-    <a href="{% url 'discussion:notice_board' CourseInfo %}">Noticeboard</a>
+    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
   </li>
   <li>
-    <a href="{% url 'discussion:course_group' CourseInfo 1 %}">Discussion Room</a>
+    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
   </li>
 {% endblock %}
 

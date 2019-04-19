@@ -27,7 +27,7 @@
         <p class="card-text overflow-auto" style="height:8rem;">{{ course.AboutCourse }}</p>
 
       </div>
-        <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
+        <div class="card-footer"><a href="{% url 'discussion:course_group' course.CourseID 1 %}" class="card-link">Discussion Group Link</a></div>
 
       </div>
     </div>
