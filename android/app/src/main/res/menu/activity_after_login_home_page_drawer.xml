@@ -37,6 +37,10 @@
                 android:icon="@drawable/ic_person_outline_black_24dp"
                 android:title="Dashboard" />
             <item
+                android:id="@+id/Admin"
+                android:icon="@drawable/ic_vpn_key_black_24dp"
+                android:title="Admin" />
+            <item
                 android:id="@+id/AfterLoginLogOut"
                 android:icon="@drawable/ic_logout"
                 android:title="Log Out" />

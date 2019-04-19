@@ -1,7 +1,9 @@
 package com.example.iitg_speech_lab;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -97,38 +99,7 @@ public class EditDeleteFaq extends AppCompatActivity {
             startActivity(intent);
         }
         else if(menuItemIndex == 1){
-            final FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference userRef = db.collection("Homepage").document("faq");
-            userRef.get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot user = task.getResult();
-                                if(user.exists()){
-                                    final ArrayList<Map<String,String>> arr = (ArrayList<Map<String,String>>) user.get("qa");
-                                    ArrayList<Map<String,String>> arr1 = new ArrayList<Map<String,String>>();
-                                    int i=0;
-                                    Integer z= info.position;
-                                    for(i=0;i<arr.size();i++){
-                                        if(i!=z) arr1.add(arr.get(i));
-                                        else {
-                                        }
-
-                                        if(i == arr.size()-1){
-                                            Map <String,Object> temp = new HashMap<String, Object>();
-                                            temp.put("qa",arr1);
-                                            DocumentReference ins = db.collection("Homepage").document("faq");
-                                            ins.set(temp);
-                                            Toast.makeText(EditDeleteFaq.this,"FAQ delete Successfully",Toast.LENGTH_SHORT).show();
-                                            finish();
-                                            startActivity(getIntent());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
+            alertDialog(info.position);
         }
         return true;
     }
@@ -161,5 +132,57 @@ public class EditDeleteFaq extends AppCompatActivity {
             question.setText(questionList.get(position));
             return convertView;
         }
+    }
+
+    private void alertDialog(final Integer position) {
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setMessage("Are you sure?");
+        dialog.setTitle("Delete FAQ");
+        dialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference userRef = db.collection("Homepage").document("faq");
+                        userRef.get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot user = task.getResult();
+                                            if(user.exists()){
+                                                final ArrayList<Map<String,String>> arr = (ArrayList<Map<String,String>>) user.get("qa");
+                                                ArrayList<Map<String,String>> arr1 = new ArrayList<Map<String,String>>();
+                                                int i=0;
+                                                Integer z= position;
+                                                for(i=0;i<arr.size();i++){
+                                                    if(i!=z) arr1.add(arr.get(i));
+                                                    else {
+                                                    }
+
+                                                    if(i == arr.size()-1){
+                                                        Map <String,Object> temp = new HashMap<String, Object>();
+                                                        temp.put("qa",arr1);
+                                                        DocumentReference ins = db.collection("Homepage").document("faq");
+                                                        ins.set(temp);
+                                                        Toast.makeText(EditDeleteFaq.this,"FAQ delete Successfully",Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                        startActivity(getIntent());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+
+                    }
+                });
+        dialog.setNegativeButton("CANCEL",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
     }
 }

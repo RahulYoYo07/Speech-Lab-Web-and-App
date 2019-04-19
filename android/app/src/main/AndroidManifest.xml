@@ -79,7 +79,7 @@
             android:parentActivityName=".Master" />
         <activity
             android:name=".ViewProject"
-            android:parentActivityName=".ProjectsActivity" />
+            android:parentActivityName=".ProjectsActivity"/>
         <activity
             android:name=".Master"
             android:theme="@style/AppTheme.NoActionBar">

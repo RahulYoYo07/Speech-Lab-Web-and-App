@@ -4,80 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    tools:context = ".ViewProject">
 
-    <TextView
-        android:id="@+id/mentors2"
-        android:layout_width="160dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="8dp"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:editable="false"
-        android:scrollbars="vertical"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/videoView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.919"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutproj"
-        app:layout_constraintVertical_bias="0.33" />
-
-    <TextView
-        android:id="@+id/textpeople"
-        android:layout_width="145dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:editable="false"
-        android:scrollbars="vertical"
-        android:text="Contributers"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/videoView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.868"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutproj"
-        app:layout_constraintVertical_bias="0.133" />
-
-    <TextView
-        android:id="@+id/aboutproj"
-        android:layout_width="357dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:editable="false"
-        android:scrollbars="vertical"
-        android:text="TextView"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.138" />
-
-    <TextView
-        android:id="@+id/aboutProjTitle"
-        android:layout_width="355dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:editable="false"
-        android:scrollbars="vertical"
-        android:text="Title:"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/aboutproj"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:textAlignment="center"
-        tools:textSize="36sp" />
+        app:layout_constraintEnd_toEndOf="@+id/videoView"
+        app:layout_constraintStart_toStartOf="@+id/videoView"
+        app:layout_constraintTop_toTopOf="@+id/videoView" />
 
     <VideoView
         android:id="@+id/videoView"
@@ -93,22 +32,24 @@
         app:layout_constraintVertical_bias="0.969" />
 
     <TextView
-        android:id="@+id/mentors"
-        android:layout_width="141dp"
-        android:layout_height="51dp"
+        android:id="@+id/aboutProjTitle"
+        android:layout_width="355dp"
+        android:layout_height="47dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:editable="false"
         android:scrollbars="vertical"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        android:text="Title:"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/aboutproj"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.078"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutproj"
-        app:layout_constraintVertical_bias="0.33" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:textAlignment="center"
+        tools:textSize="36sp" />
 
     <TextView
         android:id="@+id/textmentor"
@@ -126,19 +67,131 @@
         app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aboutproj"
-        app:layout_constraintVertical_bias="0.136" />
+        app:layout_constraintVertical_bias="0.068" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
+    <TextView
+        android:id="@+id/mentors"
+        android:layout_width="160dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:editable="false"
+        android:scrollbars="vertical"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.919"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutproj"
+        app:layout_constraintVertical_bias="0.258" />
+
+    <TextView
+        android:id="@+id/mentors2"
+        android:layout_width="141dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:editable="false"
+        android:scrollbars="vertical"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutproj"
+        app:layout_constraintVertical_bias="0.258" />
+
+    <TextView
+        android:id="@+id/textAchiev"
+        android:layout_width="162dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:editable="false"
+        android:scrollbars="vertical"
+        android:text="Achievements"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.116"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutproj"
+        app:layout_constraintVertical_bias="0.518" />
+
+    <TextView
+        android:id="@+id/textpeople"
+        android:layout_width="145dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:editable="false"
+        android:scrollbars="vertical"
+        android:text="Contributers"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.868"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutproj"
+        app:layout_constraintVertical_bias="0.064" />
+
+    <TextView
+        android:id="@+id/aboutproj"
+        android:layout_width="357dp"
+        android:layout_height="102dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:editable="false"
+        android:scrollbars="vertical"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.148" />
+
+    <TextView
+        android:id="@+id/achievements"
+        android:layout_width="356dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:editable="false"
+        android:scrollbars="vertical"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutproj"
+        app:layout_constraintVertical_bias="0.959" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:clickable="true"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/videoView"
-        app:layout_constraintStart_toStartOf="@+id/videoView"
-        app:layout_constraintTop_toTopOf="@+id/videoView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.987"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </android.support.constraint.ConstraintLayout>

@@ -102,8 +102,10 @@ public class ProjectsActivity extends AppCompatActivity {
                 cinfo = (String) viewHolder.itemView.getTag();
             }
             Log.d("aman",cinfo);
+            finish();
             Intent intent = new Intent(ProjectsActivity.this, ViewProject.class);
             intent.putExtra("projectID",cinfo);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
             startActivity(intent);
         }
     }

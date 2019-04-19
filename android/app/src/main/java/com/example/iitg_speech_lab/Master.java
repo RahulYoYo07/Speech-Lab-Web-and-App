@@ -117,16 +117,6 @@ public class Master<sampleApp> extends AppCompatActivity
                     }
                 });
 
-        //Code for Sliding imaegs
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -301,6 +291,7 @@ public class Master<sampleApp> extends AppCompatActivity
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI(JSONObject graphResponse) {
+        finish();
         Intent intent = new Intent(Master.this, AfterLoginHomePage.class);
         intent.putExtra("username", graphResponse.optString("mail").replace("@iitg.ac.in", ""));
         intent.putExtra("JsonString", graphResponse.toString());

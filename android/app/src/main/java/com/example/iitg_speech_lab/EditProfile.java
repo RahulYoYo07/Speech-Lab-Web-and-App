@@ -65,20 +65,20 @@ public class EditProfile extends AppCompatActivity {
                                 Github.setText(map.get("Github"));
                                 LinkedIn.setText(map.get("Linkedin"));
                                 try{
-                                if (user.getString("Designation").equals("Student")) {
-                                    Program.setText(user.getString("Program"));
-                                    Room.setText(user.getString("RollNumber"));
-                                    RoomDecide.setText("Roll Number");
-                                } else {
-                                    Program.setText(user.getString("CollegeDesignation"));
-                                    ProgramDecide.setText("Designation: ");
-                                    Room.setText(user.getString("RoomNumber"));
-                                }
-                                if (user.getString("ProfilePic").length() > 0) {
-                                    CircleImageView img = (CircleImageView) findViewById(R.id.EditProfileprofile);
-                                    String url = user.getString("ProfilePic");
-                                    Picasso.get().load(url).into(img);
-                                }}
+                                    if (user.getString("Designation").equals("Student")) {
+                                        Program.setText(user.getString("Program"));
+                                        Room.setText(user.getString("RollNumber"));
+                                        RoomDecide.setText("Roll Number");
+                                    } else {
+                                        Program.setText(user.getString("CollegeDesignation"));
+                                        ProgramDecide.setText("Designation: ");
+                                        Room.setText(user.getString("RoomNumber"));
+                                    }
+                                    if (user.getString("ProfilePic").length() > 0) {
+                                        CircleImageView img = (CircleImageView) findViewById(R.id.EditProfileprofile);
+                                        String url = user.getString("ProfilePic");
+                                        Picasso.get().load(url).into(img);
+                                    }}
                                 catch (Exception e){
                                     System.out.println(e.getMessage());
                                 }
