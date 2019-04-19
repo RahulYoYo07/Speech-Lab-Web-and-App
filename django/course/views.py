@@ -744,6 +744,7 @@ def ViewGroup(request, cinfo, aid, gid):
     #     'GroupDetails' : GroupDetails,
     #     'StudentDetails' : StudentDetails,
     # }
+    print(Designation)
     return render(request, 'course/viewgroup.html', context)
 
 
