@@ -3,7 +3,7 @@
 <form action="save/" method="POST">
     <div class="form-group">
         <label><b>Email</b></label>
-        <input type="text" value="{{Contact.Email}}" name="email" class="form-control">
+        <textarea name="email" class="form-control" rows="3">{{Contact.Email}}</textarea>
     </div>
     <div class="form-group">
         <label><b>Address</b></label>
@@ -11,9 +11,9 @@
     </div>
     <div class="form-group">
         <label><b>Phone Number</b></label>
-        <input type="text" value="{{Contact.PhoneNumber}}" name="phone" class="form-control">
+        <textarea name="phone" class="form-control" rows="3">{{Contact.PhoneNumber}}</textarea>
     </div>
     {% csrf_token %}
-    <button type="submit">Save Contact Info</button>
+    <button type="submit" class="btn btn-dark">Save Contact Info</button>
 </form>
 {% endblock %}
