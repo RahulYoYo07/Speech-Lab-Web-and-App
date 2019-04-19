@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -55,6 +56,7 @@ public class Discussion_Room extends AppCompatActivity {
     public String m_head;
     public String m_body;
     public String p_head;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,9 @@ public class Discussion_Room extends AppCompatActivity {
         DiscussionHeading.setText(Html.fromHtml(Heading));
 
 
+            spinner = (ProgressBar) findViewById(R.id.progress_discussion);
 
+            spinner.setVisibility(View.VISIBLE);
 //        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout);
 //
 //        // create the layout params that will be used to define how your
@@ -108,7 +112,7 @@ public class Discussion_Room extends AppCompatActivity {
                             return;
                         }
 
-
+                        spinner.setVisibility(View.GONE);
                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
 
                             switch (dc.getType()) {
@@ -117,7 +121,7 @@ public class Discussion_Room extends AppCompatActivity {
                                     Boolean isPoll=dc.getDocument().getBoolean("IsPoll");
 //                                    System.out.println(dc.getDocument().getString("MessageHead"));
                                     if(isPoll!=null && isPoll==false) {
-                                        final String sourceString = "<h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("MessageHead") + "</h3> " + "<h5>" + dc.getDocument().getString("MessageBody") + "</h5>";
+                                        final String sourceString = "<br><h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("MessageHead") + "</h3> " + "<h5>" + dc.getDocument().getString("MessageBody") + "</h5>";
                                         final String messageID=dc.getDocument().getId();
 
                                         // Create TextView
@@ -252,7 +256,7 @@ public class Discussion_Room extends AppCompatActivity {
                                     }
 
                                     if(isPoll!=null && isPoll==true) {
-                                        final String sourceString = "<h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("PollQues") + "</h3> ";
+                                        final String sourceString = "<br><h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("PollQues") + "</h3> ";
                                         final String messageID2=dc.getDocument().getId();
 
                                         // Create TextView

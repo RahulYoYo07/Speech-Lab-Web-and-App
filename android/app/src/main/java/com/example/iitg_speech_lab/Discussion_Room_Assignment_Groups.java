@@ -98,7 +98,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                     Boolean isPoll=dc.getDocument().getBoolean("IsPoll");
 //                                    System.out.println(dc.getDocument().getString("MessageHead"));
                                     if(isPoll!=null && isPoll==false) {
-                                        final String sourceString = "<h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("MessageHead") + "</h3> " + "<h5>" + dc.getDocument().getString("MessageBody") + "</h5>";
+                                        final String sourceString = "<br><h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("MessageHead") + "</h3> " + "<h5>" + dc.getDocument().getString("MessageBody") + "</h5>";
                                         final String messageID=dc.getDocument().getId();
 
                                         // Create TextView
@@ -229,7 +229,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                     }
 
                                     if(isPoll!=null && isPoll==true) {
-                                        final String sourceString = "<h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("PollQues") + "</h3> ";
+                                        final String sourceString = "<br><h3><strong>"+dc.getDocument().getString("Author")+"</strong>:  " + dc.getDocument().getString("PollQues") + "</h3> ";
                                         final String messageID2=dc.getDocument().getId();
 
                                         // Create TextView

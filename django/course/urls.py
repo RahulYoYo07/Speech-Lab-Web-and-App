@@ -40,4 +40,5 @@ urlpatterns = [
 
     path('<slug:cinfo>/assignments/<slug:aid>/groups/<slug:gid>/update_grp',
          views.UpdateGroup, name='update_grp'),
+    path('<slug:cinfo>/assignments/<slug:aid>/random_groups', views.RandomGroups, name='random_groups'),
 ]

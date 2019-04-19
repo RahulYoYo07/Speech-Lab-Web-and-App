@@ -11,6 +11,7 @@ from firebase_admin import firestore
 from course import views
 from django.contrib import auth
 from urllib.parse import quote, urlencode
+from home.authhelper import loginFLOW
 # from django.auth import logout
 import os
 
@@ -68,10 +69,10 @@ def projectDelete(request, pinfo):
 
     if context['username'] == '':
         return HttpResponse("You are not logged in")
-    
+
     project_dict = db.collection(u'Projects').document(pinfo).get().to_dict()
     user = project_dict['Creator'].get()
-    
+
     if context['username'] != user.id:
         return HttpResponse("You are not authorized.")
 
@@ -84,7 +85,7 @@ def add(request, uinfo):
         context = loginFLOW(request, context)
         if context['username'] != uinfo:
             return HttpResponse("You are not authorized")
-        
+
         username = context['username']
         project = {}
         project['Title'] = request.POST.get('title')
@@ -94,7 +95,7 @@ def add(request, uinfo):
         project['Mentor'] = request.POST.get('mentors')
         project['People'] = request.POST.get('people')
         project['Achievements'] = request.POST.get('achievements')
-        
+
         db.collection(u'Projects').add(project)
 
         return HttpResponseRedirect("/users/" + username)
@@ -196,10 +197,10 @@ def ViewUser(request, uinfo):
 
     profile = db.collection(u'Users').document(context['username'])
     profile_dict = profile.get().to_dict()
-    
+
     context['profile'] = profile_dict
 
-    
+
     all_projects = db.collection(u'Projects').where(u'Creator', u'==', profile).get()
     project_list = []
     for x in all_projects:
@@ -267,7 +268,7 @@ def projects(request):
 def projectView(request, pinfo):
     project_ref = db.collection(u'Projects').document(pinfo).get()
     project_dict = project_ref.to_dict()
-    
+
     context = {'Project': project_dict}
     context = loginFLOW(request, context)
     context['CreatorName'] = project_dict['Creator'].get().to_dict()['FullName']
@@ -308,15 +309,15 @@ def editContact(request, uinfo):
 
     user_dict = db.collection(u'Users').document(context['username']).get().to_dict()
     contact_dict = db.collection(u'Homepage').document(u'contactUs').get().to_dict()
-    
+
     if 'isAdmin' in user_dict:
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
-    
+
     if context['isAdmin'] == "False":
         return HttpResponse('Sorry, you do not have authorization rights')
-    
+
     context['Contact'] = contact_dict
     return render(request, "home/editcontact.html", context)
 
@@ -329,10 +330,10 @@ def saveContact(request, uinfo):
         username = user['mail'].replace("@iitg.ac.in", "")
         if username != uinfo:
             return HttpResponse("You are not authorized")
-        
+
         contact = db.collection(u'Homepage').document(u'contactUs').get()
         contact_dict = contact.to_dict()
-        
+
         contact_dict["Email"] = request.POST.get('email')
         contact_dict["Location"] = request.POST.get('address')
         contact_dict["PhoneNumber"] = request.POST.get('phone')
@@ -351,16 +352,16 @@ def editHome(request, uinfo):
 
     user_dict = db.collection(u'Users').document(context['username']).get().to_dict()
     home_dict = db.collection(u'Homepage').document(u'homepage').get().to_dict()
-    
+
     if 'isAdmin' in user_dict:
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
-    
+
 
     if context['isAdmin'] == "False":
         return HttpResponse('Sorry, you do not have authorization rights')
-    
+
     home_list = home_dict['paragraphs']
     count = []
     counter = 0
@@ -383,14 +384,14 @@ def saveHome(request, uinfo):
         username = user['mail'].replace("@iitg.ac.in", "")
         if username != uinfo:
             return HttpResponse("You are not authorized")
-        
+
         home_list = []
         if request.POST.get('newT') != '' and request.POST.get('newC') != '':
             home_list.append({'title' : request.POST.get('newT'), 'text' : request.POST.get('newC')})
         for i in range(int(request.POST.get('section_no'))):
             if request.POST.get('t'+str(i+1)) != '' and request.POST.get('c'+str(i+1)) != '':
                 home_list.append({'title' : request.POST.get('t'+str(i+1)), 'text' : request.POST.get('c'+str(i+1))})
-            
+
         home_dict = {'paragraphs' : home_list}
         db.collection(u'Homepage').document(u'homepage').set(home_dict)
 
@@ -407,16 +408,16 @@ def editFaq(request, uinfo):
 
     user_dict = db.collection(u'Users').document(context['username']).get().to_dict()
     faq_dict = db.collection(u'Homepage').document(u'faq').get().to_dict()
-    
+
     if 'isAdmin' in user_dict:
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
-    
+
 
     if context['isAdmin'] == "False":
         return HttpResponse('Sorry, you do not have authorization rights')
-    
+
     faq_list = faq_dict['qa']
     count = []
     counter = 0
@@ -439,14 +440,14 @@ def saveFaq(request, uinfo):
         username = user['mail'].replace("@iitg.ac.in", "")
         if username != uinfo:
             return HttpResponse("You are not authorized")
-        
+
         faq_list = []
         if request.POST.get('newQ') != '' and request.POST.get('newA') != '':
             faq_list.append({'q' : request.POST.get('newQ'), 'a' : request.POST.get('newA')})
         for i in range(int(request.POST.get('numberOfFAQ'))):
             if request.POST.get('q'+str(i+1)) != '' and request.POST.get('a'+str(i+1)) != '':
                 faq_list.append({'q' : request.POST.get('q'+str(i+1)), 'a' : request.POST.get('a'+str(i+1))})
-            
+
         faq_dict = {'qa' : faq_list}
         db.collection(u'Homepage').document(u'faq').set(faq_dict)
 
@@ -484,19 +485,3 @@ def redirect_user(request):
     user = get_me(access_token)
     username = user['mail'].replace("@iitg.ac.in", "")
     return HttpResponseRedirect("/users/" + username)
-
-def loginFLOW(request, context):
-    redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
-    sign_in_url = get_signin_url(redirect_uri)
-    access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
-    if not access_token:
-        context['username'] = ''
-    else:
-        user = get_me(access_token)
-        username = user['mail'].replace("@iitg.ac.in", "")
-        context['username'] = username
-
-    context['sign_in_url'] = sign_in_url
-
-    return context
-
