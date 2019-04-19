@@ -2,7 +2,7 @@
 {% block content %}
 <h1 class="text-center">Profile</h1>
 <div class="row">
-    
+
     <div class="card mb-3 col-12">
         <div class="row no-gutters">
             <div class="col-md-4">
@@ -26,8 +26,12 @@
         <div class="card mb-3 col-12">
             <div class="card-body">
                 <h5 class="card-title">{{project.Title}}</h5>
+                {% if project.AboutProject != '' %}
                 <p class="card-text"><b>About</b><br>{{project.AboutProject}}</p>
+                {% endif %}
+                {% if project.Mentor != '' %}
                 <p class="card-text"><b>Mentors</b><br>{{project.Mentor}}</p>
+                {% endif %}
                 <a href="/home/projects/{{project.id}}/" target="_blank" class="btn btn-primary">View Project</a>
                 <a href="/home/projects/{{project.id}}/delete/" class="btn btn-danger">Delete Project</a>
             </div>
