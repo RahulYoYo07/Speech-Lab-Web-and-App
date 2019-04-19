@@ -50,10 +50,10 @@ public class GradingCustomAdapter extends RecyclerView.Adapter<GradingCustomAdap
 
         textViewCourseID.setText(dataSet.get(listPosition).getName());
 
-        // textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+//         textViewCourseName.setText(dataSet.get(listPosition).getInfo());
         //
         // holder.itemView.setTag(dataSet.get(listPosition).getInfo());
-        textViewCourseName.setText(dataSet.get(listPosition).getName());
+        textViewCourseName.setText(Long.toString(dataSet.get(listPosition).getGrade()));
 
         holder.itemView.setTag(dataSet.get(listPosition).getName());
     }
