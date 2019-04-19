@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,11 +17,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Document;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateAttendance extends AppCompatActivity {
-
+    public static ArrayList<CheckBox> TickBoxes = new ArrayList<CheckBox>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +43,7 @@ public class UpdateAttendance extends AppCompatActivity {
                             ArrayList<Map<Object, Object>> arr = new ArrayList<Map<Object, Object>>();
                             arr = (ArrayList<Map<Object, Object>>) group.get("StudentList");
                             final Integer Counter = arr.size();
-                            Integer Count = 0;
                             for (Map<Object, Object> mp : arr) {
-                                Count++;
                                 DocumentReference studref = (DocumentReference) mp.get("StudentID");
                                 studref.get()
                                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -54,10 +56,10 @@ public class UpdateAttendance extends AppCompatActivity {
                                                     String FullName = (String) usr.get("FullName");
                                                     TextView tv = new TextView(UpdateAttendance.this);
                                                     CheckBox et = new CheckBox(UpdateAttendance.this);
-//                                                    LinearLayout.LayoutParams myfunnyparams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                                                     tv.setText(FullName);
                                                     tv.setTag(UserName);
                                                     et.setTag(UserName);
+                                                    TickBoxes.add(et);
                                                     myLayout.addView(tv);
                                                     myLayout.addView(et);
                                                 }
@@ -68,8 +70,11 @@ public class UpdateAttendance extends AppCompatActivity {
                     }
                 });
     }
-    public void Update_Attendance_Group(View view){
-        String CourseInfo = getIntent().getStringExtra("courseInfo");
+    public static ArrayList<Map<Object,Object>> push = new ArrayList<Map<Object,Object>>();
+    public static int cnt;
+    public void Update_Attendance_Group(final View view){
+
+        final String CourseInfo = getIntent().getStringExtra("courseInfo");
         String AssignmentID = getIntent().getStringExtra("assignmentID");
         String GroupID = getIntent().getStringExtra("groupID");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -78,10 +83,81 @@ public class UpdateAttendance extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot course = task.getResult();
+                            final ArrayList<Map<Object,Object>> mps = (ArrayList<Map<Object, Object>>) course.get("AttendanceList");
+                            final int lengthy = mps.size();
+                            cnt = 0;
+                            final ArrayList<DocumentReference> listy = new ArrayList<DocumentReference>();
+                            for (Map<Object,Object>mp:mps) {
+                                final DocumentReference usr = (DocumentReference) mp.get("StudentID");
+                                final Long Attendance = (Long) mp.get("TotalAttendance");
+
+                                usr.get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    cnt++;
+                                                    DocumentSnapshot user = task.getResult();
+                                                    String UserName = (String) user.get("Username");
+                                                    for (int i=0;i<TickBoxes.size();i++) {
+                                                        final Map<Object,Object> mp = new HashMap<>();
+                                                        if (TickBoxes.get(i).getTag().toString().equals(UserName) && TickBoxes.get(i).isChecked()) {
+                                                            Long Atd = Attendance + 1;
+                                                            mp.put("TotalAttendance", Atd);
+                                                        }
+                                                        else{
+                                                            mp.put("TotalAttendance",Attendance);
+                                                        }
+                                                        listy.add(usr);
+                                                        mp.put("StudentID",usr);
+                                                        push.add(mp);
+                                                    }
+                                                    if (cnt == lengthy) {
+                                                        int country = mps.size();
+                                                        int gh = 0;
+                                                        for (Map<Object,Object>mp : mps) {
+                                                            gh++;
+                                                            DocumentReference lo = (DocumentReference) mp.get("StudentID");
+                                                            Long Attndd = (Long) mp.get("TotalAttendance");
+                                                            int check = 0;
+                                                            for (int i=0;i<listy.size();i++){
+                                                                if (listy.get(i).equals(lo)) {
+                                                                     check = 1;
+                                                                }
+                                                            }
+                                                            if (check == 0) {
+                                                                Map<Object, Object> xmlk = new HashMap<>();
+                                                                xmlk.put("TotalAttendance",Attndd);
+                                                                xmlk.put("StudentID",lo);
+                                                                push.add(xmlk);
+                                                            }
+                                                            if(gh==country){
+                                                                System.out.print(push);
+                                                                System.out.println("trrvdvdvd");
+                                                                FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                                                                DocumentReference assignsRef = db2.collection("Courses").document(CourseInfo);
+                                                                Map<String, Object> mpdgrd = new HashMap<>();
+                                                                mpdgrd.put("AttendanceList", push);
+                                                                System.out.print(mpdgrd);
+                                                                assignsRef.update(mpdgrd);
+                                                                mpdgrd.clear();
+                                                                push.clear();
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        });
+                            }
+                        }
                     }
                 });
-
+        Toast.makeText(UpdateAttendance.this,"Attendances Updated",Toast.LENGTH_LONG).show();
     }
+
+
 
 }
