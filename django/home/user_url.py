@@ -15,5 +15,7 @@ urlpatterns = [
     path('<slug:uinfo>/editFaq/save/', views.saveFaq, name='saveFaq'),
     path('<slug:uinfo>/editContact/', views.editContact, name='editContact'),
     path('<slug:uinfo>/editContact/save/', views.saveContact, name='saveContact'),
+    path('<slug:uinfo>/addNotice/', views.addNotice, name='addNotice'),
+    path('<slug:uinfo>/addNotice/save/', views.saveNotice, name='saveNotice'),
 
 ]

@@ -22,5 +22,7 @@ urlpatterns = [
     path('projects/<slug:pinfo>/delete/', views.projectDelete, name='projectDelete'),
     path('projects/<slug:pinfo>/edit/', views.projectEdit, name='projectEdit'),
     path('projects/<slug:pinfo>/edit/update/', views.projectUpdate, name='projectUpdate'),
+    path('noticeboard/', views.noticeboard,name='noticeboard'),
+    #path('noticeboard/addnotice/', views.add_notice, name='add_notice'),
 
 ]
