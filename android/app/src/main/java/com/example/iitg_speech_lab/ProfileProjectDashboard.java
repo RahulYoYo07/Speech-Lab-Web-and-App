@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,28 @@ public class ProfileProjectDashboard extends AppCompatActivity
         setContentView(R.layout.activity_profile_project_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Code For Sliding Images
+
+        final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
+        userRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot user = task.getResult();
+                            if(user.exists()){
+                                ArrayList<String> imageUrls = (ArrayList<String>) user.get("Image");
+                                //for(int i=0;i<imageUrls.size();i++) Log.d("tushar",imageUrls.get(i));
+                                ViewPager viewPager = findViewById(R.id.ProfileProjectDashboardViewPager);
+                                SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
+                                viewPager.setAdapter(adapter);
+                            }
+                        }
+                    }
+                });
+        //Code for Sliding Images ends
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

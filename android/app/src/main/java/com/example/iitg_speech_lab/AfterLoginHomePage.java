@@ -3,8 +3,10 @@ package com.example.iitg_speech_lab;
 import android.content.Intent;
 import android.os.*;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,9 +21,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.microsoft.identity.client.IAccount;
 import com.microsoft.identity.client.PublicClientApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AfterLoginHomePage extends AppCompatActivity
@@ -40,6 +48,27 @@ public class AfterLoginHomePage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_login_home_page);
 
+        //Code For Sliding Images
+
+        final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
+        userRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot user = task.getResult();
+                            if(user.exists()){
+                                ArrayList<String> imageUrls = (ArrayList<String>) user.get("Image");
+                                //for(int i=0;i<imageUrls.size();i++) Log.d("tushar",imageUrls.get(i));
+                                ViewPager viewPager = findViewById(R.id.AfterLoginViewPager);
+                                SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
+                                viewPager.setAdapter(adapter);
+                            }
+                        }
+                    }
+                });
+        //Code for Sliding Images ends
         /* Configure your sample app and save state for this activity */
         sampleApp = null;
         if (sampleApp == null) {

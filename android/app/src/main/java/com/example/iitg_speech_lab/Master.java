@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -94,12 +95,29 @@ public class Master<sampleApp> extends AppCompatActivity
         setContentView(R.layout.activity_master);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        projects = (Button) findViewById(R.id.button8);
-        projects.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                projectload();
-            }
-        });
+
+        //Code for Sliding Images
+
+        final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
+        userRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot user = task.getResult();
+                            if(user.exists()){
+                                ArrayList<String> imageUrls = (ArrayList<String>) user.get("Image");
+                                //for(int i=0;i<imageUrls.size();i++) Log.d("tushar",imageUrls.get(i));
+                                ViewPager viewPager = findViewById(R.id.MasterViewPager);
+                                SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
+                                viewPager.setAdapter(adapter);
+                            }
+                        }
+                    }
+                });
+
+        //Code for Sliding imaegs
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
