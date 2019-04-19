@@ -547,3 +547,41 @@ def redirect_user(request):
     user = get_me(access_token)
     username = user['mail'].replace("@iitg.ac.in", "")
     return HttpResponseRedirect("/users/" + username)
+
+
+
+def notice_board(request):
+    # CourseID = self.scope['url_route']['kwargs']['CourseID']
+    doc_ref = db.collection(u'Homepage').document("NoticeBoard").collection(u'Notices')
+    # #
+    all_notice=[]
+    docs = list(doc_ref.get())
+    for i in range(len(docs)):
+        id = docs[i].id
+        doc = docs[i]
+        doc = doc.to_dict()
+        temp={
+            'NoticeHead' : doc['NoticeHead'],
+            'NoticeBody': doc['NoticeBody'],
+            # 'NoticeAuthor': doc['Author'],
+            # 'NoticeTime': doc['NoticeTime'],
+        }
+        print(temp)
+        all_notice.append(temp)
+    print(CourseID)
+    context={
+        "all_notice":all_notice,
+        
+    }
+    return render(request,'discussion/notice.html',context)
+
+def add_notice(request,CourseID):
+    NoticeHead = request.POST['NoticeHead']
+    if NoticeHead=="":
+        NoticeHead="Notice"
+    NoticeBody = request.POST['NoticeBody']
+    print(NoticeHead)
+    print(NoticeBody)
+    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices').add({'Author' : 'Udbhav Chugh','NoticeHead' : NoticeHead, 'NoticeBody' : NoticeBody, 'NoticeTime':firestore.SERVER_TIMESTAMP})
+    return redirect('/discussion/courses/'+CourseID+'/noticeboard')
+
