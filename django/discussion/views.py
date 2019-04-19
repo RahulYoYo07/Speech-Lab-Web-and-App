@@ -15,6 +15,9 @@ from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.file import Storage
 import httplib2
 
+from datetime import datetime
+
+
 cred = credentials.Certificate({
     "type": "service_account",
     "project_id": "iitg-speech-lab",
@@ -147,12 +150,13 @@ def add_event(request, CourseID):
         }
 
         event = service.events().insert(calendarId=CalendarID, body=event).execute()
-        return redirect('/discussion/courses/'+CourseID+'/calendar')
+        return redirect('/discussion/courses/'+CourseID+'/events')
 
     elif request.method == 'GET':
         events_result = service.events().list(calendarId=CalendarID, singleEvents=True, orderBy='startTime').execute()
         events = events_result.get('items', [])
-        return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID})
+        dateToday = datetime.today().strftime('%Y-%m-%d')
+        return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID, 'CalendarID': CalendarID, 'dateToday' : dateToday})
 
 def delete_event(request, CourseID, EventID):
     page_token = None
@@ -176,4 +180,4 @@ def create_calendar(request, CourseID):
 
     created_calendar = service.calendars().insert(body=calendar).execute()
     print(created_calendar['id'])
-    return redirect('/discussion/courses/'+CourseID+'/calendar')
+    return redirect('/discussion/courses/'+CourseID+'/;')
