@@ -12,6 +12,7 @@ from course import views
 from django.contrib import auth
 from urllib.parse import quote, urlencode
 from home.authhelper import loginFLOW
+import datetime
 # from django.auth import logout
 import os
 
@@ -274,7 +275,10 @@ def ViewUser(request, uinfo):
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
+
+    context['Designation'] = profile_dict['Designation']
     context['projects'] = project_list
+
     return render(request, 'home/profile.html', context)
 
 
@@ -550,40 +554,45 @@ def redirect_user(request):
     username = user['mail'].replace("@iitg.ac.in", "")
     return HttpResponseRedirect("/users/" + username)
 
+def noticeboard(request):
+    data = db.collection(u'Homepage').document("NoticeBoard").get().to_dict()
+    temp = [item for item in enumerate(data['AllNotices'])]
+    context = {'stuff' : temp}
+    context = loginFLOW(request, context)
+    return render(request, 'home/noticeboard.html', context)
 
+def addNotice(request, uinfo):
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] != uinfo:
+        return HttpResponse("You are not authorized")
+    
+    return render(request, 'home/addnotice.html', context)
 
-def notice_board(request):
-    # CourseID = self.scope['url_route']['kwargs']['CourseID']
-    doc_ref = db.collection(u'Homepage').document("NoticeBoard").collection(u'Notices')
-    # #
-    all_notice=[]
-    docs = list(doc_ref.get())
-    for i in range(len(docs)):
-        id = docs[i].id
-        doc = docs[i]
-        doc = doc.to_dict()
-        temp={
-            'NoticeHead' : doc['NoticeHead'],
-            'NoticeBody': doc['NoticeBody'],
-            # 'NoticeAuthor': doc['Author'],
-            # 'NoticeTime': doc['NoticeTime'],
-        }
-        print(temp)
-        all_notice.append(temp)
-    print(CourseID)
-    context={
-        "all_notice":all_notice,
+def saveNotice(request,uinfo):
+    context = {}
+    if request.method == 'POST':
+        context = loginFLOW(request, context)
+
+        if context['username'] != uinfo:
+            return HttpResponse("You are not authorized")
+
+        user_dict = db.collection(u'Users').document(uinfo).get().to_dict()
         
-    }
-    return render(request,'discussion/notice.html',context)
+        if user_dict['Designation'] != 'Faculty' and 'isAdmin' not in user_dict:
+            return HttpResponse("You are not authorized")
+        
+        new_notice = {  'title' : request.POST.get('title'),
+                        'text' : request.POST.get('text'),
+                        'author' : user_dict['FullName'],
+                        'created' : datetime.datetime.now(),}
 
-def add_notice(request,CourseID):
-    NoticeHead = request.POST['NoticeHead']
-    if NoticeHead=="":
-        NoticeHead="Notice"
-    NoticeBody = request.POST['NoticeBody']
-    print(NoticeHead)
-    print(NoticeBody)
-    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices').add({'Author' : 'Udbhav Chugh','NoticeHead' : NoticeHead, 'NoticeBody' : NoticeBody, 'NoticeTime':firestore.SERVER_TIMESTAMP})
-    return redirect('/discussion/courses/'+CourseID+'/noticeboard')
+        notices_dict = db.collection(u'Homepage').document(u'NoticeBoard').get().to_dict()
+        notices_dict['AllNotices'].append(new_notice)
 
+        print(notices_dict)
+
+        db.collection(u'Homepage').document(u'NoticeBoard').set(notices_dict)
+
+        return HttpResponseRedirect("/home/noticeboard/")
+    return HttpResponseRedirect(reverse('home:home'))
