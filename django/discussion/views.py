@@ -60,8 +60,10 @@ def course_group(request, CourseID, CourseGroupID):
 
     username = context['username']
 
-    context['CourseGroupID_json'] = mark_safe(json.dumps(CourseGroupID))
-    context['CourseID_json'] = mark_safe(json.dumps(CourseID))
+    # context['CourseGroupID_json'] = mark_safe(json.dumps(CourseGroupID))
+    # context['CourseID_json'] = mark_safe(json.dumps(CourseID))
+    context['CourseGroupID_json'] = CourseGroupID
+    context['CourseID_json'] = CourseID
     # return render(request, 'discussion/group.html', {
     #     'CourseGroupID_json' : mark_safe(json.dumps(CourseGroupID)),
     #     'CourseID_json' : mark_safe(json.dumps(CourseID)),

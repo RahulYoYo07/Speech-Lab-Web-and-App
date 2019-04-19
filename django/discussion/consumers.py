@@ -31,6 +31,7 @@ class ChatConsumer(WebsocketConsumer):
 
 
     def connect(self):
+        print("Connected")
         curAuthor = self.scope['url_route']['kwargs']['username']
         print(curAuthor+"bakchodi")
         self.room_name = self.scope['url_route']['kwargs']['CourseID']
@@ -46,6 +47,8 @@ class ChatConsumer(WebsocketConsumer):
         #Retrieve messages from Firebase
         CourseID = self.scope['url_route']['kwargs']['CourseID']
         CourseGroupID = self.scope['url_route']['kwargs']['CourseGroupID']
+        print(CourseID)
+        print(CourseGroupID)
         doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').order_by(u'PostTime')
 
         docs = list(doc_ref.get())
@@ -97,6 +100,7 @@ class ChatConsumer(WebsocketConsumer):
         # message = ''
         # messageHead = ''
         # ReplyBody = ''
+        print(text_data_json)
         if (IsPoll == False):
             client = ntplib.NTPClient()
             response = client.request('pool.ntp.org')

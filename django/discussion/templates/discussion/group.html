@@ -68,24 +68,53 @@
     <script>
     var cntPoll = 0;
     var tempdata;
-    var CourseGroupID = {{ CourseGroupID_json }};
-    var CourseID = {{ CourseID_json }};
-    var GroupID= {{ GroupID_json}}+"";
-    var AssignmentID={{ AssignmentID_json }}+"";
+    var CourseGroupID = '{{ CourseGroupID_json }}';
+    var CourseID = '{{ CourseID_json }}';
+    var GroupID= '{{ GroupID_json}}';
+    var AssignmentID='{{ AssignmentID_json }}';
+    alert(CourseGroupID + " " + CourseID + " " + GroupID);
     var username = '{{username}}';
     var selectColor=0;
     var chatSocket;
-    if(GroupID == "")
+    if(GroupID == ""){
+        alert('No group');
     chatSocket = new WebSocket(
         'ws://' + window.location.host +
         '/ws/discussion/user/' + username + '/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
+        alert('chatsocket created');
+    }
     else {
+        alert('Group');
       chatSocket = new WebSocket(
           'ws://' + window.location.host +
           '/ws/discussion/user/' + username + '/courses/'+ CourseID + '/assignments/' + AssignmentID+'/groups/'+GroupID);
     }
         // var chatSocket2;
-
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            alert('Function called');
+            var messageHeadDom = document.querySelector('#chat-head-input');
+            var messageInputDom = document.querySelector('#chat-message-input');
+            var messageHead = messageHeadDom.value;
+            var message = messageInputDom.value;
+            if (message.trim() == "" || messageHead.trim() == ""){
+                alert("Empty message head or body!");
+                return;
+            }
+            chatSocket.send(JSON.stringify({
+                'IsPoll' : false,
+                'IsReply': false,
+                'ShowReply': false,
+                'messageHead' : messageHead,
+                'message': message,
+                'CourseID': CourseID,
+                'CourseGroupID': CourseGroupID,
+                'ReplyBody': '',
+                // 'MessageID': MessageID,
+            }));
+            alert('New message added successfully!');
+            messageHeadDom.value = '';
+            messageInputDom.value = '';
+        };
 
         chatSocket.onmessage = function(e) {
             var data = JSON.parse(e.data);
@@ -416,44 +445,17 @@
 
                 }
             }
+        };
 
-            chatSocket.onclose = function(e) {
-                console.error('Chat socket closed unexpectedly');
-            };
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
 
-            document.querySelector('#chat-message-input').focus();
-            document.querySelector('#chat-message-input').onkeyup = function(e) {
-                if (e.keyCode === 13) {  // enter, return
-                    document.querySelector('#chat-message-submit').click();
-                }
-            };
-
-            document.querySelector('#chat-message-submit').onclick = function(e) {
-                var messageHeadDom = document.querySelector('#chat-head-input');
-                var messageInputDom = document.querySelector('#chat-message-input');
-                var messageHead = messageHeadDom.value;
-                var message = messageInputDom.value;
-                if (message.trim() == "" || messageHead.trim() == ""){
-                    alert("Empty message head or body!");
-                    return;
-                }
-                chatSocket.send(JSON.stringify({
-                    'IsPoll' : false,
-                    'IsReply': false,
-                    'ShowReply': false,
-                    'messageHead' : messageHead,
-                    'message': message,
-                    'CourseID': CourseID,
-                    'CourseGroupID': CourseGroupID,
-                    'ReplyBody': '',
-                    // 'MessageID': MessageID,
-                }));
-                alert('New message added successfully!');
-                messageHeadDom.value = '';
-                messageInputDom.value = '';
-            };
-
-
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
         };
 
         document.querySelector('#poll-option-add').onclick = function(e) {
@@ -476,7 +478,7 @@
             PollOption.appendChild(PollOptionInput);
             // PollOption.appendChild(document.createElement('br'));
             document.getElementById('DynamicPollOption').appendChild(PollOption);
-        }
+        };
 
         document.querySelector('#poll-option-del').onclick = function(e) {
             if (cntPoll < 1){
@@ -486,7 +488,7 @@
             var elt = document.getElementById('poll-option' + cntPoll.toString());
             elt.parentNode.removeChild(elt);
             cntPoll -= 1;
-        }
+        };
 
         document.querySelector('#poll-submit').onclick = function(e) {
             if (cntPoll < 2){
@@ -527,7 +529,7 @@
             cntPoll = 0;
             pollQuesDom.value = '';
             chatSocket.send(JSON.stringify(pollJSON));
-        }
+        };
 
     </script>
     </html>
