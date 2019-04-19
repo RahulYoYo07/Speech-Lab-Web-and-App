@@ -1,7 +1,9 @@
 package com.example.iitg_speech_lab;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +14,12 @@ import java.net.InetAddress;
 
 public class MainActivity extends AppCompatActivity {
 
-    public boolean isInternetAvailable() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
-            //You can replace it with your name
-            return !ipAddr.equals("");
-
-        } catch (Exception e) {
+    public boolean internetIsConnected(){
+        try{
+            String cmd="ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(cmd).waitFor()==0);
+        }
+        catch (Exception e){
             return false;
         }
     }
@@ -29,28 +30,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        boolean bo=isInternetAvailable();
-//        if(bo==false)
-//        {
-//            AlertDialog.Builder dialog=new AlertDialog.Builder(this);
-//            dialog.setMessage("No Internet Connection");
-//            dialog.setTitle("Error Message");
-//            dialog.setPositiveButton("Close",
-//                    new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog,
-//                                            int which) {
-////                        Toast.makeText(getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-////        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
-////            @Override
-////            public void onClick(DialogInterface dialog, int which) {
-////                Toast.makeText(getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG).show();
-////            }
-////        });
-//            AlertDialog alertDialog=dialog.create();
-//            alertDialog.show();
-//        }
+        boolean bo=internetIsConnected();
+        if(bo==false)
+        {
+            AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+            dialog.setMessage("No Internet Connection");
+            dialog.setTitle("Error Message");
+            dialog.setPositiveButton("Close",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            finish();
+                            System.exit(0);
+                        }
+                    });
+            AlertDialog alertDialog=dialog.create();
+            alertDialog.show();
+
+        }
     }
 
     public void sendMessage(View view) {
