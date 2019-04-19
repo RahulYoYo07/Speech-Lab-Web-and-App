@@ -20,5 +20,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('projects/<slug:pinfo>/', views.projectView, name='projectView'),
     path('projects/<slug:pinfo>/delete/', views.projectDelete, name='projectDelete'),
+    path('projects/<slug:pinfo>/edit/', views.projectEdit, name='projectEdit'),
+    path('projects/<slug:pinfo>/edit/update/', views.projectUpdate, name='projectUpdate'),
 
 ]
