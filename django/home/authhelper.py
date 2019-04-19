@@ -3,7 +3,8 @@ from urllib.parse import quote, urlencode
 import base64
 import json
 import time
-
+from django.urls import reverse
+from home.outlookservice import get_me
 
 # Client ID and secret
 client_id = 'd5d4df29-11c6-4150-bacf-deeac3569940'
@@ -25,6 +26,21 @@ scopes = [ 'openid',
            'offline_access',
            'User.Read']
 
+
+def loginFLOW(request, context):
+    redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
+    sign_in_url = get_signin_url(redirect_uri)
+    access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
+    if not access_token:
+        context['username'] = ''
+    else:
+        user = get_me(access_token)
+        username = user['mail'].replace("@iitg.ac.in", "")
+        context['username'] = username
+
+    context['sign_in_url'] = sign_in_url
+
+    return context
 
 def get_token_from_code(auth_code, redirect_uri):
   # Build the post form for the token request
@@ -75,7 +91,15 @@ def get_token_from_refresh_token(refresh_token, redirect_uri):
 
 
 def get_access_token(request, redirect_uri):
+  try:
+    current_token = request.session['access_token']
+  except Exception as e:
+      request.session['access_token'] = None
   current_token = request.session['access_token']
+  try:
+    expiration = request.session['token_expires']
+  except Exception as e:
+      request.session['token_expires'] = None
   expiration = request.session['token_expires']
   now = int(time.time())
   if not current_token:

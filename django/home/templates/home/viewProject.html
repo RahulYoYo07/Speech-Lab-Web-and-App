@@ -16,22 +16,26 @@
   <br>
   <br>
   <div class="content">
-    <div class="row" id="people">
+    <div class="row" id="people" >
       <!-- <div class="col"></div> -->
-
-      <div class="col-lg-4">
+      {% if Project.Mentor != '' %}
+      <div class="col">
         <h2>Mentors</h2>
         <textarea readonly class="form-control-plaintext" rows="4">{{Project.Mentor}}</textarea>
       </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4">
+      {% endif %}
+      {% if Project.People != '' %}
+      <div class="col">
         <h2>Contributors</h2>
         <textarea readonly class="form-control-plaintext" rows="4">{{Project.People}}</textarea>
       </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4">
+      {% endif %}
+      {% if Project.Achievements != '' %}
+      <div class="col">
         <h2>Achievements</h2>
         <textarea readonly class="form-control-plaintext" rows="4">{{Project.Achievements}}</textarea>
       </div><!-- /.col-lg-4 -->
-
+      {% endif %}
     </div>
     <!-- <div class="col"></div> -->
   </div><!-- /.row -->
