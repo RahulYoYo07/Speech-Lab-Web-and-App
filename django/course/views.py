@@ -172,7 +172,7 @@ def Update_Attendance(request, cinfo, aid, gid):
             while (check == 0):
                 try:
                     stud_username = attendance_list[index]['StudentID'].get().to_dict()[
-                        'username']
+                        'Username']
                     if stud_username == student:
                         attendance_list[index]['TotalAttendance'] = attendance_list[index]['TotalAttendance'] + 1
                         data = {
@@ -328,7 +328,8 @@ def AddCourse(request):
                 u'Session': int(request.POST.get("StartSemesterSession", ""))
             },
             u'FacultyList': [ref_prof],
-            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", "")
+            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", ""),
+
         }
         cid = request.POST.get("CourseID", "")
 
@@ -530,7 +531,7 @@ def AddTA(request, cinfo):
 
         if 'TAList' not in ref_course.get().to_dict():
             currTA = []
-        else :
+        else:
             currTA = ref_course.get().to_dict()['TAList']
 
         if ref_TA not in currTA:
@@ -556,10 +557,10 @@ def AddTA(request, cinfo):
             pass
 
         ref_TA.update({
-            u'CoursesListAsTA' : coursesAsTA
+            u'CoursesListAsTA': coursesAsTA
         })
 
-        return render(request, 'course/AddTA.html', context)
+        return HttpResponseRedirect(reverse('course:view_course', kwargs={'cinfo': cinfo}))
 
     return render(request, 'course/AddTA.html', context)
 

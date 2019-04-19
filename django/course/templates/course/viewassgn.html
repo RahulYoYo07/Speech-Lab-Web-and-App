@@ -33,24 +33,20 @@
 
 {% comment %} <a href="{% url 'course:add_course'%}"><p class="options">Add Group</p></a> {% endcomment %}
 
-<div class="row">
+<ul class="cards">
 {% for group in GroupDetails %}
 
-    <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
+    <li class="card__item">
       <div class = "card">
-
-      <div class="card-body">
-        <h5 class="card-title"><a href="{% url 'course:view_group' cinfo aid group.GroupID %}">{{ group.GroupID }}</a></h5>
-        <!-- {% if Designation == 'Faculty' %} -->
-        <a href="{% url 'course:update_attendance' cinfo aid group.GroupID %}"><button class="btn btn-success">Update Attandance</button></a>
-        <!-- <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn-success">Add Grade</button></a> -->
-        <!-- {% endif %} -->
+      <div class="card__content">
+        <div class="card__title"><a href="{% url 'course:view_group' cinfo aid group.GroupID %}">{{ group.GroupID }}</a></div>
+        <a href="{% url 'course:update_attendance' cinfo aid group.GroupID %}"><button class="btn btn--block card_btn">Update Attandance</button></a>
+        <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn--block card_btn">Add Grade</button></a>
+        <a href="{% url 'discussion:group' cinfo aid group.GroupID %}" class="card-link"><button class="btn btn--block card_btn">Discussion Group Link</button></a>
       </div>
-        <div class="card-footer"><a href="{% url 'discussion:group' cinfo aid group.GroupID %}" class="card-link">Group Chat</a></div>
       </div>
-    </div>
+    </li>
 
 {% endfor %}
-
-</div>
+</ul>
 {% endblock %}

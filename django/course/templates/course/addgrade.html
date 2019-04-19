@@ -35,7 +35,7 @@
   {% for student in user_list %}
     <div class="form-group">
       <label for="exampleInputEmail1">{{student.FullName}}</label>
-      <input type="number" class="form-control" name={{student.username}} aria-describedby="aboutcourse" value=0>
+      <input type="number" class="form-control" name={{student.Username}} aria-describedby="aboutcourse" value=0>
     </div>
   {% endfor %}
   <button type="submit" class="btn btn-success">Submit Grade</button>

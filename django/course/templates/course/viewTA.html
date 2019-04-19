@@ -7,20 +7,23 @@
 </a>
 {% endif %}
 
-<div class="row">
-{% for cTA in TA %}
-<div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
-  <div class="card">
-    <div class="card-body">
-      {% comment %} <h5 class="card-title">{{ assgn.AssignmentID }}</a></h5> {% endcomment %}
-      <p class="card-text">{{ cTA.FullName }}</p>
-      <p class="card-text">{{ cTA.username }}</p>
+<p class="options">Current TA's</p>
 
+<ul class="cards">
+{% for cTA in TA %}
+<li class ="cards__item">
+  <div class="card">
+    <div class ="card__image" style="background-image:url({{cTA.ProfilePic}})"> </div>
+    <div class="card__content">
+      {% comment %} <h5 class="card-title">{{ assgn.AssignmentID }}</a></h5> {% endcomment %}
+      <div class="card__title">{{ cTA.FullName }}</div>
+      <div class="card__title">{{ cTA.Username }}</div>
       {% comment %} <p class="card-text">{{ assgn.Deadline }}</p> {% endcomment %}
     </div>
-
   </div>
-</div>
+</li>
 
 {% endfor %}
+</ul>
+
 {% endblock %}

@@ -48,43 +48,57 @@
        </div>
      </nav>
       <!-- End Header -->
-      <div class="wrapper">
-         <!-- Sidebar Holder -->
-         <nav id="sidebar">
-            <div class="sidebar-header">
-               <h3>Speech Lab</h3>
-            </div>
-            <ul class="list-unstyled components">
-               <p>Hello</p>
-               {% block sidebar %}
-               {% endblock %}
-            </ul>
-         </nav>
-         <!-- Page Content Holder -->
-         <div id="content" class = "">
-         <div class = "container">
-            {% block content%}
-            {% endblock %}
-         </div>
-         <div class= "container">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-               <div class="container-fluid">
-                  <button type="button" id="sidebarCollapse" class="btn btn-info">
-                  <i class="fas fa-align-left"></i>
-                  <span>Toggle Sidebar</span>
-                  </button>
-               </div>
+         <div class="s-layout">
+         <!-- Sidebar -->
+         <div class="s-layout__sidebar">
+            <a class="s-sidebar__trigger" href="#0">
+            <i class="fa fa-bars"></i>
+            </a>
+            <nav class="s-sidebar__nav">
+               <ul>
+                  <li>
+                     <a class="s-sidebar__nav-link" href="#0">
+                     <i class="fa fa-home"></i><em>Home</em>
+                     </a>
+                  </li>
+                  {% block sidebar %}
+                  {% endblock %}
+               </ul>
             </nav>
          </div>
-         </div>
-         <script type="text/javascript">
-            $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').toggleClass('active');
-                });
-            });
-         </script>
+         <main class="s-layout__content">
+            <!-- Page Content Holder -->
+            <div id="content" class = "container">
+               {% comment %} <div class = "container"> {% endcomment %}
+                  {% block content%}
+                  {% endblock %}
+               {% comment %} </div> {% endcomment %}
+            </div>
+         </main>
       </div>
+         {% comment %}
+         <footer>
+            <div class= "container">
+               <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                  <div class="container-fluid">
+                     <button type="button" id="sidebarCollapse" class="btn btn-info">
+                     <i class="fas fa-align-left"></i>
+                     <span>Toggle Sidebar</span>
+                     </button>
+                  </div>
+               </nav>
+            </div>
+            {% endcomment %}
+            {% comment %}
+         </footer>
+         {% endcomment %}
+      <script type="text/javascript">
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+         });
+      </script>
       <script src="{% static 'course/JS/BaseGeneric.js' %}"></script>
    </body>
 </html>
