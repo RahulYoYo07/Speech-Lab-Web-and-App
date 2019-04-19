@@ -21,7 +21,7 @@ public class GradingMyData {
 
     public static ArrayList<Integer> StudentGradeList = new ArrayList<Integer>();
     public static ArrayList<String> StudentNameList = new ArrayList<String>();
-    public static Integer Counter = 1;
+    public static Integer Counter = 100000;
     public static Integer Check = 0;
 
 

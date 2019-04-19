@@ -6,14 +6,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id = "@+id/myLayout"
-    tools:context=".AddGrade">
+    android:id = "@+id/mylayout"
+    tools:context=".UpdateAttendance">
 
     <Button
         android:id="@+id/Submit_Grade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit Grade"
+        android:onClick="Update_Attendance_Group"
+        android:text="Submit Attendance"
         android:textSize="18sp" />
-
 </LinearLayout>
