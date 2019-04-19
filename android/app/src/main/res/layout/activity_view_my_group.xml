@@ -68,8 +68,10 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif"
                 android:text="Team members"
                 android:textSize="24sp"
+                android:typeface="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
