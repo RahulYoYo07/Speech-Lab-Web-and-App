@@ -6,7 +6,7 @@ public class SubmissionsDataModel {
         String url;
         String gid;
 
-        public SubmissionsDataModel(String gid, String name, String url) {
+        public SubmissionsDataModel(String gid,String name, String url) {
             this.name = name;
             this.url = url;
             this.gid = gid;

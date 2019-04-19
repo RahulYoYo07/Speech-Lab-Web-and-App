@@ -2,16 +2,18 @@ package com.example.iitg_speech_lab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.Classes.StudentCoursesAsTAMyData;
-import com.example.iitg_speech_lab.Classes.StudentCoursesMyData;
+import com.example.iitg_speech_lab.Class.StudentCoursesAsTAMyData;
+import com.example.iitg_speech_lab.Class.StudentCoursesMyData;
 import com.example.iitg_speech_lab.Model.StudentCoursesAsTADataModel;
 import com.example.iitg_speech_lab.Model.StudentCoursesDataModel;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,9 +38,15 @@ public class StudentCoursesActivity extends AppCompatActivity {
     public Task task2;
     public Task task22;
 
+    // @Override
+    // protected void onCreate(Bundle savedInstanceState) {
+    //     String username = getIntent().getStringExtra("username");
+
+    public static String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String username = getIntent().getStringExtra("username");
+        username = "gulat170123030";
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
@@ -144,9 +152,14 @@ public class StudentCoursesActivity extends AppCompatActivity {
                 cinfo = (String) viewHolder.itemView.getTag();
             }
 
+
 //            Intent intent = new Intent(StudentCoursesActivity.this, ViewCourse.class);
 //            intent.putExtra("courseInfo",cinfo);
 //            startActivity(intent);
+
+            Intent intent = new Intent(StudentCoursesActivity.this, StudentViewCourse.class);
+            intent.putExtra("courseInfo",cinfo);
+            startActivity(intent);
         }
     }
 

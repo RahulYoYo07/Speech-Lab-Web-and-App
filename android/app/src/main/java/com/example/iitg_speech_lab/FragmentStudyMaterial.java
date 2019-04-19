@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.Classes.StudyMaterialMyData;
+//import com.example.iitg_speech_lab.Classes.StudyMaterialMyData;
+
+import com.example.iitg_speech_lab.Class.StudyMaterialMyData;
 import com.example.iitg_speech_lab.Model.StudyMaterialDataModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;

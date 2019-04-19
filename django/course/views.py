@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 
@@ -719,7 +718,7 @@ def ViewGroup(request, cinfo, aid, gid):
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
-    
+
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').document(gid).get()
     GroupDetails = group_ref.to_dict()

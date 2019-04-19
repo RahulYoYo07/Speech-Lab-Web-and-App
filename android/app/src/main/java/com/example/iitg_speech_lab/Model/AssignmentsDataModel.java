@@ -1,5 +1,7 @@
 package com.example.iitg_speech_lab.Model;
 
+import com.google.type.Date;
+
 public class AssignmentsDataModel {
 
         String name;
@@ -7,7 +9,7 @@ public class AssignmentsDataModel {
         //replace by Deadline
         String info;
 
-        public AssignmentsDataModel(String info, String name, String deadline) {
+        public AssignmentsDataModel( String info, String name,String deadline) {
             this.deadline = deadline;
             this.name = name;
             this.info = info;
