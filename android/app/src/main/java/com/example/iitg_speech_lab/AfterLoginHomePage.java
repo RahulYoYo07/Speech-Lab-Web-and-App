@@ -1,9 +1,12 @@
 package com.example.iitg_speech_lab;
 
 import android.content.Intent;
+import android.os.*;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,16 +21,25 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.microsoft.identity.client.IAccount;
 import com.microsoft.identity.client.PublicClientApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AfterLoginHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     /* UI & Debugging Variables */
     private static final String TAG = AfterLoginHomePage.class.getSimpleName();
-
+    private static final long START_TIME_IN_MILLIS = 600000;
+    private CountDownTimer mCountDownTimer;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    static int check=0;
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
 
@@ -36,6 +48,27 @@ public class AfterLoginHomePage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_login_home_page);
 
+        //Code For Sliding Images
+
+        final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
+        userRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot user = task.getResult();
+                            if(user.exists()){
+                                ArrayList<String> imageUrls = (ArrayList<String>) user.get("Image");
+                                //for(int i=0;i<imageUrls.size();i++) Log.d("tushar",imageUrls.get(i));
+                                ViewPager viewPager = findViewById(R.id.AfterLoginViewPager);
+                                SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
+                                viewPager.setAdapter(adapter);
+                            }
+                        }
+                    }
+                });
+        //Code for Sliding Images ends
         /* Configure your sample app and save state for this activity */
         sampleApp = null;
         if (sampleApp == null) {
@@ -79,6 +112,7 @@ public class AfterLoginHomePage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        startTimer();
     }
 
     private void onSignOutClicked() {
@@ -117,7 +151,6 @@ public class AfterLoginHomePage extends AppCompatActivity
         Intent intent = new Intent(AfterLoginHomePage.this, Master.class);
         startActivity(intent);
     }
-
     int backButtonCount = 0;
     @Override
     public void onBackPressed()
@@ -164,20 +197,21 @@ public class AfterLoginHomePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.People) {
+        if (id == R.id.AfterLoginPeople) {
             Intent intent = new Intent(AfterLoginHomePage.this, ViewPeople.class);
             startActivity(intent);
-        } else if (id == R.id.FAQ) {
-            Intent intent = new Intent(AfterLoginHomePage.this, FAQ.class);
+        } else if (id == R.id.AfterLoginFAQ) {
+            Intent intent = new Intent(AfterLoginHomePage.this, ViewFaqListView.class);
             startActivity(intent);
-        } else if (id == R.id.ContactUs){
+        } else if (id == R.id.AfterLoginContactUs){
             Intent intent = new Intent(AfterLoginHomePage.this, ContactUs.class);
             startActivity(intent);
-        } else if(id == R.id.AboutUs) {
+        } else if(id == R.id.AfterLoginAboutUs) {
             Intent intent = new Intent(AfterLoginHomePage.this, AboutUs.class);
             startActivity(intent);
-        } else if(id == R.id.Projects) {
+        } else if(id == R.id.AfterLoginProjects) {
             Intent intent = new Intent(AfterLoginHomePage.this, ProjectsActivity.class);
+            intent.putExtra("username", "");
             startActivity(intent);
         } else if (id ==R.id.AfterLoginDashboard){
             Intent intent = new Intent(AfterLoginHomePage.this, ProfileProjectDashboard.class);
@@ -190,6 +224,28 @@ public class AfterLoginHomePage extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                if (check>0) {
+                    backButtonCount = 0;
+                    check = 0;
+                }
+                else {
+                    check++;
+                }
+            }
+            @Override
+            public void onFinish() {resetTimer();
+            }
+        }.start();
+    }
+
+    private void resetTimer() {
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
     }
 }
 

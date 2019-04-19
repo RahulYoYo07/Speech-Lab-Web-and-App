@@ -21,6 +21,13 @@
             android:name=".AfterLoginHomePage"
             android:label="@string/title_activity_after_login_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewFaqListView"/>
+        <activity
+            android:name=".AfterLoginHomePage"
+            android:label="@string/title_activity_after_login_home_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".EditDeleteFaq"/>
+        <activity android:name=".EditFaq"/>
         <activity
             android:name=".ProfileProjectDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -72,7 +79,13 @@
             android:parentActivityName=".ProjectsActivity" />
         <activity
             android:name=".Master"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+          </activity>
         <activity android:name=".ViewPeople" />
         <activity
             android:name=".ProjectsActivity"
@@ -88,11 +101,11 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".MainActivity">
-            <intent-filter>
+            <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter> -->
         </activity>
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>

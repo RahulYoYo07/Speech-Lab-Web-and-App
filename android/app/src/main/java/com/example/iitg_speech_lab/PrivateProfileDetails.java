@@ -76,7 +76,7 @@ public class PrivateProfileDetails extends AppCompatActivity {
                                 if(user.getString("ProfilePic").length() > 0){
                                     CircleImageView img = (CircleImageView) findViewById(R.id.profile);
                                     String url = user.getString("ProfilePic");
-                                    Picasso.with(getApplicationContext()).load(url).into(img);
+                                    Picasso.get().load(url).into(img);
                                 }
                             }
                         }

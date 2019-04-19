@@ -57,6 +57,14 @@ public class ViewProject extends AppCompatActivity {
                                 final String video = user.getString("Media");
                                 videoView = (VideoView) findViewById(R.id.videoView);
                                 mediaController = new MediaController(ViewProject.this);
+                                if (video.equals("d")){
+                                    videoView.setVisibility(View.INVISIBLE);
+                                    bufferProgress.setVisibility(View.INVISIBLE);
+                                }
+                                else {
+                                    bufferProgress.setVisibility(View.VISIBLE);
+                                    videoView.setVisibility(View.VISIBLE);
+                                }
                                 Uri uri = Uri.parse(video);
                                 videoView.setVideoURI(uri);
                                 mediaController.setAnchorView(videoView);

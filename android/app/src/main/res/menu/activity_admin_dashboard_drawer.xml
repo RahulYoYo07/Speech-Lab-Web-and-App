@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_faq"
             android:title="Add FAQ" />
         <item
+            android:id="@+id/AdminEditDeleteFaq"
+            android:icon="@drawable/ic_faq"
+            android:title="Edit/Delete FAQ" />
+        <item
             android:id="@+id/AdminEditAboutUs"
             android:icon="@drawable/ic_aboutus"
             android:title="Edit About Us" />

@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.google.oauth-client:google-oauth-client-java6:1.28.0'
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.28.0'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

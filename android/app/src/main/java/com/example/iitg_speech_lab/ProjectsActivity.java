@@ -38,7 +38,8 @@ public class ProjectsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_projects);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        final String username = getIntent().getStringExtra("username");
+        Log.d("Navee",username);
         myOnClickListener = new MyOnClickListener();
 
 
@@ -51,7 +52,7 @@ public class ProjectsActivity extends AppCompatActivity {
 
         task1 = new TaskCompletionSource<>();
         task2 = task1.getTask();
-        ProjectsMyData.loadProjects(task1);
+        ProjectsMyData.loadProjects(task1, username);
 
         Task<Void> allTask = Tasks.whenAll(task2);
 
@@ -106,7 +107,4 @@ public class ProjectsActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
-
-
 }
