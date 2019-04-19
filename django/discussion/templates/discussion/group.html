@@ -72,26 +72,21 @@
     var CourseID = '{{ CourseID_json }}';
     var GroupID= '{{ GroupID_json}}';
     var AssignmentID='{{ AssignmentID_json }}';
-    alert(CourseGroupID + " " + CourseID + " " + GroupID);
     var username = '{{username}}';
     var selectColor=0;
     var chatSocket;
     if(GroupID == ""){
-        alert('No group');
     chatSocket = new WebSocket(
         'ws://' + window.location.host +
         '/ws/discussion/user/' + username + '/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
-        alert('chatsocket created');
     }
     else {
-        alert('Group');
       chatSocket = new WebSocket(
           'ws://' + window.location.host +
           '/ws/discussion/user/' + username + '/courses/'+ CourseID + '/assignments/' + AssignmentID+'/groups/'+GroupID);
     }
         // var chatSocket2;
         document.querySelector('#chat-message-submit').onclick = function(e) {
-            alert('Function called');
             var messageHeadDom = document.querySelector('#chat-head-input');
             var messageInputDom = document.querySelector('#chat-message-input');
             var messageHead = messageHeadDom.value;
