@@ -124,6 +124,7 @@ def gettoken(request):
         if user['jobTitle'].upper() is "BTECH" or "MTECH" or "PHD" or "BDES" or "MDES":
             des = "Student"
             data = {
+                u'Username': username,
                 u'FullName': user['displayName'],
                 u'Program': user['jobTitle'],
                 u'Designation': des,
@@ -143,7 +144,8 @@ def gettoken(request):
         else:
             des = "Faculty"
             data = {
-                u'Name': user['displayName'],
+                u'Username': username,
+                u'FullName': user['displayName'],
                 u'CollegeDesignation': user['jobTitle'],
                 u'Designation': des,
                 u'About': "",

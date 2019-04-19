@@ -24,12 +24,15 @@ cred = credentials.Certificate({
 })
 # firebase_admin.initialize_app(cred)
 db = firestore.client()
-curAuthor = 'Utkarsh'
+
 # -------------------------------------------------------------------------------------------------------------------------------
 #Receive and sending messages
 class ChatConsumer(WebsocketConsumer):
+
+
     def connect(self):
-        # print('Not yet opened', open)
+        curAuthor = self.scope['url_route']['kwargs']['username']
+        print(curAuthor+"bakchodi")
         self.room_name = self.scope['url_route']['kwargs']['CourseID']
         # print(self.room_name)
         self.room_group_name = 'chat_%s' % self.room_name
@@ -83,7 +86,8 @@ class ChatConsumer(WebsocketConsumer):
 
     # Receive message from WebSocket
     def receive(self, text_data):
-        # print("Jeronemo")
+        curAuthor = self.scope['url_route']['kwargs']['username']
+        print(curAuthor)
         text_data_json = json.loads(text_data)
         IsPoll = text_data_json['IsPoll']
         CourseID = text_data_json['CourseID']
@@ -261,7 +265,10 @@ class ChatConsumer(WebsocketConsumer):
 
 #-----------------------------------------------------------------------------------------------------------------
 class ChatConsumer2(WebsocketConsumer):
+    curAuthor = 'Utkarsh'
+
     def connect(self):
+        curAuthor = self.scope['url_route']['kwargs']['username']
         # print('Not yet opened', open)
         self.room_name = self.scope['url_route']['kwargs']['CourseID']+self.scope['url_route']['kwargs']['AssignmentID']+self.scope['url_route']['kwargs']['GroupID']
         # print(self.room_name)
@@ -318,6 +325,7 @@ class ChatConsumer2(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         # print("Jeronemo")
+        curAuthor = self.scope['url_route']['kwargs']['username']
         text_data_json = json.loads(text_data)
         IsPoll = text_data_json['IsPoll']
         CourseID = self.scope['url_route']['kwargs']['CourseID']

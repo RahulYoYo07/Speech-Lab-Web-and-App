@@ -15,6 +15,36 @@
         </style>
     </head>
     <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/home">Speech Lab, IITG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'course:dashboard' %}">Courses</a>
+            </li>
+
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{sign_in_url}}">
+                {% if username == '' %}
+                  Log in with Outlook
+                {% else %}
+                  {{username}}
+                {% endif %}
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </nav>
         <div id='DynamicMessages' style='padding:50px 50px 50px 50px'>
         </div>
         <br>
@@ -42,16 +72,17 @@
     var CourseID = {{ CourseID_json }};
     var GroupID= {{ GroupID_json}}+"";
     var AssignmentID={{ AssignmentID_json }}+"";
+    var username = '{{username}}';
     var selectColor=0;
     var chatSocket;
     if(GroupID == "")
     chatSocket = new WebSocket(
         'ws://' + window.location.host +
-        '/ws/discussion/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
+        '/ws/discussion/user/' + username + '/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
     else {
       chatSocket = new WebSocket(
           'ws://' + window.location.host +
-          '/ws/discussion/courses/'+ CourseID + '/assignments/' + AssignmentID+'/groups/'+GroupID);
+          '/ws/discussion/user/' + username + '/courses/'+ CourseID + '/assignments/' + AssignmentID+'/groups/'+GroupID);
     }
         // var chatSocket2;
 

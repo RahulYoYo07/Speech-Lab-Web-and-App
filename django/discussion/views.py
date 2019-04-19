@@ -15,6 +15,8 @@ from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.file import Storage
 import httplib2
 
+from home.authhelper import loginFLOW
+
 cred = credentials.Certificate({
     "type": "service_account",
     "project_id": "iitg-speech-lab",
@@ -50,19 +52,51 @@ service = discovery.build('calendar', 'v3', http=httpObject)
 
 
 def course_group(request, CourseID, CourseGroupID):
-    return render(request, 'discussion/group.html', {
-        'CourseGroupID_json' : mark_safe(json.dumps(CourseGroupID)),
-        'CourseID_json' : mark_safe(json.dumps(CourseID)),
-    })
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] == '':
+        return HttpResponseRedirect(reverse('home:home'))
+
+    username = context['username']
+
+    context['CourseGroupID_json'] = mark_safe(json.dumps(CourseGroupID))
+    context['CourseID_json'] = mark_safe(json.dumps(CourseID))
+    # return render(request, 'discussion/group.html', {
+    #     'CourseGroupID_json' : mark_safe(json.dumps(CourseGroupID)),
+    #     'CourseID_json' : mark_safe(json.dumps(CourseID)),
+    # })
+    return render(request, 'discussion/group.html', context)
 
 def group(request, CourseID, AssignmentID, GroupID):
-    return render(request, 'discussion/group.html', {
-        'GroupID_json' : mark_safe(json.dumps(GroupID)),
-        'CourseID_json' : mark_safe(json.dumps(CourseID)),
-        'AssignmentID_json' : mark_safe(json.dumps(AssignmentID)),
-    })
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] == '':
+        return HttpResponseRedirect(reverse('home:home'))
+
+    username = context['username']
+
+    context['GroupID_json'] = mark_safe(json.dumps(GroupID))
+    context['CourseID_json'] = mark_safe(json.dumps(CourseID))
+    context['AssignmentID_json'] = mark_safe(json.dumps(AssignmentID))
+    # return render(request, 'discussion/group.html', {
+    #     'GroupID_json' : mark_safe(json.dumps(GroupID)),
+    #     'CourseID_json' : mark_safe(json.dumps(CourseID)),
+    #     'AssignmentID_json' : mark_safe(json.dumps(AssignmentID)),
+    # })
+    return render(request, 'discussion/group.html', context)
 
 def notice_board(request,CourseID):
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] == '':
+        return HttpResponseRedirect(reverse('home:home'))
+
+    username = context['username']
+
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
+
     # CourseID = self.scope['url_route']['kwargs']['CourseID']
     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices')
     # #
@@ -78,16 +112,25 @@ def notice_board(request,CourseID):
             # 'NoticeAuthor': doc['Author'],
             # 'NoticeTime': doc['NoticeTime'],
         }
-        print(temp)
         all_notice.append(temp)
-    print(CourseID)
-    context={
-        "all_notice":all_notice,
-        "title":CourseID
-    }
+
+    context['all_notice'] = all_notice
+    context['title'] = CourseID
+    context['Designation'] = Designation
+    # context={
+    #     "all_notice":all_notice,
+    #     "title":CourseID
+    # }
     return render(request,'discussion/notice.html',context)
 
 def add_notice(request,CourseID):
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] == '':
+        return HttpResponseRedirect(reverse('home:home'))
+
+    username = context['username']
+
     NoticeHead = request.POST['NoticeHead']
     if NoticeHead=="":
         NoticeHead="Notice"
@@ -98,6 +141,13 @@ def add_notice(request,CourseID):
     return redirect('/discussion/courses/'+CourseID+'/noticeboard')
 
 def view_calendar(request, CourseID):
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] == '':
+        return HttpResponseRedirect(reverse('home:home'))
+
+    username = context['username']
+
     page_token = None
     while True:
         calendar_list = service.calendarList().list(pageToken=page_token).execute()
@@ -111,9 +161,20 @@ def view_calendar(request, CourseID):
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
-        return render(request, 'discussion/calendar.html', {'CourseID': CourseID, 'CalendarID': CalendarID})
+        context['CourseID'] = CourseID
+        context['CalendarID'] = CalendarID
+        # return render(request, 'discussion/calendar.html', {'CourseID': CourseID, 'CalendarID': CalendarID})
+        return render(request, 'discussion/calendar.html', context)
+
 
 def add_event(request, CourseID):
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] == '':
+        return HttpResponseRedirect(reverse('home:home'))
+
+    username = context['username']
+
     page_token = None
     while True:
         calendar_list = service.calendarList().list(pageToken=page_token).execute()
@@ -152,9 +213,19 @@ def add_event(request, CourseID):
     elif request.method == 'GET':
         events_result = service.events().list(calendarId=CalendarID, singleEvents=True, orderBy='startTime').execute()
         events = events_result.get('items', [])
-        return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID})
+        context['events'] = events
+        context['CourseID'] = CourseID
+        # return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID})
+        return render(request, 'discussion/add_event.html', context)
 
 def delete_event(request, CourseID, EventID):
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] == '':
+        return HttpResponseRedirect(reverse('home:home'))
+
+    username = context['username']
+
     page_token = None
     while True:
         calendar_list = service.calendarList().list(pageToken=page_token).execute()
@@ -169,6 +240,13 @@ def delete_event(request, CourseID, EventID):
     return redirect('/discussion/courses/'+CourseID+'/events')
 
 def create_calendar(request, CourseID):
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] == '':
+        return HttpResponseRedirect(reverse('home:home'))
+
+    username = context['username']
+
     calendar = {
     'summary': CourseID,
     'timeZone': 'America/Los_Angeles'
