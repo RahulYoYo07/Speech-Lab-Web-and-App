@@ -13,8 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EnrollStudentCourse"></activity>
+        <activity android:name=".AddAssignment"></activity>
+        <activity android:name=".UpdAssignment" />
         <activity android:name=".Discussion_Room_Assignment_Groups" />
+        <activity android:name=".EnrollStudentCourse"></activity>
         <activity android:name=".Calendar" />
         <activity android:name=".Discussion_Room" />
         <activity android:name=".EnrollCourse" />
