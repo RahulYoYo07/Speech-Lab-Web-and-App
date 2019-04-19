@@ -1,0 +1,103 @@
+{% extends 'home/user.html' %}
+{% block content %}
+<div class="container-fluid">
+    <form action="update/" method="post">
+        <div class="form-group">
+            <label><b>Project Title</b></label>
+            <input type="text" value="{{project.Title}}" name="title" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label><b>About Project</b></label>
+            <textarea name="about" class="form-control" rows="3">{{project.AboutProject}}</textarea>
+        </div>
+        <div class="form-group">
+            <label><b>Mentors</b></label>
+            <textarea name="mentors" class="form-control" rows="3">{{project.Mentor}}</textarea>
+            <small id="emailHelp" class="form-text text-muted">Please enter names on separate lines</small>
+        </div>
+        <div class="form-group">
+            <label><b>Members</b></label>
+            <textarea name="people" class="form-control" rows="3">{{project.People}}</textarea>
+            <small id="emailHelp" class="form-text text-muted">Please enter names on separate lines</small>
+        </div>
+        <div class="form-group">
+            <label><b>Achievements</b></label>
+            <textarea name="achievements" class="form-control" rows="3">{{project.Achievements}}</textarea>
+            <small id="emailHelp" class="form-text text-muted">Please enter achievements on separate lines</small>
+        </div>
+
+        <label>Media</label>
+        <input type="file" value="cmuploader" id="cmuploader" class="form-control-file" accept="video/*" name="yehainame">
+        <input type="hidden" name="cmurl" id="cmurl">
+        <input type="hidden" name="filename" id="filename">
+        <progress value="0" max="100" id="progrescmupload">0%</progress>
+        <br>
+        <div class="form-group">
+            <button type="button" onclick="uploadcm()" class="btn btn-dark">Upload</button>
+        </div>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-dark">Update Project</button>
+
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCInoPg95lxzWl9Vt9GOwG4Wsx-qzVopV4",
+        authDomain: "iitg-speech-lab.firebaseapp.com",
+        databaseURL: "https://iitg-speech-lab.firebaseio.com",
+        projectId: "iitg-speech-lab",
+        storageBucket: "iitg-speech-lab.appspot.com",
+        messagingSenderId: "257927035950"
+    };
+    firebase.initializeApp(config);
+
+
+
+    //Listener
+    // var form = document.querySelector('form');
+    // form.addEventListener('submit', function(event) {
+    // event.preventDefault();
+    function uploadcm() {
+        var cmuploader = document.getElementById('cmuploader');
+        var progrescmupload = document.getElementById('progrescmupload');
+        var file = cmuploader.files[0];
+        var subfolder = "{{ username }}"
+        //var file = event.target.files[0];
+        var storageRef = firebase.storage().ref('Projects/' + subfolder + '/' + file.name);
+        var task = storageRef.put(file);
+
+        task.on('state_changed',
+            function progress(snapshot) {
+                var perc = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                progrescmupload.value = perc;
+            },
+
+            function error(err) {
+
+            },
+
+            function complete() {
+                task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                    console.log('File available at', downloadURL);
+                    document.getElementById('cmurl').value = downloadURL;
+                    document.getElementById('filename').value = file.name;
+                    document.getElementById("cmform").submit();
+
+
+                    alert(file.name + " Upload Success!");
+
+
+                });
+
+            }
+        );
+    }
+
+
+</script>
+{% endblock %}

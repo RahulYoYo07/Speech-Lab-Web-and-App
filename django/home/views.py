@@ -41,8 +41,11 @@ def home(request):
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
     sign_in_url = get_signin_url(redirect_uri)
     data = db.collection(u'Homepage').document("homepage").get().to_dict()
+    pics = db.collection(u'Homepage').document("HomeImages").get().to_dict()
+    pics_list = [i for i in enumerate(pics['Image'])]
     context = {'sign_in_url': sign_in_url,
-                'data' : data}
+                'data' : data,
+                'pics' : pics_list}
     context = loginFLOW(request, context)
     return render(request, 'home/home.html', context)
 
@@ -61,11 +64,23 @@ def contactus(request):
 def addProject(request, uinfo):
     context = {}
     context = loginFLOW(request, context)
+
+    if context['username'] == '':
+        return HttpResponse('You are not authorized.')
+    elif context['username'] != uinfo:
+        return HttpResponse('You are not authorized.')
+
+    user_dict = db.collection(u'Users').document(uinfo).get().to_dict()
+    if 'isAdmin' in user_dict:
+        context["isAdmin"] = "True"
+    else:
+        context["isAdmin"] = "False"
+    
     return render(request, 'home/addproject.html', context)
 
 def projectDelete(request, pinfo):
     context = {}
-    loginFLOW(request, context)
+    context = loginFLOW(request, context)
 
     if context['username'] == '':
         return HttpResponse("You are not logged in")
@@ -78,6 +93,52 @@ def projectDelete(request, pinfo):
 
     db.collection(u'Projects').document(pinfo).delete()
     return HttpResponseRedirect("/users/" + user.id + "/")
+
+def projectEdit(request, pinfo):
+    context = {}
+    context = loginFLOW(request, context)
+
+    if context['username'] == '':
+        return HttpResponse("You are not logged in")
+
+    project_dict = db.collection(u'Projects').document(pinfo).get().to_dict()
+    user = project_dict['Creator'].get()
+
+    if context['username'] != user.id:
+        return HttpResponse("You are not authorized.")
+
+    context['project'] = project_dict
+
+    return render(request, "home/editproject.html", context)
+
+def projectUpdate(request, pinfo):
+    context = {}
+    if request.method == 'POST':
+        context = loginFLOW(request, context)
+
+        if context['username'] == '':
+            return HttpResponse("You are not logged in")
+
+        project_dict = db.collection(u'Projects').document(pinfo).get().to_dict()
+        creator = project_dict['Creator'].get().id
+        
+        if context['username'] != creator:
+            return HttpResponse("You are not authorized")
+        
+        updated_project = {}
+        updated_project['Title'] = request.POST.get('title')
+        updated_project['AboutProject'] = request.POST.get('about')
+        if request.POST.get('cmurl') != '':
+            updated_project["Media"] = request.POST.get('cmurl')
+        updated_project['Mentor'] = request.POST.get('mentors')
+        updated_project['People'] = request.POST.get('people')
+        updated_project['Achievements'] = request.POST.get('achievements')
+
+        db.collection(u'Projects').document(pinfo).update(updated_project)
+
+        return HttpResponseRedirect("/home/projects/" + pinfo)
+    return HttpResponseRedirect(reverse('home:home'))
+
 
 def add(request, uinfo):
     context = {}
