@@ -195,4 +195,9 @@ public class StudentCoursesActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    public void enrolCourse(View v){
+        Intent intent = new Intent(StudentCoursesActivity.this, EnrollStudentCourse.class);
+        startActivity(intent);
+    }
 }

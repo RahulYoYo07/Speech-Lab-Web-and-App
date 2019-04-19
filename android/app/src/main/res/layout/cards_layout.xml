@@ -12,37 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardBackgroundColor="@color/color_white"
+        android:padding="10dp"
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="8dp"
         card_view:cardUseCompatPadding="true">
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:orientation="vertical"
-            android:baselineAligned="false">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-            <TextView
-                android:id="@+id/textViewCourseID"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/course"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"/>
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:text="CS242"
-                android:textSize="36sp"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
+                android:layout_weight="6"
+                android:orientation="vertical"
+                android:baselineAligned="false"
+                >
 
-            <TextView
-                android:id="@+id/textViewCourseName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="15dp"
+                <TextView
+                    android:id="@+id/textViewCourseID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CS242"
+                    android:textSize="24sp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-                android:text="Software Engineering Course"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                <TextView
+                    android:id="@+id/textViewCourseName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Software Engineering Course"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
