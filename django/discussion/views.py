@@ -112,8 +112,8 @@ def notice_board(request,CourseID):
         temp={
             'NoticeHead' : doc['NoticeHead'],
             'NoticeBody': doc['NoticeBody'],
-            # 'NoticeAuthor': doc['Author'],
-            # 'NoticeTime': doc['NoticeTime'],
+            'Author': doc['Author'],
+            'NoticeTime': doc['NoticeTime'],
         }
         all_notice.append(temp)
 
@@ -140,7 +140,7 @@ def add_notice(request,CourseID):
     NoticeBody = request.POST['NoticeBody']
     print(NoticeHead)
     print(NoticeBody)
-    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices').add({'Author' : 'Udbhav Chugh','NoticeHead' : NoticeHead, 'NoticeBody' : NoticeBody, 'NoticeTime':firestore.SERVER_TIMESTAMP})
+    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices').add({'Author' : username,'NoticeHead' : NoticeHead, 'NoticeBody' : NoticeBody, 'NoticeTime':firestore.SERVER_TIMESTAMP})
     return redirect('/discussion/courses/'+CourseID+'/noticeboard')
 
 def view_calendar(request, CourseID):
