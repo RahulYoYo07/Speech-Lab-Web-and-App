@@ -2,6 +2,7 @@ package com.example.iitg_speech_lab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -77,6 +78,10 @@ public class Master<sampleApp> extends AppCompatActivity
     final static String SCOPES [] = {"https://graph.microsoft.com/User.Read+profile+openid+offline_access"};
     final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
     static String Username="";
+    private static final long START_TIME_IN_MILLIS = 600000;
+    private CountDownTimer mCountDownTimer;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    static int check=0;
     /* UI & Debugging Variables */
     private static final String TAG = Master.class.getSimpleName();
     Button projects;
@@ -391,6 +396,7 @@ public class Master<sampleApp> extends AppCompatActivity
             {
                 Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
                 backButtonCount++;
+                startTimer();
             }
         }
     }
@@ -417,7 +423,7 @@ public class Master<sampleApp> extends AppCompatActivity
     }
 
     public void temp(View view){
-        Intent intent = new Intent(Master.this, ProfileProjectDashboard.class);
+        Intent intent = new Intent(Master.this, AdminDashboard.class);
         startActivity(intent);
     }
 
@@ -450,5 +456,29 @@ public class Master<sampleApp> extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                if (check>0) {
+                    backButtonCount = 0;
+                    check = 0;
+                }
+                else {
+                    backButtonCount++;
+                    check++;
+                }
+            }
+            @Override
+            public void onFinish() {resetTimer();
+            }
+        }.start();
+    }
+
+    private void resetTimer() {
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
     }
 }

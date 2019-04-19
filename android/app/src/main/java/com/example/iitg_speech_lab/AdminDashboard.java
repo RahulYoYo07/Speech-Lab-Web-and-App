@@ -93,6 +93,9 @@ public class AdminDashboard extends AppCompatActivity
         } else if (id == R.id.AdminAddProject){
             Intent intent = new Intent(AdminDashboard.this, AddProject.class);
             startActivity(intent);
+        } else if (id == R.id.AdminEditDeleteFaq){
+            Intent intent = new Intent(AdminDashboard.this, EditDeleteFaq.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -16,6 +16,8 @@
             android:name=".AfterLoginHomePage"
             android:label="@string/title_activity_after_login_home_page"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".EditDeleteFaq"/>
+        <activity android:name=".EditFaq"/>
         <activity
             android:name=".ProfileProjectDashboard"
             android:theme="@style/AppTheme.NoActionBar" />

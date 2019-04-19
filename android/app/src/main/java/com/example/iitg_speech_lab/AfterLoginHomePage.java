@@ -1,6 +1,7 @@
 package com.example.iitg_speech_lab;
 
 import android.content.Intent;
+import android.os.*;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,7 +28,10 @@ public class AfterLoginHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     /* UI & Debugging Variables */
     private static final String TAG = AfterLoginHomePage.class.getSimpleName();
-
+    private static final long START_TIME_IN_MILLIS = 600000;
+    private CountDownTimer mCountDownTimer;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    static int check=0;
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
 
@@ -117,7 +121,6 @@ public class AfterLoginHomePage extends AppCompatActivity
         Intent intent = new Intent(AfterLoginHomePage.this, Master.class);
         startActivity(intent);
     }
-
     int backButtonCount = 0;
     @Override
     public void onBackPressed()
@@ -132,6 +135,7 @@ public class AfterLoginHomePage extends AppCompatActivity
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+                startTimer();
                 backButtonCount++;
             }
         }
@@ -191,6 +195,29 @@ public class AfterLoginHomePage extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                if (check>0) {
+                    backButtonCount = 0;
+                    check = 0;
+                }
+                else {
+                    backButtonCount++;
+                    check++;
+                }
+            }
+            @Override
+            public void onFinish() {resetTimer();
+            }
+        }.start();
+    }
+
+    private void resetTimer() {
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
     }
 }
 
