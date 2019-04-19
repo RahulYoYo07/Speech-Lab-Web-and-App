@@ -35,17 +35,19 @@
 
     </div>
   </nav>
-    <form method="post" enctype="multipart/form-data" action="{% url 'discussion:events' CourseID %}">
+  
+  <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src={{CalendarID}}&amp;color=%231B887A&amp;ctz=Asia%2FKolkata" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+  <form name="calAddEvent" method="post" onsubmit="return validateForm()" enctype="multipart/form-data" action="{% url 'discussion:events' CourseID %}">
       {% csrf_token %}
       <input type="text" name="Summary" placeholder="Summary" />
       <br>
       <input type="text" name="Location" placeholder="Location" />
       <br>
-      <input name="Description" placeholder="Description" />
+      <input type="text" name="Description" placeholder="Description" />
       <br>
-      <input type='date' name="Start" placeholder="Start" />
+      <input type='date' required name="Start" placeholder="Start" value="{{dateToday}}"/>
       <br>
-      <input type='date' name="End" placeholder="End" />
+      <input type='date' required name="End" placeholder="End" value="{{dateToday}}"/>
       <br>
       <input type="submit" value="Add Event">
     </form>
@@ -59,5 +61,21 @@
             </form>
         {% endfor %}
     </div>
+
+    <script>
+        var today = new Date();
+
+        function validateForm(){
+            console.log(today);
+            if(document.forms["calAddEvent"]["Summary"].value.trim() == ""){
+                alert("Summary cannot be empty!");
+                return false;
+            }
+            if(document.forms["calAddEvent"]["Description"].value.trim() == ""){
+                alert("Description cannot be empty!");
+                return false;
+            }
+        }
+    </script>
 </body>
 </html>

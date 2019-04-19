@@ -49,7 +49,7 @@
   <br>
   <br>
   {% if Designation == 'Faculty' %}
-  <form method="post" enctype="multipart/form-data" action="noticeboard/addnotice">
+  <form  name="myForm" method="post" onsubmit="return validateForm()" enctype="multipart/form-data" action="noticeboard/addnotice">
     <div class="form-group">
     {% csrf_token %}
     <input type="text" name="NoticeHead" class="form-control" placeholder="Notice Heading" />
@@ -61,4 +61,17 @@
   </form>
   {% endif %}
   </div>
+
+  <script>
+    function validateForm() {
+        if(document.forms["myForm"]["NoticeHead"].value.trim() == ""){
+            alert ("Empty Message Head!")
+            return false;
+        }
+        if(document.forms["myForm"]["NoticeBody"].value.trim() == ""){
+            alert ("Empty Message Body!")
+            return false;
+        }
+    }
+  </script>
 </body>

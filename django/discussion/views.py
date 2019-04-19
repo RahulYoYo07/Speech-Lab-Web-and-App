@@ -16,6 +16,7 @@ from oauth2client.file import Storage
 import httplib2
 
 from home.authhelper import loginFLOW
+from datetime import datetime
 
 cred = credentials.Certificate({
     "type": "service_account",
@@ -208,7 +209,7 @@ def add_event(request, CourseID):
         }
 
         event = service.events().insert(calendarId=CalendarID, body=event).execute()
-        return redirect('/discussion/courses/'+CourseID+'/calendar')
+        return redirect('/discussion/courses/'+CourseID+'/events')
 
     elif request.method == 'GET':
         events_result = service.events().list(calendarId=CalendarID, singleEvents=True, orderBy='startTime').execute()
@@ -216,7 +217,8 @@ def add_event(request, CourseID):
         context['events'] = events
         context['CourseID'] = CourseID
         # return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID})
-        return render(request, 'discussion/add_event.html', context)
+        dateToday = datetime.today().strftime('%Y-%m-%d')
+        return render(request, 'discussion/add_event.html', {'events': events, 'CourseID': CourseID, 'CalendarID': CalendarID, 'dateToday' : dateToday})
 
 def delete_event(request, CourseID, EventID):
     context = {}
@@ -254,4 +256,4 @@ def create_calendar(request, CourseID):
 
     created_calendar = service.calendars().insert(body=calendar).execute()
     print(created_calendar['id'])
-    return redirect('/discussion/courses/'+CourseID+'/calendar')
+    return redirect('/discussion/courses/'+CourseID+'/;')

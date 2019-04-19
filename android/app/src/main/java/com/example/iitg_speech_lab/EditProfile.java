@@ -77,7 +77,7 @@ public class EditProfile extends AppCompatActivity {
                                 if (user.getString("ProfilePic").length() > 0) {
                                     CircleImageView img = (CircleImageView) findViewById(R.id.EditProfileprofile);
                                     String url = user.getString("ProfilePic");
-                                    Picasso.with(getApplicationContext()).load(url).into(img);
+                                    Picasso.get().load(url).into(img);
                                 }}
                                 catch (Exception e){
                                     System.out.println(e.getMessage());

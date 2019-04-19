@@ -1,6 +1,7 @@
 {% extends "base_generic.html"%}
 
 {% block sidebar %}
+  {% if Designation == 'Faculty' %}
   <li>
     <a href="#">Set Deadline</a>
   </li>
@@ -13,8 +14,9 @@
   <li>
     <a href="{% url 'course:random_groups' cinfo aid %}">Randomly Allocate Groups</a>
   </li>
+  {% endif %}
   <li>
-    <a href="#">View Submissions</a>
+    <a href="#">Submissions</a>
   </li>
   <li>
     <a href="{% url 'discussion:events' CourseInfo %}">Events</a>
@@ -39,8 +41,10 @@
 
       <div class="card-body">
         <h5 class="card-title"><a href="{% url 'course:view_group' cinfo aid group.GroupID %}">{{ group.GroupID }}</a></h5>
+        <!-- {% if Designation == 'Faculty' %} -->
         <a href="{% url 'course:update_attendance' cinfo aid group.GroupID %}"><button class="btn btn-success">Update Attandance</button></a>
-        <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn-success">Add Grade</button></a>
+        <!-- <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn-success">Add Grade</button></a> -->
+        <!-- {% endif %} -->
       </div>
         <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
       </div>

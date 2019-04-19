@@ -4,4 +4,10 @@
         <item>Spring</item>
         <item>Fall</item>
     </string-array>
+
+    <string-array name="EditDeleteContextList">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+
 </resources>
