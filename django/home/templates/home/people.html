@@ -2,12 +2,8 @@
 
 {% block content %}
 <br>
-
+<div class="card-columns">
 {% for i, j in uc_list %}
-{% if j == 0 %}
-<div class="row">
-  {% endif %}
-  <div class="col-sm-4">
     <div class="card" style="width: 18rem;">
       <img src="{{i.ProfilePic}}" class="card-img-top" alt="">
       <div class="card-body">
@@ -36,13 +32,8 @@
         {% endif %}
       </div>
     </div>
-  </div>
-  {% if j == 2 %}
-</div>
-<br>
-{% endif %}
 {% endfor %}
-
+</div>
 
 <br>
 {% endblock %}

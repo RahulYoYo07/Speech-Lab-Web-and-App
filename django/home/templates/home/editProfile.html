@@ -1,42 +1,43 @@
 {% extends 'home/user.html' %}
 {% block content %}
-<div class="container-fluid">
+<div class="row">
+  <div class="col">
 <form action="edit/" method="post">
   <div class="form-group">
     <label><b>Full Name</b></label>
     <input type="text" value="{{user.FullName}}" name="about_me" class="form-control" readonly>
   </div>
   <div class="form-group">
-      <label><b>Username</b></label>
-      <input type="text" value="{{user.id}}" name="userID" class="form-control" readonly>
+    <label><b>Username</b></label>
+    <input type="text" value="{{user.id}}" name="userID" class="form-control" readonly>
   </div>
   <div class="form-group">
-      <label><b>Department</b></label>
-      <input type="text" value="{{user.Department}}" name="dept" class="form-control" readonly>
+    <label><b>Department</b></label>
+    <input type="text" value="{{user.Department}}" name="dept" class="form-control" readonly>
   </div>
   {% if isStudent == 1%}
   <div class="form-group">
-      <label><b>Programme</b></label>
-      <input type="text" value="{{user.Program}}" name="program" class="form-control" readonly>
+    <label><b>Programme</b></label>
+    <input type="text" value="{{user.Program}}" name="program" class="form-control" readonly>
   </div>
   <div class="form-group">
-      <label><b>Roll Number</b></label>
-      <input type="text" value="{{user.RollNumber}}" name="rollno" class="form-control" readonly>
+    <label><b>Roll Number</b></label>
+    <input type="text" value="{{user.RollNumber}}" name="rollno" class="form-control" readonly>
   </div>
   {% endif %}
   {% if isStudent == 0%}
   <div class="form-group">
-      <label><b>Designation</b></label>
-      <input type="text" value="{{user.CollegeDesignation}}" name="desgn" class="form-control" readonly>
+    <label><b>Designation</b></label>
+    <input type="text" value="{{user.CollegeDesignation}}" name="desgn" class="form-control" readonly>
   </div>
   {% endif %}
   <div class="form-group">
     <label><b>About Me</b></label>
     <input type="text" value="{{user.About}}" name="about_me" class="form-control">
   </div>
-  <div class="form-group"></div>
-    <label><b>Contact</b></label>
-    <input type="text" value="{{user.Contact}}" name="contact" class="form-control">
+  <div class="form-group">
+  <label><b>Contact</b></label>
+  <input type="text" value="{{user.Contact}}" name="contact" class="form-control">
   </div>
   <div class="form-group">
     <label><b>Home Page</b></label>
@@ -50,19 +51,23 @@
     <label><b>LinkedIn</b></label>
     <input type="text" value="{{user.URL.Linkedin}}" name="linkedin" class="form-control">
   </div>
+  <div class="form-group">
     <label>Profile Picture</label>
-    <input type="file" value="cmuploader" id="cmuploader" class="form-control-file accept="image/*"> 
-  <input type="hidden" name="cmurl" id="cmurl">
-  <input type="hidden" name="filename" id="filename">
-  <progress value="0" max="100" id="progrescmupload">0%</progress>
+    <input type="file" value="cmuploader" id="cmuploader" class="form-control-file accept=" image/*"> <input
+      type="hidden" name="cmurl" id="cmurl">
+    <input type="hidden" name="filename" id="filename">
+    <progress value="0" max="100" id="progrescmupload">0%</progress>
+  </div>
   <br>
   <div class="form-group">
-      <button type="button" onclick="uploadcm()">Upload</button>
+    <button type="button" onclick="uploadcm()">Upload</button>
   </div>
-    {% csrf_token %}
-    <button type="submit">Save Profile</button>
-  
+  {% csrf_token %}
+
+  <button type="submit">Save Profile</button>
+
 </form>
+</div>
 </div>
 {% endblock %}
 
@@ -92,13 +97,13 @@
     var file = cmuploader.files[0];
     const file_name_fields = file.name.split('.');
     const extension = file_name_fields[file_name_fields.length - 1]
-    
+
     const supported_formats = ['png', 'jpg', 'jpeg', 'tiff']
-    if (supported_formats.includes(extension) == false){
-        window.alert("Please upload valid picture file");
-        return;
+    if (supported_formats.includes(extension) == false) {
+      window.alert("Please upload valid picture file");
+      return;
     }
-    
+
     var subfolder = "{{ username }}"
     //var file = event.target.files[0];
     var storageRef = firebase.storage().ref('ProfileImages/' + subfolder + '/' + file.name);
