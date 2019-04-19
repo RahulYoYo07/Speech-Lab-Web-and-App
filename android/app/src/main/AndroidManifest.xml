@@ -23,6 +23,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ViewFaqListView"/>
         <activity android:name=".EditDeleteFaq"/>
+        <activity android:name=".EnrollCourse"></activity>
         <activity android:name=".EditFaq"/>
         <activity
             android:name=".ProfileProjectDashboard"
