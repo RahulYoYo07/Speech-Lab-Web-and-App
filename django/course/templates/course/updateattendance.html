@@ -13,11 +13,19 @@
   <li>
     <a href="#">Grading</a>
   </li>
+  <li>
+    <a href="{% url 'discussion:events' CourseInfo %}">Events</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:notice_board' CourseInfo %}">Noticeboard</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:course_group' CourseInfo 1 %}">Discussion Room</a>
+  </li>
 {% endblock %}
 
-
+<!-- {% if studentinfo %} -->
 {% block content %}
-{% if studentinfo %}
 <form method="POST">
     {% csrf_token %}
     {% for student in studentinfo %}
@@ -30,11 +38,11 @@
     {% endfor %}
     <button type="submit" class="btn btn-primary">Update Attendance</button>
 </form>
-{% else %}
+<!-- {% else %}
 <div class="jumbotron">
   <p>No Students Added</p>
 </div>
-{% endif %}
+{% endif %} -->
 
 
 

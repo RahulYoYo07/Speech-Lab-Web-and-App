@@ -15,20 +15,50 @@
         </style>
     </head>
     <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/home">Speech Lab, IITG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'course:dashboard' %}">Courses</a>
+            </li>
+
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{sign_in_url}}">
+                {% if username == '' %}
+                  Log in with Outlook
+                {% else %}
+                  {{username}}
+                {% endif %}
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </nav>
         <div id='DynamicMessages' style='padding:50px 50px 50px 50px'>
         </div>
         <br>
         <div class="card bg-warning">
           <div class="card-header"> <h4>Add a new message</h4> </div>
-          <input class="card-body" id="chat-head-input" type="text" size="100"/><br/>
-          <input class="card-body" id="chat-message-input" type="text" size="100"/><br/>
+          <input class="form-control" placeholder="Message Head" id="chat-head-input" type="text" size="100"/>
+          <input class="form-control" placeholder="Message Body" id="chat-message-input" type="text" size="100"/>
           <input class="btn btn-success" id="chat-message-submit" type="button" value="Add message"/>
         </div>
         <br>
         <div class="card bg-success">
           <div class="card-header"><h4> Add a new poll</h4> </div>
-          <input id="poll-question-input" type="text" size="100"/><br/>
-          <div class="card-body" id = "DynamicPollOption" > </div>
+          <input class="form-control" id="poll-question-input" placeholder="Poll Question" type="text" size="100"/>
+          <div id = "DynamicPollOption" > </div>
           <input class="btn btn-secondary" id="poll-option-add" type="button" value="Add Poll Option"/>
           <input class="btn btn-secondary" id="poll-option-del" type="button" value="Delete Last Option"/>
           <input class="btn btn-primary" id="poll-submit" type="button" value="Add Poll"/>
@@ -38,23 +68,53 @@
     <script>
     var cntPoll = 0;
     var tempdata;
-    var CourseGroupID = {{ CourseGroupID_json }};
-    var CourseID = {{ CourseID_json }};
-    var GroupID= {{ GroupID_json}}+"";
-    var AssignmentID={{ AssignmentID_json }}+"";
+    var CourseGroupID = '{{ CourseGroupID_json }}';
+    var CourseID = '{{ CourseID_json }}';
+    var GroupID= '{{ GroupID_json}}';
+    var AssignmentID='{{ AssignmentID_json }}';
+    alert(CourseGroupID + " " + CourseID + " " + GroupID);
+    var username = '{{username}}';
     var selectColor=0;
     var chatSocket;
-    if(GroupID == "")
+    if(GroupID == ""){
+        alert('No group');
     chatSocket = new WebSocket(
         'ws://' + window.location.host +
-        '/ws/discussion/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
+        '/ws/discussion/user/' + username + '/courses/'+ CourseID + '/coursegroup/' + CourseGroupID);
+        alert('chatsocket created');
+    }
     else {
+        alert('Group');
       chatSocket = new WebSocket(
           'ws://' + window.location.host +
-          '/ws/discussion/courses/'+ CourseID + '/assignments/' + AssignmentID+'/groups/'+GroupID);
+          '/ws/discussion/user/' + username + '/courses/'+ CourseID + '/assignments/' + AssignmentID+'/groups/'+GroupID);
     }
         // var chatSocket2;
-
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            alert('Function called');
+            var messageHeadDom = document.querySelector('#chat-head-input');
+            var messageInputDom = document.querySelector('#chat-message-input');
+            var messageHead = messageHeadDom.value;
+            var message = messageInputDom.value;
+            if (message.trim() == "" || messageHead.trim() == ""){
+                alert("Empty message head or body!");
+                return;
+            }
+            chatSocket.send(JSON.stringify({
+                'IsPoll' : false,
+                'IsReply': false,
+                'ShowReply': false,
+                'messageHead' : messageHead,
+                'message': message,
+                'CourseID': CourseID,
+                'CourseGroupID': CourseGroupID,
+                'ReplyBody': '',
+                // 'MessageID': MessageID,
+            }));
+            alert('New message added successfully!');
+            messageHeadDom.value = '';
+            messageInputDom.value = '';
+        };
 
         chatSocket.onmessage = function(e) {
             var data = JSON.parse(e.data);
@@ -111,17 +171,19 @@
 
                     MessageDiv.id = MessageID;
                     MessageBox.setAttribute("style","display: inline");
-                    MessageBox.innerHTML ='<b>'+Author+'</b>'+'</br>'+ messageHead + ': ' + message;
+                    MessageBox.innerHTML ='<h4>'+ messageHead + '</h4><h5>' + message +  '</h5>';
+                    MessageBox.innerHTML += '<div align="right"> <b>'+Author+'</b> </div>';
 
                     ReplyInput.type = 'text';
                     ReplyInput.id = MessageID+'_input';
+                    ReplyInput.placeholder = 'Your Reply';
                     ReplyButton.type = 'button';
                     ReplyButton.setAttribute("style", "margin-left: 2em");
                     ReplyButton.value = 'Reply';
                     ReplyButton.onclick = function(){
                         // alert(MessageID);
                         var Rep = document.getElementById(MessageID+'_input').value;
-                        if (Rep == ""){
+                        if (Rep.trim() == ""){
                             alert('Cannot send empty reply');
                             return;
                         }
@@ -186,7 +248,7 @@
                         var msg='';
                         var i=0
                         for(i=0;i<data['Replies'].length;i++){
-                            msg=msg+'<br />'+data['Replies'][i]['Author']+':'+data['Replies'][i]['ReplyBody'];
+                            msg=msg+'<br /> <b>'+ data['Replies'][i]['Author']+'</b>: '+data['Replies'][i]['ReplyBody'];
                         }
                         ShowReplyBox.innerHTML=msg;
                         if(data['Replies'].length>0){
@@ -262,7 +324,7 @@
                             return;
                         }
                         var SelOpt = document.getElementById(MessageID).elements[MessageID].value;
-                        if (SelOpt == ""){
+                        if (SelOpt.trim() == ""){
                             alert('No option selected');
                             return;
                         }
@@ -383,63 +445,40 @@
 
                 }
             }
+        };
 
-            chatSocket.onclose = function(e) {
-                console.error('Chat socket closed unexpectedly');
-            };
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
 
-            document.querySelector('#chat-message-input').focus();
-            document.querySelector('#chat-message-input').onkeyup = function(e) {
-                if (e.keyCode === 13) {  // enter, return
-                    document.querySelector('#chat-message-submit').click();
-                }
-            };
-
-            document.querySelector('#chat-message-submit').onclick = function(e) {
-                var messageHeadDom = document.querySelector('#chat-head-input');
-                var messageInputDom = document.querySelector('#chat-message-input');
-                var messageHead = messageHeadDom.value;
-                var message = messageInputDom.value;
-                if (message == "" || messageHead == ""){
-                    alert("Empty message field or body!");
-                    return;
-                }
-                chatSocket.send(JSON.stringify({
-                    'IsPoll' : false,
-                    'IsReply': false,
-                    'ShowReply': false,
-                    'messageHead' : messageHead,
-                    'message': message,
-                    'CourseID': CourseID,
-                    'CourseGroupID': CourseGroupID,
-                    'ReplyBody': '',
-                    // 'MessageID': MessageID,
-                }));
-                alert('New message added successfully!');
-                messageHeadDom.value = '';
-                messageInputDom.value = '';
-            };
-
-
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
         };
 
         document.querySelector('#poll-option-add').onclick = function(e) {
             cntPoll += 1;
             var PollOption = document.createElement('div');
-            var PollOptionNum = document.createElement('p');
+            // var PollOptionNum = document.createElement('p');
             var PollOptionInput = document.createElement('input');
 
-            PollOptionNum.setAttribute("style", "display: inline");
-            PollOptionNum.innerHTML = 'Option ' + cntPoll.toString() + ':  ';
+            // PollOptionNum.setAttribute("style", "display: inline");
+            // PollOptionNum.innerHTML = 'Option ' + cntPoll.toString() + ':  ';
 
             PollOptionInput.id = 'poll-option-input' + cntPoll.toString();
+            PollOptionInput.placeholder = "Option " + cntPoll;
+            PollOptionInput.classList.add("form-control")
+            // PollOptionInput.GotFocus();
 
             PollOption.id = 'poll-option' + cntPoll.toString();
-            PollOption.appendChild(PollOptionNum);
+
+            // PollOption.appendChild(PollOptionNum);
             PollOption.appendChild(PollOptionInput);
-            PollOption.appendChild(document.createElement('br'));
+            // PollOption.appendChild(document.createElement('br'));
             document.getElementById('DynamicPollOption').appendChild(PollOption);
-        }
+        };
 
         document.querySelector('#poll-option-del').onclick = function(e) {
             if (cntPoll < 1){
@@ -449,7 +488,7 @@
             var elt = document.getElementById('poll-option' + cntPoll.toString());
             elt.parentNode.removeChild(elt);
             cntPoll -= 1;
-        }
+        };
 
         document.querySelector('#poll-submit').onclick = function(e) {
             if (cntPoll < 2){
@@ -458,7 +497,7 @@
             }
             var pollQuesDom = document.querySelector('#poll-question-input');
             var pollQues = pollQuesDom.value;
-            if (pollQues == ""){
+            if (pollQues.trim() == ""){
                 alert("Poll Question cannot be empty!");
                 return;
             }
@@ -474,7 +513,7 @@
             }
             var i;
             for (i=1; i<=cntPoll; i+=1){
-                if (document.getElementById('poll-option-input' + i.toString()).value == ""){
+                if (document.getElementById('poll-option-input' + i.toString()).value.trim() == ""){
                     alert("Poll option cannot be empty");
                     return;
                 }
@@ -490,7 +529,7 @@
             cntPoll = 0;
             pollQuesDom.value = '';
             chatSocket.send(JSON.stringify(pollJSON));
-        }
+        };
 
     </script>
     </html>

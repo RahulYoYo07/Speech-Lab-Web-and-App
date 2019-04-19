@@ -10,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.Classes.CoursesMyData;
+import com.example.iitg_speech_lab.Class.CoursesMyData;
 import com.example.iitg_speech_lab.Model.CoursesDataModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +36,8 @@ public class CoursesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String username = getIntent().getStringExtra("username");
+      // String username = getIntent().getStringExtra("username");
+        String username = "pradip";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
         Toolbar toolbar = findViewById(R.id.toolbar);

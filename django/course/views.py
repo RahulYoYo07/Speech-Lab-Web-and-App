@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 
@@ -89,6 +88,8 @@ def Enroll_CoursePage(request, cinfo):
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
 
+    context['CourseInfo'] = cinfo
+
     if request.method == 'POST':
         postdata = request.POST.get("Enrollment")
         main = db.collection(u'Courses').document(cinfo).get().to_dict()
@@ -147,7 +148,7 @@ def Enroll_CoursePage(request, cinfo):
         return HttpResponseRedirect(reverse('course:dashboard'))
     else:
         if Designation == 'Student':
-            return render(request, 'course/enrollcourse.html')
+            return render(request, 'course/enrollcourse.html', context)
         elif Designation == 'Faculty':
             return HttpResponseNotFound('<h1>Page not found</h1>')
 
@@ -240,7 +241,7 @@ def Show_Attendance(request, cinfo):
         list.append(temp_dict)
 
     context['list'] = list
-    contezxt['CourseInfo'] = cinfo
+    context['CourseInfo'] = cinfo
     # {
     #     'list': list,
     #     'CourseInfo': cinfo,
@@ -448,6 +449,10 @@ def viewTA(request, cinfo):
 
     username = context['username']
 
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
+
     TAList = db.collection(u'Courses').document(
         cinfo).get().to_dict()["TAList"]
 
@@ -458,6 +463,7 @@ def viewTA(request, cinfo):
 
     context['TA'] = talist
     context['CourseInfo'] = cinfo
+    context['Designation'] = Designation
     # {
     #     'TA': talist,
     #     'CourseInfo': cinfo
@@ -473,6 +479,7 @@ def ViewAssgn(request, cinfo, aid):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
@@ -719,7 +726,7 @@ def ViewGroup(request, cinfo, aid, gid):
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
-    
+
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').document(gid).get()
     GroupDetails = group_ref.to_dict()
@@ -737,6 +744,7 @@ def ViewGroup(request, cinfo, aid, gid):
     #     'GroupDetails' : GroupDetails,
     #     'StudentDetails' : StudentDetails,
     # }
+    print(Designation)
     return render(request, 'course/viewgroup.html', context)
 
 

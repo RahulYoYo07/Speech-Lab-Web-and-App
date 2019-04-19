@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.iitg_speech_lab.Model.StudentCoursesAsTADataModel;
+import com.example.iitg_speech_lab.Model.StudentCoursesDataModel;
 
 import java.util.ArrayList;
 

@@ -28,12 +28,20 @@
             android:id = "@+id/ProfileDashboardAddProjects"
             android:title="Add Project"
             android:icon ="@drawable/ic_addproject"/>
-
-        <item
-            android:icon="@drawable/ic_home"
-            android:id ="@+id/ProfileDashboardHome"
-            android:title="Home"/>
-
     </group>
+    <item android:title=" ">
+        <menu>
+            <item
+                android:icon="@drawable/ic_home"
+                android:id ="@+id/ProfileDashboardHome"
+                android:title="Home"/>
+            <item
+                android:id="@+id/AfterLoginLogOut"
+                android:icon="@drawable/ic_logout"
+                android:title="Log Out" />
+        </menu>
+
+
+    </item>
 
 </menu>

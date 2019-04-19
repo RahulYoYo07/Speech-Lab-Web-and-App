@@ -67,13 +67,13 @@ public class AddProject extends AppCompatActivity {
         str.trim();
         str.replace("\\n","\n");
         Mentor.setText(str);
-
         Map<String,Object> map = new HashMap<>();
         map.put("Title",Title.getText().toString());
         map.put("Achievements",Achievements.getText().toString());
         map.put("Mentor",Mentor.getText().toString());
         map.put("AboutProject",AboutProject.getText().toString());
         map.put("People",People.getText().toString());
+        map.put("Media", "");
 
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();

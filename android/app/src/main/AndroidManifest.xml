@@ -21,6 +21,9 @@
             android:name=".AfterLoginHomePage"
             android:label="@string/title_activity_after_login_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewFaqListView"/>
+        <activity android:name=".EditDeleteFaq"/>
+        <activity android:name=".EditFaq"/>
         <activity
             android:name=".ProfileProjectDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -29,6 +32,13 @@
             android:name=".ViewStudentCourse"
             android:label="@string/title_activity_view_student_course"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewMyGroup"></activity>
+        <activity android:name=".UpdateAttendance"></activity>
+        <activity
+            android:name=".StudentViewCourse"
+            android:label="@string/title_activity_student_view_course"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AddGrade" />
         <activity android:name=".StudentCoursesActivity" />
         <activity
             android:name=".ViewAssignment"
@@ -72,7 +82,13 @@
             android:parentActivityName=".ProjectsActivity" />
         <activity
             android:name=".Master"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+          </activity>
         <activity android:name=".ViewPeople" />
         <activity
             android:name=".ProjectsActivity"
@@ -88,11 +104,11 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
@@ -106,6 +122,10 @@
                     android:scheme="msald5d4df29-11c6-4150-bacf-deeac3569940" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

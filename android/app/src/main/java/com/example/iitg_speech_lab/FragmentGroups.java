@@ -13,8 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+//import com.example.iitg_speech_lab.Classes.GroupsMyData;
 
-import com.example.iitg_speech_lab.Classes.GroupsMyData;
+import com.example.iitg_speech_lab.Class.GroupsMyData;
 import com.example.iitg_speech_lab.Model.GroupsDataModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;

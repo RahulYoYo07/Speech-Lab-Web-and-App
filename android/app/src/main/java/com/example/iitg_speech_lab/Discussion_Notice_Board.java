@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.ServerTimestamp;
@@ -79,7 +80,7 @@ public class Discussion_Notice_Board extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("Courses").document(message).collection("Notices").orderBy("NoticeTime")
+        db.collection("Courses").document(message).collection("Notices").orderBy("NoticeTime", Query.Direction.DESCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -134,6 +135,11 @@ public class Discussion_Notice_Board extends AppCompatActivity {
                 String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
                 String Head = titleBox.getText().toString().trim();
                 String Body = descriptionBox.getText().toString().trim();
+                if(Head.length()==0|| Body.length()==0)
+                {
+                    alertDialogempty();
+                    return;
+                }
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -158,6 +164,27 @@ public class Discussion_Notice_Board extends AppCompatActivity {
 
         builder.show();
 
+    }
+
+    private void alertDialogempty() {
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setMessage("Text field has no text added");
+        dialog.setTitle("Error Message");
+        dialog.setPositiveButton("Close",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+//                        Toast.makeText(getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
+                    }
+                });
+//        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG).show();
+//            }
+//        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
     }
 }
 

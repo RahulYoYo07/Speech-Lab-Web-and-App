@@ -2,8 +2,10 @@ package com.example.iitg_speech_lab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -76,7 +78,11 @@ public class Master<sampleApp> extends AppCompatActivity
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://graph.microsoft.com/User.Read+profile+openid+offline_access"};
     final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
-
+    static String Username="";
+    private static final long START_TIME_IN_MILLIS = 600000;
+    private CountDownTimer mCountDownTimer;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    static int check=0;
     /* UI & Debugging Variables */
     private static final String TAG = Master.class.getSimpleName();
     Button projects;
@@ -89,12 +95,29 @@ public class Master<sampleApp> extends AppCompatActivity
         setContentView(R.layout.activity_master);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        projects = (Button) findViewById(R.id.button8);
-        projects.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                projectload();
-            }
-        });
+
+        //Code for Sliding Images
+
+        final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
+        userRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot user = task.getResult();
+                            if(user.exists()){
+                                ArrayList<String> imageUrls = (ArrayList<String>) user.get("Image");
+                                //for(int i=0;i<imageUrls.size();i++) Log.d("tushar",imageUrls.get(i));
+                                ViewPager viewPager = findViewById(R.id.MasterViewPager);
+                                SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
+                                viewPager.setAdapter(adapter);
+                            }
+                        }
+                    }
+                });
+
+        //Code for Sliding imaegs
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +160,7 @@ public class Master<sampleApp> extends AppCompatActivity
         } catch (IndexOutOfBoundsException e) {
             Log.d(TAG, "Account at this position does not exist: " + e.toString());
         }
+        startTimer();
     }
 
 //
@@ -417,7 +441,7 @@ public class Master<sampleApp> extends AppCompatActivity
     }
 
     public void temp(View view){
-        Intent intent = new Intent(Master.this, ProfileProjectDashboard.class);
+        Intent intent = new Intent(Master.this, AdminDashboard.class);
         startActivity(intent);
     }
 
@@ -431,7 +455,7 @@ public class Master<sampleApp> extends AppCompatActivity
             Intent intent = new Intent(Master.this, ViewPeople.class);
             startActivity(intent);
         } else if (id == R.id.FAQ) {
-            Intent intent = new Intent(Master.this, FAQ.class);
+            Intent intent = new Intent(Master.this, ViewFaqListView.class);
             startActivity(intent);
         } else if (id == R.id.ContactUs){
             Intent intent = new Intent(Master.this, ContactUs.class);
@@ -443,11 +467,35 @@ public class Master<sampleApp> extends AppCompatActivity
             onCallGraphClicked();
         } else if(id == R.id.Projects) {
             Intent intent = new Intent(Master.this, ProjectsActivity.class);
+            intent.putExtra("username", "");
             startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                if (check>0) {
+                    backButtonCount = 0;
+                    check = 0;
+                }
+                else {
+                    check++;
+                }
+            }
+            @Override
+            public void onFinish() {resetTimer();
+            }
+        }.start();
+    }
+
+    private void resetTimer() {
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
     }
 }

@@ -14,9 +14,18 @@
   <li>
     <a href="{% url 'course:random_groups' cinfo aid %}">Randomly Allocate Groups</a>
   </li>
-  {% endif %}
   <li>
     <a href="#">Submissions</a>
+  </li>
+  {% endif %}
+  <li>
+    <a href="{% url 'discussion:events' cinfo %}">Events</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
   </li>
 {% endblock %}
 
@@ -32,10 +41,10 @@
 
       <div class="card-body">
         <h5 class="card-title"><a href="{% url 'course:view_group' cinfo aid group.GroupID %}">{{ group.GroupID }}</a></h5>
-        {% if Designation == 'Faculty' %}
+        <!-- {% if Designation == 'Faculty' %} -->
         <a href="{% url 'course:update_attendance' cinfo aid group.GroupID %}"><button class="btn btn-success">Update Attandance</button></a>
-        <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn-success">Add Grade</button></a>
-        {% endif %}
+        <!-- <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn-success">Add Grade</button></a> -->
+        <!-- {% endif %} -->
       </div>
         <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
       </div>
