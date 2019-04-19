@@ -29,7 +29,7 @@ db = firestore.client()
 
 
 def dashboard(request):
-    username = "gulat170123030"
+    username = "pradip"
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
@@ -142,7 +142,7 @@ def Update_Attendance(request, cinfo, aid, gid):
             while (check == 0):
                 try:
                     stud_username = attendance_list[index]['StudentID'].get().to_dict()[
-                        'username']
+                        'Username']
                     if stud_username == student:
                         attendance_list[index]['TotalAttendance'] = attendance_list[index]['TotalAttendance'] + 1
                         data = {
@@ -269,7 +269,8 @@ def AddCourse(request):
                 u'Session': int(request.POST.get("StartSemesterSession", ""))
             },
             u'FacultyList': [ref_prof],
-            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", "")
+            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", ""),
+
         }
         cid = request.POST.get("CourseID", "")
 
@@ -412,7 +413,7 @@ def AddTA(request, cinfo):
 
         if 'TAList' not in ref_course.get().to_dict():
             currTA = []
-        else :
+        else:
             currTA = ref_course.get().to_dict()['TAList']
 
         if ref_TA not in currTA:
@@ -438,10 +439,10 @@ def AddTA(request, cinfo):
             pass
 
         ref_TA.update({
-            u'CoursesListAsTA' : coursesAsTA
+            u'CoursesListAsTA': coursesAsTA
         })
 
-        return render(request, 'course/AddTA.html', context)
+        return HttpResponseRedirect(reverse('course:view_course', kwargs={'cinfo': cinfo}))
 
     return render(request, 'course/AddTA.html', context)
 
@@ -481,8 +482,10 @@ def AddCourseMaterial(request, cinfo):
 def ViewCourseMaterial(request, cinfo):
     course_data = db.collection(u'Courses').document(cinfo).get().to_dict()
 
-    CMaterials = course_data['CourseMaterial']
-
+    if "CourseMaterial" in course_data.keys():
+        CMaterials = course_data['CourseMaterial']
+    else:
+        CMaterials = ""
     context = {
         'CMaterials': CMaterials,
         'CourseInfo': cinfo
@@ -565,10 +568,10 @@ def ViewGroup(request, cinfo, aid, gid):
     for stud in studs:
         StudentDetails.append(stud['StudentID'].get().to_dict())
     context = {
-        'cinfo' : cinfo,
-        'aid' : aid,
-        'GroupDetails' : GroupDetails,
-        'StudentDetails' : StudentDetails,
+        'cinfo': cinfo,
+        'aid': aid,
+        'GroupDetails': GroupDetails,
+        'StudentDetails': StudentDetails,
     }
     return render(request, 'course/viewgroup.html', context)
 
@@ -592,10 +595,10 @@ def UpdateGroup(request, cinfo, aid, gid):
         for stud in studs:
             StudentDetails.append(stud['StudentID'].get().to_dict())
         context = {
-            'cinfo' : cinfo,
-            'aid' : aid,
-            'GroupDetails' : GroupDetails,
-            'StudentDetails' : StudentDetails,
+            'cinfo': cinfo,
+            'aid': aid,
+            'GroupDetails': GroupDetails,
+            'StudentDetails': StudentDetails,
         }
 
         return render(request, 'course/viewgroup.html', context)

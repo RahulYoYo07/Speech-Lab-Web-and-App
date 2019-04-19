@@ -14,24 +14,21 @@
 
 <a href="{% url 'course:add_course'%}"><p class="options">Add Courses</p></a>
 
-<div class="row">
-
+<ul class="cards">
 {% for course in CourseDetails %}
 
-    <div class="col-xs-12 col-sm-6 col-md-4 col-ld-3" style="margin-bottom:25px;">
+    <li class="cards__item">
       <div class = "card">
 
-      <div class="card-body">
-        <h5 class="card-title"><a href="{% url 'course:view_course' course.CourseInfo %}">{{ course.CourseID }}</a></h5>
+      <div class="card__content">
+        <div class="card__title"><a href="{% url 'course:view_course' course.CourseInfo %}">{{ course.CourseID }}</a></div>
         {% comment %} <h6 class="card-subtitle mb-2 text-muted"></h6> {% endcomment %}
-        <p class="card-text overflow-auto" style="height:8rem;">{{ course.AboutCourse }}</p>
-
-      </div>
-        <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
-
+        <p class="card__text">{{ course.AboutCourse }}</p>
+        <a href="#" class="card-link"><button class="btn btn--block card__btn">Discussion Group</button></a></div>
+        </div>
       </div>
     </div>
 
 {% endfor %}
-</div>
+</ul>
 {% endblock %}

@@ -4,54 +4,70 @@
    <head>
       <title>{% block title %}{% endblock %}</title>
       <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit="yes">
+      <meta name="viewport" content="width=device-width", initial-scale=1, shrink-to-fit="yes">
       {% block css %}{% endblock%}
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
       <link rel="stylesheet" href="{% static 'course/css/styles.css' %}">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
       {% block scripts %}{% endblock%}
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+   
    </head>
    <body>
-      <!-- End Header -->
-      <div class="wrapper">
-         <!-- Sidebar Holder -->
-         <nav id="sidebar">
-            <div class="sidebar-header">
-               <h3>Speech Lab</h3>
-            </div>
-            <ul class="list-unstyled components">
-               <p>Hello</p>
-               {% block sidebar %}
-               {% endblock %}
-            </ul>
-         </nav>
-         <!-- Page Content Holder -->
-         <div id="content" class = "">
-         <div class = "container">
-            {% block content%}
-            {% endblock %}
-         </div>
-         <div class= "container">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-               <div class="container-fluid">
-                  <button type="button" id="sidebarCollapse" class="btn btn-info">
-                  <i class="fas fa-align-left"></i>
-                  <span>Toggle Sidebar</span>
-                  </button>
-               </div>
+      <div class="s-layout">
+         <!-- Sidebar -->
+         <div class="s-layout__sidebar">
+            <a class="s-sidebar__trigger" href="#0">
+            <i class="fa fa-bars"></i>
+            </a>
+            <nav class="s-sidebar__nav">
+               <ul>
+                  <li>
+                     <a class="s-sidebar__nav-link" href="#0">
+                     <i class="fa fa-home"></i><em>Home</em>
+                     </a>
+                  </li>
+                  {% block sidebar %}
+                  {% endblock %}
+               </ul>
             </nav>
          </div>
-         </div>
-         <script type="text/javascript">
-            $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').toggleClass('active');
-                });
-            });
-         </script>
+         <main class="s-layout__content">
+            <!-- Page Content Holder -->
+            <div id="content" class = "container">
+               {% comment %} <div class = "container"> {% endcomment %}
+                  {% block content%}
+                  {% endblock %}
+               {% comment %} </div> {% endcomment %}
+            </div>
+         </main>
       </div>
+         {% comment %} 
+         <footer>
+            <div class= "container">
+               <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                  <div class="container-fluid">
+                     <button type="button" id="sidebarCollapse" class="btn btn-info">
+                     <i class="fas fa-align-left"></i>
+                     <span>Toggle Sidebar</span>
+                     </button>
+                  </div>
+               </nav>
+            </div>
+            {% endcomment %}
+            {% comment %} 
+         </footer>
+         {% endcomment %}
+      <script type="text/javascript">
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+         });
+      </script>
       <script src="{% static 'course/JS/BaseGeneric.js' %}"></script>
    </body>
 </html>

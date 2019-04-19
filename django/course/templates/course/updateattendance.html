@@ -23,8 +23,8 @@
     {% for student in studentinfo %}
     <div class="jumbotron">
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" name = "checks[]" value = {{student.username}} id = "{{student.username}}">
-        <label class="form-check-label" for="{{student.username}}">{{student.username}}</label>
+        <input type="checkbox" class="form-check-input" name = "checks[]" value = {{student.Username}} id = "{{student.Username}}">
+        <label class="form-check-label" for="{{student.Username}}">{{student.Username}}</label>
       </div>
    </div>
     {% endfor %}

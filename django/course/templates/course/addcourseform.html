@@ -3,24 +3,24 @@
 <form method="POST">
   {% csrf_token %}
   <div class="form-group">
-    <label for="exampleInputEmail1">About Course</label>
-    <input type="text" class="form-control" name="AboutCourse" aria-describedby="aboutcourse" placeholder="Tell Us Something About Course">
-  </div>
-  <div class="form-group">
     <label for="CourseID">Course ID</label>
-    <input type="text" class="form-control" name="CourseID" placeholder="Course ID">
+    <input type="text" class="form-control" name="CourseID" placeholder="Course ID" required>
   </div>
   <div class="form-group">
-    <label for="CourseName">Course ID</label>
-    <input type="text" class="form-control" name="CourseName" placeholder="Name Of The Course">
+    <label for="CourseName">Name</label>
+    <input type="text" class="form-control" name="CourseName" placeholder="Name Of The Course" required>
   </div>
   <div class="form-group">
-    <label for="EnrollmentKey">Course ID</label>
-    <input type="text" class="form-control" name="EnrollmentKey" placeholder="Enrollment Key Of The Course">
+    <label for="exampleInputEmail1">About Course</label>
+    <textarea rows="5" class="form-control" name="AboutCourse" aria-describedby="aboutcourse" placeholder="Tell Us Something About Course" required></textarea>
+  </div>
+  <div class="form-group">
+    <label for="EnrollmentKey">EnrollmentKey</label>
+    <input type="text" class="form-control" name="EnrollmentKey" placeholder="Enrollment Key Of The Course" required>
   </div>
   <div class="form-group">
     <label for="Weightage">Weightage</label>
-    <input type="number" class="form-control" name="Weightage" placeholder="Weightage Of The Course">
+    <input type="number" class="form-control" name="Weightage" placeholder="Weightage Of The Course" required>
   </div>
   <div class="form-group">
     <label for="exampleFormControlSelect1">Start Semester</label>
@@ -28,7 +28,7 @@
       <option>Spring</option>
       <option>Fall</option>
     </select>
-    <input type="number" class="form-control" name="StartSemesterSession" placeholder="Year">
+    <input type="number" class="form-control" name="StartSemesterSession" placeholder="Year" required>
   </div>
   <div class="form-group">
     <label for="exampleFormControlSelect2">End Semester</label>
@@ -36,7 +36,7 @@
       <option>Spring</option>
       <option>Fall</option>
     </select>
-    <input type="number" class="form-control" name="EndSemesterSession" placeholder="Year">
+    <input type="number" class="form-control" name="EndSemesterSession" placeholder="Year" required>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
