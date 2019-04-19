@@ -83,6 +83,7 @@ public class AfterLoginHomePage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        startTimer();
     }
 
     private void onSignOutClicked() {
@@ -135,7 +136,6 @@ public class AfterLoginHomePage extends AppCompatActivity
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
-                startTimer();
                 backButtonCount++;
             }
         }
@@ -197,7 +197,7 @@ public class AfterLoginHomePage extends AppCompatActivity
         return true;
     }
     private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1500) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
@@ -206,7 +206,6 @@ public class AfterLoginHomePage extends AppCompatActivity
                     check = 0;
                 }
                 else {
-                    backButtonCount++;
                     check++;
                 }
             }

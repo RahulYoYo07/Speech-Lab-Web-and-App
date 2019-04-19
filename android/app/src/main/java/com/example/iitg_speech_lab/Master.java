@@ -142,6 +142,7 @@ public class Master<sampleApp> extends AppCompatActivity
         } catch (IndexOutOfBoundsException e) {
             Log.d(TAG, "Account at this position does not exist: " + e.toString());
         }
+        startTimer();
     }
 
 //
@@ -396,7 +397,6 @@ public class Master<sampleApp> extends AppCompatActivity
             {
                 Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
                 backButtonCount++;
-                startTimer();
             }
         }
     }
@@ -459,7 +459,7 @@ public class Master<sampleApp> extends AppCompatActivity
     }
 
     private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1500) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
@@ -468,7 +468,6 @@ public class Master<sampleApp> extends AppCompatActivity
                     check = 0;
                 }
                 else {
-                    backButtonCount++;
                     check++;
                 }
             }
