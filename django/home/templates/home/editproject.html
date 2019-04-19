@@ -66,6 +66,14 @@
         var cmuploader = document.getElementById('cmuploader');
         var progrescmupload = document.getElementById('progrescmupload');
         var file = cmuploader.files[0];
+        const file_name_fields = file.name.split('.');
+        const extension = file_name_fields[file_name_fields.length - 1]
+        const supported_formats = ['mp4', 'webm', 'mkv', 'ogg']
+        if (supported_formats.includes(extension) == false){
+            window.alert("Please upload valid video file");
+            return;
+        }
+
         var subfolder = "{{ username }}"
         //var file = event.target.files[0];
         var storageRef = firebase.storage().ref('Projects/' + subfolder + '/' + file.name);
