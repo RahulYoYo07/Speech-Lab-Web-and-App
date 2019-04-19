@@ -1,5 +1,9 @@
 {% extends 'home/layout.html' %}
 
 {% block content %}
+    {% for para in data.paragraphs%}
+        <h3 class="text-center">{{para.title}}</h3>
+        <textarea readonly class="text-center form-control-plaintext">{{para.text}}</textarea>
+    {% endfor %}
 
 {% endblock %}

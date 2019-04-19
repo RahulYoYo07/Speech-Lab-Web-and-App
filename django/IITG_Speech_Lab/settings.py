@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'home',
     'discussion',
     'course',
-    'channels',
+    #'channels',
 ]
 
 MIDDLEWARE = [

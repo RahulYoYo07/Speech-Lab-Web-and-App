@@ -1,25 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1> {{project.Title}}</h1>
-    <h5> Abstract </h5>
-    <p>  {{project.Abstract}} </p>
-    <h5> Project Mentors </h5>
-    <ul>
-        {% for mentor in project.MentorList %}
-            <li> {{mentor}} </li>
-        {% endfor %}
-    </ul>
-    <h5> Students involved </h5>
-    <ul>
-        {% for contributor in project.ContributorsList %}
-            <li> {{contributor}} </li>
-        {% endfor %}
-    </ul>
+{% extends 'home/top_nav.html' %}
+{% block your_content %}
+<div class="container-fluid">
+  <br>
+  <div class="jumbotron" style="background-color:white">
+      <h1 class="display-4">{{Project.Title}}</h1>
+      <p class="lead">{{Project.AboutProject}}</p>
+      <hr class="my-4">
+      <p>Project made by {{CreatorName}}</p>
+      <a class="btn btn-dark" href="#people" role="button">People</a>
+      {% if Project.Media != '' %}
+      <a class="btn btn-dark" href="#media" role="button">Media</a>
+      {% endif %}
+    </div>
+  <hr class="featurette-divider">
+  <br>
+  <br>
+  <div class="content">
+    <div class="row" id="people">
+      <!-- <div class="col"></div> -->
 
-</body>
-</html>
+      <div class="col-lg-4">
+        <h2>Mentors</h2>
+        <textarea readonly class="form-control-plaintext" rows="4">{{Project.Mentor}}</textarea>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <h2>Contributors</h2>
+        <textarea readonly class="form-control-plaintext" rows="4">{{Project.People}}</textarea>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <h2>Achievements</h2>
+        <textarea readonly class="form-control-plaintext" rows="4">{{Project.Achievements}}</textarea>
+      </div><!-- /.col-lg-4 -->
+
+    </div>
+    <!-- <div class="col"></div> -->
+  </div><!-- /.row -->
+  <hr class="featurette-divider">
+  <br>
+  <br>
+  {% if Project.Media != '' %}
+  <div class="container-fluid" id="media">
+    <div class="col-lg-3"></div>
+    <div class="col">
+      <div class="embed-responsive embed-responsive-16by9">
+        <video controls class="embed-responsive-item" src="{{Project.Media}}" allowfullscreen></video>
+      </div>
+      <br>
+    </div>
+    <div class="col-lg-3"></div>
+  </div>
+{% endif %}
+
+
+</div>
+{% endblock %}

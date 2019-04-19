@@ -2,16 +2,13 @@
 
 
 {% block content %}
-    {% for project in project_list %}
+    {% for project in projects %}
         <div class="card">
 
           <div class="card-body">
             <h5 class="card-title">{{project.Title}}</h5>
-            <p class="card-text">Project Mentors:
-                {% for mentor in project.MentorName %}
-                    {{mentor}},
-                {% endfor%}
-            </p>
+            <p class="card-text"><b>About</b><br>{{project.AboutProject}}</p>
+            <p class="card-text"><b>Mentors</b><br>{{project.Mentor}}</p>
             <a href="{{project.id}}/"  target="_blank" class="btn btn-primary">View Project</a>
           </div>
         </div>
