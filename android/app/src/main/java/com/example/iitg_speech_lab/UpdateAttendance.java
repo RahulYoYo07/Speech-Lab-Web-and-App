@@ -80,7 +80,7 @@ public class UpdateAttendance extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         
                     }
-                })
+                });
 
     }
 
