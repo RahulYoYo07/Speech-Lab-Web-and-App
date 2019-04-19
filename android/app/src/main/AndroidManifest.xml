@@ -18,6 +18,7 @@
         <activity android:name=".Discussion_Room_Assignment_Groups" />
         <activity android:name=".Calendar" />
         <activity android:name=".Discussion_Room" />
+        <activity android:name=".EnrollCourse"></activity>
         <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".AfterLoginHomePage"
