@@ -12,11 +12,14 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +60,7 @@ public class Discussion_Room extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion__room);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         final Discussion_Room help=this;
         Intent intent = getIntent();
         final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -69,16 +73,27 @@ public class Discussion_Room extends AppCompatActivity {
 
 
 
-        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout);
+//        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout);
+//
+//        // create the layout params that will be used to define how your
+//        // button will be displayed
+//        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+//                ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
 
-        // create the layout params that will be used to define how your
-        // button will be displayed
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-
+        ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout);
+        ViewGroup.LayoutParams para=lm.getLayoutParams();
+//
         final LinearLayout ll = (LinearLayout) findViewById(R.id.lol);
-//        ll.setOrientation(LinearLayout.VERTICAL);
-
+////        ll.setOrientation(LinearLayout.VERTICAL);
+//
+        ScrollView sv=(ScrollView) findViewById(R.id.scrollView2);
+            ViewGroup.LayoutParams parall = sv.getLayoutParams();
+//
+//                System.out.println(parall.height);
+//                System.out.println(para.height);
+            parall.height = ((para.height) * 1) / 10;
+            parall.width = (para.width * 1) / 10;
+            sv.setLayoutParams(parall);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 //
@@ -117,10 +132,13 @@ public class Discussion_Room extends AppCompatActivity {
                                         temp.setText(Html.fromHtml(sourceString));
                                         temp.setTag(messageID);
                                         final Button btn= new Button(help);
+
                                         btn.setTag(messageID);
                                         btn.setText("Show Replies");
-                                        btn.setHeight(1);
-                                        btn.setWidth(1);
+//                                        btn.setHeight(10);
+//                                        btn.setWidth(10);
+//                                        btn.setLayoutParams(params);
+//                                        btn.set
                                         btn.setBackgroundColor(Color.parseColor("#00b2cc"));
                                         final EditText et = new EditText(help);
                                         et.setHint("Add Reply");
@@ -207,7 +225,7 @@ public class Discussion_Room extends AppCompatActivity {
                                                                     if(ReplyBody!=null && btn.getText()=="Hide Replies" && hash_Set.contains(dc.getDocument().getId())==false)
                                                                     {
                                                                         hash_Set.add(dc.getDocument().getId());
-                                                                        String replyString = "<p>" + dc.getDocument().getString("ReplyBody") + "</p>";
+                                                                        String replyString="<strong>"+dc.getDocument().getString("Author")+"</strong>:  <b><font color=#00cc37>"+dc.getDocument().getString("ReplyBody") + "</font></b><br>";
                                                                         temp.append(Html.fromHtml(replyString));
                                                                     }
 
@@ -222,6 +240,15 @@ public class Discussion_Room extends AppCompatActivity {
                                         ll.addView(btn);
                                         ll.addView(et);
                                         ll.addView(replybtn);
+                                        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) btn.getLayoutParams();
+                                        params1.width=300;
+                                        params1.height=100;
+                                        btn.setLayoutParams(params1);
+                                        LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
+                                        params3.width=300;
+                                        params3.height=100;
+                                        replybtn.setLayoutParams(params3);
+
                                     }
 
                                     if(isPoll!=null && isPoll==true) {
@@ -387,6 +414,10 @@ public class Discussion_Room extends AppCompatActivity {
                                         });
 
                                         ll.addView(replybtn);
+                                        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
+                                        params1.width=300;
+                                        params1.height=100;
+                                        replybtn.setLayoutParams(params1);
                                     }
 
                                     break;

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -51,6 +52,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion__room__assignment__groups);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         final Discussion_Room_Assignment_Groups help=this;
         Intent intent = getIntent();
         final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -201,7 +203,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                                                     if(ReplyBody!=null && btn.getText()=="Hide Replies" && hash_Set.contains(dc.getDocument().getId())==false)
                                                                     {
                                                                         hash_Set.add(dc.getDocument().getId());
-                                                                        String replyString = "<p>" + dc.getDocument().getString("ReplyBody") + "</p>";
+                                                                        String replyString="<strong>"+dc.getDocument().getString("Author")+"</strong>:  <b><font color=#00cc37>"+dc.getDocument().getString("ReplyBody") + "</font></b><br>";
                                                                         temp.append(Html.fromHtml(replyString));
                                                                     }
 
@@ -216,6 +218,14 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                         ll.addView(btn);
                                         ll.addView(et);
                                         ll.addView(replybtn);
+                                        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) btn.getLayoutParams();
+                                        params1.width=300;
+                                        params1.height=100;
+                                        btn.setLayoutParams(params1);
+                                        LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
+                                        params3.width=300;
+                                        params3.height=100;
+                                        replybtn.setLayoutParams(params3);
                                     }
 
                                     if(isPoll!=null && isPoll==true) {
@@ -381,6 +391,10 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                         });
 
                                         ll.addView(replybtn);
+                                        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
+                                        params1.width=300;
+                                        params1.height=100;
+                                        replybtn.setLayoutParams(params1);
                                     }
 
                                     break;
