@@ -160,7 +160,6 @@ public class EditProfile extends AppCompatActivity {
                         }
                     }
                 });
-        uploadFile();
     }
 
 
@@ -181,6 +180,9 @@ public class EditProfile extends AppCompatActivity {
 //            Button buttonChoose = findViewById(R.id.btnUpload);
             filePath = data.getData();
 //            buttonChoose.setText(filePath.toString());
+            CircleImageView img = (CircleImageView) findViewById(R.id.EditProfileprofile);
+            Picasso.get().load(filePath).into(img);
+            uploadFile();
 
         }
     }
@@ -235,8 +237,6 @@ public class EditProfile extends AppCompatActivity {
                         public void onSuccess(Uri downloadUrl)
                         {
                             durl=downloadUrl.toString();
-                            CircleImageView img = (CircleImageView) findViewById(R.id.EditProfileprofile);
-                            Picasso.get().load(filePath).into(img);
                         }
                     });
                 }
