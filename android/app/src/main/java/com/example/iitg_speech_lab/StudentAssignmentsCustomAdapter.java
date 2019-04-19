@@ -1,22 +1,19 @@
 package com.example.iitg_speech_lab;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.iitg_speech_lab.Model.GroupsDataModel;
+import com.example.iitg_speech_lab.Model.AssignmentsDataModel;
 
 import java.util.ArrayList;
 
-public class GroupsCustomAdapter extends RecyclerView.Adapter<GroupsCustomAdapter.MyViewHolder>  {
-    private ArrayList<GroupsDataModel> dataSet;
+public class StudentAssignmentsCustomAdapter extends RecyclerView.Adapter<StudentAssignmentsCustomAdapter.MyViewHolder>  {
+    private ArrayList<AssignmentsDataModel> dataSet;
+
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewCourseID;
@@ -29,31 +26,30 @@ public class GroupsCustomAdapter extends RecyclerView.Adapter<GroupsCustomAdapte
         }
     }
 
-
-
-    GroupsCustomAdapter(ArrayList<GroupsDataModel> data) {
+    StudentAssignmentsCustomAdapter(ArrayList<AssignmentsDataModel> data) {
         this.dataSet = data;
     }
 
     @NonNull
-    public GroupsCustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                               int viewType) {
+    public StudentAssignmentsCustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                           int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cards_layout, parent, false);
 
-        view.setOnClickListener(FragmentGroups.myOnClickListener);
+        view.setOnClickListener(StudentViewCourse.StudentAssignmentFragment.myOnClickListener);
 
-        return new GroupsCustomAdapter.MyViewHolder(view);
+        return new StudentAssignmentsCustomAdapter.MyViewHolder(view);
     }
 
-    public void onBindViewHolder(final GroupsCustomAdapter.MyViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(final StudentAssignmentsCustomAdapter.MyViewHolder holder, final int listPosition) {
 
         TextView textViewCourseID = holder.textViewCourseID;
         TextView textViewCourseName = holder.textViewCourseName;
-        textViewCourseID.setText(dataSet.get(listPosition).getGID());
-        textViewCourseName.setText(dataSet.get(listPosition).getExtra());
-        holder.itemView.setTag(dataSet.get(listPosition).getGID());
 
+        textViewCourseID.setText(dataSet.get(listPosition).getName());
+        textViewCourseName.setText(dataSet.get(listPosition).getInfo());
+
+        holder.itemView.setTag(dataSet.get(listPosition).getInfo());
     }
 
     public int getItemCount() {

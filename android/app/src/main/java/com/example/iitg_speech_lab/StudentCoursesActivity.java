@@ -38,9 +38,11 @@ public class StudentCoursesActivity extends AppCompatActivity {
     public Task task2;
     public Task task22;
 
+    public static String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String username = "gulat170123030";
+        username = "gulat170123030";
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
@@ -146,9 +148,9 @@ public class StudentCoursesActivity extends AppCompatActivity {
                 cinfo = (String) viewHolder.itemView.getTag();
             }
 
-//            Intent intent = new Intent(StudentCoursesActivity.this, ViewCourse.class);
-//            intent.putExtra("courseInfo",cinfo);
-//            startActivity(intent);
+            Intent intent = new Intent(StudentCoursesActivity.this, StudentViewCourse.class);
+            intent.putExtra("courseInfo",cinfo);
+            startActivity(intent);
         }
     }
 
