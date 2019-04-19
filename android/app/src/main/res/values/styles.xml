@@ -25,7 +25,7 @@
     <style name="Title">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">26dp</item>
-        <item name="android:gravity"> center</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="ContactUsDetail">
