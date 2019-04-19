@@ -20,15 +20,15 @@
         <br>
         <div class="card bg-warning">
           <div class="card-header"> <h4>Add a new message</h4> </div>
-          <input class="card-body" id="chat-head-input" type="text" size="100"/><br/>
-          <input class="card-body" id="chat-message-input" type="text" size="100"/><br/>
+          <input class="form-control" placeholder="Message Head" id="chat-head-input" type="text" size="100"/>
+          <input class="form-control" placeholder="Message Body" id="chat-message-input" type="text" size="100"/>
           <input class="btn btn-success" id="chat-message-submit" type="button" value="Add message"/>
         </div>
         <br>
         <div class="card bg-success">
           <div class="card-header"><h4> Add a new poll</h4> </div>
-          <input id="poll-question-input" type="text" size="100"/><br/>
-          <div class="card-body" id = "DynamicPollOption" > </div>
+          <input class="form-control" id="poll-question-input" placeholder="Poll Question" type="text" size="100"/>
+          <div id = "DynamicPollOption" > </div>
           <input class="btn btn-secondary" id="poll-option-add" type="button" value="Add Poll Option"/>
           <input class="btn btn-secondary" id="poll-option-del" type="button" value="Delete Last Option"/>
           <input class="btn btn-primary" id="poll-submit" type="button" value="Add Poll"/>
@@ -111,17 +111,19 @@
 
                     MessageDiv.id = MessageID;
                     MessageBox.setAttribute("style","display: inline");
-                    MessageBox.innerHTML ='<b>'+Author+'</b>'+'</br>'+ messageHead + ': ' + message;
+                    MessageBox.innerHTML ='<h4>'+ messageHead + '</h4><h5>' + message +  '</h5>';
+                    MessageBox.innerHTML += '<div align="right"> <b>'+Author+'</b> </div>';
 
                     ReplyInput.type = 'text';
                     ReplyInput.id = MessageID+'_input';
+                    ReplyInput.placeholder = 'Your Reply';
                     ReplyButton.type = 'button';
                     ReplyButton.setAttribute("style", "margin-left: 2em");
                     ReplyButton.value = 'Reply';
                     ReplyButton.onclick = function(){
                         // alert(MessageID);
                         var Rep = document.getElementById(MessageID+'_input').value;
-                        if (Rep == ""){
+                        if (Rep.trim() == ""){
                             alert('Cannot send empty reply');
                             return;
                         }
@@ -186,7 +188,7 @@
                         var msg='';
                         var i=0
                         for(i=0;i<data['Replies'].length;i++){
-                            msg=msg+'<br />'+data['Replies'][i]['Author']+':'+data['Replies'][i]['ReplyBody'];
+                            msg=msg+'<br /> <b>'+ data['Replies'][i]['Author']+'</b>: '+data['Replies'][i]['ReplyBody'];
                         }
                         ShowReplyBox.innerHTML=msg;
                         if(data['Replies'].length>0){
@@ -262,7 +264,7 @@
                             return;
                         }
                         var SelOpt = document.getElementById(MessageID).elements[MessageID].value;
-                        if (SelOpt == ""){
+                        if (SelOpt.trim() == ""){
                             alert('No option selected');
                             return;
                         }
@@ -400,8 +402,8 @@
                 var messageInputDom = document.querySelector('#chat-message-input');
                 var messageHead = messageHeadDom.value;
                 var message = messageInputDom.value;
-                if (message == "" || messageHead == ""){
-                    alert("Empty message field or body!");
+                if (message.trim() == "" || messageHead.trim() == ""){
+                    alert("Empty message head or body!");
                     return;
                 }
                 chatSocket.send(JSON.stringify({
@@ -426,18 +428,22 @@
         document.querySelector('#poll-option-add').onclick = function(e) {
             cntPoll += 1;
             var PollOption = document.createElement('div');
-            var PollOptionNum = document.createElement('p');
+            // var PollOptionNum = document.createElement('p');
             var PollOptionInput = document.createElement('input');
 
-            PollOptionNum.setAttribute("style", "display: inline");
-            PollOptionNum.innerHTML = 'Option ' + cntPoll.toString() + ':  ';
+            // PollOptionNum.setAttribute("style", "display: inline");
+            // PollOptionNum.innerHTML = 'Option ' + cntPoll.toString() + ':  ';
 
             PollOptionInput.id = 'poll-option-input' + cntPoll.toString();
+            PollOptionInput.placeholder = "Option " + cntPoll;
+            PollOptionInput.classList.add("form-control")
+            // PollOptionInput.GotFocus();
 
             PollOption.id = 'poll-option' + cntPoll.toString();
-            PollOption.appendChild(PollOptionNum);
+
+            // PollOption.appendChild(PollOptionNum);
             PollOption.appendChild(PollOptionInput);
-            PollOption.appendChild(document.createElement('br'));
+            // PollOption.appendChild(document.createElement('br'));
             document.getElementById('DynamicPollOption').appendChild(PollOption);
         }
 
@@ -458,7 +464,7 @@
             }
             var pollQuesDom = document.querySelector('#poll-question-input');
             var pollQues = pollQuesDom.value;
-            if (pollQues == ""){
+            if (pollQues.trim() == ""){
                 alert("Poll Question cannot be empty!");
                 return;
             }
@@ -474,7 +480,7 @@
             }
             var i;
             for (i=1; i<=cntPoll; i+=1){
-                if (document.getElementById('poll-option-input' + i.toString()).value == ""){
+                if (document.getElementById('poll-option-input' + i.toString()).value.trim() == ""){
                     alert("Poll option cannot be empty");
                     return;
                 }
