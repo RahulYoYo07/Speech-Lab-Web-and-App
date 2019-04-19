@@ -46,7 +46,7 @@
         <!-- <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn-success">Add Grade</button></a> -->
         <!-- {% endif %} -->
       </div>
-        <div class="card-footer"><a href="#" class="card-link">Discussion Group Link</a></div>
+        <div class="card-footer"><a href="{% url 'discussion:group' cinfo aid group.GroupID %}" class="card-link">Group Chat</a></div>
       </div>
     </div>
 
