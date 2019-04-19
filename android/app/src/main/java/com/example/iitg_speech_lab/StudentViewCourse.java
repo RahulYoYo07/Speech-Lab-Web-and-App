@@ -209,11 +209,11 @@ public class StudentViewCourse extends AppCompatActivity {
                 String ainfo = (String) viewHolder.itemView.getTag();
                 Log.d("aman",ainfo);
 
-//                Intent intent = new Intent(getActivity(), ViewAssignment.class);
-//
-//                intent.putExtra("courseInfo",ViewStudentCourse.courseInfo);
-//                intent.putExtra("assignID",ainfo);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), ViewMyGroup.class);
+
+                intent.putExtra("courseInfo",StudentViewCourse.courseInfo);
+                intent.putExtra("assignID",ainfo);
+                startActivity(intent);
             }
         }
 
@@ -322,9 +322,7 @@ public class StudentViewCourse extends AppCompatActivity {
 
                 Log.d("cm",cminfo);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cminfo)));
-//            Intent intent = new Intent(AssignmentsActivity.this, ViewCourse.class);
-//            intent.putExtra("courseInfo",cinfo);
-//            startActivity(intent);
+
             }
         }
     }

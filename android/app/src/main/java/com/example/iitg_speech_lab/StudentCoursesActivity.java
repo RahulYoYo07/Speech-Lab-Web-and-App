@@ -38,9 +38,11 @@ public class StudentCoursesActivity extends AppCompatActivity {
     public Task task2;
     public Task task22;
 
+    public static String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String username = "gulat170123030";
+        username = "gulat170123030";
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
