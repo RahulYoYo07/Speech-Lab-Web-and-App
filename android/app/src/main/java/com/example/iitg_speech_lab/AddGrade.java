@@ -175,7 +175,8 @@ public class AddGrade extends AppCompatActivity {
                                                                 DocumentReference assignsRef = db2.collection("Courses").document(CourseInfo).collection("Assignments").document(AssignmentID).collection("Groups").document(GroupID);
                                                                 Map<String,Object> mpdg = new HashMap<>();
                                                                 mpdg.put("StudentList",push);
-                                                                assignsRef.update(mpdg);
+                                                                System.out.print(mpdg);
+//                                                                assignsRef.update(mpdg);
                                                                 mpdg.clear();
                                                                 push.clear();
                                                             }
