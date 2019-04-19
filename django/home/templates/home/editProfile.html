@@ -1,0 +1,127 @@
+{% extends 'home/user.html' %}
+{% block content %}
+<div class="container-fluid">
+<form action="edit/" method="post">
+  <div class="form-group">
+    <label><b>Full Name</b></label>
+    <input type="text" value="{{user.FullName}}" name="about_me" class="form-control" readonly>
+  </div>
+  <div class="form-group">
+      <label><b>Username</b></label>
+      <input type="text" value="{{user.id}}" name="userID" class="form-control" readonly>
+  </div>
+  <div class="form-group">
+      <label><b>Department</b></label>
+      <input type="text" value="{{user.Department}}" name="dept" class="form-control" readonly>
+  </div>
+  {% if isStudent == 1%}
+  <div class="form-group">
+      <label><b>Programme</b></label>
+      <input type="text" value="{{user.Program}}" name="program" class="form-control" readonly>
+  </div>
+  <div class="form-group">
+      <label><b>Roll Number</b></label>
+      <input type="text" value="{{user.RollNumber}}" name="rollno" class="form-control" readonly>
+  </div>
+  {% endif %}
+  {% if isStudent == 0%}
+  <div class="form-group">
+      <label><b>Designation</b></label>
+      <input type="text" value="{{user.CollegeDesignation}}" name="desgn" class="form-control" readonly>
+  </div>
+  {% endif %}
+  <div class="form-group">
+    <label><b>About Me</b></label>
+    <input type="text" value="{{user.About}}" name="about_me" class="form-control">
+  </div>
+  <div class="form-group"></div>
+    <label><b>Contact</b></label>
+    <input type="text" value="{{user.Contact}}" name="contact" class="form-control">
+  </div>
+  <div class="form-group">
+    <label><b>Home Page</b></label>
+    <input type="text" value="{{user.URL.Homepage}}" name="homepage" class="form-control">
+  </div>
+  <div class="form-group">
+    <label><b>Github</b></label>
+    <input type="text" value="{{user.URL.Github}}" name="github" class="form-control">
+  </div>
+  <div class="form-group">
+    <label><b>LinkedIn</b></label>
+    <input type="text" value="{{user.URL.Linkedin}}" name="linkedin" class="form-control">
+  </div>
+    <label>Profile Picture</label>
+    <input type="file" value="cmuploader" id="cmuploader" class="form-control-file accept="image/*"> 
+  <input type="hidden" name="cmurl" id="cmurl">
+  <input type="hidden" name="filename" id="filename">
+  <progress value="0" max="100" id="progrescmupload">0%</progress>
+  <br>
+  <div class="form-group">
+      <button type="button" onclick="uploadcm()">Upload</button>
+  </div>
+    {% csrf_token %}
+    <button type="submit">Save Profile</button>
+  
+</form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCInoPg95lxzWl9Vt9GOwG4Wsx-qzVopV4",
+    authDomain: "iitg-speech-lab.firebaseapp.com",
+    databaseURL: "https://iitg-speech-lab.firebaseio.com",
+    projectId: "iitg-speech-lab",
+    storageBucket: "iitg-speech-lab.appspot.com",
+    messagingSenderId: "257927035950"
+  };
+  firebase.initializeApp(config);
+
+
+
+  //Listener
+  // var form = document.querySelector('form');
+  // form.addEventListener('submit', function(event) {
+  // event.preventDefault();
+  function uploadcm() {
+    var cmuploader = document.getElementById('cmuploader');
+    var progrescmupload = document.getElementById('progrescmupload');
+    var file = cmuploader.files[0];
+    var subfolder = "{{ username }}"
+    //var file = event.target.files[0];
+    var storageRef = firebase.storage().ref('ProfileImages/' + subfolder + '/' + file.name);
+    var task = storageRef.put(file);
+
+    task.on('state_changed',
+      function progress(snapshot) {
+        var perc = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progrescmupload.value = perc;
+      },
+
+      function error(err) {
+
+      },
+
+      function complete() {
+        task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          console.log('File available at', downloadURL);
+          document.getElementById('cmurl').value = downloadURL;
+          document.getElementById('filename').value = file.name;
+          document.getElementById("cmform").submit();
+
+
+          alert(file.name + " Upload Success!");
+
+
+        });
+
+      }
+    );
+  }
+
+
+</script>
+{% endblock %}

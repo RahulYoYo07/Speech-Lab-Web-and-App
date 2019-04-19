@@ -14,6 +14,6 @@
   <h2><br> {{ GroupDetails.ProjectTitle }} </h2>
   <br>
   <p> {{ GroupDetails.ProblemStatement }} </p>
-  <p>Team members: {% for member in GroupDetails.StudentList %} <br>{{ member.StudentID }} {% endfor %}<br></p>
+  <p>Team members: {% for student in StudentDetails %} <br>  Name: {{ student.FullName }} &emsp; Roll No: {{ student.RollNumber }} {% endfor %}<br></p>
 
 {% endblock %}

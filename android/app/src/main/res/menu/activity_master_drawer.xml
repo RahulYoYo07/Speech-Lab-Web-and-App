@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/AboutUs"
+            android:icon="@drawable/ic_aboutus"
+            android:title="About Us" />
+        <item
+            android:id="@+id/People"
+            android:icon="@drawable/ic_people"
+            android:title="People" />
+        <item
+            android:id="@+id/Projects"
+            android:icon="@drawable/ic_project"
+            android:title="Projects" />
+
+        <item
+            android:id = "@+id/NoticeBoard"
+            android:title="Notice Board"
+            android:icon = "@drawable/ic_notice"/>
+        <item
+            android:id="@+id/FAQ"
+            android:icon="@drawable/ic_faq"
+            android:title="FAQ's" />
+        <item
+            android:id="@+id/ContactUs"
+            android:icon="@drawable/ic_contact"
+            android:title="ContactUs" />
+    </group>
+    <item android:title=" ">
+        <menu>
+            <item
+                android:id="@+id/Login"
+                android:icon="@drawable/ic_login"
+                android:title="Login" />
+        </menu>
+
+
+    </item>
+
+</menu>
