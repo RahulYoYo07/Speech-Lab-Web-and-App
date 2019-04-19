@@ -279,7 +279,7 @@ public class Master<sampleApp> extends AppCompatActivity
     private void updateSuccessUI(JSONObject graphResponse) {
         Intent intent = new Intent(Master.this, AfterLoginHomePage.class);
         intent.putExtra("username", graphResponse.optString("mail").replace("@iitg.ac.in", ""));
-        intent.putExtra("JsonString", graphResponse.toString().toString());
+        intent.putExtra("JsonString", graphResponse.toString());
         startActivity(intent);
     }
 

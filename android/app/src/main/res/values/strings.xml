@@ -2,11 +2,9 @@
     <string name="app_name">IITG_Speech_Lab</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
-<<<<<<< HEAD
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-=======
     <string name="title_activity_view_course">ViewCourse</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -31,7 +29,5 @@
     <string name="title_activity_view_assignment">ViewAssignment</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_view_student_course">ViewStudentCourse</string>
->>>>>>> dd0559410448aa086568b0d256b3b4d5eb84d857
 </resources>

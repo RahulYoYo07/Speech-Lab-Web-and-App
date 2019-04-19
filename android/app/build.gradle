@@ -46,7 +46,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.google.firebase:firebase-storage:16.1.0'
     implementation 'com.google.firebase:firebase-firestore:18.2.0'
-<<<<<<< HEAD
     implementation 'com.google.api-client:google-api-client:1.28.0'
     implementation 'com.google.android.gms:play-services-base:16.1.0'
     implementation 'com.google.apis:google-api-services-calendar:v3-rev20190331-1.28.0'
@@ -54,7 +53,6 @@ dependencies {
     implementation 'com.google.api-client:google-api-client-gson:1.28.0'
     implementation 'com.google.oauth-client:google-oauth-client-java6:1.28.0'
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.28.0'
-=======
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
@@ -63,7 +61,6 @@ dependencies {
     })
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.microsoft.identity.client:msal:0.2.2'
->>>>>>> dd0559410448aa086568b0d256b3b4d5eb84d857
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin

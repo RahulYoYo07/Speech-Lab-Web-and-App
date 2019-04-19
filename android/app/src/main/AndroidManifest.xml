@@ -11,17 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Calendar"></activity>
+        <activity android:name=".Discussion_Room_Assignment_Groups"></activity>
+        <activity android:name=".Calendar" />
         <activity android:name=".Discussion_Room" />
         <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".AfterLoginHomePage"
             android:label="@string/title_activity_after_login_home_page"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProfileProjectDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".VIewGroupDetails"></activity>
+        <activity android:name=".VIewGroupDetails" />
         <activity
             android:name=".ViewStudentCourse"
             android:label="@string/title_activity_view_student_course"
@@ -43,7 +44,6 @@
             android:name=".ViewCourse"
             android:label="@string/title_activity_view_course"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".AdminDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -70,13 +70,7 @@
             android:parentActivityName=".ProjectsActivity" />
         <activity
             android:name=".Master"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".ViewPeople" />
         <activity
             android:name=".ProjectsActivity"
@@ -91,7 +85,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

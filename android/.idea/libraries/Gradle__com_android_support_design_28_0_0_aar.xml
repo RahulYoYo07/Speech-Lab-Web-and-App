@@ -1,27 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support:design:28.0.0@aar">
     <ANNOTATIONS>
-<<<<<<< HEAD
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/e93dd83ab10396b7402d9cf86f8f3d98/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/c9814cccccb6a742b5a80e1fec60c229/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/e93dd83ab10396b7402d9cf86f8f3d98/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/e93dd83ab10396b7402d9cf86f8f3d98/jars/classes.jar!/" />
-=======
-<<<<<<< Updated upstream
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8a84c5720ae2687406fe92b7619f03c3/annotations.zip!/" />
-    </ANNOTATIONS>
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8a84c5720ae2687406fe92b7619f03c3/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/8a84c5720ae2687406fe92b7619f03c3/res" />
-=======
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/e86a8c35c3469df1ba93eea2eb9914a4/annotations.zip!/" />
-    </ANNOTATIONS>
-    <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/e86a8c35c3469df1ba93eea2eb9914a4/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/e86a8c35c3469df1ba93eea2eb9914a4/jars/classes.jar!/" />
->>>>>>> Stashed changes
->>>>>>> 6e46096b343dbb445646996565a96e68ae2493a5
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/c9814cccccb6a742b5a80e1fec60c229/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/c9814cccccb6a742b5a80e1fec60c229/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
