@@ -77,6 +77,7 @@ def addProject(request, uinfo):
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
+    context["Designation"] = user_dict['Designation']
 
     return render(request, 'home/addproject.html', context)
 
@@ -367,6 +368,7 @@ def editProfile(request, uinfo):
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
+    context['Designation'] = user_dict['Designation']
     return render(request, 'home/editProfile.html', context)
 
 def editContact(request, uinfo):
@@ -384,6 +386,8 @@ def editContact(request, uinfo):
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
+    context["Designation"] = user_dict['Designation']
+
 
     if context['isAdmin'] == "False":
         return HttpResponse('Sorry, you do not have authorization rights')
@@ -427,6 +431,7 @@ def editHome(request, uinfo):
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
+    context["Designation"] = user_dict['Designation']
 
 
     if context['isAdmin'] == "False":
@@ -483,7 +488,7 @@ def editFaq(request, uinfo):
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
-
+    context["Designation"] = user_dict['Designation']
 
     if context['isAdmin'] == "False":
         return HttpResponse('Sorry, you do not have authorization rights')
@@ -569,6 +574,12 @@ def addNotice(request, uinfo):
     if context['username'] != uinfo:
         return HttpResponse("You are not authorized")
     
+    user_dict = db.collection(u'Users').document(uinfo).get().to_dict()
+    if 'isAdmin' in user_dict:
+        context['isAdmin'] = "True"
+    else:
+        context['isAdmin'] = "False"
+    context['Designation'] = user_dict['Designation']
     return render(request, 'home/addnotice.html', context)
 
 def saveNotice(request,uinfo):
