@@ -98,131 +98,150 @@ public class AddGrade extends AppCompatActivity {
     }
     public static ArrayList<Map<Object,Object>> push = new ArrayList<Map<Object,Object>>();
     public static ArrayList<Map<Object,Object>> data = new ArrayList<Map<Object,Object>>();
-    public void Add_Grade_Group(final View view){
-        final String CourseInfo = getIntent().getStringExtra("courseInfo");
-        final String AssignmentID = getIntent().getStringExtra("assignmentID");
-        final String GroupID = getIntent().getStringExtra("groupID");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference assignsRefer = db.collection("Courses").document(CourseInfo).collection("Assignments").document(AssignmentID).collection("Groups").document(GroupID);
-        assignsRefer.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot course = task.getResult();
-                            ArrayList<Map<Object,Object>> mps = new ArrayList<Map<Object,Object>>();
-                            mps = (ArrayList<Map<Object,Object>>) course.get("StudentList");
-//                            final int counter= 0;
-                            System.out.println("khf ie gfiegfuiegfuigewufgewugffiuegfyuewgfigewfuiewuifgewuifgewugfgfigewifgewiufgewui");
-                            cnt=0;
-                            cnt2=0;
-                            final int lengthy = mps.size();
-                            for (Map<Object,Object>mp : mps) {
-                                final Long Gradey = (Long) mp.get("Grade");
+    public void Add_Grade_Group(final View view) {
+        int validate = 0;
+        int check  = 0;
+        for (int i=0;i<TextBoxes.size();i++) {
+            if(TextBoxes.get(i).getText().toString().matches("[0-9]+")) {
+                int papa;
+                papa = 0;
+            }
+            else {
+                check = 1;
+            }
+        }
+        if (check == 1) {
+            validate = 1;
+        }
+        if (validate == 0) {
+            final String CourseInfo = getIntent().getStringExtra("courseInfo");
+            final String AssignmentID = getIntent().getStringExtra("assignmentID");
+            final String GroupID = getIntent().getStringExtra("groupID");
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference assignsRefer = db.collection("Courses").document(CourseInfo).collection("Assignments").document(AssignmentID).collection("Groups").document(GroupID);
+            assignsRefer.get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot course = task.getResult();
+                                ArrayList<Map<Object, Object>> mps = new ArrayList<Map<Object, Object>>();
+                                mps = (ArrayList<Map<Object, Object>>) course.get("StudentList");
+    //                            final int counter= 0;
+                                System.out.println("khf ie gfiegfuiegfuigewufgewugffiuegfyuewgfigewfuiewuifgewuifgewugfgfigewifgewiufgewui");
+                                cnt = 0;
+                                cnt2 = 0;
+                                final int lengthy = mps.size();
+                                for (Map<Object, Object> mp : mps) {
+                                    final Long Gradey = (Long) mp.get("Grade");
 
-                                final DocumentReference usr = (DocumentReference) mp.get("StudentID");
-                                usr.get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task2) {
-                                                if (task2.isSuccessful()) {
-                                                    cnt++;
-                                                    //System.out.println("sasA");
-                                                    DocumentSnapshot user = task2.getResult();
-                                                    String UserName = (String) user.get("Username");
-                                                    for (int i=0;i<TextBoxes.size();i++) {
-                                                        if (TextBoxes.get(i).getTag().toString().equals(UserName)) {
-                                                            final String num = TextBoxes.get(i).getText().toString();
-                                                            final Map<Object,Object> mp = new HashMap<>();
-                                                            mp.put("Grade",Long.parseLong(num));
-                                                            mp.put("StudentID",usr);
-                                                            push.add(mp);
-                                                            //System.out.println("sasA");
-                                                            FirebaseFirestore dc = FirebaseFirestore.getInstance();
-                                                            DocumentReference assn = dc.collection("Courses").document(CourseInfo);
-                                                            //System.out.println("sasA");
-                                                            assn.get()
-                                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                            //System.out.println("sasA");
-                                                                            if (task.isSuccessful()){
+                                    final DocumentReference usr = (DocumentReference) mp.get("StudentID");
+                                    usr.get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task2) {
+                                                    if (task2.isSuccessful()) {
+                                                        cnt++;
+                                                        //System.out.println("sasA");
+                                                        DocumentSnapshot user = task2.getResult();
+                                                        String UserName = (String) user.get("Username");
+                                                        for (int i = 0; i < TextBoxes.size(); i++) {
+                                                            if (TextBoxes.get(i).getTag().toString().equals(UserName)) {
+                                                                final String num = TextBoxes.get(i).getText().toString();
+                                                                final Map<Object, Object> mp = new HashMap<>();
+                                                                mp.put("Grade", Long.parseLong(num));
+                                                                mp.put("StudentID", usr);
+                                                                push.add(mp);
+                                                                //System.out.println("sasA");
+                                                                FirebaseFirestore dc = FirebaseFirestore.getInstance();
+                                                                DocumentReference assn = dc.collection("Courses").document(CourseInfo);
+                                                                //System.out.println("sasA");
+                                                                assn.get()
+                                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                                                 //System.out.println("sasA");
-                                                                                DocumentSnapshot xd = task.getResult();
-                                                                                ArrayList<Map<Object, Object>> mpd = new ArrayList<Map<Object, Object>>();
-                                                                                mpd = (ArrayList<Map<Object, Object>>) xd.get("StudentList");
-                                                                                //System.out.println("sasA");
-                                                                                final int lengthy2 = mpd.size();
-                                                                                System.out.print(lengthy2);
-                                                                                System.out.println("sasA");
+                                                                                if (task.isSuccessful()) {
+                                                                                    //System.out.println("sasA");
+                                                                                    DocumentSnapshot xd = task.getResult();
+                                                                                    ArrayList<Map<Object, Object>> mpd = new ArrayList<Map<Object, Object>>();
+                                                                                    mpd = (ArrayList<Map<Object, Object>>) xd.get("StudentList");
+                                                                                    //System.out.println("sasA");
+                                                                                    final int lengthy2 = mpd.size();
+                                                                                    System.out.print(lengthy2);
+                                                                                    System.out.println("sasA");
 
 
-                                                                                for (Map<Object, Object> mp : mpd) {
-                                                                                    cnt2++;
-                                                                                    Long TotGrade = (Long) mp.get("Grade");
-                                                                                    DocumentReference usermain = (DocumentReference) mp.get("StudentID");
-                                                                                    Map<Object,Object> mppo = new HashMap<>();
+                                                                                    for (Map<Object, Object> mp : mpd) {
+                                                                                        cnt2++;
+                                                                                        Long TotGrade = (Long) mp.get("Grade");
+                                                                                        DocumentReference usermain = (DocumentReference) mp.get("StudentID");
+                                                                                        Map<Object, Object> mppo = new HashMap<>();
 
-                                                                                    if (usermain.equals(usr)) {
-                                                                                        TotGrade = TotGrade + Long.parseLong(num) - Gradey;
-                                                                                        mppo.put("StudentID", usr);
-                                                                                        mppo.put("Grade",TotGrade);
-                                                                                        data.add(mppo);
-                                                                                    }
-                                                                                    if(cnt2==lengthy*lengthy2){
-                                                                                        FirebaseFirestore db3 = FirebaseFirestore.getInstance();
-                                                                                        DocumentReference assignsRef = db3.collection("Courses").document(CourseInfo);
-                                                                                        for (Map<Object,Object> mpx : mpd){
-                                                                                            int x = 0;
-                                                                                            for (int i=0;i<data.size();i++) {
+                                                                                        if (usermain.equals(usr)) {
+                                                                                            TotGrade = TotGrade + Long.parseLong(num) - Gradey;
+                                                                                            mppo.put("StudentID", usr);
+                                                                                            mppo.put("Grade", TotGrade);
+                                                                                            data.add(mppo);
+                                                                                        }
+                                                                                        if (cnt2 == lengthy * lengthy2) {
+                                                                                            FirebaseFirestore db3 = FirebaseFirestore.getInstance();
+                                                                                            DocumentReference assignsRef = db3.collection("Courses").document(CourseInfo);
+                                                                                            for (Map<Object, Object> mpx : mpd) {
+                                                                                                int x = 0;
+                                                                                                for (int i = 0; i < data.size(); i++) {
 
-                                                                                                if(data.get(i).get("StudentID").equals(mpx.get("StudentID"))){
-                                                                                                    x = 1;
+                                                                                                    if (data.get(i).get("StudentID").equals(mpx.get("StudentID"))) {
+                                                                                                        x = 1;
+                                                                                                    }
+                                                                                                }
+                                                                                                if (x == 0) {
+                                                                                                    System.out.print(mpx);
+                                                                                                    System.out.println("sdgew gfiegfui gfigggrffgifigrfgrugf egiewg");
+                                                                                                    data.add(mpx);
                                                                                                 }
                                                                                             }
-                                                                                            if(x == 0){
-                                                                                                System.out.print(mpx);
-                                                                                                System.out.println("sdgew gfiegfui gfigggrffgifigrfgrugf egiewg");
-                                                                                                data.add(mpx);
-                                                                                            }
+                                                                                            Map<String, Object> mpdggg = new HashMap<>();
+                                                                                            mpdggg.put("StudentList", data);
+                                                                                            System.out.print(mpdggg);
+                                                                                            System.out.println("cbbravishankar ravi shankar j d gdgdheududf");
+                                                                                            assignsRef.update(mpdggg);
+                                                                                            data.clear();
+                                                                                            mpdggg.clear();
                                                                                         }
-                                                                                        Map<String,Object> mpdggg = new HashMap<>();
-                                                                                        mpdggg.put("StudentList",data);
-                                                                                        System.out.print(mpdggg);
-                                                                                        System.out.println("cbbravishankar ravi shankar j d gdgdheududf");
-                                                                                        assignsRef.update(mpdggg);
-                                                                                        data.clear();
-                                                                                        mpdggg.clear();
                                                                                     }
                                                                                 }
                                                                             }
-                                                                        }
-                                                                    });
-                                                            if(cnt==lengthy){
-                                                                FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-                                                                DocumentReference assignsRef = db2.collection("Courses").document(CourseInfo).collection("Assignments").document(AssignmentID).collection("Groups").document(GroupID);
-                                                                Map<String,Object> mpdg = new HashMap<>();
-                                                                mpdg.put("StudentList",push);
-                                                                System.out.print(mpdg);
-                                                                System.out.println("cfgfgfggaergegrgbb j d gdgdheududf");
-                                                                assignsRef.update(mpdg);
-                                                                mpdg.clear();
-                                                                push.clear();
+                                                                        });
+                                                                if (cnt == lengthy) {
+                                                                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                                                                    DocumentReference assignsRef = db2.collection("Courses").document(CourseInfo).collection("Assignments").document(AssignmentID).collection("Groups").document(GroupID);
+                                                                    Map<String, Object> mpdg = new HashMap<>();
+                                                                    mpdg.put("StudentList", push);
+                                                                    System.out.print(mpdg);
+                                                                    System.out.println("cfgfgfggaergegrgbb j d gdgdheududf");
+                                                                    assignsRef.update(mpdg);
+                                                                    mpdg.clear();
+                                                                    push.clear();
+                                                                }
                                                             }
                                                         }
+
                                                     }
-
                                                 }
-                                            }
-                                        });
+                                            });
 
 
+                                }
+    //
+    //
                             }
-//
-//
                         }
-                    }
-                });
-        Toast.makeText(AddGrade.this,"Grades Updated",Toast.LENGTH_LONG).show();
+                    });
+            Toast.makeText(AddGrade.this, "Grades Updated", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(AddGrade.this, "Grades Should Be Numbers", Toast.LENGTH_SHORT).show();
+        }
     }
 }

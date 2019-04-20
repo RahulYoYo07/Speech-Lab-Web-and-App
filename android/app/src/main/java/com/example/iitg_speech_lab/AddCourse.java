@@ -18,6 +18,8 @@ import com.google.firestore.v1.WriteResult;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.*;
+
 
 public class AddCourse extends AppCompatActivity {
     EditText CourseID;
@@ -54,12 +56,16 @@ public class AddCourse extends AppCompatActivity {
         Add_Course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (CourseName.getText().toString().trim().length() == 0 || CourseID.getText().toString().trim().length() == 0 || AboutCourse.getText().toString().trim().length() == 0  || EnrollmentKey.getText().toString().trim().length() == 0 || StartYear.getText().toString().trim().length() == 0 ||EndYear.getText().toString().trim().length() == 0 || Weighted.getText().toString().trim().length() == 0){
-                    Toast.makeText(AddCourse.this,"First Enter All The Entries",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddCourse.this,"Enter All The Entries",Toast.LENGTH_SHORT).show();
                 }
-                else {
+                else if (CourseID.getText().toString().contains(" ")) {
+                    Toast.makeText(AddCourse.this,"Course ID Should Not Contain Spaces",Toast.LENGTH_SHORT).show();
+                }
+                else if (StartYear.getText().toString().contains(" ")  || EndYear.getText().toString().contains(" ")) {
+                    Toast.makeText(AddCourse.this,"Year Cannot Contain Spaces",Toast.LENGTH_SHORT).show();
+                }
+                else if (Pattern.matches("^(19|20)[0-9][0-9]",StartYear.getText().toString()) && Pattern.matches("^(19|20)[0-9][0-9]",EndYear.getText().toString()) && Weighted.getText().toString().matches("[0-9]+")) {
                     String Cname = CourseName.getText().toString();
                     String Cid = CourseID.getText().toString();
                     String CAbout = AboutCourse.getText().toString();
@@ -75,7 +81,6 @@ public class AddCourse extends AppCompatActivity {
                     CourseMap.put("EnrollmentKey", CEnroll);
                     CourseMap.put("CourseName", Cname);
                     String s = Cid + "_" + CoursesActivity.username + "_" + Integer.toString(CStartYear);
-                    ;
                     CourseMap.put("CourseInfo", s);
                     Map<String, Object> StartSem = new HashMap<>();
                     StartSem.put("SemesterType", CStartType);
@@ -103,6 +108,9 @@ public class AddCourse extends AppCompatActivity {
                             Toast.makeText(AddCourse.this, "Course Created", Toast.LENGTH_SHORT).show();
                         }
                     });
+                }
+                else {
+                    Toast.makeText(AddCourse.this,"Enter Correct Year And Weightage",Toast.LENGTH_SHORT).show();
                 }
             }
         });
