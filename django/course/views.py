@@ -317,7 +317,8 @@ def Show_Attendance(request, cinfo):
         temp_dict = {
             "StudentName": user['StudentID'].get().to_dict()['FullName'],
             "Attendance": user['TotalAttendance'],
-            "grade": grade
+            "grade": grade,
+            "Image": user['StudentID'].get().to_dict()['ProfilePic']
         }
         list.append(temp_dict)
 
