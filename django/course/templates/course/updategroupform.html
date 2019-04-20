@@ -1,4 +1,30 @@
 {% extends "base_generic.html"%}
+
+{% block sidebar %}
+  {% if Designation == 'Faculty' %}
+  
+  <li>
+    <a href="{% url 'course:update_grp' cinfo aid gid %}">Update Details</a>
+  </li>
+  {% endif %}
+  <li>
+    <a href="{% url 'course:up_submission' cinfo aid gid %}">Submissions</a>
+  </li>
+    <li>
+    <a href="{% url 'course:view_course' cinfo %}">Assignments</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:events' cinfo %}">Events</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
+  </li>
+  
+{% endblock %}
+
 {% block content %}
 <form method="POST">
   {% csrf_token %}

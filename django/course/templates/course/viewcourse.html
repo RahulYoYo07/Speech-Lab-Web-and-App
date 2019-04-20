@@ -9,6 +9,10 @@
   <li>
     <a href="{% url 'course:view_course_material' CourseInfo %}">Study Material</a>
   </li>
+
+  <li>
+    <a href="{% url 'course:view_course' CourseInfo %}">Assignments</a>
+  </li>
   <li>
     <a href="{% url 'course:view_TA' CourseInfo %}">Teaching Assistants (TAs)</a>
   </li>
@@ -27,7 +31,7 @@
 {% block content %}
 
 {% if Designation == "Faculty" %}
-    <a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment</p></a>
+    <a href="{% url 'course:add_assgn' CourseInfo %}"><p class="options">Add Assignment  <i class="fas fa-sm fa-link"></i></p> </a>
 {% endif %}
 
 <ul class="cards">
@@ -36,7 +40,7 @@
   <li class="cards__item">
     <div class="card">
       <div class="card__content">
-        <div class="card__title"><a href="{% url 'course:view_assgn' CourseInfo assgn.AssignmentID %}">{{ assgn.Name }}</a></div>
+        <div class="card__title"><a href="{% url 'course:view_assgn' CourseInfo assgn.AssignmentID %}">{{ assgn.Name }}  <i class="fas fa-sm fa-link"></i></a></div>
 
         <div class="card__subtitle">Deadline : {{assgn.Deadline}}</div>
         <p class="card__text">
