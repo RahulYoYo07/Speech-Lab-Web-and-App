@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.iitg_speech_lab.Classes.ProjectsMyData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,12 +38,13 @@ import org.w3c.dom.Text;
 
 public class ViewProject extends AppCompatActivity {
     public static String ProjectID;
-    private ProgressBar spinner;
     VideoView videoView;
     MediaController mediaController;
     ProgressBar bufferProgress;
     FloatingActionButton fab;
+    FloatingActionButton fab2;
     static String username;
+    private ProgressBar spinner;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -52,15 +54,18 @@ public class ViewProject extends AppCompatActivity {
         actionBar.setTitle("Project Details");
         username=getIntent().getStringExtra("username");
         fab = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
-        if (username.equals("")){
-            fab.setVisibility(View.INVISIBLE);
-        }else {
-            fab.setVisibility(View.VISIBLE);
-        }
+        fab2 = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        fab2.setVisibility(View.INVISIBLE);
+        spinner = (ProgressBar) findViewById(R.id.progressBar6);
         bufferProgress=(ProgressBar) findViewById(R.id.progressBar);
         ProjectID=getIntent().getStringExtra("projectID");
-        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
         spinner.setVisibility(View.VISIBLE);
+        if (username.equals("")){
+
+        } else {
+            fab.setVisibility(View.VISIBLE);
+            fab2.setVisibility(View.VISIBLE);
+        }
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Projects").document(ProjectID);
         userRef.get()
@@ -69,7 +74,6 @@ public class ViewProject extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
-                            spinner.setVisibility(View.GONE);
                             if (user.exists()) {
                                 final String About = user.getString("AboutProject");
                                 final String Title = user.getString("Title");
@@ -108,6 +112,7 @@ public class ViewProject extends AppCompatActivity {
                                         return false;
                                     }
                                 });
+                                spinner.setVisibility(View.INVISIBLE);
                                 videoView.start();
                                 txtTitle.setMovementMethod(new ScrollingMovementMethod());
                                 txtabout.setMovementMethod(new ScrollingMovementMethod());
@@ -125,14 +130,22 @@ public class ViewProject extends AppCompatActivity {
                     }
                 });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertDialog();
             }
         });
-
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                Intent intent = new Intent(ViewProject.this, EditProject.class);
+                intent.putExtra("username", username);
+                intent.putExtra("projectID", ProjectID);
+                startActivity(intent);
+            }
+        });
     }
     private void alertDialog() {
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
@@ -158,7 +171,7 @@ public class ViewProject extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         Intent intent = new Intent(ViewProject.this, ProjectsActivity.class);
-        intent.putExtra("username", "");
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 }
