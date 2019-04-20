@@ -1,11 +1,13 @@
 package com.example.iitg_speech_lab;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -76,6 +78,15 @@ import java.util.concurrent.TimeUnit;
 
 public class Master<sampleApp> extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public boolean internetIsConnected(){
+        try{
+            String cmd="ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(cmd).waitFor()==0);
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://graph.microsoft.com/User.Read+profile+openid+offline_access"};
     final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
@@ -97,6 +108,24 @@ public class Master<sampleApp> extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
+        boolean bo=internetIsConnected();
+        if(bo==false)
+        {
+            AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+            dialog.setMessage("No Internet Connection");
+            dialog.setTitle("Error Message");
+            dialog.setPositiveButton("Close",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            finish();
+                            System.exit(0);
+                        }
+                    });
+            AlertDialog alertDialog=dialog.create();
+            alertDialog.show();
+
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("SPEECH LAB IITG");
         spinner = (ProgressBar) findViewById(R.id.progressBar2);

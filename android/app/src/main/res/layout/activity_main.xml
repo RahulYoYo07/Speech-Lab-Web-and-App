@@ -42,6 +42,7 @@
         android:layout_marginTop="148dp"
         android:onClick="viewNotice"
         android:text="Discussion Room"
+        android:textColorLink="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

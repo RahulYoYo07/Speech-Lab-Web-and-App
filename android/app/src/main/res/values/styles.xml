@@ -77,11 +77,14 @@
 
     <style name="AddProject">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">32dp</item>
+        <item name="android:textSize">25dp</item>
     </style>
 
     <style name="AddProjectDetail">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">15dp</item>
     </style>
+    <style name="btn">
+        <item name="android:background">@color/color_white</item>>
+    </style>>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.example.iitg_speech_lab;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
@@ -76,7 +78,7 @@ public class ViewPeople extends AppCompatActivity {
                                                 final Button btn = new Button(ViewPeople.this);
                                                 btn.setTag(document.getId());
                                                 btn.setText(document.getString("FullName"));
-
+                                                btn.setBackgroundColor(Color.WHITE);
                                                 btn.setOnClickListener(new View.OnClickListener(){
                                                     @Override
                                                     public void onClick(View v) {
@@ -133,6 +135,7 @@ public class ViewPeople extends AppCompatActivity {
                                     final Button btn = new Button(ViewPeople.this);
                                     btn.setTag(document.getId());
                                     btn.setText(document.getString("FullName"));
+                                    btn.setBackgroundColor(Color.WHITE);
 
                                     btn.setOnClickListener(new View.OnClickListener(){
                                         @Override
@@ -177,6 +180,7 @@ public class ViewPeople extends AppCompatActivity {
                                     final Button btn = new Button(ViewPeople.this);
                                     btn.setTag(document.getId());
                                     btn.setText(document.getString("FullName"));
+                                    btn.setBackgroundColor(Color.WHITE);
 
                                     btn.setOnClickListener(new View.OnClickListener(){
                                         @Override

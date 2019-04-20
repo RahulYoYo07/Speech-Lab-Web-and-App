@@ -51,8 +51,7 @@ public class AfterLoginHomePage extends AppCompatActivity
     private CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     static int check=0;
-    static int  kyaadminh=1;
-    static Boolean adminhkya=false;
+    static  String GetUsername;
     static String isfirst;
     private ProgressBar spinner;
     /* Azure AD Variables */
@@ -62,48 +61,14 @@ public class AfterLoginHomePage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_login_home_page);
+        GetUsername=getIntent().getStringExtra("username");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("SPEECH LAB IITG");
+        toolbar.setTitle("Welocome, " + GetUsername);
         setSupportActionBar(toolbar);
         spinner = (ProgressBar) findViewById(R.id.progressBar4);
         isfirst=getIntent().getStringExtra("isfirst");
         spinner.setVisibility(View.VISIBLE);
         //Code For Sliding Images
-        final FirebaseFirestore admindb = FirebaseFirestore.getInstance();
-            final DocumentReference usrRef = admindb.collection("Users").document(getIntent().getStringExtra("username"));
-            usrRef.get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
-                            if (task1.isSuccessful()) {
-                                DocumentSnapshot ad = task1.getResult();
-                                try {
-                                    if (ad.exists()) {
-                                        try {
-                                            if (ad.getBoolean("isAdmin")) {
-                                                kyaadminh = 0;
-                                                adminhkya = true;
-                                            }
-                                        } catch (Exception e) {
-                                            adminhkya = false;
-                                        }
-                                        if (isfirst.equals("1")) {
-                                            kyaadminh = 1;
-                                            adminhkya = false;
-                                        }
-                                        removeadmin();
-                                    }
-                                } catch (Exception e){
-                                    if (isfirst.equals("1")) {
-                                        kyaadminh = 1;
-                                        adminhkya = false;
-                                    }
-                                    removeadmin();
-                                }
-                                }
-                        }
-                    });
-            Log.d("adjad", isfirst);
         final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
         DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
         userRef.get()
@@ -263,26 +228,11 @@ public class AfterLoginHomePage extends AppCompatActivity
             startActivity(intent);
         } else if(id == R.id.AfterLoginLogOut){
             onSignOutClicked();
-        } else if (id==R.id.Admin){
-            Intent intent = new Intent(AfterLoginHomePage.this, AdminDashboard.class);
-            intent.putExtra("username", getIntent().getStringExtra("username"));
-            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void removeadmin(){
-        NavigationView navigationView1;
-        Menu menu;
-        navigationView1 = (NavigationView) findViewById(R.id.nav_view);
-        if (kyaadminh==1||!adminhkya){
-            Log.d("Naveendhd", "xhxbjdb");
-            menu = (Menu) navigationView1.getMenu();
-            menu.removeItem(R.id.Admin);
-        }
     }
     private void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1500) {

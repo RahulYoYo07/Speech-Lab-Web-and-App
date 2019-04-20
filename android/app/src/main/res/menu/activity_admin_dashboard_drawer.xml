@@ -24,10 +24,10 @@
     <group android:id="@+id/g4"
         android:checkableBehavior="single">
 
-            <item
-                android:id = "@+id/AdminHome"
-                android:icon="@drawable/ic_home"
-                android:title="Home"/>
+        <item
+            android:id="@+id/AdminDash"
+            android:icon="@drawable/ic_person_outline_black_24dp"
+            android:title="Dashboard" />
             <item
                 android:id = "@+id/AdminLogOut"
                 android:icon="@drawable/ic_logout"
