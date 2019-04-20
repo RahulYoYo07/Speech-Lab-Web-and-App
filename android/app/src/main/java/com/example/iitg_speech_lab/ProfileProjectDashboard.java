@@ -156,6 +156,11 @@ public class ProfileProjectDashboard extends AppCompatActivity
             Intent intent = new Intent(ProfileProjectDashboard.this, AfterLoginHomePage.class);
             intent.putExtra("username", getIntent().getStringExtra("username"));
             startActivity(intent);
+        } else if (id == R.id.ProfileDashboardDiscussion) {
+            Intent intent = new Intent(ProfileProjectDashboard.this, AllDiscussionRooms.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

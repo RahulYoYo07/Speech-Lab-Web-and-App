@@ -65,7 +65,7 @@ public class Discussion_Room extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         final Discussion_Room help=this;
         Intent intent = getIntent();
-        final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        final String message = intent.getStringExtra(AllDiscussionRooms.EXTRA_MESSAGE);
         TextView heading=(TextView) findViewById(R.id.DiscussionHeading);
         heading.append(message);
 

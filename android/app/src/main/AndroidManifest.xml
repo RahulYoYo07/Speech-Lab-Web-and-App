@@ -13,12 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddAssignment"></activity>
+        <activity android:name=".EventDeadlines"></activity>
+        <activity android:name=".AllDiscussionRooms" />
+        <activity android:name=".AddAssignment" />
         <activity android:name=".UpdAssignment" />
         <activity android:name=".Discussion_Room_Assignment_Groups" />
         <activity android:name=".Calendar" />
         <activity android:name=".Discussion_Room" />
-        <activity android:name=".EnrollCourse"></activity>
+        <activity android:name=".EnrollCourse" />
         <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".AfterLoginHomePage"
@@ -108,12 +110,12 @@
         </activity>
         <activity android:name=".MainActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
         </activity>
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>

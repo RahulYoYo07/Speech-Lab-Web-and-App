@@ -486,6 +486,12 @@ public class Master<sampleApp> extends AppCompatActivity
         }.start();
     }
 
+    public void temp2(View view){
+            Intent intent = new Intent(Master.this, AllDiscussionRooms.class);
+            //intent.putExtra("username", "");
+            startActivity(intent);
+    }
+
     private void resetTimer() {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
     }
