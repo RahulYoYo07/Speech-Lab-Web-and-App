@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +35,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPeople extends AppCompatActivity {
+    private ProgressBar spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_people);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         ActionBar actionBar = getSupportActionBar();
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.GONE);
         actionBar.setTitle("People");
         EditText searchUser = (EditText) findViewById(R.id.searchUser);
         searchUser.addTextChangedListener(new TextWatcher() {
@@ -51,6 +56,8 @@ public class ViewPeople extends AppCompatActivity {
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
                 if(s.length()>0){
+
+                    spinner.setVisibility(View.VISIBLE);
                     final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
                     ll.removeAllViews();
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -60,6 +67,7 @@ public class ViewPeople extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
+                                        spinner.setVisibility(View.GONE);
                                         ll.removeAllViews();
                                         for (final QueryDocumentSnapshot document : task.getResult()) {
 
@@ -87,6 +95,7 @@ public class ViewPeople extends AppCompatActivity {
                 else{
                     final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
                     ll.removeAllViews();
+                    spinner.setVisibility(View.GONE);
                 }
             }
 
@@ -104,7 +113,8 @@ public class ViewPeople extends AppCompatActivity {
         // button will be displayed
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
         ll.removeAllViews();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -115,6 +125,7 @@ public class ViewPeople extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             ll.removeAllViews();
+                            spinner.setVisibility(View.GONE);
                             for (final QueryDocumentSnapshot document : task.getResult()) {
 
                                 if (document.getString("Designation").equals("Student"))
@@ -146,8 +157,11 @@ public class ViewPeople extends AppCompatActivity {
         // button will be displayed
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
+        ll.removeAllViews();
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
+
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference userRef = db.collection("Users");
         userRef.get()
@@ -155,6 +169,7 @@ public class ViewPeople extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            spinner.setVisibility(View.GONE);
                             ll.removeAllViews();
                             for (final QueryDocumentSnapshot document : task.getResult()) {
                                 if (document.getString("Designation").equals("Faculty"))

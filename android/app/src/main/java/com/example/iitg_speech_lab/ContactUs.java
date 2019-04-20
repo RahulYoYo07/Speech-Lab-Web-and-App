@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class ContactUs extends AppCompatActivity {
-
+    private ProgressBar spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,8 @@ public class ContactUs extends AppCompatActivity {
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
         ll.removeAllViews();
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Homepage").document("contactUs");
         userRef.get()
@@ -48,6 +51,7 @@ public class ContactUs extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
                             if(user.exists()){
+                                spinner.setVisibility(View.GONE);
                                 //final String Head_detail = user.getString("Head");
                                 final String Phone_detail = user.getString("PhoneNumber");
                                 final String Email_detail = user.getString("Email");

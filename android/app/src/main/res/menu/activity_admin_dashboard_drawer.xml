@@ -21,8 +21,9 @@
             android:icon="@drawable/ic_contact"
             android:title="Edit Contact Us" />
     </group>
-    <item android:title=" ">
-        <menu>
+    <group android:id="@+id/g4"
+        android:checkableBehavior="single">
+
             <item
                 android:id = "@+id/AdminHome"
                 android:icon="@drawable/ic_home"
@@ -31,6 +32,5 @@
                 android:id = "@+id/AdminLogOut"
                 android:icon="@drawable/ic_logout"
                 android:title="Log Out"/>
-        </menu>
-    </item>
+    </group>
 </menu>

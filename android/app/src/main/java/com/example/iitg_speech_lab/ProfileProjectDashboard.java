@@ -37,6 +37,7 @@ public class ProfileProjectDashboard extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_project_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Dashboard");
         setSupportActionBar(toolbar);
 
         //Code For Sliding Images
