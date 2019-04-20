@@ -32,7 +32,7 @@ public class EnrollStudentCourse extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String username = "pradip";
+        String username = StudentCoursesActivity.username;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enroll_student_course);
 
@@ -62,7 +62,8 @@ public class EnrollStudentCourse extends AppCompatActivity {
                     data.add(new EnrollDataModel(
                             EnrollMyData.coursesIDList.get(i),
                             EnrollMyData.coursesNameList.get(i),
-                            EnrollMyData.coursesProfList.get(i)
+                            EnrollMyData.coursesProfList.get(i),
+                            EnrollMyData.courseInfoList.get(i)
                     ));
                 }
 
@@ -102,7 +103,7 @@ public class EnrollStudentCourse extends AppCompatActivity {
                 cinfo = (String) viewHolder.itemView.getTag();
             }
             Log.d("aman",cinfo);
-            Intent intent = new Intent(EnrollStudentCourse.this, ViewCourse.class);
+            Intent intent = new Intent(EnrollStudentCourse.this, EnrollCourse.class);
             intent.putExtra("courseInfo",cinfo);
             startActivity(intent);
         }

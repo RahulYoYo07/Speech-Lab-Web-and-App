@@ -57,7 +57,7 @@ public class EnrollAdapter extends RecyclerView.Adapter<EnrollAdapter.MyViewHold
         textViewCourseName.setText(dataSet.get(listPosition).getCourseName());
         textViewProfName.setText(dataSet.get(listPosition).getProfName());
 
-        holder.itemView.setTag(dataSet.get(listPosition).getCourseId());
+        holder.itemView.setTag(dataSet.get(listPosition).getCourseInfo());
     }
 
     @Override

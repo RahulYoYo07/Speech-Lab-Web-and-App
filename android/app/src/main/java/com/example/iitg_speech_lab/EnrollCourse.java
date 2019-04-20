@@ -26,8 +26,8 @@ public class EnrollCourse extends AppCompatActivity {
     }
     public static Integer Check = 0 ;
     public void Add_Grade_Group(final View view){
-        final String CourseInfo = "CS243";
-        final String Username = "aman170101006";
+        final String CourseInfo = getIntent().getStringExtra("courseInfo");
+        final String Username =StudentCoursesActivity.username;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference assignsRef = db.collection("Courses").document(CourseInfo);
         assignsRef.get()

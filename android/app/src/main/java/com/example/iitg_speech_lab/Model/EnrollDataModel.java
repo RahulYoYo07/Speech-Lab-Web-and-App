@@ -6,11 +6,13 @@ public class EnrollDataModel {
     String id;
     String name;
     String prof;
+    String cinfo;
 
-    public EnrollDataModel(String id, String name, String prof) {
+    public EnrollDataModel(String id, String name, String prof,String cinfo) {
         this.id = id;
         this.name = name;
         this.prof = prof;
+        this.cinfo = cinfo;
     }
 
     public String getCourseId() {
@@ -24,4 +26,6 @@ public class EnrollDataModel {
     public String getProfName() {
         return prof;
     }
+
+    public  String getCourseInfo() { return cinfo; }
 }
