@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <style>
     <meta charset="utf-8"/>
     p_noline {display: inline;
@@ -45,24 +45,81 @@
 
         </div>
       </nav>
-        <div id='DynamicMessages' style='padding:50px 50px 50px 50px'>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-2"></div>
+          <div class="col">
+
+            <div class="accordion" id="accordionExample2">
+              <div id='DynamicMessages' style='padding:50px 50px 50px 50px'></div>
+              <!-- <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                       Add a new message
+                    </button>
+                  </h2>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample2">
+                  <div class="card-body">
+                    <p><input class="form-control" placeholder="Message Head" id="chat-head-input" type="text" size="100"/></p>
+                    <p><input class="form-control" placeholder="Message Body" id="chat-message-input" type="text" size="100"/></p>
+                    <input class="btn btn-primary" id="chat-message-submit" type="button" value="Add message"/>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                       Add a new message
+                    </button>
+                  </h2>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <p><input class="form-control" placeholder="Message Head" id="chat-head-input" type="text" size="100"/></p>
+                    <p><input class="form-control" placeholder="Message Body" id="chat-message-input" type="text" size="100"/></p>
+                    <input class="btn btn-primary" id="chat-message-submit" type="button" value="Add message"/>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Add a new poll
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <p><input class="form-control" id="poll-question-input" placeholder="Poll Question" type="text" size="100"/></p>
+                    <p><div id = "DynamicPollOption" > </div></p>
+                    <p><input class="btn btn-primary" id="poll-option-add" type="button" value="Add Poll Option"/>
+                    <input class="btn btn-danger" id="poll-option-del" type="button" value="Delete Last Option"/>
+                    <input class="btn btn-success" id="poll-submit" type="button" value="Add Poll"/></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="col-lg-2"></div>
         </div>
-        <br>
-        <div class="card bg-warning">
-          <div class="card-header"> <h4>Add a new message</h4> </div>
-          <input class="form-control" placeholder="Message Head" id="chat-head-input" type="text" size="100"/>
-          <input class="form-control" placeholder="Message Body" id="chat-message-input" type="text" size="100"/>
-          <input class="btn btn-success" id="chat-message-submit" type="button" value="Add message"/>
-        </div>
-        <br>
-        <div class="card bg-success">
-          <div class="card-header"><h4> Add a new poll</h4> </div>
-          <input class="form-control" id="poll-question-input" placeholder="Poll Question" type="text" size="100"/>
-          <div id = "DynamicPollOption" > </div>
-          <input class="btn btn-secondary" id="poll-option-add" type="button" value="Add Poll Option"/>
-          <input class="btn btn-secondary" id="poll-option-del" type="button" value="Delete Last Option"/>
-          <input class="btn btn-primary" id="poll-submit" type="button" value="Add Poll"/>
-        </div>
+      </div>
+
+
+
+
+
     </body>
 
     <script>
@@ -125,29 +182,31 @@
                 var ReplyButton = document.createElement('input');
                 var ShowReplies = document.createElement('input');
                 var MessageDiv = document.createElement('div');
-                MessageDiv.classList.add("container");
+                // MessageDiv.classList.add("container");
 
                 MessageDiv.classList.add("card");
-                switch (selectColor) {
-                  case 0:
-                    MessageDiv.classList.add("bg-info");
-                    selectColor=(selectColor+1)%4;
-                    break;
-                  case 1:
-                    MessageDiv.classList.add("bg-danger");
-                    selectColor=(selectColor+1)%4;
-                    break;
-                  case 2:
-                    MessageDiv.classList.add("bg-warning");
-                    selectColor=(selectColor+1)%4;
-                    break;
-                  case 3:
-                    MessageDiv.classList.add("bg-success");
-                    selectColor=(selectColor+1)%3;
-                    break;
-                  default:
+                MessageDiv.classList.add("card-header");
 
-                }
+                // switch (selectColor) {
+                //   case 0:
+                //     MessageDiv.classList.add("bg-info");
+                //     selectColor=(selectColor+1)%4;
+                //     break;
+                //   case 1:
+                //     MessageDiv.classList.add("bg-danger");
+                //     selectColor=(selectColor+1)%4;
+                //     break;
+                //   case 2:
+                //     MessageDiv.classList.add("bg-warning");
+                //     selectColor=(selectColor+1)%4;
+                //     break;
+                //   case 3:
+                //     MessageDiv.classList.add("bg-success");
+                //     selectColor=(selectColor+1)%3;
+                //     break;
+                //   default:
+                //
+                // }
                 MessageBox.classList.add("card-header");
                 ShowReplies.classList.add("btn");
                 ShowReplies.classList.add("btn-primary");
@@ -156,18 +215,33 @@
                 ReplyButton.classList.add("btn");
                 ReplyButton.classList.add("btn-success");
 
+                var MessageID = data['MessageID'];
                 if (IsReply == false){
                     var messageHead = data['messageHead'];
                     var message = data['message'];
                     var ReplyBody = data['ReplyBody'];
-                    var MessageID = data['MessageID'];
                     var Author=data['Author'];
                     var open = false;
 
+                    var DivHeader = document.createElement('h2');
+                    DivHeader.classList.add("mb-0");
+                    var DivButton = document.createElement('button');
+                    DivButton.classList.add("btn");
+                    DivButton.classList.add("btn-link");
+                    DivButton.type = "button";
+                    DivButton.setAttribute("data-toggle", MessageID + "collapse")
+                    DivButton.setAttribute("data-target", MessageID + "#collapseOne")
+                    DivButton.setAttribute("aria-expanded", "true")
+                    DivButton.setAttribute("aria-controls", MessageID + "collapseOne")
+                    DivButton.innerHTML = '<h4>'+ messageHead + '</h4><h5>' + message +  '</h5>';
+                    DivButton.innerHTML += '<div align="right"> <b>'+Author+'</b> </div>';
+
+                    DivHeader.append(DivButton);
+
                     MessageDiv.id = MessageID;
-                    MessageBox.setAttribute("style","display: inline");
-                    MessageBox.innerHTML ='<h4>'+ messageHead + '</h4><h5>' + message +  '</h5>';
-                    MessageBox.innerHTML += '<div align="right"> <b>'+Author+'</b> </div>';
+                    // MessageBox.setAttribute("style","display: inline");
+                    // MessageBox.innerHTML ='<h4>'+ messageHead + '</h4><h5>' + message +  '</h5>';
+                    // MessageBox.innerHTML += '<div align="right"> <b>'+Author+'</b> </div>';
 
                     ReplyInput.type = 'text';
                     ReplyInput.id = MessageID+'_input';
@@ -197,34 +271,48 @@
                     };
                     ReplyButton.id = MessageID+'_ReplyButton';
 
-                    ShowReplies.type = 'button';
-                    ShowReplies.id=MessageID+'_';
-                    ShowReplies.setAttribute("style", "margin-left: 2em");
-                    ShowReplies.value = 'Show Replies';
-                    ShowReplies.onclick = function(){
+                    DivButton.onclick = function(){
                         if (open == false){
                             open = true;
-                            ShowReplies.value = 'Hide Replies';
-                            // chatSocket2 = new WebSocket('ws://' + window.location.host +
-                            //   '/ws/discussion/courses/'+ CourseID + '/coursegroup/' +
-                            //   CourseGroupID + '/' + MessageID);
-                            chatSocket.send(JSON.stringify({
-                                'IsPoll' : false,
-                                'ShowReply': true,
-                                'CourseID': CourseID,
-                                'CourseGroupID': CourseGroupID,
-                                'MessageID': MessageID,
-                            }));
-                            // alert('after cht ckt 2');
                         }
-                        else {
-                            open = false;
-                            ShowReplies.value='Show Replies';
-                            document.getElementById(MessageID+'_ShowReplyBox').remove();
-                        }
-                    };
+                        chatSocket.send(JSON.stringify({
+                                    'IsPoll' : false,
+                                    'ShowReply': true,
+                                    'CourseID': CourseID,
+                                    'CourseGroupID': CourseGroupID,
+                                    'MessageID': MessageID,
+                                }));
+                    }
 
-                    MessageDiv.appendChild(MessageBox);
+                    // ShowReplies.type = 'button';
+                    // ShowReplies.id=MessageID+'_';
+                    // ShowReplies.setAttribute("style", "margin-left: 2em");
+                    // ShowReplies.value = 'Show Replies';
+                    // ShowReplies.onclick = function(){
+                    //     if (open == false){
+                    //         open = true;
+                    //         ShowReplies.value = 'Hide Replies';
+                    //         // chatSocket2 = new WebSocket('ws://' + window.location.host +
+                    //         //   '/ws/discussion/courses/'+ CourseID + '/coursegroup/' +
+                    //         //   CourseGroupID + '/' + MessageID);
+                    //         chatSocket.send(JSON.stringify({
+                    //             'IsPoll' : false,
+                    //             'ShowReply': true,
+                    //             'CourseID': CourseID,
+                    //             'CourseGroupID': CourseGroupID,
+                    //             'MessageID': MessageID,
+                    //         }));
+                    //         // alert('after cht ckt 2');
+                    //     }
+                    //     else {
+                    //         open = false;
+                    //         ShowReplies.value='Show Replies';
+                    //         document.getElementById(MessageID+'_ShowReplyBox').remove();
+                    //     }
+                    // };
+
+                    // MessageDiv.appendChild(MessageBox);
+                    MessageDiv.appendChild(DivHeader);
                     MessageDiv.appendChild(ShowReplies);
                     MessageDiv.appendChild(document.createElement('p'));
                     // MessageDiv.appendChild(document.createElement('br'))
@@ -237,28 +325,50 @@
                 // Displaying replies to messages
                 else{
                     if(ShowReply==true){
-                        var ShowReplyBox=document.createElement('p');
-                        ShowReplyBox.classList.add("card-body");
-                        ShowReplyBox.style.padding="0px 20px 0px 0px";
-                        var msg='';
-                        var i=0
-                        for(i=0;i<data['Replies'].length;i++){
-                            msg=msg+'<br /> <b>'+ data['Replies'][i]['Author']+'</b>: '+data['Replies'][i]['ReplyBody'];
-                        }
-                        ShowReplyBox.innerHTML=msg;
-                        if(data['Replies'].length>0){
-                            ShowReplyBox.id=data['Replies'][0]['MessageID']+'_ShowReplyBox';
-                            document.getElementById(data['Replies'][0]['MessageID']+'_').parentNode.insertBefore(ShowReplyBox,document.getElementById(data['Replies'][0]['MessageID']+'_').nextSibling);
-                            //document.getElementById('chat-head-input').blur();
-                            //document.getElementById('chat-message-input').blur();
-                            //document.getElementById(data['Replies'][0]['MessageID']+'_').scrollIntoView();
+                      var ShowReplyBox=document.createElement('div');
+                      ShowReplyBox.classList.add("collapse");
+                      // ShowReplyBox.classList.add("show");
+                      ShowReplyBox.setAttribute("aria-labelledby", MessageID);
+                      ShowReplyBox.setAttribute("data-parent", document.getElementById("#accordionExample2"));
+                      ShowReplyBox.classList.add("card-body");
+                      // ShowReplyBox.style.padding="0px 20px 0px 0px";
+                      var msg='';
+                      var i=0
+                      for(i=0;i<data['Replies'].length;i++){
+                          msg=msg+'<br /> <b>'+ data['Replies'][i]['Author']+'</b>: '+data['Replies'][i]['ReplyBody'];
+                      }
+                      ShowReplyBox.innerHTML=msg;
+                      if(data['Replies'].length>0){
+                          ShowReplyBox.id=data['Replies'][0]['MessageID']+'_ShowReplyBox';
+                          // document.getElementById(data['Replies'][0]['MessageID']+'_').parentNode.insertBefore(ShowReplyBox,document.getElementById(data['Replies'][0]['MessageID']+'_').nextSibling);
+                          //document.getElementById('chat-head-input').blur();
+                          //document.getElementById('chat-message-input').blur();
+                          //document.getElementById(data['Replies'][0]['MessageID']+'_').scrollIntoView();
 
-                        }
+                      }
+
+                      // var ShowReplyBox=document.createElement('p');
+                      //   ShowReplyBox.classList.add("card-body");
+                      //   ShowReplyBox.style.padding="0px 20px 0px 0px";
+                      //   var msg='';
+                      //   var i=0
+                      //   for(i=0;i<data['Replies'].length;i++){
+                      //       msg=msg+'<br /> <b>'+ data['Replies'][i]['Author']+'</b>: '+data['Replies'][i]['ReplyBody'];
+                      //   }
+                      //   ShowReplyBox.innerHTML=msg;
+                      //   if(data['Replies'].length>0){
+                      //       ShowReplyBox.id=data['Replies'][0]['MessageID']+'_ShowReplyBox';
+                      //       document.getElementById(data['Replies'][0]['MessageID']+'_').parentNode.insertBefore(ShowReplyBox,document.getElementById(data['Replies'][0]['MessageID']+'_').nextSibling);
+                      //       //document.getElementById('chat-head-input').blur();
+                      //       //document.getElementById('chat-message-input').blur();
+                      //       //document.getElementById(data['Replies'][0]['MessageID']+'_').scrollIntoView();
+                      //
+                      //   }
 
                     }
-                    if(ShowReply==false && document.getElementById(data['MessageID']+'_').value=='Hide Replies'){
-                        document.getElementById(data['MessageID']+'_ShowReplyBox').innerHTML+='<br />'+data['Author']+':'+data['ReplyBody'];
-                    }
+                    // if(ShowReply==false && document.getElementById(data['MessageID']+'_').value=='Hide Replies'){
+                    //     document.getElementById(data['MessageID']+'_ShowReplyBox').innerHTML+='<br />'+data['Author']+':'+data['ReplyBody'];
+                    // }
                 }
                 document.getElementById("DynamicMessages").appendChild(MessageDiv);
             }
@@ -527,4 +637,8 @@
         };
 
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     </html>

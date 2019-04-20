@@ -30,6 +30,7 @@ scopes = [ 'openid',
 def loginFLOW(request, context):
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
     sign_in_url = get_signin_url(redirect_uri)
+    logout_url = request.build_absolute_uri(reverse('home:logout'))
     access_token = get_access_token(request, request.build_absolute_uri(reverse('home:gettoken')))
     if not access_token:
         context['username'] = ''
@@ -39,7 +40,7 @@ def loginFLOW(request, context):
         context['username'] = username
 
     context['sign_in_url'] = sign_in_url
-
+    context['logout_url'] = logout_url
     return context
 
 def get_token_from_code(auth_code, redirect_uri):
