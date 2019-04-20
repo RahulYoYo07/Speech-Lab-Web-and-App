@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id = "@+id/myLayout"
+    android:orientation="vertical"
+    android:padding="7dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="20dp"
     tools:context=".AddGrade">
 
     <Button
         android:id="@+id/Submit_Grade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
         android:onClick="Add_Grade_Group"
+        android:padding="7dp"
+        android:paddingBottom="10dp"
         android:text="Submit Grade"
         android:textSize="18sp" />
 
