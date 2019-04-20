@@ -383,6 +383,7 @@ public class Master<sampleApp> extends AppCompatActivity
             @Override
             public void onError(MsalException exception) {
                 /* Failed to acquireToken */
+                spinner.setVisibility(View.INVISIBLE);
                 Log.d(TAG, "Authentication failed: " + exception.toString());
 
                 if (exception instanceof MsalClientException) {
@@ -396,6 +397,7 @@ public class Master<sampleApp> extends AppCompatActivity
 
             @Override
             public void onCancel() {
+                spinner.setVisibility(View.INVISIBLE);
                 /* User canceled the authentication */
                 Log.d(TAG, "User cancelled login.");
             }
@@ -422,6 +424,7 @@ public class Master<sampleApp> extends AppCompatActivity
 
             @Override
             public void onError(MsalException exception) {
+                spinner.setVisibility(View.INVISIBLE);
                 /* Failed to acquireToken */
                 Log.d(TAG, "Authentication failed: " + exception.toString());
 
@@ -434,6 +437,7 @@ public class Master<sampleApp> extends AppCompatActivity
 
             @Override
             public void onCancel() {
+                spinner.setVisibility(View.INVISIBLE);
                 /* User canceled the authentication */
                 Log.d(TAG, "User cancelled login.");
             }

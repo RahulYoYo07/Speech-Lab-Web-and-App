@@ -54,48 +54,56 @@ public class AddCourse extends AppCompatActivity {
         Add_Course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Cname = CourseName.getText().toString();
-                String Cid = CourseID.getText().toString();
-                String CAbout = AboutCourse.getText().toString();
-                String CEnroll = EnrollmentKey.getText().toString();
-                Integer CStartYear = Integer.parseInt(StartYear.getText().toString());
-                String CStartType = StartSemType.getSelectedItem().toString();
-                Integer CEndYear = Integer.parseInt(EndYear.getText().toString());
-                String CEndType = EndSemType.getSelectedItem().toString();
-                final Integer Weight = Integer.parseInt(Weighted.getText().toString());
-                Map<String,Object> CourseMap = new HashMap<>();
-                CourseMap.put("AboutCourse",CAbout);
-                CourseMap.put("CourseID",Cid);
-                CourseMap.put("EnrollmentKey",CEnroll);
-                CourseMap.put("CourseName",Cname);
-                String s = Cid + "_" + CoursesActivity.username + "_" + Integer.toString(CStartYear);                        ;
-                CourseMap.put("CourseInfo",s);
-                Map<String,Object> StartSem = new HashMap<>();
-                StartSem.put("SemesterType",CStartType);
-                StartSem.put("Session",CStartYear);
-                CourseMap.put("StartSemester",StartSem);
-                Map<String,Object> EndSem = new HashMap<>();
-                EndSem.put("SemesterType",CEndType);
-                EndSem.put("Session",CEndYear);
-                CourseMap.put("EndSemester",EndSem);
-                DocumentReference usr = db.collection("Users").document(CoursesActivity.username);
-                ArrayList<DocumentReference> fsd = new ArrayList<DocumentReference>();
-                fsd.add(usr);
-                CourseMap.put("Weightage",Weight);
-                CourseMap.put("FacultyList",fsd);
-                ref.document(Cid).set(CourseMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        CourseName.setText("");
-                        CourseID.setText("");
-                        AboutCourse.setText("");
-                        EnrollmentKey.setText("");
-                        StartYear.setText("");
-                        EndYear.setText("");
-                        Weighted.setText("");
-                        Toast.makeText(AddCourse.this, "Course Created", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+
+                if (CourseName.getText().toString().trim().length() == 0 || CourseID.getText().toString().trim().length() == 0 || AboutCourse.getText().toString().trim().length() == 0  || EnrollmentKey.getText().toString().trim().length() == 0 || StartYear.getText().toString().trim().length() == 0 ||EndYear.getText().toString().trim().length() == 0 || Weighted.getText().toString().trim().length() == 0){
+                    Toast.makeText(AddCourse.this,"First Enter All The Entries",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String Cname = CourseName.getText().toString();
+                    String Cid = CourseID.getText().toString();
+                    String CAbout = AboutCourse.getText().toString();
+                    String CEnroll = EnrollmentKey.getText().toString();
+                    Integer CStartYear = Integer.parseInt(StartYear.getText().toString());
+                    String CStartType = StartSemType.getSelectedItem().toString();
+                    Integer CEndYear = Integer.parseInt(EndYear.getText().toString());
+                    String CEndType = EndSemType.getSelectedItem().toString();
+                    final Integer Weight = Integer.parseInt(Weighted.getText().toString());
+                    Map<String, Object> CourseMap = new HashMap<>();
+                    CourseMap.put("AboutCourse", CAbout);
+                    CourseMap.put("CourseID", Cid);
+                    CourseMap.put("EnrollmentKey", CEnroll);
+                    CourseMap.put("CourseName", Cname);
+                    String s = Cid + "_" + CoursesActivity.username + "_" + Integer.toString(CStartYear);
+                    ;
+                    CourseMap.put("CourseInfo", s);
+                    Map<String, Object> StartSem = new HashMap<>();
+                    StartSem.put("SemesterType", CStartType);
+                    StartSem.put("Session", CStartYear);
+                    CourseMap.put("StartSemester", StartSem);
+                    Map<String, Object> EndSem = new HashMap<>();
+                    EndSem.put("SemesterType", CEndType);
+                    EndSem.put("Session", CEndYear);
+                    CourseMap.put("EndSemester", EndSem);
+                    DocumentReference usr = db.collection("Users").document(CoursesActivity.username);
+                    ArrayList<DocumentReference> fsd = new ArrayList<DocumentReference>();
+                    fsd.add(usr);
+                    CourseMap.put("Weightage", Weight);
+                    CourseMap.put("FacultyList", fsd);
+                    ref.document(Cid).set(CourseMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            CourseName.setText("");
+                            CourseID.setText("");
+                            AboutCourse.setText("");
+                            EnrollmentKey.setText("");
+                            StartYear.setText("");
+                            EndYear.setText("");
+                            Weighted.setText("");
+                            Toast.makeText(AddCourse.this, "Course Created", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }
