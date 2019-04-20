@@ -2,6 +2,7 @@ package com.example.iitg_speech_lab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,15 +10,21 @@ import android.view.View;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.iitg_speech_lab.Class.EnrollMyData;
 import com.example.iitg_speech_lab.Model.EnrollDataModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class EnrollStudentCourse extends AppCompatActivity {
@@ -85,7 +92,7 @@ public class EnrollStudentCourse extends AppCompatActivity {
 
         private void viewCourse(View v) {
             int selectedItemPosition = recyclerView.getChildLayoutPosition(v);
-            RecyclerView.ViewHolder viewHolder
+            final RecyclerView.ViewHolder viewHolder
                     = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
             TextView textViewName
                     = null;
@@ -97,15 +104,46 @@ public class EnrollStudentCourse extends AppCompatActivity {
                 selectedName = ( String ) textViewName.getText();
             }
 
-            Log.d("aman",selectedName);
             String cinfo = null;
             if (viewHolder != null) {
                 cinfo = (String) viewHolder.itemView.getTag();
             }
-            Log.d("aman",cinfo);
-            Intent intent = new Intent(EnrollStudentCourse.this, EnrollCourse.class);
-            intent.putExtra("courseInfo",cinfo);
-            startActivity(intent);
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference studRef = db.collection("Users").document(StudentCoursesActivity.username);
+
+            studRef.get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            DocumentSnapshot user = task.getResult();
+                            try {
+                                String courseInfo = (String)viewHolder.itemView.getTag();
+                                FirebaseFirestore dc = FirebaseFirestore.getInstance();
+                                DocumentReference courseRef = dc.collection("Courses").document(courseInfo);
+                                ArrayList<Map<String,DocumentReference>> courses = (ArrayList<Map<String,DocumentReference>>) user.get("CourseList");
+                                int f=1;
+                                for(Map<String,DocumentReference>course: courses){
+                                    if((course.get("CourseID")).equals(courseRef)){
+                                        f=0;
+                                    }
+                                }
+
+                                if(f==1){
+                                    Intent intent = new Intent(EnrollStudentCourse.this, EnrollCourse.class);
+                                    intent.putExtra("courseInfo",courseInfo);
+                                    startActivity(intent);
+                                }else{
+                                    Toast.makeText(EnrollStudentCourse.this,"Already enrolled",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            finally {
+
+                            }
+                        }
+                    });
+
+
         }
     }
 

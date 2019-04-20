@@ -25,15 +25,12 @@ public class EnrollMyData {
     public static ArrayList<String> coursesNameList = new ArrayList<>();
     public static ArrayList<String> coursesProfList = new ArrayList<String>();
     public static  ArrayList<String> courseInfoList = new ArrayList<String>();
-    public static Integer check = 0;
-    public static Integer doublecheck = 0;
-    public static final ArrayList<DocumentReference> courselist = new ArrayList<DocumentReference>();
-    public static final ArrayList<DocumentReference> unregisteredlist = new ArrayList<DocumentReference>();
     public static void loadCourses(String Username, final TaskCompletionSource<Integer> taskda){
 
         coursesIDList.clear();
         coursesNameList.clear();
         coursesProfList.clear();
+        courseInfoList.clear();
         final String username = Username;
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -43,61 +40,26 @@ public class EnrollMyData {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            FirebaseFirestore dc = FirebaseFirestore.getInstance();
-                            DocumentReference das = dc.collection("Courses").document((String) document.get("CourseInfo"));
-                            courselist.add(das);
-                        }
-                        DocumentReference usr = db.collection("Users").document(username);
-                        usr.get()
-                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot doc = task.getResult();
-                                            int count=0;
-                                            ArrayList<Map<Object, Object>> mp = new ArrayList<Map<Object, Object>>();
-                                            mp = (ArrayList<Map<Object, Object>>) doc.get("CourseList");
-                                            for (Map<Object,Object> mps : mp) {
-                                                count++;
-                                                DocumentReference docy = (DocumentReference) mps.get("CourseID");
-                                                int x = 0;
-                                                for (int i=0;i<courselist.size();i++) {
-                                                    if (courselist.get(i).equals(docy)){
-                                                        x = 1;
-                                                    }
-                                                }
-                                                if (x == 0) {
-                                                    DocumentReference dc = docy;
-                                                    dc.get()
-                                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                    DocumentSnapshot dfg = task.getResult();
-                                                                    String cid = (String) dfg.get("CourseID");
-                                                                    String cname = (String) dfg.get("CourseName");
-                                                                    String info = (String) dfg.get("CourseInfo");
-                                                                    coursesIDList.add(cid);
-                                                                    coursesNameList.add(cname);
-                                                                    courseInfoList.add(info);
-                                                                    ArrayList<DocumentReference> ghy = (ArrayList<DocumentReference>) dfg.get("FacultyList");
-                                                                    ghy.get(0).get()
-                                                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                                @Override
-                                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                                    DocumentSnapshot refer = task.getResult();
-                                                                                    String profname = (String) refer.get("FullName");
-                                                                                    coursesProfList.add(profname);
-                                                                                }
-                                                                            });
-                                                                }
-                                                            });
-                                                }
+                            final int count = task.getResult().size();
+                            coursesIDList.add(document.getString("CourseID"));
+                            courseInfoList.add(document.getString("CourseInfo"));
+                            coursesNameList.add(document.getString("CourseName"));
+                            ArrayList<DocumentReference> profRef = (ArrayList<DocumentReference>)document.get("FacultyList");
+                            DocumentReference prof = profRef.get(0);
+                            prof.get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            DocumentSnapshot profDet = task.getResult();
+                                            coursesProfList.add(profDet.getString("FullName"));
 
-
+                                            if(coursesProfList.size()==count){
+                                                taskda.setResult(1);
                                             }
                                         }
-                                    }
-                                });
+                                    });
+                        }
+
                     }
                 });
     }
