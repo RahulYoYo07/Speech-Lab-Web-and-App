@@ -23,7 +23,30 @@
    {% endif %}
 
 </ul>
-<br><br>
+<br>
+
+<p> TA in </p>
+<br>
+{% if TACoursesList %}
+<ul class ="cards">
+   {% for course in TACoursesList %}
+   <li class="cards__item">
+      <div class = "card">
+         <div class="card__content">
+            <div class="card__title"><a href="{% url 'course:view_course' course.CourseInfo %}">{{ course.CourseID }} <i class="fas fa-sm fa-link"></i></a></div>
+            <p class="card__text">{{ course.AboutCourse }}</p>
+            <a href="{% url 'discussion:course_group' course.CourseID 1 %}" class="card-link"><button class="btn btn--block card__btn">Enter Discussion Room </button></a>
+         </div>
+      </div>
+   </li>
+   {% endfor %}
+</ul>
+{% else %}
+<div class="jumbotron">You are not a TA in any course</div>
+{% endif %}
+
+<br>
+
 <p> Total Courses </p>
 <br>
 {% if TotalCourses %}

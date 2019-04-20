@@ -96,13 +96,22 @@ def dashboard(request):
         Courses = db.collection(u'Courses').get()
         for course in Courses:
             TotalCourses1.append(course.to_dict())
+        TACoursesL = []
 
+        try:
+            TACoursesList = db.collection(u'Users').document(username).get().to_dict()['CoursesListAsTA']
+            for TA in TACoursesList:
+                TACoursesL.append( TA.get().to_dict() )
+        except:
+            pass
+    
         for course in TotalCourses1:
-            if course not in RegisteredCourses:
+            if course not in RegisteredCourses and course not in TACoursesL:
                 TotalCourses.append(course)
 
         context['RegisteredCourses'] = RegisteredCourses
         context['TotalCourses'] = TotalCourses
+        context['TACoursesList'] = TACoursesL
 
         return render(request, 'course/main_page_stud.html', context)
 
