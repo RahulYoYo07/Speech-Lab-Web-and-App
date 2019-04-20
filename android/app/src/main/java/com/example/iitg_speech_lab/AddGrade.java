@@ -96,7 +96,7 @@ public class AddGrade extends AppCompatActivity {
                             ArrayList<Map<Object,Object>> mps = new ArrayList<Map<Object,Object>>();
                             mps = (ArrayList<Map<Object,Object>>) course.get("StudentList");
 //                            final int counter= 0;
-
+                            System.out.println("khf ie gfiegfuiegfuigewufgewugffiuegfyuewgfigewfuiewuifgewuifgewugfgfigewifgewiufgewui");
                             cnt=0;
                             cnt2=0;
                             final int lengthy = mps.size();
@@ -113,11 +113,11 @@ public class AddGrade extends AppCompatActivity {
                                                     //System.out.println("sasA");
                                                     DocumentSnapshot user = task2.getResult();
                                                     String UserName = (String) user.get("Username");
-                                                    for (int i=0;i< TextBoxes.size();i++) {
-                                                       if (TextBoxes.get(i).getTag().toString().equals(UserName)) {
+                                                    for (int i=0;i<TextBoxes.size();i++) {
+                                                        if (TextBoxes.get(i).getTag().toString().equals(UserName)) {
                                                             final String num = TextBoxes.get(i).getText().toString();
                                                             final Map<Object,Object> mp = new HashMap<>();
-                                                            mp.put("Grade",Integer.parseInt(num));
+                                                            mp.put("Grade",Long.parseLong(num));
                                                             mp.put("StudentID",usr);
                                                             push.add(mp);
                                                             //System.out.println("sasA");
@@ -138,30 +138,41 @@ public class AddGrade extends AppCompatActivity {
                                                                                 final int lengthy2 = mpd.size();
                                                                                 System.out.print(lengthy2);
                                                                                 System.out.println("sasA");
+
+
                                                                                 for (Map<Object, Object> mp : mpd) {
                                                                                     cnt2++;
                                                                                     Long TotGrade = (Long) mp.get("Grade");
                                                                                     DocumentReference usermain = (DocumentReference) mp.get("StudentID");
-                                                                                    System.out.print(usr);
-                                                                                    System.out.print(usermain);
                                                                                     Map<Object,Object> mppo = new HashMap<>();
+
                                                                                     if (usermain.equals(usr)) {
                                                                                         TotGrade = TotGrade + Long.parseLong(num) - Gradey;
                                                                                         mppo.put("StudentID", usr);
-                                                                                        System.out.println("bjwbfjbjbvjbvjbwijvbbv");
+                                                                                        mppo.put("Grade",TotGrade);
+                                                                                        data.add(mppo);
                                                                                     }
-                                                                                    else {
-                                                                                        mppo.put("StudentID", usermain);
-                                                                                    }
-                                                                                    mppo.put("Grade",TotGrade);
-
-                                                                                    data.add(mppo);
-                                                                                    if(cnt2==lengthy2){
+                                                                                    if(cnt2==lengthy*lengthy2){
                                                                                         FirebaseFirestore db3 = FirebaseFirestore.getInstance();
                                                                                         DocumentReference assignsRef = db3.collection("Courses").document(CourseInfo);
+                                                                                        for (Map<Object,Object> mpx : mpd){
+                                                                                            int x = 0;
+                                                                                            for (int i=0;i<data.size();i++) {
+
+                                                                                                if(data.get(i).get("StudentID").equals(mpx.get("StudentID"))){
+                                                                                                    x = 1;
+                                                                                                }
+                                                                                            }
+                                                                                            if(x == 0){
+                                                                                                System.out.print(mpx);
+                                                                                                System.out.println("sdgew gfiegfui gfigggrffgifigrfgrugf egiewg");
+                                                                                                data.add(mpx);
+                                                                                            }
+                                                                                        }
                                                                                         Map<String,Object> mpdggg = new HashMap<>();
                                                                                         mpdggg.put("StudentList",data);
                                                                                         System.out.print(mpdggg);
+                                                                                        System.out.println("cbbravishankar ravi shankar j d gdgdheududf");
                                                                                         assignsRef.update(mpdggg);
                                                                                         data.clear();
                                                                                         mpdggg.clear();
@@ -176,7 +187,8 @@ public class AddGrade extends AppCompatActivity {
                                                                 Map<String,Object> mpdg = new HashMap<>();
                                                                 mpdg.put("StudentList",push);
                                                                 System.out.print(mpdg);
-//                                                                assignsRef.update(mpdg);
+                                                                System.out.println("cfgfgfggaergegrgbb j d gdgdheududf");
+                                                                assignsRef.update(mpdg);
                                                                 mpdg.clear();
                                                                 push.clear();
                                                             }

@@ -13,6 +13,7 @@
         android:id="@+id/Submit_Grade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="Add_Grade_Group"
         android:text="Submit Grade"
         android:textSize="18sp" />
 
