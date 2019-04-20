@@ -5,9 +5,20 @@
   <li>
     <a href="{% url 'course:update_grp' cinfo aid GroupDetails.GroupID %}">Update Details</a>
   </li>
+    <li>
+    <a href="{% url 'course:update_attendance' cinfo aid GroupDetails.GroupID %}">Update Attendance</a>
+  </li>
+  <li>
+    <a href="{% url 'course:add_grade' cinfo aid GroupDetails.GroupID %}">Add Grade</a>
+  </li>
   {% endif %}
   <li>
     <a href="{% url 'course:up_submission' cinfo aid GroupDetails.GroupID %}">Submissions</a>
+  </li>
+
+
+    <li>
+    <a href="{% url 'course:view_assgn' cinfo aid %}">Groups</a>
   </li>
     <li>
     <a href="{% url 'course:view_course' cinfo %}">Assignments</a>

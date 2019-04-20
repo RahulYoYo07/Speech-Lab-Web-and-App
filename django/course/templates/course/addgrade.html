@@ -1,37 +1,40 @@
 {% extends "base_generic.html"%}
 
 {% block sidebar %}
-  {% if Designation == 'Faculty' %}
-  <li>
-    <a href="{% url 'course:random_groups' cinfo aid %}">Randomly Allocate Groups</a>
-  </li>
-  <li>
-    <a href="{% url 'course:view_course' cinfo%}">Assignments</a>
-  </li>
-  <li>
-    <a href="{% url 'discussion:events' cinfo %}">Events</a>
-  </li>
-  <li>
-    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
-  </li>
-  <li>
-    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
-  </li>
-  {% else %}
-  <li>
-    <a href="{% url 'course:view_course' cinfo%}">Assignments</a>
-  </li>
   
+  {% if Designation == 'Faculty' %}
+
   <li>
-    <a href="{% url 'discussion:events' cinfo %}">Events</a>
+    <a href="{% url 'course:update_grp' cinfo aid gid %}">Update Details</a>
   </li>
   <li>
-    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
+    <a href="{% url 'course:update_attendance' cinfo aid gid %}">Update Attendance</a>
   </li>
   <li>
-    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
+    <a href="{% url 'course:add_grade' cinfo aid gid %}">Add Grade</a>
   </li>
   {% endif %}
+  <li>
+    <a href="{% url 'course:up_submission' cinfo aid gid %}">Submissions</a>
+  </li>
+
+
+    <li>
+    <a href="{% url 'course:view_assgn' cinfo aid%}">Groups</a>
+  </li>
+    <li>
+    <a href="{% url 'course:view_course' cinfo %}">Assignments</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:events' cinfo %}">Events</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
+  </li>
+  
 {% endblock %}
 
 

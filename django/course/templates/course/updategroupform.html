@@ -6,10 +6,21 @@
   <li>
     <a href="{% url 'course:update_grp' cinfo aid gid %}">Update Details</a>
   </li>
+      <li>
+    <a href="{% url 'course:update_attendance' cinfo aid gid %}">Update Attendance</a>
+  </li>
+  <li>
+    <a href="{% url 'course:add_grade' cinfo aid gid %}">Add Grade</a>
+  </li>
   {% endif %}
   <li>
     <a href="{% url 'course:up_submission' cinfo aid gid %}">Submissions</a>
   </li>
+
+  <li>
+    <a href="{% url 'course:view_assgn' cinfo aid %}">Groups</a>
+  </li>
+
     <li>
     <a href="{% url 'course:view_course' cinfo %}">Assignments</a>
   </li>
