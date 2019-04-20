@@ -85,11 +85,14 @@ public class EditProfile extends AppCompatActivity {
                                 Github.setText(map.get("Github"));
                                 LinkedIn.setText(map.get("Linkedin"));
                                 durl = map.get("ProfilePic");
+                                Dept.setEnabled(false);
                                 try{
                                     if (user.getString("Designation").equals("Student")) {
                                         Program.setText(user.getString("Program"));
+                                        Program.setEnabled(false);
                                         Room.setText(user.getString("RollNumber"));
                                         RoomDecide.setText("Roll Number");
+                                        Room.setEnabled(false);
                                     } else {
                                         Program.setText(user.getString("CollegeDesignation"));
                                         ProgramDecide.setText("Designation: ");

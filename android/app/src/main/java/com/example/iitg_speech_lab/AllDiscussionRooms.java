@@ -59,6 +59,8 @@ public class AllDiscussionRooms extends AppCompatActivity {
                     if (document.exists()) {
 //
                         CourseUser= (List<HashMap>)document.get("CourseList");
+                        if(CourseUser==null)
+                            return;
 //
                         for (int i=0; i<CourseUser.size(); i++){
 
@@ -104,7 +106,7 @@ public class AllDiscussionRooms extends AppCompatActivity {
                                                                                     lst3.add(assignmentID);
                                                                                     lst4.add(groupID);
                                                                                     ListView lv2 = (ListView) findViewById(R.id.DiscussionRoomAssigmentListView);
-
+                                                                                    if(lst2.size()>0){
                                                                                     final String[] items2 = new String[lst2.size()];
                                                                                     final String[] items3 = new String[lst3.size()];
                                                                                     final String[] items4 = new String[lst4.size()];
@@ -132,7 +134,7 @@ public class AllDiscussionRooms extends AppCompatActivity {
 
                                                                                         }
 
-                                                                                    });
+                                                                                    });}
 
 
                                                                                 }
@@ -149,7 +151,7 @@ public class AllDiscussionRooms extends AppCompatActivity {
                                     });
 
                         }
-
+                        if(lst.size()>0){
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(help,android.R.layout.simple_list_item_1,items);
                         lv.setAdapter(adapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -161,7 +163,7 @@ public class AllDiscussionRooms extends AppCompatActivity {
 
                             }
 
-                        });
+                        });}
 
 
                     } else {

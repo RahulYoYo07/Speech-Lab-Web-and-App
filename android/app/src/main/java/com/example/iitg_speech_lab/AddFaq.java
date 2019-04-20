@@ -43,17 +43,22 @@ public class AddFaq extends AppCompatActivity {
                                 final ArrayList<Map<String,String>> arr = (ArrayList<Map<String,String>>) user.get("qa");
                                 String ques = question.getText().toString().trim();
                                 String ans = answer.getText().toString().trim();
-                                Map<String,String> map = new HashMap<>();
-                                map.put("q",ques);
-                                map.put("a",ans);
-                                arr.add(map);
-                                Map <String,Object> temp = new HashMap<String, Object>();
-                                temp.put("qa",arr);
-                                DocumentReference ins = db.collection("Homepage").document("faq");
-                                ins.set(temp);
-                                Toast.makeText(AddFaq.this,"FAQ added Successfully",Toast.LENGTH_SHORT).show();
-                                question.setText("");
-                                answer.setText("");
+                                if(ques.length()==0||ans.length()==0){
+                                    Toast.makeText(getApplicationContext(),"Please do not leave fields empty",Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Map<String,String> map = new HashMap<>();
+                                    map.put("q",ques);
+                                    map.put("a",ans);
+                                    arr.add(map);
+                                    Map <String,Object> temp = new HashMap<String, Object>();
+                                    temp.put("qa",arr);
+                                    DocumentReference ins = db.collection("Homepage").document("faq");
+                                    ins.set(temp);
+                                    Toast.makeText(AddFaq.this,"FAQ added Successfully",Toast.LENGTH_SHORT).show();
+                                    question.setText("");
+                                    answer.setText("");
+                                }
                             }
                         }
                     }

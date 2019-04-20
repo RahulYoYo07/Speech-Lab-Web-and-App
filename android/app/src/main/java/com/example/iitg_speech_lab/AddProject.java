@@ -91,17 +91,25 @@ public class AddProject extends AppCompatActivity {
         map.put("People",People.getText().toString());
         map.put("Media", durl);
 
+        if(Title.getText().toString().length()==0){
+            Toast.makeText(getApplicationContext(),"Please enter valid non-empty Title",Toast.LENGTH_LONG).show();
+        } else if(People.getText().toString().length()==0){
+            Toast.makeText(getApplicationContext(),"Please enter valid non-empty people's names in People involved",Toast.LENGTH_LONG).show();
+        } else if(Mentor.getText().toString().length()==0){
+            Toast.makeText(getApplicationContext(),"Please enter valid non-empty Mentor Name",Toast.LENGTH_LONG).show();
+        } else{
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference dref = db.collection("Users").document(GetUsername);
-        map.put("Creator",dref);
-        db.collection("Projects").add(map);
-        Title.setText("");
-        Achievements.setText("");
-        People.setText("");
-        Mentor.setText("");
-        AboutProject.setText("");
-        Toast.makeText(AddProject.this,"Project added successfully",Toast.LENGTH_LONG).show();
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference dref = db.collection("Users").document(GetUsername);
+            map.put("Creator",dref);
+            db.collection("Projects").add(map);
+            Title.setText("");
+            Achievements.setText("");
+            People.setText("");
+            Mentor.setText("");
+            AboutProject.setText("");
+            Toast.makeText(AddProject.this,"Project added successfully",Toast.LENGTH_LONG).show();
+        }
     }
 
     //method to show file chooser
