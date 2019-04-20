@@ -514,6 +514,10 @@ public class Master<sampleApp> extends AppCompatActivity
             Intent intent = new Intent(Master.this, ProjectsActivity.class);
             intent.putExtra("username", "");
             startActivity(intent);
+        } else if(id == R.id.NoticeBoard) {
+            Intent intent = new Intent(Master.this, PublicNoticeBoard.class);
+            intent.putExtra("username", "");
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

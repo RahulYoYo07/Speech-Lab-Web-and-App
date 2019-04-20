@@ -1,5 +1,6 @@
 package com.example.iitg_speech_lab;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ public class EventDeadlines extends AppCompatActivity {
         setContentView(R.layout.activity_event_deadlines);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        String username="gulat170123030";
+        String username=getIntent().getStringExtra("username");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("Users").document(username);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

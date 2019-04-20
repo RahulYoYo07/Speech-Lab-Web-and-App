@@ -44,7 +44,7 @@ public class AllDiscussionRooms extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        final String username="gulat170123030";
+        final String username=getIntent().getStringExtra("username");
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference docRef = db.collection("Users").document(username);
