@@ -2,8 +2,16 @@
 
 {% block content %}
 
+<div>
+<h1> Current Submissions </h1>
+<h3>
+    <a href="{{sub.Url}}">{{ sub.Name }}</a>
+</h3>
+</div>
 <h1>Add Submission</h1>
 
+
+<div>
 <form action="{% url 'course:up_submission' CourseInfo  aid gid %}" id="cmform" method="POST">
 {% csrf_token %}
 <div class="custom-file mb-3">
@@ -13,23 +21,21 @@
 <button type="button" class="btn btn-primary" onclick = "uploadcm()">Upload</button>
 <br><br>
 <div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progrescmupload">70%</div>
+  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progrescmupload"></div>
 </div>
 <input type="hidden" name="cmurl" id="cmurl">
 <input type="hidden" name="filename" id="filename">
 </form>
+</div>
 
-<h1> Current Submissions </h1>
-
-<ul>
-
-
-<ul>
 
 {% endblock %}
 
 {% block scripts %}
 <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+{% endblock %}
+
+{% block endscripts %}
 <script>
 
 // Initialize Firebase
@@ -62,7 +68,7 @@ function uploadcm()
     task.on('state_changed',
         function progress(snapshot) {
             var perc = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            progrescmupload.container.attr('aria-valuenow', Math.round(perc));
+            $('#progrescmupload').css('width', perc+'%').attr('aria-valuenow', perc);
         },
 
         function error(err) {

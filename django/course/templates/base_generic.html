@@ -57,8 +57,8 @@
             <nav class="s-sidebar__nav">
                <ul>
                   <li>
-                     <a class="s-sidebar__nav-link" href="#0">
-                     <i class="fa fa-home"></i><em>Home</em>
+                     <a class="s-sidebar__nav-link" href="{% url 'course:dashboard' %}">
+                     Dashboard
                      </a>
                   </li>
                   {% block sidebar %}
@@ -76,29 +76,12 @@
             </div>
          </main>
       </div>
-         {% comment %}
-         <footer>
-            <div class= "container">
-               <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                  <div class="container-fluid">
-                     <button type="button" id="sidebarCollapse" class="btn btn-info">
-                     <i class="fas fa-align-left"></i>
-                     <span>Toggle Sidebar</span>
-                     </button>
-                  </div>
-               </nav>
-            </div>
-            {% endcomment %}
-            {% comment %}
-         </footer>
-         {% endcomment %}
-      <script type="text/javascript">
-         $(document).ready(function () {
-             $('#sidebarCollapse').on('click', function () {
-                 $('#sidebar').toggleClass('active');
-             });
-         });
-      </script>
+
+      {%block endscripts%}
+      {%endblock%}
+
+
+
       <script src="{% static 'course/JS/BaseGeneric.js' %}"></script>
    </body>
 </html>

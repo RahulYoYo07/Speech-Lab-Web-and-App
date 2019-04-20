@@ -190,7 +190,10 @@ def Update_Attendance(request, cinfo, aid, gid):
         aid = "As_01"
         group_ref = db.collection(u'Courses').document(cinfo).collection(
             u'Assignments').document(aid).collection(u'Groups').document(gid).get()
-        studentlist = group_ref.to_dict()['StudentList']
+        try:
+            studentlist = group_ref.to_dict()['StudentList']
+        except:
+            studentlist = ""
         index = 0
         studentinfo = []
         check = 0
@@ -454,8 +457,11 @@ def viewTA(request, cinfo):
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
 
-    TAList = db.collection(u'Courses').document(
-        cinfo).get().to_dict()["TAList"]
+    try:
+        TAList = db.collection(u'Courses').document(
+            cinfo).get().to_dict()["TAList"]
+    except:
+        TAList = ""
 
     talist = list()
 
@@ -479,7 +485,12 @@ def ViewAssgn(request, cinfo, aid):
     if context['username'] == '':
         return HttpResponseRedirect(reverse('home:home'))
 
+
+
     username = context['username']
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    context['Designation'] = user_dict['Designation']
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()

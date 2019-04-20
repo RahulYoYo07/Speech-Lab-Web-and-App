@@ -32,7 +32,7 @@
    <li class="cards__item">
       <div class = "card">
          <div class="card__content">
-            <div class="card__title"><a href="{% url 'course:view_course' course.CourseInfo %}">{{ course.CourseID }}  </a><i class="fas fa-sm fa-link"></i></div>
+            <div class="card__title">{{ course.CourseID }}</div>
             <p class="card__text">{{ course.AboutCourse }}</p>
             <a href="{% url 'course:enroll_course_page' course.CourseInfo %}" class="card-link"><button class="btn btn--block card__btn">Enroll Now</button></a>
          </div>
