@@ -281,6 +281,11 @@ def ViewUser(request, uinfo):
 
     context['Designation'] = profile_dict['Designation']
     context['projects'] = project_list
+    
+    if not project_list:
+        context['isProjects'] = "False"
+    else:
+        context['isProjects'] = "True"
 
     return render(request, 'home/profile.html', context)
 
