@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditContactUs">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/PhoneNumber"
+                android:text = "Phone Number (Use enter for multiples)"
+                android:textAppearance="@style/EditContactUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/PhoneNumberDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditContactUsDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/Email"
+                android:text = "Email (Use enter for multiples id's)"
+                android:textAppearance="@style/EditContactUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/EmailDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditContactUsDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/Website"
+                android:text = "Website (Use enter for multiple)"
+                android:textAppearance="@style/EditContactUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/WebsiteDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditContactUsDetail"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/Location"
+                android:text = "Location (Use enter to break down location)"
+                android:textAppearance="@style/EditContactUs"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id = "@+id/LocationDetail"
+                android:maxLines="3"
+                android:textAppearance="@style/EditContactUsDetail"/>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Edit Details"
+                android:id="@+id/EditDetail"
+                android:onClick="editContactUsDetails"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

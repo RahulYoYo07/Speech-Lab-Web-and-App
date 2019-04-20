@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/ProfileDashboardMyProfile"
+            android:icon="@drawable/ic_viewprofile"
+            android:title="My Profile" />
+
+        <item
+            android:id="@+id/ProfileDashboardEditProfile"
+            android:icon="@drawable/ic_edit"
+            android:title="Edit Profile" />
+
+        <item
+            android:id="@+id/RedirectCourses"
+            android:icon="@drawable/ic_redirect_course"
+            android:title="Your Courses" />
+
+        <item
+            android:id = "@+id/ProfileDashboardDiscussion"
+            android:title="Discussion Rooms"
+            android:icon ="@drawable/ic_chat"/>
+        <item
+            android:id = "@+id/ProfileDashboardNotice"
+            android:title="Course Notices"
+            android:icon ="@drawable/ic_receipt_black_24dp"/>
+
+        <item
+            android:id = "@+id/ProfileDashboardDeadline"
+            android:title="Deadlines"
+            android:icon ="@drawable/ic_deadline"/>
+
+        <item
+            android:id="@+id/ProfileDashboardMyProjects"
+            android:icon="@drawable/ic_project"
+            android:title="My Projects" />
+
+        <item
+            android:id = "@+id/ProfileDashboardAddProjects"
+            android:title="Add Project"
+            android:icon ="@drawable/ic_addproject"/>
+    </group>
+    <group android:id="@+id/g5"
+        android:checkableBehavior="single">
+            <item
+                android:icon="@drawable/ic_home"
+                android:id ="@+id/ProfileDashboardHome"
+                android:title="Home"/>
+        <item
+                android:id="@+id/DashAdmin"
+                android:icon="@drawable/ic_vpn_key_black_24dp"
+                android:title="Admin" />
+            <item
+                android:id="@+id/ProfileLogout"
+                android:icon="@drawable/ic_logout"
+                android:title="Log Out" />
+
+    </group>
+
+</menu>

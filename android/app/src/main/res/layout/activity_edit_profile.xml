@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProfile">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/EditProfilelayout">
+
+
+            <ImageView
+                android:id="@+id/EditProfileheader_cover_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerCrop"
+
+                android:src="@drawable/nav_menu_header_bg"
+                app:srcCompat="@drawable/nav_menu_header_bg" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                android:id="@+id/EditProfileprofile"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+
+                android:layout_below="@+id/EditProfileheader_cover_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-130dp"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:padding="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/man"
+                app:civ_border_color="#FFFFFFFF"
+                app:civ_border_width="3dp" />
+
+            <RelativeLayout
+                android:id="@+id/EditProfileprofile_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/EditProfileheader_cover_image"
+                android:background="#ebca0707"
+                android:elevation="4dp"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:id="@+id/EditProfileDisplayNameDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="70dp"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/EditProfileDisplayUsernameDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/EditProfileDisplayNameDetail"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btnUpload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose Image"
+                    android:onClick="showFileChooser"/>
+            </RelativeLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/EditProfileprofile_layout"
+                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#fff"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp">
+
+                <TextView
+                    android:textSize = "24dp"
+                    android:id="@+id/EditProfileDisplayDept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:text="Department: "
+                    android:textStyle="bold"
+                    android:layout_marginLeft="25dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/EditProfileDisplayDeptDetail" />
+
+                <TextView
+                    android:textSize = "24dp"
+                    android:id="@+id/EditProfileDisplayEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:text="Email: "
+                    android:textStyle="bold"
+                    android:layout_marginLeft="8dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/EditProfileDisplayEmailDetail" />
+
+                <TextView
+                    android:textSize = "24dp"
+                    android:id="@+id/EditProfileDisplayAbout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    android:text="About: "
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/EditProfileDisplayAboutDetail"
+                    android:layout_marginLeft="8dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+
+                <TextView
+                    android:textSize="24dp"
+                    android:id="@+id/EditProfileDisplayWebsite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="Home Page: "
+                    android:textStyle="bold"
+
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/EditProfileDisplayWebsiteDetail" />
+
+                <TextView
+                    android:textSize = "24dp"
+                    android:id="@+id/EditProfileDisplayProgram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:text="Program: "
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/EditProfileDisplayProgramDetail" />
+
+                <EditText
+                    android:lines="1"
+                    android:id="@+id/EditProfileDisplayProgramDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:text=""
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayProgram"
+                    android:layout_marginLeft="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/EditProfileDisplayAboutDetail"
+                    android:layout_marginTop="8dp" />
+
+                <EditText
+                    android:maxLines="2"
+                    android:id="@+id/EditProfileDisplayAboutDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:text=""
+                    android:textSize="16dp"
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayAbout"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:textSize = "16dp"
+                    android:id="@+id/EditProfileDisplayWebsiteDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:lines="1"
+                    android:text=""
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayWebsite"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/EditProfileDisplayContactDetail" />
+
+                <EditText
+                    android:lines="1"
+                    android:textSize = "16dp"
+                    android:id="@+id/EditProfileDisplayEmailDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:text=""
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayEmail"
+                    app:layout_constraintTop_toBottomOf="@+id/EditProfileDisplayDeptDetail" />
+
+                <EditText
+                    android:lines="1"
+                    android:textSize = "16dp"
+                    android:id="@+id/EditProfileDisplayContactDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text=""
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/EditProfileDisplayEmailDetail"
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayContact" />
+
+                <TextView
+                    android:textSize = "24dp"
+                    android:id="@+id/EditProfileDisplayContact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="Contact: "
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/EditProfileDisplayContactDetail"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:textSize = "24dp"
+                    android:id="@+id/EditProfileDisplayGithub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="Github: "
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/EditProfileDisplayGithubDetail"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <EditText
+                    android:lines="1"
+                    android:textSize = "16dp"
+                    android:id="@+id/EditProfileDisplayGithubDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:text=""
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/EditProfileDisplayWebsiteDetail"
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayGithub"
+                    android:layout_marginLeft="8dp" />
+
+                <TextView
+                    android:textSize = "24dp"
+                    android:id="@+id/EditProfileDisplayLinkedIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="LinkedIn: "
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/EditProfileDisplayLinkedInDetail"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <EditText
+                    android:lines="1"
+                    android:textSize = "16dp"
+                    android:id="@+id/EditProfileDisplayLinkedInDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:text=""
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/EditProfileDisplayGithubDetail"
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayLinkedIn"
+                    android:layout_marginLeft="8dp" />
+
+                <TextView
+                    android:textSize = "24dp"
+                    android:id="@+id/EditProfileDisplayRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="Room Number: "
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/EditProfileDisplayRoomDetail"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <EditText
+                    android:lines="1"
+                    android:textSize = "16dp"
+                    android:id="@+id/EditProfileDisplayRoomDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:text=""
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/EditProfileDisplayLinkedInDetail"
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayRoom"
+                    android:layout_marginLeft="8dp" />
+
+                <EditText
+                    android:lines="1"
+                    android:textSize = "16dp"
+                    android:id="@+id/EditProfileDisplayDeptDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:text=""
+                    android:maxLines="2"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/EditProfileDisplayProgramDetail"
+                    app:layout_constraintLeft_toRightOf="@+id/EditProfileDisplayDept"
+                    android:layout_marginLeft="8dp" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Update Details"
+                    android:onClick="EditProfileDetails"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/EditProfileDisplayRoomDetail"
+                    tools:layout_editor_absoluteX="217dp" />
+
+            </android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_discussion"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddProject">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Project Title"
+                android:textAppearance="@style/AddProject" />
+
+            <EditText
+                android:id="@+id/TitleDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail" />
+
+            <TextView
+                android:id="@+id/AboutProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="About Project"
+                android:textAppearance="@style/AddProject" />
+
+            <EditText
+                android:id="@+id/AboutProjectDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail" />
+
+            <TextView
+                android:id="@+id/Mentor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Project Mentors (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject" />
+
+            <EditText
+                android:id="@+id/MentorDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail" />
+
+            <TextView
+                android:id="@+id/People"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ProjectPeople/Students involved (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject" />
+
+            <EditText
+                android:id="@+id/ProjectPeopleDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail" />
+
+            <TextView
+                android:id="@+id/ProjectAchievements"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Project Achievements (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject" />
+
+            <EditText
+                android:id="@+id/ProjectAchievementsDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:textAppearance="@style/AddProjectDetail" />
+
+            <Button
+                android:id="@+id/UploadVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="showFileChooser1"
+                android:text="Upload video" />
+
+            <Button
+                android:id="@+id/Add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="AddProject"
+                android:text="Add Project" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
