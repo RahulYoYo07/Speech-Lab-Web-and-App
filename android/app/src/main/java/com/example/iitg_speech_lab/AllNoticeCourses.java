@@ -28,7 +28,10 @@ import java.util.List;
 import java.util.Map;
 
 public class AllNoticeCourses extends AppCompatActivity {
-    public List<HashMap> CourseUser;
+    public List<HashMap> CourseUser=new ArrayList<>();
+    public List CourseUser2;
+    public List CourseUser3;
+    public List<HashMap> CourseUser1;
     public static final String EXTRA_MESSAGE = "com.example.iitg_speech_lab.MESSAGE";
     public List<String> lst=new ArrayList<String>();
     public List<String> lst2=new ArrayList<String>();
@@ -59,9 +62,20 @@ public class AllNoticeCourses extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 //
-                        CourseUser= (List<HashMap>)document.get("CourseList");
-                        if(CourseUser==null)
-                            return;
+                        CourseUser1= (List<HashMap>)document.get("CourseList");
+                        CourseUser2= (List)document.get("ProfCourseList");
+                        CourseUser3= (List)document.get("CoursesListAsTA");
+
+
+                        if(CourseUser1!=null)
+                            CourseUser.addAll(CourseUser1);
+//                        if(CourseUser2!=null)
+//                            CourseUser.addAll(CourseUser2);
+//                        if(CourseUser3!=null)
+//                            CourseUser.addAll(CourseUser3);
+//                        if(CourseUser1==null && CourseUser2 == null && CourseUser3 == null )
+//                            return;
+
 //
                         for (int i=0; i<CourseUser.size(); i++){
 
@@ -69,7 +83,24 @@ public class AllNoticeCourses extends AppCompatActivity {
                             String doc=((DocumentReference)CourseUser.get(i).get("CourseID")).getId();
                             lst.add(doc);
                         }
-
+                        if(CourseUser3!=null)
+                        {
+                            for(int i=0;i<CourseUser3.size();i++){
+                                String doc=((DocumentReference)CourseUser3.get(i)).getId();
+                                if(lst.contains(doc))
+                                    continue;
+                                lst.add(doc);
+                            }
+                        }
+                        if(CourseUser2!=null)
+                        {
+                            for(int i=0;i<CourseUser2.size();i++){
+                                String doc=((DocumentReference)CourseUser2.get(i)).getId();
+                                if(lst.contains(doc))
+                                    continue;
+                                lst.add(doc);
+                            }
+                        }
                         ListView lv = (ListView) findViewById(R.id.NoticeRoomListView);
 //                        String items[] = {"a","b","c"};
                         final String[] items = new String[lst.size()];

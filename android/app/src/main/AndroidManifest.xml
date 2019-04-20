@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PublicNoticeBoardMaster"></activity>
         <activity android:name=".EditProject"></activity>
         <activity android:name=".AllNoticeCourses"></activity>
         <activity android:name=".PublicNoticeBoard" />
