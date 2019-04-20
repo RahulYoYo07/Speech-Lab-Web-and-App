@@ -273,6 +273,10 @@ public class ProfileProjectDashboard extends AppCompatActivity
             Intent intent = new Intent(ProfileProjectDashboard.this, EventDeadlines.class);
             intent.putExtra("username", getIntent().getStringExtra("username"));
             startActivity(intent);
+        } else if (id == R.id.DashAdmin){
+            Intent intent = new Intent(ProfileProjectDashboard.this, AdminDashboard.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

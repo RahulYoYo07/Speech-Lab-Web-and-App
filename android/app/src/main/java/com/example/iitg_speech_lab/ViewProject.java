@@ -37,12 +37,12 @@ import org.w3c.dom.Text;
 
 public class ViewProject extends AppCompatActivity {
     public static String ProjectID;
-    private ProgressBar spinner;
     VideoView videoView;
     MediaController mediaController;
     ProgressBar bufferProgress;
     FloatingActionButton fab;
     static String username;
+    private ProgressBar spinner;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -52,14 +52,9 @@ public class ViewProject extends AppCompatActivity {
         actionBar.setTitle("Project Details");
         username=getIntent().getStringExtra("username");
         fab = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
-        if (username.equals("")){
-            fab.setVisibility(View.INVISIBLE);
-        }else {
-            fab.setVisibility(View.VISIBLE);
-        }
+        spinner = (ProgressBar) findViewById(R.id.progressBar6);
         bufferProgress=(ProgressBar) findViewById(R.id.progressBar);
         ProjectID=getIntent().getStringExtra("projectID");
-        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
         spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Projects").document(ProjectID);
@@ -69,7 +64,6 @@ public class ViewProject extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
-                            spinner.setVisibility(View.GONE);
                             if (user.exists()) {
                                 final String About = user.getString("AboutProject");
                                 final String Title = user.getString("Title");
@@ -108,6 +102,7 @@ public class ViewProject extends AppCompatActivity {
                                         return false;
                                     }
                                 });
+                                spinner.setVisibility(View.INVISIBLE);
                                 videoView.start();
                                 txtTitle.setMovementMethod(new ScrollingMovementMethod());
                                 txtabout.setMovementMethod(new ScrollingMovementMethod());
