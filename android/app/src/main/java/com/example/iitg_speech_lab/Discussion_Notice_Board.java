@@ -10,6 +10,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,11 +63,16 @@ import java.util.Set;
 
 public class Discussion_Notice_Board extends AppCompatActivity {
 
+    public ProgressBar spinner;
     public String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion__notice__board);
+
+        spinner = (ProgressBar) findViewById(R.id.progressBar10);
+
+        spinner.setVisibility(View.VISIBLE);
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
@@ -90,6 +96,7 @@ public class Discussion_Notice_Board extends AppCompatActivity {
                         if (e != null) {
                             return;
                         }
+                        spinner.setVisibility(View.GONE);
                         TextView textV = findViewById(R.id.textView2);
                         textV.setText("");
 

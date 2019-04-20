@@ -53,7 +53,7 @@ public class ViewCourse extends AppCompatActivity
                     new FragmentAssignments()).commit();
             navigationView.setCheckedItem(R.id.nav_assignments);
         }
-        Toast.makeText(ViewCourse.this, courseInfo, Toast.LENGTH_LONG).show();
+//        Toast.makeText(ViewCourse.this, courseInfo, Toast.LENGTH_LONG).show();
     }
 
     @Override

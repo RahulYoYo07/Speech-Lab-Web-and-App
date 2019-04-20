@@ -48,7 +48,7 @@ public class ViewAssignment extends AppCompatActivity
                     new FragmentGroups()).commit();
             navigationView.setCheckedItem(R.id.nav_groups);
         }
-        Toast.makeText(ViewAssignment.this, courseInfo + " " + assignmentID , Toast.LENGTH_LONG).show();
+//        Toast.makeText(ViewAssignment.this, courseInfo + " " + assignmentID , Toast.LENGTH_LONG).show();
     }
 
     @Override
