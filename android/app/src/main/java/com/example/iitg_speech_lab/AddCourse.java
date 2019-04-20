@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firestore.v1.WriteResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +76,11 @@ public class AddCourse extends AppCompatActivity {
                 EndSem.put("SemesterType",CEndType);
                 EndSem.put("Session",CEndYear);
                 CourseMap.put("EndSemester",EndSem);
+                DocumentReference usr = db.collection("Users").document(CoursesActivity.username);
+                ArrayList<DocumentReference> fsd = new ArrayList<DocumentReference>();
+                fsd.add(usr);
                 CourseMap.put("Weightage",Weight);
+                CourseMap.put("FacultyList",fsd);
                 ref.document(Cid).set(CourseMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

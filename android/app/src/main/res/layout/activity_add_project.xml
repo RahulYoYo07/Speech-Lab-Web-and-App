@@ -86,13 +86,12 @@
                 android:maxLines="3"
                 android:textAppearance="@style/AddProjectDetail"/>
             <Button
-                android:id="@+id/UploadVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Upload video"
                 android:onClick="showFileChooser1"
-                />
+                android:id="@+id/UploadVideo"/>
 
             <Button
                 android:layout_width="wrap_content"

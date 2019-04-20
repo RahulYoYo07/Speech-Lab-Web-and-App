@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
@@ -46,6 +47,8 @@ public class ViewProject extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_project);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Project Details");
         username=getIntent().getStringExtra("username");
         fab = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
         if (username.equals("")){

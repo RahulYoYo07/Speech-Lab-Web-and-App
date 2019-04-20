@@ -3,6 +3,7 @@ package com.example.iitg_speech_lab;
 import android.content.Intent;
 import android.os.*;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,14 +24,23 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 import com.microsoft.identity.client.IAccount;
 import com.microsoft.identity.client.PublicClientApplication;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AfterLoginHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +50,9 @@ public class AfterLoginHomePage extends AppCompatActivity
     private CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     static int check=0;
+    static int  kyaadminh=1;
+    static Boolean adminhkya=false;
+    static String isfirst;
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
 
@@ -47,9 +60,47 @@ public class AfterLoginHomePage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_login_home_page);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("SPEECH LAB IITG");
+        setSupportActionBar(toolbar);
+        isfirst=getIntent().getStringExtra("isfirst");
 
         //Code For Sliding Images
-
+        final FirebaseFirestore admindb = FirebaseFirestore.getInstance();
+            final DocumentReference usrRef = admindb.collection("Users").document(getIntent().getStringExtra("username"));
+            usrRef.get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
+                            if (task1.isSuccessful()) {
+                                DocumentSnapshot ad = task1.getResult();
+                                try {
+                                    if (ad.exists()) {
+                                        try {
+                                            if (ad.getBoolean("isAdmin")) {
+                                                kyaadminh = 0;
+                                                adminhkya = true;
+                                            }
+                                        } catch (Exception e) {
+                                            adminhkya = false;
+                                        }
+                                        if (isfirst.equals("1")) {
+                                            kyaadminh = 1;
+                                            adminhkya = false;
+                                        }
+                                        removeadmin();
+                                    }
+                                } catch (Exception e){
+                                    if (isfirst.equals("1")) {
+                                        kyaadminh = 1;
+                                        adminhkya = false;
+                                    }
+                                    removeadmin();
+                                }
+                                }
+                        }
+                    });
+            Log.d("adjad", isfirst);
         final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
         DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
         userRef.get()
@@ -92,8 +143,7 @@ public class AfterLoginHomePage extends AppCompatActivity
         } catch (IndexOutOfBoundsException e) {
             Log.d(TAG, "Account at this position does not exist: " + e.toString());
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -163,7 +213,6 @@ public class AfterLoginHomePage extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.after_login_home_page, menu);
         return true;
     }
 
@@ -192,7 +241,7 @@ public class AfterLoginHomePage extends AppCompatActivity
             Intent intent = new Intent(AfterLoginHomePage.this, ViewPeople.class);
             startActivity(intent);
         } else if (id == R.id.AfterLoginFAQ) {
-            Intent intent = new Intent(AfterLoginHomePage.this, AdminDashboard.class);
+            Intent intent = new Intent(AfterLoginHomePage.this, ViewFaqListView.class);
             startActivity(intent);
         } else if (id == R.id.AfterLoginContactUs){
             Intent intent = new Intent(AfterLoginHomePage.this, ContactUs.class);
@@ -210,11 +259,26 @@ public class AfterLoginHomePage extends AppCompatActivity
             startActivity(intent);
         } else if(id == R.id.AfterLoginLogOut){
             onSignOutClicked();
+        } else if (id==R.id.Admin){
+            Intent intent = new Intent(AfterLoginHomePage.this, AdminDashboard.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void removeadmin(){
+        NavigationView navigationView1;
+        Menu menu;
+        navigationView1 = (NavigationView) findViewById(R.id.nav_view);
+        if (kyaadminh==1||!adminhkya){
+            Log.d("Naveendhd", "xhxbjdb");
+            menu = (Menu) navigationView1.getMenu();
+            menu.removeItem(R.id.Admin);
+        }
     }
     private void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1500) {

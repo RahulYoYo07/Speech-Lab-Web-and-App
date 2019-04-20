@@ -78,8 +78,8 @@
                     android:id="@+id/btnUpload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="showFileChooser"
-                    android:text="Upload Image" />
+                    android:text="Choose Image"
+                    android:onClick="showFileChooser"/>
             </RelativeLayout>
 
 
@@ -366,5 +366,17 @@
             </android.support.constraint.ConstraintLayout>
         </RelativeLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_discussion"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

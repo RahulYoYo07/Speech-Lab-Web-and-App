@@ -3,6 +3,7 @@ package com.example.iitg_speech_lab;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +37,17 @@ import java.util.Map;
 public class EditDeleteFaq extends AppCompatActivity {
     final ArrayList<String> questionList = new ArrayList<>();
     final ArrayList<String> answerList = new ArrayList<>();
+    private ProgressBar spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_delete_faq);
         final ListView listView = (ListView) findViewById(R.id.EditDeleteFaqListView);
         registerForContextMenu(listView);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Edit/Delete FAQ");
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Homepage").document("faq");
         userRef.get()
@@ -48,6 +56,7 @@ public class EditDeleteFaq extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
+                            spinner.setVisibility(View.GONE);
                             if (user.exists()) {
                                 final ArrayList<Map<String, String>> ans = (ArrayList<Map<String, String>>) user.get("qa");
                                 int i = 0;

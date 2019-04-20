@@ -37,7 +37,7 @@ public class AddAssignment extends AppCompatActivity {
         cinfo = getIntent().getStringExtra("courseInfo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assignment);
-        String userName = "pradip";
+        //String userName = "pradip";
         CalendarView calender = findViewById(R.id.calendarView);
         calender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 

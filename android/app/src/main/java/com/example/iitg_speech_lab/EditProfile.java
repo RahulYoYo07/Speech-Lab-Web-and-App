@@ -4,11 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,6 @@ import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.protobuf.Any;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -36,6 +36,7 @@ public class EditProfile extends AppCompatActivity {
 
     static String GetUsername ;
     String durl="";
+    private ProgressBar spinner;
     private Uri filePath;
     private static final int PICK_FILE_REQUEST = 234;
 
@@ -44,6 +45,8 @@ public class EditProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         GetUsername = getIntent().getStringExtra("username");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Edit Profile");
         final TextView Name = (TextView) findViewById(R.id.EditProfileDisplayNameDetail);
         final TextView Username = (TextView) findViewById(R.id.EditProfileDisplayUsernameDetail);
         final EditText Program = (EditText) findViewById(R.id.EditProfileDisplayProgramDetail);
@@ -58,7 +61,8 @@ public class EditProfile extends AppCompatActivity {
         final EditText Room = (EditText) findViewById(R.id.EditProfileDisplayRoomDetail);
         final TextView RoomDecide = (TextView) findViewById(R.id.EditProfileDisplayRoom);
         //Log.d("tushar",Name.getText().toString());
-        ;
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference userRef = db.collection("Users").document(GetUsername);
         userRef.get()
@@ -67,6 +71,7 @@ public class EditProfile extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
+                            spinner.setVisibility(View.GONE);
                             if (user.exists()) {
                                 Name.setText(user.getString("FullName"));
                                 Username.setText(user.getString("Username"));
@@ -81,20 +86,20 @@ public class EditProfile extends AppCompatActivity {
                                 LinkedIn.setText(map.get("Linkedin"));
                                 durl = map.get("ProfilePic");
                                 try{
-                                if (user.getString("Designation").equals("Student")) {
-                                    Program.setText(user.getString("Program"));
-                                    Room.setText(user.getString("RollNumber"));
-                                    RoomDecide.setText("Roll Number");
-                                } else {
-                                    Program.setText(user.getString("CollegeDesignation"));
-                                    ProgramDecide.setText("Designation: ");
-                                    Room.setText(user.getString("RoomNumber"));
-                                }
-                                if (user.getString("ProfilePic").length() > 0) {
-                                    CircleImageView img = (CircleImageView) findViewById(R.id.EditProfileprofile);
-                                    String url = user.getString("ProfilePic");
-                                    Picasso.get().load(url).into(img);
-                                }}
+                                    if (user.getString("Designation").equals("Student")) {
+                                        Program.setText(user.getString("Program"));
+                                        Room.setText(user.getString("RollNumber"));
+                                        RoomDecide.setText("Roll Number");
+                                    } else {
+                                        Program.setText(user.getString("CollegeDesignation"));
+                                        ProgramDecide.setText("Designation: ");
+                                        Room.setText(user.getString("RoomNumber"));
+                                    }
+                                    if (user.getString("ProfilePic").length() > 0) {
+                                        CircleImageView img = (CircleImageView) findViewById(R.id.EditProfileprofile);
+                                        String url = user.getString("ProfilePic");
+                                        Picasso.get().load(url).into(img);
+                                    }}
                                 catch (Exception e){
                                     System.out.println(e.getMessage());
                                 }
@@ -184,6 +189,7 @@ public class EditProfile extends AppCompatActivity {
             Picasso.get().load(filePath).into(img);
             uploadFile();
 
+
         }
     }
 
@@ -237,6 +243,7 @@ public class EditProfile extends AppCompatActivity {
                         public void onSuccess(Uri downloadUrl)
                         {
                             durl=downloadUrl.toString();
+
                         }
                     });
                 }

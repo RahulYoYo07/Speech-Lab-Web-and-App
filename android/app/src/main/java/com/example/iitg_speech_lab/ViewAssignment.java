@@ -1,5 +1,6 @@
 package com.example.iitg_speech_lab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -106,9 +107,11 @@ public class ViewAssignment extends AppCompatActivity
         } else if (id == R.id.nav_grading) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
                     new FragmentGrading()).commit();
-        } else if (id == R.id.nav_deadline) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
-                    new FragmentDeadline()).commit();
+        } else if (id == R.id.nav_update_assignment) {
+            Intent intent = new Intent(ViewAssignment.this, UpdAssignment.class);
+            intent.putExtra("cInfo", ViewAssignment.courseInfo);
+            intent.putExtra("aid", ViewAssignment.assignmentID);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
