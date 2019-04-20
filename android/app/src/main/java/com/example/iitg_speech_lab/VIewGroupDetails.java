@@ -65,7 +65,7 @@ public class VIewGroupDetails extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task2) {
                                                     if (task2.isSuccessful()) {
                                                         DocumentSnapshot User = task2.getResult();
-                                                        textTeam.append(User.getString("FullName") + "\n" + User.getString("RollNumber")+"\n\n");
+                                                        textTeam.append((User.getString("FullName")).toUpperCase() + "\n" + User.getString("RollNumber")+"\n\n");
                                                     }
                                                 }
                                             });
