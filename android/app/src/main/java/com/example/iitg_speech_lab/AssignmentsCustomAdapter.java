@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.annotation.NonNull;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.iitg_speech_lab.Model.AssignmentsDataModel;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 
 public class AssignmentsCustomAdapter extends RecyclerView.Adapter<AssignmentsCustomAdapter.MyViewHolder>  {
     private ArrayList<AssignmentsDataModel> dataSet;
+    private ProgressBar spinner1;
+    private ProgressBar spinner2;
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 

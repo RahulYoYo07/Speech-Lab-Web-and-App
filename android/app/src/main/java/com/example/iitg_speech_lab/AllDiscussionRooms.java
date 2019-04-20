@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +33,8 @@ public class AllDiscussionRooms extends AppCompatActivity {
     public List CourseUser2;
     public List CourseUser3;
     public List<HashMap> CourseUser1;
+    private ProgressBar spinner1;
+    private ProgressBar spinner2;
 
 
     public static final String EXTRA_MESSAGE = "com.example.iitg_speech_lab.MESSAGE";
@@ -47,6 +50,14 @@ public class AllDiscussionRooms extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_discussion_rooms);
+
+        spinner1 = (ProgressBar) findViewById(R.id.progressBar7);
+
+        spinner1.setVisibility(View.VISIBLE);
+
+        spinner2 = (ProgressBar) findViewById(R.id.progressBar8);
+
+        spinner2.setVisibility(View.VISIBLE);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -104,6 +115,8 @@ public class AllDiscussionRooms extends AppCompatActivity {
                             }
                         }
 
+                        spinner1.setVisibility(View.GONE);
+
                         ListView lv = (ListView) findViewById(R.id.DiscussionRoomListView);
 //                        String items[] = {"a","b","c"};
                         final String[] items = new String[lst.size()];
@@ -144,6 +157,9 @@ public class AllDiscussionRooms extends AppCompatActivity {
                                                                                     lst5.add(tt);
                                                                                     ListView lv2 = (ListView) findViewById(R.id.DiscussionRoomAssigmentListView);
                                                                                     if(lst2.size()>0){
+                                                                                        spinner2.setVisibility(View.GONE);
+
+
                                                                                         final String[] items2 = new String[lst2.size()];
                                                                                         final String[] items3 = new String[lst3.size()];
                                                                                         final String[] items4 = new String[lst4.size()];

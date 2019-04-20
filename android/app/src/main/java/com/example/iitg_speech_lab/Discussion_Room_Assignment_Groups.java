@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -48,6 +49,8 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
     public String AssignmentId="As_01";
     public String GroupId="1";
     public String username="1";
+    private ProgressBar spinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,9 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
         String Heading = "<h1>" + message +" "+AssignmentId+" Discussion Room"+"</h1> ";
         DiscussionHeading.setText(Html.fromHtml(Heading));
 
+        spinner = (ProgressBar) findViewById(R.id.progressBar11);
 
+        spinner.setVisibility(View.VISIBLE);
         final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout_assignment);
 
         // create the layout params that will be used to define how your
@@ -92,6 +97,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 //                            Log.w(TAG, "listen:error", e);
                             return;
                         }
+                        spinner.setVisibility(View.GONE);
 
 
                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
@@ -225,11 +231,11 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                         ll.addView(replybtn);
                                         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) btn.getLayoutParams();
                                         params1.width=300;
-                                        params1.height=100;
+                                        params1.height=150;
                                         btn.setLayoutParams(params1);
                                         LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
                                         params3.width=300;
-                                        params3.height=100;
+                                        params3.height=150;
                                         replybtn.setLayoutParams(params3);
                                     }
 
@@ -398,7 +404,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                         ll.addView(replybtn);
                                         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
                                         params1.width=300;
-                                        params1.height=100;
+                                        params1.height=150;
                                         replybtn.setLayoutParams(params1);
                                     }
 
