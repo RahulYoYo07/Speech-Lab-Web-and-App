@@ -87,9 +87,9 @@ public class Master<sampleApp> extends AppCompatActivity
     private CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     static int check=0;
+    private ProgressBar spinner;
     /* UI & Debugging Variables */
     private static final String TAG = Master.class.getSimpleName();
-    Button projects;
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
     private AuthenticationResult authResult;
@@ -99,6 +99,7 @@ public class Master<sampleApp> extends AppCompatActivity
         setContentView(R.layout.activity_master);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("SPEECH LAB IITG");
+        spinner = (ProgressBar) findViewById(R.id.progressBar2);
         setSupportActionBar(toolbar);
         //Code for Sliding Images
 
@@ -116,6 +117,7 @@ public class Master<sampleApp> extends AppCompatActivity
                                 ViewPager viewPager = findViewById(R.id.MasterViewPager);
                                 SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
                                 viewPager.setAdapter(adapter);
+                                spinner.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
@@ -176,12 +178,8 @@ public class Master<sampleApp> extends AppCompatActivity
      * Callback will call Graph api w/ access token & update UI
      */
     private void onCallGraphClicked() {
+        spinner.setVisibility(View.VISIBLE);
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
-    }
-
-    private void projectload(){
-        Intent intent = new Intent(Master.this, ProjectsActivity.class);
-        startActivity(intent);
     }
 
     /* Use Volley to make an HTTP request to the /me endpoint from MS Graph using an access token */
@@ -336,6 +334,7 @@ public class Master<sampleApp> extends AppCompatActivity
                             else{
                                 db.collection("Users").document(username).set(newUser);
                                 isfirst="1";
+                                spinner.setVisibility(View.INVISIBLE);
                                 updateSuccessUI(graphResponse);
                             }
                         }
@@ -346,7 +345,7 @@ public class Master<sampleApp> extends AppCompatActivity
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI(JSONObject graphResponse) {
         finish();
-        Intent intent = new Intent(Master.this, AfterLoginHomePage.class);
+        Intent intent = new Intent(Master.this, ProfileProjectDashboard.class);
         intent.putExtra("username", graphResponse.optString("mail").replace("@iitg.ac.in", ""));
         intent.putExtra("isfirst", isfirst);
         startActivity(intent);
@@ -377,7 +376,6 @@ public class Master<sampleApp> extends AppCompatActivity
 
                 /* Store the authResult */
                 authResult = authenticationResult;
-
                 /* call graph */
                 callGraphAPI();
             }

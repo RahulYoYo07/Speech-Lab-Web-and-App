@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class AfterLoginHomePage extends AppCompatActivity
     static int  kyaadminh=1;
     static Boolean adminhkya=false;
     static String isfirst;
+    private ProgressBar spinner;
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
 
@@ -63,8 +65,9 @@ public class AfterLoginHomePage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("SPEECH LAB IITG");
         setSupportActionBar(toolbar);
+        spinner = (ProgressBar) findViewById(R.id.progressBar4);
         isfirst=getIntent().getStringExtra("isfirst");
-
+        spinner.setVisibility(View.VISIBLE);
         //Code For Sliding Images
         final FirebaseFirestore admindb = FirebaseFirestore.getInstance();
             final DocumentReference usrRef = admindb.collection("Users").document(getIntent().getStringExtra("username"));
@@ -115,6 +118,7 @@ public class AfterLoginHomePage extends AppCompatActivity
                                 ViewPager viewPager = findViewById(R.id.AfterLoginViewPager);
                                 SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
                                 viewPager.setAdapter(adapter);
+                                spinner.setVisibility(View.INVISIBLE);
                             }
                         }
                     }

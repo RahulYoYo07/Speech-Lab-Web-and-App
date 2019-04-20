@@ -45,8 +45,12 @@
                 android:icon="@drawable/ic_home"
                 android:id ="@+id/ProfileDashboardHome"
                 android:title="Home"/>
+        <item
+                android:id="@+id/DashAdmin"
+                android:icon="@drawable/ic_vpn_key_black_24dp"
+                android:title="Admin" />
             <item
-                android:id="@+id/AfterLoginLogOut"
+                android:id="@+id/ProfileLogout"
                 android:icon="@drawable/ic_logout"
                 android:title="Log Out" />
 
