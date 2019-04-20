@@ -182,7 +182,8 @@
 
                     var DivButton = document.createElement('button');
                     DivButton.classList.add("btn");
-                    DivButton.classList.add("btn-link");
+                    DivButton.classList.add("btn-block");
+
                     if(msgCnt != 1){
                       DivButton.classList.add("collapsed");
                     }
@@ -196,8 +197,8 @@
                       DivButton.setAttribute("aria-expanded", "false");
                     }
                     DivButton.setAttribute("aria-controls", MessageID + "collapseOne")
-                    DivButton.innerHTML = '<h4>'+ messageHead + '</h4><h5>' + message +  '</h5>';
-                    DivButton.innerHTML += '<div align="right"> <b>'+Author+'</b> </div>';
+                    DivButton.innerHTML = '<h5 align="left"><b>'+ messageHead + '</b></h5><p align="left">' + message +  '</p>';
+                    DivButton.innerHTML += '<p align="right">'+Author+'</p>';
 
 
                     MessageDiv.id = MessageID;
@@ -249,7 +250,7 @@
                       var msg='';
                       var i=0
                       for(i=0;i<data['Replies'].length;i++){
-                          msg=msg+'<br/> <b>'+ data['Replies'][i]['Author']+'</b>: '+data['Replies'][i]['ReplyBody'];
+                          msg='<p>'+msg+'<br/><b>'+ data['Replies'][i]['Author']+'</b>: '+data['Replies'][i]['ReplyBody']+'</p>';
                       }
                       DivReplyMsg.innerHTML = msg;
 
@@ -329,7 +330,7 @@
 
                   var DivButton = document.createElement('button');
                   DivButton.classList.add("btn");
-                  DivButton.classList.add("btn-link");
+                  DivButton.classList.add("btn-block");
                   if(msgCnt != 1){
                     DivButton.classList.add("collapsed");
                   }
@@ -343,8 +344,8 @@
                     DivButton.setAttribute("aria-expanded", "false");
                   }
                   DivButton.setAttribute("aria-controls", MessageID + "collapseOne")
-                  DivButton.innerHTML = '<h4>'+ PollQues + '</h4>';
-                  DivButton.innerHTML += '<div align="right"> <b>'+Author+'</b> </div>';
+                  DivButton.innerHTML = '<h5 align="left"><b>'+ PollQues + '</b></h5>';
+                  DivButton.innerHTML += '<p align="right">'+Author+'</p>';
 
 
                   MessageDiv.id = MessageID;
