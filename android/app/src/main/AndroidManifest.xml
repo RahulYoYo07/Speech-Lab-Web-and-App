@@ -84,8 +84,7 @@
         <activity
             android:name=".ContactUs"/>
         <activity
-            android:name=".ViewProject"
-            android:parentActivityName=".ProjectsActivity" />
+            android:name=".ViewProject" />
         <activity
             android:name=".Master"
             android:theme="@style/AppTheme.NoActionBar">

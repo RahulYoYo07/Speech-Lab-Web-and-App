@@ -157,6 +157,10 @@ public class ViewProject extends AppCompatActivity {
                                         int which) {
                         final FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("Projects").document(ProjectID).delete();
+                        finish();
+                        Intent intent = new Intent(ViewProject.this, ProjectsActivity.class);
+                        intent.putExtra("username", username);
+                        startActivity(intent);
                     }
                 });
         dialog.setNegativeButton("CANCEL",new DialogInterface.OnClickListener() {
