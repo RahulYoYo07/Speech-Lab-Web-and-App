@@ -37,6 +37,7 @@ public class ProjectsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Projects");
         setSupportActionBar(toolbar);
         final String username = getIntent().getStringExtra("username");
         Log.d("Navee",username);

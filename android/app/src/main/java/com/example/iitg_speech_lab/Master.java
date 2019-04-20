@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.*;
@@ -78,6 +79,9 @@ public class Master<sampleApp> extends AppCompatActivity
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://graph.microsoft.com/User.Read+profile+openid+offline_access"};
     final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
+    static String isfirst="0";
+    static String roll;
+    static String department="";
     static String Username="";
     private static final long START_TIME_IN_MILLIS = 600000;
     private CountDownTimer mCountDownTimer;
@@ -94,8 +98,8 @@ public class Master<sampleApp> extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("SPEECH LAB IITG");
         setSupportActionBar(toolbar);
-
         //Code for Sliding Images
 
         final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
@@ -236,16 +240,64 @@ public class Master<sampleApp> extends AppCompatActivity
     //
 
     /* Sets the graph response */
-    private void updateGraphUI(JSONObject graphResponse) {
+    private void updateGraphUI(final JSONObject graphResponse) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final String username = graphResponse.optString("mail").replace("@iitg.ac.in", "");
         final Map<String, Object> newUser = new HashMap<>();
         final Map<String, Object> Url = new HashMap<>();
-        String des = graphResponse.optString("jobTitle").toLowerCase();
+
+        List<String> branchlist = new ArrayList<String>();
+        branchlist.add("Computer Science and Engineering");
+        branchlist.add("Electronics and Communication Engineering");
+        branchlist.add("Mechanical Engineering");
+        branchlist.add("Chemical Engineering");
+        branchlist.add("Department of Design");
+        branchlist.add("BSBE");
+        branchlist.add("Civil Engineering");
+        branchlist.add("Electronics and Electrical Engineering");
+        branchlist.add("Chemical Science and Technology");
+        branchlist.add("Mathematics");
+        branchlist.add("Engineering Physics");
+        branchlist.add("Humanities and Social Sciences");
+
+        String des = graphResponse.optString("jobTitle");
         newUser.put("About", "");
         newUser.put("Contact", "");
-        newUser.put("Department", graphResponse.optString("Department").toLowerCase());
+        roll= graphResponse.optString("surname").substring(4, 6);
+        Log.d("asdfg", roll);
+        if(roll!=null)
+        {
+            Integer tt=null;
+            for (int i=0;i<8;i++)
+            {
+                if (roll.equals(Integer.toString(i)+"1"))
+                {
+                    Log.d("asdfgddd", roll);
+                    department = branchlist.get(i);
+                    Log.d("asdfgddddddd", department);
+                    break;
+                }
+            }
 
+            if(roll.equals(21))
+            {
+                department = branchlist.get(10);
+            }
+            else if(roll.equals(22))
+            {
+                department = branchlist.get(8);
+            }
+            else if(roll.equals(23))
+            {
+                department = branchlist.get(9);
+            }
+            else if(roll.equals(41))
+            {
+                department = branchlist.get(11);
+            }
+        }
+
+        newUser.put("Department", department);
         final String designation ;
         if(des.equalsIgnoreCase("btech") || des.equalsIgnoreCase("mtech") ||
                 des.equalsIgnoreCase("bdes") || des.equalsIgnoreCase("mdes")
@@ -279,14 +331,16 @@ public class Master<sampleApp> extends AppCompatActivity
                             DocumentSnapshot user = task.getResult();
                             if(user.exists()){
                                 Log.d(TAG, "Already Added");
+                                updateSuccessUI(graphResponse);
                             }
                             else{
                                 db.collection("Users").document(username).set(newUser);
+                                isfirst="1";
+                                updateSuccessUI(graphResponse);
                             }
                         }
                     }
                 });
-        updateSuccessUI(graphResponse);
     }
 
     /* Set the UI for successful token acquisition data */
@@ -294,7 +348,7 @@ public class Master<sampleApp> extends AppCompatActivity
         finish();
         Intent intent = new Intent(Master.this, AfterLoginHomePage.class);
         intent.putExtra("username", graphResponse.optString("mail").replace("@iitg.ac.in", ""));
-        intent.putExtra("JsonString", graphResponse.toString());
+        intent.putExtra("isfirst", isfirst);
         startActivity(intent);
     }
 

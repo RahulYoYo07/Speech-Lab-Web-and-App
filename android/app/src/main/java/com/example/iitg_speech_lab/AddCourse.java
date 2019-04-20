@@ -76,9 +76,9 @@ public class AddCourse extends AppCompatActivity {
                 EndSem.put("SemesterType",CEndType);
                 EndSem.put("Session",CEndYear);
                 CourseMap.put("EndSemester",EndSem);
-                DocumentReference usr = db.collection("Users").document();
+                DocumentReference usr = db.collection("Users").document(CoursesActivity.username);
                 ArrayList<DocumentReference> fsd = new ArrayList<DocumentReference>();
-                fsd.add(usr)
+                fsd.add(usr);
                 CourseMap.put("Weightage",Weight);
                 CourseMap.put("FacultyList",fsd);
                 ref.document(Cid).set(CourseMap).addOnSuccessListener(new OnSuccessListener<Void>() {

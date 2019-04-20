@@ -2,9 +2,12 @@ package com.example.iitg_speech_lab;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,12 +26,15 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PrivateProfileDetails extends AppCompatActivity {
+    private ProgressBar spinner;
     static String GetUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_profile_details);
         GetUsername = getIntent().getStringExtra("username");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Profile");
         final TextView Name = (TextView) findViewById(R.id.DisplayNameDetail);
         final TextView Username = (TextView) findViewById(R.id.DisplayUsernameDetail);
         final TextView Program = (TextView) findViewById(R.id.DisplayProgramDetail);
@@ -42,6 +48,8 @@ public class PrivateProfileDetails extends AppCompatActivity {
         final TextView ProgramDecide = (TextView) findViewById(R.id.DisplayProgram);
         final TextView Room = (TextView) findViewById(R.id.DisplayRoomDetail);
         final TextView RoomDecide = (TextView) findViewById(R.id.DisplayRoom);
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
         //Log.d("tushar",Name.getText().toString());
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference userRef = db.collection("Users").document(GetUsername);
@@ -51,6 +59,7 @@ public class PrivateProfileDetails extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
+                            spinner.setVisibility(View.GONE);
                             if(user.exists()){
                                 Name.setText(user.getString("FullName"));
                                 Username.setText(user.getString("Username"));

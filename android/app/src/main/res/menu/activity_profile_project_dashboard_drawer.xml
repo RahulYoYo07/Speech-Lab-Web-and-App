@@ -29,8 +29,8 @@
             android:title="Add Project"
             android:icon ="@drawable/ic_addproject"/>
     </group>
-    <item android:title=" ">
-        <menu>
+    <group android:id="@+id/g5"
+        android:checkableBehavior="single">
             <item
                 android:icon="@drawable/ic_home"
                 android:id ="@+id/ProfileDashboardHome"
@@ -39,9 +39,7 @@
                 android:id="@+id/AfterLoginLogOut"
                 android:icon="@drawable/ic_logout"
                 android:title="Log Out" />
-        </menu>
 
-
-    </item>
+    </group>
 
 </menu>

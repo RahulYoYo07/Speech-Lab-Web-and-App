@@ -30,15 +30,18 @@
             android:icon="@drawable/ic_contact"
             android:title="ContactUs" />
     </group>
-    <item android:title=" ">
-        <menu>
-            <item
-                android:id="@+id/Login"
-                android:icon="@drawable/ic_login"
-                android:title="Login" />
-        </menu>
+
+    <group android:id="@+id/g2"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/Login"
+            android:icon="@drawable/ic_login"
+            android:title="Login" />
+    </group>
 
 
-    </item>
+
+
 
 </menu>

@@ -13,18 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Discussion_Room_Assignment_Groups"></activity>
+        <activity android:name=".AddAssignment"></activity>
+        <activity android:name=".UpdAssignment" />
+        <activity android:name=".Discussion_Room_Assignment_Groups" />
+        <activity android:name=".EnrollStudentCourse"></activity>
         <activity android:name=".Calendar" />
         <activity android:name=".Discussion_Room" />
-        <activity android:name=".EnrollCourse"></activity>
+        <activity android:name=".EnrollCourse" />
         <activity android:name=".Discussion_Notice_Board" />
         <activity
             android:name=".AfterLoginHomePage"
             android:label="@string/title_activity_after_login_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ViewFaqListView"/>
-        <activity android:name=".EditDeleteFaq"/>
-        <activity android:name=".EditFaq"/>
+        <activity android:name=".ViewFaqListView" />
+        <activity android:name=".EditDeleteFaq" />
+        <activity android:name=".EditFaq" />
         <activity
             android:name=".ProfileProjectDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -33,8 +36,8 @@
             android:name=".ViewStudentCourse"
             android:label="@string/title_activity_view_student_course"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ViewMyGroup"></activity>
-        <activity android:name=".UpdateAttendance"></activity>
+        <activity android:name=".ViewMyGroup" />
+        <activity android:name=".UpdateAttendance" />
         <activity
             android:name=".StudentViewCourse"
             android:label="@string/title_activity_student_view_course"
@@ -80,7 +83,7 @@
             android:parentActivityName=".Master" />
         <activity
             android:name=".ViewProject"
-            android:parentActivityName=".ProjectsActivity"/>
+            android:parentActivityName=".ProjectsActivity" />
         <activity
             android:name=".Master"
             android:theme="@style/AppTheme.NoActionBar">
@@ -89,7 +92,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-          </activity>
+        </activity>
         <activity android:name=".ViewPeople" />
         <activity
             android:name=".ProjectsActivity"
@@ -105,11 +108,13 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".MainActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>

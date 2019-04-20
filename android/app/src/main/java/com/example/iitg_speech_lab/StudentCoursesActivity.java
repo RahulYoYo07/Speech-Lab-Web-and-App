@@ -46,8 +46,8 @@ public class StudentCoursesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        username = "gulat170123030";
-
+//        username = "gulat170123030";
+        username = getIntent().getStringExtra("username");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
@@ -175,9 +175,9 @@ public class StudentCoursesActivity extends AppCompatActivity {
         }
 
         private void viewStudentCourseAsTA(View v) {
-            int selectedItemPosition = recyclerView.getChildLayoutPosition(v);
+            int selectedItemPosition = recyclerView2.getChildLayoutPosition(v);
             RecyclerView.ViewHolder viewHolder
-                    = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
+                    = recyclerView2.findViewHolderForLayoutPosition(selectedItemPosition);
             TextView textViewName
                     = null;
             if (viewHolder != null) {
@@ -194,5 +194,10 @@ public class StudentCoursesActivity extends AppCompatActivity {
             intent.putExtra("courseInfo",cinfo);
             startActivity(intent);
         }
+    }
+
+    public void enrolCourse(View v){
+        Intent intent = new Intent(StudentCoursesActivity.this, EnrollStudentCourse.class);
+        startActivity(intent);
     }
 }
