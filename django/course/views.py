@@ -495,6 +495,7 @@ def AddAssgn(request, cinfo):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+    context['CourseInfo'] = cinfo
 
     if request.method == 'POST':
         ref_prof = db.collection(u'Users').document(username)
@@ -513,7 +514,7 @@ def AddAssgn(request, cinfo):
 
         return HttpResponseRedirect(reverse('course:view_course', kwargs={'cinfo': cinfo}))
 
-    return render(request, 'course/addassgnform.html')
+    return render(request, 'course/addassgnform.html',context)
 
 
 def UpAssgn(request, cinfo, aid):
