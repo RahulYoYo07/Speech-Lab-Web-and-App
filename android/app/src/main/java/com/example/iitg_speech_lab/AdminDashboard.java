@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,15 +34,17 @@ public class AdminDashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = AfterLoginHomePage.class.getSimpleName();
     private PublicClientApplication sampleApp;
+    private ProgressBar spinner;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Administrator");
         setSupportActionBar(toolbar);
         //Code For Sliding Images
-
+        spinner = (ProgressBar) findViewById(R.id.progressBar5);
+        spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
         DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
         userRef.get()
@@ -56,6 +59,7 @@ public class AdminDashboard extends AppCompatActivity
                                 ViewPager viewPager = findViewById(R.id.AdminViewPager);
                                 SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
                                 viewPager.setAdapter(adapter);
+                                spinner.setVisibility(View.INVISIBLE);
                             }
                         }
                     }

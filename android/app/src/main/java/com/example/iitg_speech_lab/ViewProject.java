@@ -37,6 +37,7 @@ import org.w3c.dom.Text;
 
 public class ViewProject extends AppCompatActivity {
     public static String ProjectID;
+    private ProgressBar spinner;
     VideoView videoView;
     MediaController mediaController;
     ProgressBar bufferProgress;
@@ -58,6 +59,8 @@ public class ViewProject extends AppCompatActivity {
         }
         bufferProgress=(ProgressBar) findViewById(R.id.progressBar);
         ProjectID=getIntent().getStringExtra("projectID");
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Projects").document(ProjectID);
         userRef.get()
@@ -66,6 +69,7 @@ public class ViewProject extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
+                            spinner.setVisibility(View.GONE);
                             if (user.exists()) {
                                 final String About = user.getString("AboutProject");
                                 final String Title = user.getString("Title");

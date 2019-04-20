@@ -83,9 +83,20 @@ public class EditContactUs extends AppCompatActivity {
         map.put("Website",Website.getText().toString());
         map.put("Location",Location.getText().toString());
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Homepage").document("contactUs");
-        userRef.set(map);
-        Toast.makeText(EditContactUs.this,"Details Edited Successfully",Toast.LENGTH_LONG).show();
+
+        if(Email.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Email field",Toast.LENGTH_LONG).show();
+        } else if(Phone.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Phone Number field",Toast.LENGTH_LONG).show();
+        }else if(Website.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Website field",Toast.LENGTH_LONG).show();
+        }else if(Location.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Location(Address)",Toast.LENGTH_LONG).show();
+        }else {
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference userRef = db.collection("Homepage").document("contactUs");
+            userRef.set(map);
+            Toast.makeText(getApplicationContext(),"Details Edited Successfully",Toast.LENGTH_LONG).show();
+        }
     }
 }
