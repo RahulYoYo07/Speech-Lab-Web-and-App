@@ -15,6 +15,15 @@ from firebase_admin import firestore
 
 import random
 
+from googleapiclient import discovery
+from oauth2client import tools
+from oauth2client.client import OAuth2WebServerFlow
+from oauth2client.file import Storage
+import httplib2
+
+from home.authhelper import loginFLOW
+from datetime import datetime
+
 # cred = credentials.Certificate('./iitg-speech-lab-firebase-adminsdk-ggn1f-2f757184a1.json')
 cred = credentials.Certificate({
     "type": "service_account",
@@ -31,8 +40,22 @@ cred = credentials.Certificate({
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-# Create your views here.
+# Calendar
+flags = tools.argparser.parse_args([])
+FLOW = OAuth2WebServerFlow(
+    client_id='378262545952-1r36bf3nd2bjad3641sprit3020rcpem.apps.googleusercontent.com',
+    client_secret='vMX5C3nvgZ2OKkr1b0aXcZex',
+    scope='https://www.googleapis.com/auth/calendar',
+    user_agent='IITG-Speech-Lab'
+    )
+storage = Storage('calendar.dat')
+credentials = storage.get()
+if credentials is None or credentials.invalid == True:
+    credentials = tools.run_flow(FLOW, storage, flags)
 
+httpObject = httplib2.Http()
+httpObject = credentials.authorize(httpObject)
+service = discovery.build('calendar', 'v3', http=httpObject)
 
 def dashboard(request):
     context = {}
@@ -73,13 +96,22 @@ def dashboard(request):
         Courses = db.collection(u'Courses').get()
         for course in Courses:
             TotalCourses1.append(course.to_dict())
+        TACoursesL = []
 
+        try:
+            TACoursesList = db.collection(u'Users').document(username).get().to_dict()['CoursesListAsTA']
+            for TA in TACoursesList:
+                TACoursesL.append( TA.get().to_dict() )
+        except:
+            pass
+    
         for course in TotalCourses1:
-            if course not in RegisteredCourses:
+            if course not in RegisteredCourses and course not in TACoursesL:
                 TotalCourses.append(course)
 
         context['RegisteredCourses'] = RegisteredCourses
         context['TotalCourses'] = TotalCourses
+        context['TACoursesList'] = TACoursesL
 
         return render(request, 'course/main_page_stud.html', context)
 
@@ -355,9 +387,7 @@ def Add_Grade(request, cinfo, aid, gid):
 
 
 def AddCourse(request):
-    Designation = getDesig(request, cinfo)
-    if Designation != "Faculty":
-        return HttpResponse(status=511)
+
 
     context = {}
     context = loginFLOW(request, context)
@@ -365,6 +395,11 @@ def AddCourse(request):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
+    if Designation != "Faculty":
+        return HttpResponse(status=511)
 
     if request.method == 'POST':
         CourseID = request.POST.get("CourseID", "")
@@ -404,6 +439,14 @@ def AddCourse(request):
         db.collection(u'Users').document(username).update({
             u'ProfCourseList': CoursesList
         })
+
+        calendar = {
+        'summary': cinfo,
+        'timeZone': 'America/Los_Angeles'
+        }
+
+        created_calendar = service.calendars().insert(body=calendar).execute()
+        print(created_calendar['id'])
 
         # return render(request,'course/main_page.html')
         return HttpResponseRedirect(reverse('course:dashboard'))
@@ -580,6 +623,18 @@ def ViewAssgn(request, cinfo, aid):
     #     'cinfo': cinfo,
     #     'aid': aid,
     # }
+    MyGroupList = []
+
+    if Designation == 'Student':
+        for group in GroupDetails:
+            studs = group['StudentList']
+            for stud in studs:
+                if stud['StudentID'] == db.collection(u'Users').document(username):
+                    MyGroupList.append(group)
+    else:
+        MyGroupList = GroupDetails
+
+    context['MyGroupList'] = MyGroupList
     return render(request, 'course/viewassgn.html', context)
 
 
