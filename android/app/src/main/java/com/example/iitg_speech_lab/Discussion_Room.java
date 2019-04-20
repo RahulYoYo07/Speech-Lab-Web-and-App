@@ -57,6 +57,7 @@ public class Discussion_Room extends AppCompatActivity {
     public String m_body;
     public String p_head;
     private ProgressBar spinner;
+    public String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,18 +66,19 @@ public class Discussion_Room extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         final Discussion_Room help=this;
         Intent intent = getIntent();
-        final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        final String message = intent.getStringExtra(AllDiscussionRooms.EXTRA_MESSAGE);
         TextView heading=(TextView) findViewById(R.id.DiscussionHeading);
         heading.append(message);
+        username=intent.getStringExtra("username");
 
         TextView DiscussionHeading = findViewById(R.id.DiscussionHeading);
         String Heading = "<h1>" + message +" Discussion Room"+"</h1> ";
         DiscussionHeading.setText(Html.fromHtml(Heading));
 
 
-            spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
 
-            spinner.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);
 //        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout);
 //
 //        // create the layout params that will be used to define how your
@@ -91,13 +93,13 @@ public class Discussion_Room extends AppCompatActivity {
 ////        ll.setOrientation(LinearLayout.VERTICAL);
 //
         ScrollView sv=(ScrollView) findViewById(R.id.scrollView2);
-            ViewGroup.LayoutParams parall = sv.getLayoutParams();
+        ViewGroup.LayoutParams parall = sv.getLayoutParams();
 //
 //                System.out.println(parall.height);
 //                System.out.println(para.height);
-            parall.height = ((para.height) * 1) / 10;
-            parall.width = (para.width * 1) / 10;
-            sv.setLayoutParams(parall);
+        parall.height = ((para.height) * 1) / 10;
+        parall.width = (para.width * 1) / 10;
+        sv.setLayoutParams(parall);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 //
@@ -162,7 +164,7 @@ public class Discussion_Room extends AppCompatActivity {
 
 
                                                 Map<String, Object> data = new HashMap<>();
-                                                data.put("Author", "Udbhav Chugh");
+                                                data.put("Author", username);
                                                 data.put("ReplyBody",Body);
                                                 data.put("PostTime", FieldValue.serverTimestamp());
                                                 data.put("MessageID",messageID);
@@ -180,27 +182,27 @@ public class Discussion_Room extends AppCompatActivity {
                                                 if(btn.getText()=="Show Replies") {
                                                     FirebaseFirestore db2 = FirebaseFirestore.getInstance();
                                                     db2.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").document(messageID).collection("Replies").orderBy("PostTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        int cc=0;
-                                                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                            String replyString;
-                                                                            if(cc%2==0)
-                                                                            {
-                                                                                replyString="<strong>"+document.getString("Author")+"</strong>:  <b><font color=#00cc37>"+document.getString("ReplyBody") + "</font></b><br>";
-                                                                                cc=1;
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                replyString="<strong>"+document.getString("Author")+"</strong>:  <b><font color=#007fcc>"+document.getString("ReplyBody") + "</font></b><br>";
-                                                                                cc=0;
-                                                                            }
-                                                                            temp.append(Html.fromHtml(replyString));
-                                                                        }
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                            if (task.isSuccessful()) {
+                                                                int cc=0;
+                                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                    String replyString;
+                                                                    if(cc%2==0)
+                                                                    {
+                                                                        replyString="<strong>"+document.getString("Author")+"</strong>:  <b><font color=#00cc37>"+document.getString("ReplyBody") + "</font></b><br>";
+                                                                        cc=1;
                                                                     }
+                                                                    else
+                                                                    {
+                                                                        replyString="<strong>"+document.getString("Author")+"</strong>:  <b><font color=#007fcc>"+document.getString("ReplyBody") + "</font></b><br>";
+                                                                        cc=0;
+                                                                    }
+                                                                    temp.append(Html.fromHtml(replyString));
                                                                 }
-                                                            });
+                                                            }
+                                                        }
+                                                    });
                                                     btn.setText("Hide Replies");
                                                 }
                                                 else{
@@ -246,11 +248,11 @@ public class Discussion_Room extends AppCompatActivity {
                                         ll.addView(replybtn);
                                         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) btn.getLayoutParams();
                                         params1.width=300;
-                                        params1.height=100;
+                                        params1.height=150;
                                         btn.setLayoutParams(params1);
                                         LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
                                         params3.width=300;
-                                        params3.height=100;
+                                        params3.height=150;
                                         replybtn.setLayoutParams(params3);
 
                                     }
@@ -288,86 +290,86 @@ public class Discussion_Room extends AppCompatActivity {
                                                     DocumentSnapshot document = task.getResult();
                                                     final List<String> pollop=(List<String>) document.get("PollOpt");
 
-                                                             int ii;
-                                                            for(ii=0;ii<pollop.size();ii++)
+                                                    int ii;
+                                                    for(ii=0;ii<pollop.size();ii++)
+                                                    {
+                                                        View parrentView = findViewById( R.id.lol );
+                                                        String hel=messageID2+Integer.toString(ii);
+                                                        RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
+//                                                                System.out.println(rdbtn);
+                                                        if(rdbtn==null)
+                                                        {
+                                                            rdbtn = new RadioButton(help);
+//                                                                    rdbtn.setId(ii);
+                                                            rdbtn.setTag(hel);
+
+                                                            String rdb=pollop.get(ii) + "<b>: Vote Count</b>="+Integer.toString(0);
+                                                            rdbtn.setText(Html.fromHtml(rdb));
+                                                            llradio.addView(rdbtn);
+                                                        }
+//                                                                System.out.println(rdbtn);
+                                                    }
+                                                    final int sizee=pollop.size();
+                                                    final int[] arr = new int[sizee];
+                                                    for (int i = 0; i < sizee; i++) {
+                                                        arr[i] = 0;
+                                                    }
+                                                    db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").document(messageID2).collection("Replies").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                                        @Override
+                                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                                                            if (e != null) {
+                                                                return;
+                                                            }
+                                                            for (int i = 0; i < sizee; i++) {
+                                                                arr[i] = 0;
+                                                            }
+                                                            int iii=0;
+                                                            for(iii=0;iii<pollop.size();iii++)
                                                             {
                                                                 View parrentView = findViewById( R.id.lol );
-                                                                String hel=messageID2+Integer.toString(ii);
-                                                                RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
-//                                                                System.out.println(rdbtn);
-                                                                if(rdbtn==null)
-                                                                {
-                                                                    rdbtn = new RadioButton(help);
-//                                                                    rdbtn.setId(ii);
-                                                                    rdbtn.setTag(hel);
+                                                                String hel=messageID2+Integer.toString(iii);
+                                                                RadioButton rdbtn3=(RadioButton) parrentView.findViewWithTag(hel);
+                                                                String rdb=pollop.get(iii) +"<b>: Vote Count</b>="+Integer.toString(0);
+                                                                rdbtn3.setText(Html.fromHtml(rdb));
 
-                                                                    String rdb=pollop.get(ii) + "<b>: Vote Count</b>="+Integer.toString(0);
-                                                                    rdbtn.setText(Html.fromHtml(rdb));
-                                                                    llradio.addView(rdbtn);
-                                                                }
-//                                                                System.out.println(rdbtn);
                                                             }
-                                                            final int sizee=pollop.size();
-                                                         final int[] arr = new int[sizee];
-                                                         for (int i = 0; i < sizee; i++) {
-                                                             arr[i] = 0;
-                                                         }
-                                                         db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").document(messageID2).collection("Replies").addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                                             @Override
-                                                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
-                                                                 if (e != null) {
-                                                                     return;
-                                                                 }
-                                                                 for (int i = 0; i < sizee; i++) {
-                                                                     arr[i] = 0;
-                                                                 }
-                                                    int iii=0;
-                                                for(iii=0;iii<pollop.size();iii++)
-                                                {
-                                                    View parrentView = findViewById( R.id.lol );
-                                                    String hel=messageID2+Integer.toString(iii);
-                                                    RadioButton rdbtn3=(RadioButton) parrentView.findViewWithTag(hel);
-                                                    String rdb=pollop.get(iii) +"<b>: Vote Count</b>="+Integer.toString(0);
-                                                    rdbtn3.setText(Html.fromHtml(rdb));
-
-                                                }
 //                                                                 Set<String> voted = new HashSet<String>();
-                                                                 for (QueryDocumentSnapshot doc : value) {
-                                                                     if (doc.getId() != null) {
+                                                            for (QueryDocumentSnapshot doc : value) {
+                                                                if (doc.getId() != null) {
 //                                                                         String voter=doc.getString("Author");
 //                                                                         voted.add(voter);
-                                                                         long val = doc.getLong("ReplyBody");
-                                                                         int val2 = (int) val;
-                                                                         View parrentView = findViewById( R.id.lol );
-                                                                         String hel=messageID2+Integer.toString(val2);
-                                                                         RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
-                                                                         if (rdbtn == null) {
-                                                                             rdbtn = new RadioButton(help);
-                                                                             rdbtn.setTag(hel);
+                                                                    long val = doc.getLong("ReplyBody");
+                                                                    int val2 = (int) val;
+                                                                    View parrentView = findViewById( R.id.lol );
+                                                                    String hel=messageID2+Integer.toString(val2);
+                                                                    RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
+                                                                    if (rdbtn == null) {
+                                                                        rdbtn = new RadioButton(help);
+                                                                        rdbtn.setTag(hel);
 
-                                                                             String rdb5 = pollop.get(val2) + "<b>: Vote Count</b>=" + Integer.toString(0);
-                                                                             rdbtn.setText(Html.fromHtml(rdb5));
-                                                                             llradio.addView(rdbtn);
-                                                                         }
-                                                                         arr[val2]++;
-                                                                         String voter=doc.getString("Author");
-                                                                         System.out.println(voter);
-                                                                         if(voter.equals("Udbhav Chugh"))
-                                                                         {
-                                                                             int oo=rdbtn.getId();
-                                                                             System.out.println(Integer.toString(oo));
-                                                                             llradio.check(rdbtn.getId());
-                                                                         }
-                                                                         String rdb5 = pollop.get(val2) + "<b>: Vote Count</b>=" + Integer.toString(arr[val2]);
-                                                                         rdbtn.setText(Html.fromHtml(rdb5));
+                                                                        String rdb5 = pollop.get(val2) + "<b>: Vote Count</b>=" + Integer.toString(0);
+                                                                        rdbtn.setText(Html.fromHtml(rdb5));
+                                                                        llradio.addView(rdbtn);
+                                                                    }
+                                                                    arr[val2]++;
+                                                                    String voter=doc.getString("Author");
+                                                                    System.out.println(voter);
+                                                                    if(voter.equals(username))
+                                                                    {
+                                                                        int oo=rdbtn.getId();
+                                                                        System.out.println(Integer.toString(oo));
+                                                                        llradio.check(rdbtn.getId());
+                                                                    }
+                                                                    String rdb5 = pollop.get(val2) + "<b>: Vote Count</b>=" + Integer.toString(arr[val2]);
+                                                                    rdbtn.setText(Html.fromHtml(rdb5));
 
-                                                                     }
-                                                                 }
+                                                                }
+                                                            }
 
 
 
-                                                             }
-                                                         });
+                                                        }
+                                                    });
 
                                                 }
                                             }
@@ -405,12 +407,12 @@ public class Discussion_Room extends AppCompatActivity {
 
                                                 Map<String, Object> data = new HashMap<>();
 
-                                                data.put("Author", "Udbhav Chugh");
+                                                data.put("Author", username);
                                                 data.put("ReplyBody",finvote);
                                                 data.put("PostTime", FieldValue.serverTimestamp());
                                                 data.put("MessageID",messageID2);
 
-                                                db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").document(messageID2).collection("Replies").document("Udbhav Chugh")
+                                                db.collection("Courses").document(message).collection("CourseGroup").document("1").collection("Messages").document(messageID2).collection("Replies").document(username)
                                                         .set(data);
 //                                                et.setText("");
 
@@ -420,7 +422,7 @@ public class Discussion_Room extends AppCompatActivity {
                                         ll.addView(replybtn);
                                         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
                                         params1.width=300;
-                                        params1.height=100;
+                                        params1.height=150;
                                         replybtn.setLayoutParams(params1);
                                     }
 
@@ -481,7 +483,7 @@ public class Discussion_Room extends AppCompatActivity {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Map<String, Object> data = new HashMap<>();
-                data.put("Author", "Udbhav Chugh");
+                data.put("Author", username);
                 data.put("MessageHead", Head);
                 data.put("MessageBody",Body);
                 data.put("PostTime", FieldValue.serverTimestamp());
@@ -589,7 +591,7 @@ public class Discussion_Room extends AppCompatActivity {
                 String pollques = p_head;
 //        List<String> vowelsList = Arrays.asList(pollop);
                 Map<String, Object> data = new HashMap<>();
-                data.put("Author", "Udbhav Chugh");
+                data.put("Author", username);
                 data.put("PollQues", pollques);
                 data.put("PollOpt", pollop2);
                 data.put("PostTime", FieldValue.serverTimestamp());

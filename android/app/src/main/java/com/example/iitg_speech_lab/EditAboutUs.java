@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditAboutUs extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,9 +93,21 @@ public class EditAboutUs extends AppCompatActivity {
         map.put("Head",Head.getText().toString());
         map.put("ImportantPeople",People.getText().toString());
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Homepage").document("AboutUs");
-        userRef.set(map);
-        Toast.makeText(EditAboutUs.this,"Details Edited Successfully",Toast.LENGTH_LONG).show();
+        if(AboutUs.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid about us field",Toast.LENGTH_LONG).show();
+        } else if(Achievements.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Achievements field",Toast.LENGTH_LONG).show();
+        }else if(Established.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Established field",Toast.LENGTH_LONG).show();
+        }else if(Head.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid name of Head",Toast.LENGTH_LONG).show();
+        }else if(People.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid People involved field",Toast.LENGTH_LONG).show();
+        }else {
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference userRef = db.collection("Homepage").document("AboutUs");
+            userRef.set(map);
+            Toast.makeText(EditAboutUs.this,"Details Edited Successfully",Toast.LENGTH_LONG).show();
+        }
     }
 }

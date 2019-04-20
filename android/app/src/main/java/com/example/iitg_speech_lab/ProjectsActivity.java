@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.iitg_speech_lab.Classes.ProjectsMyData;
@@ -37,6 +38,7 @@ public class ProjectsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Projects");
         setSupportActionBar(toolbar);
         final String username = getIntent().getStringExtra("username");
         Log.d("Navee",username);
@@ -102,8 +104,10 @@ public class ProjectsActivity extends AppCompatActivity {
                 cinfo = (String) viewHolder.itemView.getTag();
             }
             Log.d("aman",cinfo);
+            finish();
             Intent intent = new Intent(ProjectsActivity.this, ViewProject.class);
             intent.putExtra("projectID",cinfo);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
             startActivity(intent);
         }
     }

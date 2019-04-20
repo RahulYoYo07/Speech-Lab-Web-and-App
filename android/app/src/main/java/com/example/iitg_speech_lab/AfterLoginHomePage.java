@@ -3,6 +3,7 @@ package com.example.iitg_speech_lab;
 import android.content.Intent;
 import android.os.*;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,19 +19,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 import com.microsoft.identity.client.IAccount;
 import com.microsoft.identity.client.PublicClientApplication;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AfterLoginHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +51,9 @@ public class AfterLoginHomePage extends AppCompatActivity
     private CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     static int check=0;
+    static  String GetUsername;
+    static String isfirst;
+    private ProgressBar spinner;
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
 
@@ -47,9 +61,14 @@ public class AfterLoginHomePage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_login_home_page);
-
+        GetUsername=getIntent().getStringExtra("username");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Welocome, " + GetUsername);
+        setSupportActionBar(toolbar);
+        spinner = (ProgressBar) findViewById(R.id.progressBar4);
+        isfirst=getIntent().getStringExtra("isfirst");
+        spinner.setVisibility(View.VISIBLE);
         //Code For Sliding Images
-
         final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
         DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
         userRef.get()
@@ -64,6 +83,7 @@ public class AfterLoginHomePage extends AppCompatActivity
                                 ViewPager viewPager = findViewById(R.id.AfterLoginViewPager);
                                 SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
                                 viewPager.setAdapter(adapter);
+                                spinner.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
@@ -92,17 +112,7 @@ public class AfterLoginHomePage extends AppCompatActivity
         } catch (IndexOutOfBoundsException e) {
             Log.d(TAG, "Account at this position does not exist: " + e.toString());
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -172,7 +182,6 @@ public class AfterLoginHomePage extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.after_login_home_page, menu);
         return true;
     }
 
@@ -214,11 +223,17 @@ public class AfterLoginHomePage extends AppCompatActivity
             intent.putExtra("username", "");
             startActivity(intent);
         } else if (id ==R.id.AfterLoginDashboard){
+            finish();
             Intent intent = new Intent(AfterLoginHomePage.this, ProfileProjectDashboard.class);
             intent.putExtra("username", getIntent().getStringExtra("username"));
+            intent.putExtra("isfirst", getIntent().getStringExtra("isfirst"));
             startActivity(intent);
         } else if(id == R.id.AfterLoginLogOut){
             onSignOutClicked();
+        }else if(id == R.id.AfterLoginNoticeBoard) {
+            Intent intent = new Intent(AfterLoginHomePage.this, PublicNoticeBoard.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -1,11 +1,13 @@
 package com.example.iitg_speech_lab;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +24,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.*;
@@ -75,17 +78,29 @@ import java.util.concurrent.TimeUnit;
 
 public class Master<sampleApp> extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public boolean internetIsConnected(){
+        try{
+            String cmd="ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(cmd).waitFor()==0);
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
     /* Azure AD v2 Configs */
     final static String SCOPES [] = {"https://graph.microsoft.com/User.Read+profile+openid+offline_access"};
     final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
+    static String isfirst="0";
+    static String roll;
+    static String department="";
     static String Username="";
     private static final long START_TIME_IN_MILLIS = 600000;
     private CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     static int check=0;
+    private ProgressBar spinner;
     /* UI & Debugging Variables */
     private static final String TAG = Master.class.getSimpleName();
-    Button projects;
     /* Azure AD Variables */
     private PublicClientApplication sampleApp;
     private AuthenticationResult authResult;
@@ -93,9 +108,11 @@ public class Master<sampleApp> extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
+        boolean bo=internetIsConnected();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("SPEECH LAB IITG");
+        spinner = (ProgressBar) findViewById(R.id.progressBar2);
         setSupportActionBar(toolbar);
-
         //Code for Sliding Images
 
         final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
@@ -112,20 +129,11 @@ public class Master<sampleApp> extends AppCompatActivity
                                 ViewPager viewPager = findViewById(R.id.MasterViewPager);
                                 SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
                                 viewPager.setAdapter(adapter);
+                                spinner.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
                 });
-
-        //Code for Sliding imaegs
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -182,12 +190,8 @@ public class Master<sampleApp> extends AppCompatActivity
      * Callback will call Graph api w/ access token & update UI
      */
     private void onCallGraphClicked() {
+        spinner.setVisibility(View.VISIBLE);
         sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
-    }
-
-    private void projectload(){
-        Intent intent = new Intent(Master.this, ProjectsActivity.class);
-        startActivity(intent);
     }
 
     /* Use Volley to make an HTTP request to the /me endpoint from MS Graph using an access token */
@@ -246,16 +250,64 @@ public class Master<sampleApp> extends AppCompatActivity
     //
 
     /* Sets the graph response */
-    private void updateGraphUI(JSONObject graphResponse) {
+    private void updateGraphUI(final JSONObject graphResponse) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final String username = graphResponse.optString("mail").replace("@iitg.ac.in", "");
         final Map<String, Object> newUser = new HashMap<>();
         final Map<String, Object> Url = new HashMap<>();
-        String des = graphResponse.optString("jobTitle").toLowerCase();
+
+        List<String> branchlist = new ArrayList<String>();
+        branchlist.add("Computer Science and Engineering");
+        branchlist.add("Electronics and Communication Engineering");
+        branchlist.add("Mechanical Engineering");
+        branchlist.add("Chemical Engineering");
+        branchlist.add("Department of Design");
+        branchlist.add("BSBE");
+        branchlist.add("Civil Engineering");
+        branchlist.add("Electronics and Electrical Engineering");
+        branchlist.add("Chemical Science and Technology");
+        branchlist.add("Mathematics");
+        branchlist.add("Engineering Physics");
+        branchlist.add("Humanities and Social Sciences");
+
+        String des = graphResponse.optString("jobTitle");
         newUser.put("About", "");
         newUser.put("Contact", "");
-        newUser.put("Department", graphResponse.optString("Department").toLowerCase());
+        roll= graphResponse.optString("surname").substring(4, 6);
+        Log.d("asdfg", roll);
+        if(roll!=null)
+        {
+            Integer tt=null;
+            for (int i=0;i<8;i++)
+            {
+                if (roll.equals(Integer.toString(i)+"1"))
+                {
+                    Log.d("asdfgddd", roll);
+                    department = branchlist.get(i);
+                    Log.d("asdfgddddddd", department);
+                    break;
+                }
+            }
 
+            if(roll.equals(21))
+            {
+                department = branchlist.get(10);
+            }
+            else if(roll.equals(22))
+            {
+                department = branchlist.get(8);
+            }
+            else if(roll.equals(23))
+            {
+                department = branchlist.get(9);
+            }
+            else if(roll.equals(41))
+            {
+                department = branchlist.get(11);
+            }
+        }
+
+        newUser.put("Department", department);
         final String designation ;
         if(des.equalsIgnoreCase("btech") || des.equalsIgnoreCase("mtech") ||
                 des.equalsIgnoreCase("bdes") || des.equalsIgnoreCase("mdes")
@@ -289,21 +341,25 @@ public class Master<sampleApp> extends AppCompatActivity
                             DocumentSnapshot user = task.getResult();
                             if(user.exists()){
                                 Log.d(TAG, "Already Added");
+                                updateSuccessUI(graphResponse);
                             }
                             else{
                                 db.collection("Users").document(username).set(newUser);
+                                isfirst="1";
+                                spinner.setVisibility(View.INVISIBLE);
+                                updateSuccessUI(graphResponse);
                             }
                         }
                     }
                 });
-        updateSuccessUI(graphResponse);
     }
 
     /* Set the UI for successful token acquisition data */
     private void updateSuccessUI(JSONObject graphResponse) {
-        Intent intent = new Intent(Master.this, AfterLoginHomePage.class);
+        finish();
+        Intent intent = new Intent(Master.this, ProfileProjectDashboard.class);
         intent.putExtra("username", graphResponse.optString("mail").replace("@iitg.ac.in", ""));
-        intent.putExtra("JsonString", graphResponse.toString());
+        intent.putExtra("isfirst", isfirst);
         startActivity(intent);
     }
 
@@ -332,7 +388,6 @@ public class Master<sampleApp> extends AppCompatActivity
 
                 /* Store the authResult */
                 authResult = authenticationResult;
-
                 /* call graph */
                 callGraphAPI();
             }
@@ -340,6 +395,7 @@ public class Master<sampleApp> extends AppCompatActivity
             @Override
             public void onError(MsalException exception) {
                 /* Failed to acquireToken */
+                spinner.setVisibility(View.INVISIBLE);
                 Log.d(TAG, "Authentication failed: " + exception.toString());
 
                 if (exception instanceof MsalClientException) {
@@ -353,6 +409,7 @@ public class Master<sampleApp> extends AppCompatActivity
 
             @Override
             public void onCancel() {
+                spinner.setVisibility(View.INVISIBLE);
                 /* User canceled the authentication */
                 Log.d(TAG, "User cancelled login.");
             }
@@ -379,6 +436,7 @@ public class Master<sampleApp> extends AppCompatActivity
 
             @Override
             public void onError(MsalException exception) {
+                spinner.setVisibility(View.INVISIBLE);
                 /* Failed to acquireToken */
                 Log.d(TAG, "Authentication failed: " + exception.toString());
 
@@ -391,6 +449,7 @@ public class Master<sampleApp> extends AppCompatActivity
 
             @Override
             public void onCancel() {
+                spinner.setVisibility(View.INVISIBLE);
                 /* User canceled the authentication */
                 Log.d(TAG, "User cancelled login.");
             }
@@ -469,6 +528,10 @@ public class Master<sampleApp> extends AppCompatActivity
             Intent intent = new Intent(Master.this, ProjectsActivity.class);
             intent.putExtra("username", "");
             startActivity(intent);
+        } else if(id == R.id.NoticeBoard) {
+            Intent intent = new Intent(Master.this, PublicNoticeBoardMaster.class);
+            intent.putExtra("username", "");
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -494,6 +557,7 @@ public class Master<sampleApp> extends AppCompatActivity
             }
         }.start();
     }
+
 
     private void resetTimer() {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;

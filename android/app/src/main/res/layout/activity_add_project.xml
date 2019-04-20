@@ -8,7 +8,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,82 +19,90 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/Title"
-                android:text = "Project Title"
-                android:textAppearance="@style/AddProject"/>
+                android:text="Project Title"
+                android:textAppearance="@style/AddProject" />
 
             <EditText
+                android:id="@+id/TitleDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/TitleDetail"
                 android:maxLines="3"
-                android:textAppearance="@style/AddProjectDetail"/>
+                android:textAppearance="@style/AddProjectDetail" />
 
             <TextView
+                android:id="@+id/AboutProject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/AboutProject"
-                android:text = "About Project"
-                android:textAppearance="@style/AddProject"/>
+                android:text="About Project"
+                android:textAppearance="@style/AddProject" />
 
             <EditText
+                android:id="@+id/AboutProjectDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/AboutProjectDetail"
                 android:maxLines="3"
-                android:textAppearance="@style/AddProjectDetail"/>
+                android:textAppearance="@style/AddProjectDetail" />
 
             <TextView
+                android:id="@+id/Mentor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/Mentor"
-                android:text = "Project Mentors (Use enter for multiple names)"
-                android:textAppearance="@style/AddProject"/>
+                android:text="Project Mentors (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject" />
 
             <EditText
+                android:id="@+id/MentorDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/MentorDetail"
                 android:maxLines="3"
-                android:textAppearance="@style/AddProjectDetail"/>
+                android:textAppearance="@style/AddProjectDetail" />
 
             <TextView
+                android:id="@+id/People"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/People"
-                android:text = "ProjectPeople/Students involved (Use enter for multiple names)"
-                android:textAppearance="@style/AddProject"/>
+                android:text="ProjectPeople/Students involved (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject" />
 
             <EditText
+                android:id="@+id/ProjectPeopleDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/ProjectPeopleDetail"
                 android:maxLines="3"
-                android:textAppearance="@style/AddProjectDetail"/>
+                android:textAppearance="@style/AddProjectDetail" />
 
             <TextView
+                android:id="@+id/ProjectAchievements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/ProjectAchievements"
-                android:text = "Project Achievements (Use enter for multiple names)"
-                android:textAppearance="@style/AddProject"/>
+                android:text="Project Achievements (Use enter for multiple names)"
+                android:textAppearance="@style/AddProject" />
 
             <EditText
+                android:id="@+id/ProjectAchievementsDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id = "@+id/ProjectAchievementsDetails"
                 android:maxLines="3"
-                android:textAppearance="@style/AddProjectDetail"/>
+                android:textAppearance="@style/AddProjectDetail" />
 
             <Button
+                android:id="@+id/UploadVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Add Project"
+                android:onClick="showFileChooser1"
+                android:text="Upload video" />
+
+            <Button
                 android:id="@+id/Add"
-                android:onClick="AddProject"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="AddProject"
+                android:text="Add Project" />
 
         </LinearLayout>
     </ScrollView>

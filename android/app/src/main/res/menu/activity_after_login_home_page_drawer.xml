@@ -30,19 +30,17 @@
             android:icon="@drawable/ic_contact"
             android:title="ContactUs" />
     </group>
-    <item android:title=" ">
-        <menu>
+
+        <group android:id="@+id/g3"
+            android:checkableBehavior="single">
             <item
                 android:id="@+id/AfterLoginDashboard"
                 android:icon="@drawable/ic_person_outline_black_24dp"
                 android:title="Dashboard" />
-            <item
+           <item
                 android:id="@+id/AfterLoginLogOut"
                 android:icon="@drawable/ic_logout"
                 android:title="Log Out" />
-        </menu>
 
-
-    </item>
-
+        </group>
 </menu>

@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -47,6 +48,9 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
     public String p_head;
     public String AssignmentId="As_01";
     public String GroupId="1";
+    public String username="1";
+    private ProgressBar spinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,24 +59,29 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         final Discussion_Room_Assignment_Groups help=this;
         Intent intent = getIntent();
-        final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView heading=(TextView) findViewById(R.id.DiscussionHeading);
+        final String message = intent.getStringExtra(AllDiscussionRooms.EXTRA_MESSAGE);
+//        final String message="CS243_2018";
+        TextView heading=(TextView) findViewById(R.id.DiscussionHeading_assignment);
         heading.append(message);
+        AssignmentId=intent.getStringExtra("assignmentID");
+        GroupId=intent.getStringExtra("groupID");
+        username=intent.getStringExtra("username");
 
-        TextView DiscussionHeading = findViewById(R.id.DiscussionHeading);
-        String Heading = "<h1>" + message +" Discussion Room"+"</h1> ";
+        TextView DiscussionHeading = findViewById(R.id.DiscussionHeading_assignment);
+        String Heading = "<h1>" + message +" "+AssignmentId+" Discussion Room"+"</h1> ";
         DiscussionHeading.setText(Html.fromHtml(Heading));
 
+        spinner = (ProgressBar) findViewById(R.id.progressBar11);
 
-
-        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout);
+        spinner.setVisibility(View.VISIBLE);
+        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout_assignment);
 
         // create the layout params that will be used to define how your
         // button will be displayed
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
 
-        final LinearLayout ll = (LinearLayout) findViewById(R.id.lol);
+        final LinearLayout ll = (LinearLayout) findViewById(R.id.lol_assignment);
 //        ll.setOrientation(LinearLayout.VERTICAL);
 
 
@@ -88,11 +97,13 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 //                            Log.w(TAG, "listen:error", e);
                             return;
                         }
+                        spinner.setVisibility(View.GONE);
 
 
                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
 
                             switch (dc.getType()) {
+
                                 case ADDED:
                                 case MODIFIED:
                                     Boolean isPoll=dc.getDocument().getBoolean("IsPoll");
@@ -103,7 +114,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 
                                         // Create TextView
                                         String helpid=dc.getDocument().getId();
-                                        View parrentView = findViewById( R.id.lol );
+                                        View parrentView = findViewById( R.id.lol_assignment );
                                         TextView helptext = (TextView) parrentView.findViewWithTag(helpid);
 //                                        System.out.println(helptext);
                                         if(helptext!=null)
@@ -136,7 +147,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 
 
                                                 Map<String, Object> data = new HashMap<>();
-                                                data.put("Author", "Udbhav Chugh");
+                                                data.put("Author", username);
                                                 data.put("ReplyBody",Body);
                                                 data.put("PostTime", FieldValue.serverTimestamp());
                                                 data.put("MessageID",messageID);
@@ -220,11 +231,11 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                         ll.addView(replybtn);
                                         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) btn.getLayoutParams();
                                         params1.width=300;
-                                        params1.height=100;
+                                        params1.height=150;
                                         btn.setLayoutParams(params1);
                                         LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
                                         params3.width=300;
-                                        params3.height=100;
+                                        params3.height=150;
                                         replybtn.setLayoutParams(params3);
                                     }
 
@@ -234,7 +245,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 
                                         // Create TextView
                                         String helpid=dc.getDocument().getId();
-                                        View parrentView = findViewById( R.id.lol );
+                                        View parrentView = findViewById( R.id.lol_assignment );
                                         TextView helptext = (TextView) parrentView.findViewWithTag(helpid);
 //                                        System.out.println(helptext);
                                         if(helptext!=null)
@@ -264,7 +275,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                                     int ii;
                                                     for(ii=0;ii<pollop.size();ii++)
                                                     {
-                                                        View parrentView = findViewById( R.id.lol );
+                                                        View parrentView = findViewById( R.id.lol_assignment );
                                                         String hel=messageID2+Integer.toString(ii);
                                                         RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
 //                                                                System.out.println(rdbtn);
@@ -297,7 +308,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                                             int iii=0;
                                                             for(iii=0;iii<pollop.size();iii++)
                                                             {
-                                                                View parrentView = findViewById( R.id.lol );
+                                                                View parrentView = findViewById( R.id.lol_assignment );
                                                                 String hel=messageID2+Integer.toString(iii);
                                                                 RadioButton rdbtn3=(RadioButton) parrentView.findViewWithTag(hel);
                                                                 String rdb=pollop.get(iii) +"<b>: Vote Count</b>="+Integer.toString(0);
@@ -311,7 +322,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 //                                                                         voted.add(voter);
                                                                     long val = doc.getLong("ReplyBody");
                                                                     int val2 = (int) val;
-                                                                    View parrentView = findViewById( R.id.lol );
+                                                                    View parrentView = findViewById( R.id.lol_assignment );
                                                                     String hel=messageID2+Integer.toString(val2);
                                                                     RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
                                                                     if (rdbtn == null) {
@@ -325,7 +336,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                                                     arr[val2]++;
                                                                     String voter=doc.getString("Author");
                                                                     System.out.println(voter);
-                                                                    if(voter.equals("Udbhav Chugh"))
+                                                                    if(voter.equals(username))
                                                                     {
                                                                         int oo=rdbtn.getId();
                                                                         System.out.println(Integer.toString(oo));
@@ -378,12 +389,12 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 
                                                 Map<String, Object> data = new HashMap<>();
 
-                                                data.put("Author", "Udbhav Chugh");
+                                                data.put("Author", username);
                                                 data.put("ReplyBody",finvote);
                                                 data.put("PostTime", FieldValue.serverTimestamp());
                                                 data.put("MessageID",messageID2);
 
-                                                db.collection("Courses").document(message).collection("Assignments").document(AssignmentId).collection("Groups").document(GroupId).collection("Messages").document(messageID2).collection("Replies").document("Udbhav Chugh")
+                                                db.collection("Courses").document(message).collection("Assignments").document(AssignmentId).collection("Groups").document(GroupId).collection("Messages").document(messageID2).collection("Replies").document(username)
                                                         .set(data);
 //                                                et.setText("");
 
@@ -393,7 +404,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                         ll.addView(replybtn);
                                         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
                                         params1.width=300;
-                                        params1.height=100;
+                                        params1.height=150;
                                         replybtn.setLayoutParams(params1);
                                     }
 
@@ -454,7 +465,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Map<String, Object> data = new HashMap<>();
-                data.put("Author", "Udbhav Chugh");
+                data.put("Author", username);
                 data.put("MessageHead", Head);
                 data.put("MessageBody",Body);
                 data.put("PostTime", FieldValue.serverTimestamp());
@@ -562,7 +573,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                 String pollques = p_head;
 //        List<String> vowelsList = Arrays.asList(pollop);
                 Map<String, Object> data = new HashMap<>();
-                data.put("Author", "Udbhav Chugh");
+                data.put("Author", username);
                 data.put("PollQues", pollques);
                 data.put("PollOpt", pollop2);
                 data.put("PostTime", FieldValue.serverTimestamp());

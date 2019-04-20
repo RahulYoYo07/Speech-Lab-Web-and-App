@@ -1,5 +1,6 @@
 package com.example.iitg_speech_lab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,14 +33,6 @@ public class ViewAssignment extends AppCompatActivity
         toolbar.setTitle(assignmentID);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Add a new Assignment", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -55,7 +48,7 @@ public class ViewAssignment extends AppCompatActivity
                     new FragmentGroups()).commit();
             navigationView.setCheckedItem(R.id.nav_groups);
         }
-        Toast.makeText(ViewAssignment.this, courseInfo + " " + assignmentID , Toast.LENGTH_LONG).show();
+//        Toast.makeText(ViewAssignment.this, courseInfo + " " + assignmentID , Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -106,9 +99,11 @@ public class ViewAssignment extends AppCompatActivity
         } else if (id == R.id.nav_grading) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
                     new FragmentGrading()).commit();
-        } else if (id == R.id.nav_deadline) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_assignment,
-                    new FragmentDeadline()).commit();
+        } else if (id == R.id.nav_update_assignment) {
+            Intent intent = new Intent(ViewAssignment.this, UpdAssignment.class);
+            intent.putExtra("cInfo", ViewAssignment.courseInfo);
+            intent.putExtra("aid", ViewAssignment.assignmentID);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

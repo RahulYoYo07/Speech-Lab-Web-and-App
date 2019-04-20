@@ -20,6 +20,20 @@
             android:title="Your Courses" />
 
         <item
+            android:id = "@+id/ProfileDashboardDiscussion"
+            android:title="Discussion Rooms"
+            android:icon ="@drawable/ic_chat"/>
+        <item
+            android:id = "@+id/ProfileDashboardNotice"
+            android:title="Course Notices"
+            android:icon ="@drawable/ic_receipt_black_24dp"/>
+
+        <item
+            android:id = "@+id/ProfileDashboardDeadline"
+            android:title="Deadlines"
+            android:icon ="@drawable/ic_deadline"/>
+
+        <item
             android:id="@+id/ProfileDashboardMyProjects"
             android:icon="@drawable/ic_project"
             android:title="My Projects" />
@@ -29,19 +43,21 @@
             android:title="Add Project"
             android:icon ="@drawable/ic_addproject"/>
     </group>
-    <item android:title=" ">
-        <menu>
+    <group android:id="@+id/g5"
+        android:checkableBehavior="single">
             <item
                 android:icon="@drawable/ic_home"
                 android:id ="@+id/ProfileDashboardHome"
                 android:title="Home"/>
+        <item
+                android:id="@+id/DashAdmin"
+                android:icon="@drawable/ic_vpn_key_black_24dp"
+                android:title="Admin" />
             <item
-                android:id="@+id/AfterLoginLogOut"
+                android:id="@+id/ProfileLogout"
                 android:icon="@drawable/ic_logout"
                 android:title="Log Out" />
-        </menu>
 
-
-    </item>
+    </group>
 
 </menu>
