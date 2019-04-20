@@ -1,5 +1,31 @@
 {% extends "base_generic.html"%}
 
+{% block sidebar %}
+  
+  {% if Designation == 'Faculty' %}
+
+  <li>
+    <a href="{% url 'course:update_grp' cinfo aid gid %}">Update Details</a>
+  </li>
+  {% endif %}
+  <li>
+    <a href="{% url 'course:up_submission' cinfo aid gid %}">Submissions</a>
+  </li>
+    <li>
+    <a href="{% url 'course:view_course' cinfo %}">Assignments</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:events' cinfo %}">Events</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
+  </li>
+  
+{% endblock %}
+
 {% block content %}
 
 <div>
@@ -11,10 +37,11 @@
 
 {% if Designation == 'Student' %}
 <h1>Add Submission</h1>
+{{Designation}}
 
 
 <div>
-<form action="{% url 'course:up_submission' CourseInfo  aid gid %}" id="cmform" method="POST">
+<form action="{% url 'course:up_submission' cinfo  aid gid %}" id="cmform" method="POST">
 {% csrf_token %}
 <div class="custom-file mb-3">
     <input type="file" class="custom-file-input" id="cmuploader" value="cmuploader">
@@ -62,7 +89,7 @@ function uploadcm()
     var cmuploader = document.getElementById('cmuploader');
     var progrescmupload = document.getElementById('progrescmupload');
     var file = cmuploader.files[0];
-    var subfolder = "{{ CourseInfo }}"
+    var subfolder = "{{ cinfo }}"
     //var file = event.target.files[0];
     var storageRef = firebase.storage().ref('Courses/' + subfolder + '/' + file.name);
     var task = storageRef.put(file);
@@ -83,7 +110,6 @@ function uploadcm()
                 document.getElementById('cmurl').value = downloadURL;
                 document.getElementById('filename').value = file.name;
                 document.getElementById("cmform").submit();
-                //var cmurl = "{% url 'course:store_course_material' CourseInfo %}";
                 //window.alert(cmurl);
                 alert(file.name + " Upload Success!");
                 //document.location.href = cmurl;
