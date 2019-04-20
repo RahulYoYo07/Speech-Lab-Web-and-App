@@ -17,13 +17,13 @@
     <a href="#">View Submissions</a>
   </li>
   <li>
-    <a href="{% url 'discussion:events' CourseInfo %}">Events</a>
+    <a href="{% url 'discussion:events' cinfo %}">Events</a>
   </li>
   <li>
-    <a href="{% url 'discussion:notice_board' CourseInfo %}">Noticeboard</a>
+    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
   </li>
   <li>
-    <a href="{% url 'discussion:course_group' CourseInfo 1 %}">Discussion Room</a>
+    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
   </li>
 {% endblock %}
 
@@ -35,7 +35,7 @@
   {% for student in user_list %}
     <div class="form-group">
       <label for="exampleInputEmail1">{{student.FullName}}</label>
-      <input type="number" class="form-control" name={{student.username}} aria-describedby="aboutcourse" value=0>
+      <input type="number" class="form-control" name={{student.Username}} aria-describedby="aboutcourse" value=0>
     </div>
   {% endfor %}
   <button type="submit" class="btn btn-success">Submit Grade</button>

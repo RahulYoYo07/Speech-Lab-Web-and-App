@@ -172,7 +172,7 @@ def Update_Attendance(request, cinfo, aid, gid):
             while (check == 0):
                 try:
                     stud_username = attendance_list[index]['StudentID'].get().to_dict()[
-                        'username']
+                        'Username']
                     if stud_username == student:
                         attendance_list[index]['TotalAttendance'] = attendance_list[index]['TotalAttendance'] + 1
                         data = {
@@ -190,7 +190,10 @@ def Update_Attendance(request, cinfo, aid, gid):
         aid = "As_01"
         group_ref = db.collection(u'Courses').document(cinfo).collection(
             u'Assignments').document(aid).collection(u'Groups').document(gid).get()
-        studentlist = group_ref.to_dict()['StudentList']
+        try:
+            studentlist = group_ref.to_dict()['StudentList']
+        except:
+            studentlist = ""
         index = 0
         studentinfo = []
         check = 0
@@ -328,7 +331,8 @@ def AddCourse(request):
                 u'Session': int(request.POST.get("StartSemesterSession", ""))
             },
             u'FacultyList': [ref_prof],
-            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", "")
+            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", ""),
+
         }
         cid = request.POST.get("CourseID", "")
 
@@ -453,8 +457,11 @@ def viewTA(request, cinfo):
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
 
-    TAList = db.collection(u'Courses').document(
-        cinfo).get().to_dict()["TAList"]
+    try:
+        TAList = db.collection(u'Courses').document(
+            cinfo).get().to_dict()["TAList"]
+    except:
+        TAList = ""
 
     talist = list()
 
@@ -478,7 +485,12 @@ def ViewAssgn(request, cinfo, aid):
     if context['username'] == '':
         return HttpResponseRedirect(reverse('home:home'))
 
+
+
     username = context['username']
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    context['Designation'] = user_dict['Designation']
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
@@ -530,7 +542,7 @@ def AddTA(request, cinfo):
 
         if 'TAList' not in ref_course.get().to_dict():
             currTA = []
-        else :
+        else:
             currTA = ref_course.get().to_dict()['TAList']
 
         if ref_TA not in currTA:
@@ -556,10 +568,10 @@ def AddTA(request, cinfo):
             pass
 
         ref_TA.update({
-            u'CoursesListAsTA' : coursesAsTA
+            u'CoursesListAsTA': coursesAsTA
         })
 
-        return render(request, 'course/AddTA.html', context)
+        return HttpResponseRedirect(reverse('course:view_course', kwargs={'cinfo': cinfo}))
 
     return render(request, 'course/AddTA.html', context)
 

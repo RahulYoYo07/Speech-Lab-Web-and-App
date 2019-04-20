@@ -12,6 +12,7 @@ from course import views
 from django.contrib import auth
 from urllib.parse import quote, urlencode
 from home.authhelper import loginFLOW
+import datetime
 # from django.auth import logout
 import os
 
@@ -39,6 +40,7 @@ db = firestore.client()
 
 def home(request):
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
+    
     sign_in_url = get_signin_url(redirect_uri)
     data = db.collection(u'Homepage').document("homepage").get().to_dict()
     pics = db.collection(u'Homepage').document("HomeImages").get().to_dict()
@@ -75,7 +77,7 @@ def addProject(request, uinfo):
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
-    
+
     return render(request, 'home/addproject.html', context)
 
 def projectDelete(request, pinfo):
@@ -121,10 +123,10 @@ def projectUpdate(request, pinfo):
 
         project_dict = db.collection(u'Projects').document(pinfo).get().to_dict()
         creator = project_dict['Creator'].get().id
-        
+
         if context['username'] != creator:
             return HttpResponse("You are not authorized")
-        
+
         updated_project = {}
         updated_project['Title'] = request.POST.get('title')
         updated_project['AboutProject'] = request.POST.get('about')
@@ -170,6 +172,7 @@ def gettoken(request):
     except:
         return HttpResponseRedirect(reverse('home:home'))
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
+    print(redirect_uri)
     token = get_token_from_code(auth_code, redirect_uri)
     access_token = token['access_token']
     user = get_me(access_token)
@@ -274,7 +277,10 @@ def ViewUser(request, uinfo):
         context["isAdmin"] = "True"
     else:
         context["isAdmin"] = "False"
+
+    context['Designation'] = profile_dict['Designation']
     context['projects'] = project_list
+
     return render(request, 'home/profile.html', context)
 
 
@@ -311,7 +317,7 @@ def faculty(request):
     uc_list = zip(user_list, counter_list)
     context = {'uc_list': uc_list}
     context = loginFLOW(request, context)
-    
+
     return render(request, 'home/people.html', context)
 
 
@@ -549,3 +555,46 @@ def redirect_user(request):
     user = get_me(access_token)
     username = user['mail'].replace("@iitg.ac.in", "")
     return HttpResponseRedirect("/users/" + username)
+
+def noticeboard(request):
+    data = db.collection(u'Homepage').document("NoticeBoard").get().to_dict()
+    temp = [item for item in enumerate(data['AllNotices'])]
+    context = {'stuff' : temp}
+    context = loginFLOW(request, context)
+    return render(request, 'home/noticeboard.html', context)
+
+def addNotice(request, uinfo):
+    context = {}
+    context = loginFLOW(request, context)
+    if context['username'] != uinfo:
+        return HttpResponse("You are not authorized")
+    
+    return render(request, 'home/addnotice.html', context)
+
+def saveNotice(request,uinfo):
+    context = {}
+    if request.method == 'POST':
+        context = loginFLOW(request, context)
+
+        if context['username'] != uinfo:
+            return HttpResponse("You are not authorized")
+
+        user_dict = db.collection(u'Users').document(uinfo).get().to_dict()
+        
+        if user_dict['Designation'] != 'Faculty' and 'isAdmin' not in user_dict:
+            return HttpResponse("You are not authorized")
+        
+        new_notice = {  'title' : request.POST.get('title'),
+                        'text' : request.POST.get('text'),
+                        'author' : user_dict['FullName'],
+                        'created' : datetime.datetime.now(),}
+
+        notices_dict = db.collection(u'Homepage').document(u'NoticeBoard').get().to_dict()
+        notices_dict['AllNotices'].append(new_notice)
+
+        print(notices_dict)
+
+        db.collection(u'Homepage').document(u'NoticeBoard').set(notices_dict)
+
+        return HttpResponseRedirect("/home/noticeboard/")
+    return HttpResponseRedirect(reverse('home:home'))
