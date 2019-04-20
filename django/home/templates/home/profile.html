@@ -21,8 +21,13 @@
     </div>
 </div>
 <br>
+
 <h1 class="text-center">Projects</h1>
 <br>
+{% if isProjects == 'False' %}
+    <h5 class="text-muted text-center">You do not have any published projects yet.</h5>
+{% endif %}
+
     {% for project in projects %}
     <div class="row">
         <div class="card mb-3 col-12">
