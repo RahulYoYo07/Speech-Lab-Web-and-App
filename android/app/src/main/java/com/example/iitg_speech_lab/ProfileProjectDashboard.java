@@ -53,8 +53,9 @@ public class ProfileProjectDashboard extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_project_dashboard);
+        GetUsername=getIntent().getStringExtra("username");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Dashboard");
+        toolbar.setTitle("Welocome, " + GetUsername);
         setSupportActionBar(toolbar);
         spinner = (ProgressBar) findViewById(R.id.progressBar3);
         isfirst=getIntent().getStringExtra("isfirst");
