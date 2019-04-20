@@ -14,8 +14,8 @@
             android:id="@+id/nav_grading"
             android:title="Grading" />
         <item
-            android:id="@+id/nav_deadline"
-            android:title="Change Deadline" />
+            android:id="@+id/nav_update_assignment"
+            android:title="Update Assignment" />
     </group>
 
 </menu>

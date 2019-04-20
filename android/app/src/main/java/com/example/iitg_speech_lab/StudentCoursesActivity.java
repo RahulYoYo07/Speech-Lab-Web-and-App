@@ -175,9 +175,9 @@ public class StudentCoursesActivity extends AppCompatActivity {
         }
 
         private void viewStudentCourseAsTA(View v) {
-            int selectedItemPosition = recyclerView.getChildLayoutPosition(v);
+            int selectedItemPosition = recyclerView2.getChildLayoutPosition(v);
             RecyclerView.ViewHolder viewHolder
-                    = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
+                    = recyclerView2.findViewHolderForLayoutPosition(selectedItemPosition);
             TextView textViewName
                     = null;
             if (viewHolder != null) {

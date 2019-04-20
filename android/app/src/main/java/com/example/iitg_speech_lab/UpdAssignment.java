@@ -40,8 +40,8 @@ public class UpdAssignment extends AppCompatActivity {
     //a constant to track the file chooser intent
     private static final int PICK_FILE_REQUEST = 234;
     private static final String TAG = "AddAssignmentActivity";
-    public String gid = "AS$$";
-    String cinfo = "HS241_pradip_2019";
+    public String gid ;
+    String cinfo ;
     String durl = "";
     String selDate = "";
     //a Uri object to store file path
@@ -53,6 +53,9 @@ public class UpdAssignment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assignment);
         String userName = "pradip";
+        cinfo = getIntent().getStringExtra("cInfo");
+        gid = getIntent().getStringExtra("aid");
+
         final CalendarView calender = findViewById(R.id.calendarView);
         final EditText About = findViewById(R.id.About);
         final EditText Title = findViewById(R.id.Title);
