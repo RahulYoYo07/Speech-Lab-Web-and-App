@@ -1,8 +1,18 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-iid-interop:16.0.1@aar">
     <CLASSES>
+<<<<<<< HEAD
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/72186cfb8eebfec0d8cf198de8ee35ac/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/72186cfb8eebfec0d8cf198de8ee35ac/jars/classes.jar!/" />
+=======
+<<<<<<< HEAD
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/c8bca3b36ddbbd8ec5e779c719fe81b1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/c8bca3b36ddbbd8ec5e779c719fe81b1/res" />
+=======
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/91121a73c5a83a1c85066284bfdd49db/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/91121a73c5a83a1c85066284bfdd49db/jars/classes.jar!/" />
+>>>>>>> 4432d53223d1bdd34dde65de54d80ddde040cd26
+>>>>>>> a2eda1c2ea8aa81f9d40a73c81821207c946a557
     </CLASSES>
     <JAVADOC />
     <SOURCES />

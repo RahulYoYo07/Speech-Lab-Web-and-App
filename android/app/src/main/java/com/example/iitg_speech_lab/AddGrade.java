@@ -63,10 +63,27 @@ public class AddGrade extends AppCompatActivity {
                                                     String FullName = (String) usr.get("FullName");
                                                     TextView tv = new TextView(AddGrade.this);
                                                     EditText et = new EditText(AddGrade.this);
-//                                                    LinearLayout.LayoutParams myfunnyparams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                                                    tv.setText(FullName);
+//                                                    LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) tv.getLayoutParams();
+//                                                    if (params1!=null) {
+//                                                        params1.height = getResources().getDimensionPixelSize(R.dimen.height_of_dynamically);
+//                                                    }
+//                                                    else {
+//                                                        params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,R.dimen.height_of_dynamically);
+//                                                    }
+//                                                    tv.setLayoutParams(params1);
+//                                                    LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) et.getLayoutParams();
+//                                                    if (params2!=null) {
+//                                                        params2.height = getResources().getDimensionPixelSize(R.dimen.height_of_dynamically);
+//                                                    }
+//                                                    else {
+//                                                        params2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,R.dimen.height_of_dynamically);
+//                                                    }
+//                                                    et.setLayoutParams(params2);
+                                                    tv.setTextSize(18);
+                                                    tv.setText(FullName.toUpperCase());
                                                     tv.setTag(UserName);
                                                     et.setTag(UserName);
+
                                                     et.setText(Long.toString(Gradey));
                                                     TextBoxes.add(et);
                                                     myLayout.addView(tv);
