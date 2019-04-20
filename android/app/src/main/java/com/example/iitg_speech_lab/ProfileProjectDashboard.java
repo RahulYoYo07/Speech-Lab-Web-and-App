@@ -277,6 +277,7 @@ public class ProfileProjectDashboard extends AppCompatActivity
         } else if (id == R.id.DashAdmin){
             Intent intent = new Intent(ProfileProjectDashboard.this, AdminDashboard.class);
             intent.putExtra("username", getIntent().getStringExtra("username"));
+            intent.putExtra("isfirst", isfirst);
             startActivity(intent);
         }
 

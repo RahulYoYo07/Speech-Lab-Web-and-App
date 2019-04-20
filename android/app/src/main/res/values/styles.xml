@@ -19,7 +19,7 @@
 
     <style name="ContactUsDetailField">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">32dp</item>
+        <item name="android:textSize">25dp</item>
     </style>
 
     <style name="Title">
@@ -34,11 +34,11 @@
 
     <style name="QuestionFAQ">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">32dp</item>
+        <item name="android:textSize">25dp</item>
     </style>
 
     <style name="AnswerFAQ">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">15dp</item>
     </style>
 
     <style name="AboutUs">
@@ -59,20 +59,20 @@
 
     <style name="EditAboutUs">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">32dp</item>
+        <item name="android:textSize">25dp</item>
     </style>
 
     <style name="EditAboutUsDetail">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">15dp</item>
     </style>
 
     <style name="EditContactUs">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">32dp</item>
+        <item name="android:textSize">25dp</item>
     </style>
 
     <style name="EditContactUsDetail">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">15dp</item>
     </style>
 
     <style name="AddProject">

@@ -146,9 +146,10 @@ public class AdminDashboard extends AppCompatActivity
         } else if (id == R.id.AdminLogOut){
             onSignOutClicked();
         } else if (id == R.id.AdminDash){
-//            finish();
+            finish();
             Intent intent = new Intent(AdminDashboard.this, ProfileProjectDashboard.class);
             intent.putExtra("username", getIntent().getStringExtra("username"));
+            intent.putExtra("isfirst", getIntent().getStringExtra("isfirst"));
             startActivity(intent);
         }
 

@@ -223,8 +223,10 @@ public class AfterLoginHomePage extends AppCompatActivity
             intent.putExtra("username", "");
             startActivity(intent);
         } else if (id ==R.id.AfterLoginDashboard){
+            finish();
             Intent intent = new Intent(AfterLoginHomePage.this, ProfileProjectDashboard.class);
             intent.putExtra("username", getIntent().getStringExtra("username"));
+            intent.putExtra("isfirst", getIntent().getStringExtra("isfirst"));
             startActivity(intent);
         } else if(id == R.id.AfterLoginLogOut){
             onSignOutClicked();
