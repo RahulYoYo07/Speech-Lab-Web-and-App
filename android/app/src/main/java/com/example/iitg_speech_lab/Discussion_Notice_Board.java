@@ -62,6 +62,7 @@ import java.util.Set;
 
 public class Discussion_Notice_Board extends AppCompatActivity {
 
+    public String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,8 @@ public class Discussion_Notice_Board extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String message = intent.getStringExtra(AllNoticeCourses.EXTRA_MESSAGE);
+        username = intent.getStringExtra("username");
 
         TextView NoticeHeading = findViewById(R.id.NoticeHeading);
 //        "<font color=#cc0029>First Color</font> <font color=#ffcc00>Second Color</font>";
@@ -106,69 +108,118 @@ public class Discussion_Notice_Board extends AppCompatActivity {
     }
     public void addNotice(View view){
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("New Notice");
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final Discussion_Notice_Board help=this;
+
+        final DocumentReference docRef = db.collection("Users").document(username);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if (document.getString("Designation").equals("Student")) {
+                            alertDialog();
+                            return;
+
+
+                        }
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(help);
+                        builder.setTitle("New Notice");
 
 //        Context context = mapView.getContext();
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
+                        LinearLayout layout = new LinearLayout(help);
+                        layout.setOrientation(LinearLayout.VERTICAL);
 
 // Add a TextView here for the "Title" label, as noted in the comments
-        final EditText titleBox = new EditText(this);
-        titleBox.setHint("Notice Title");
+                        final EditText titleBox = new EditText(help);
+                        titleBox.setHint("Notice Title");
 //        titleBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        layout.addView(titleBox); // Notice this is an add method
+                        layout.addView(titleBox); // Notice this is an add method
 
 // Add another TextView here for the "Description" label
-        final EditText descriptionBox = new EditText(this);
-        descriptionBox.setMaxLines(10);
-        descriptionBox.setHint("Notice Body");
+                        final EditText descriptionBox = new EditText(help);
+                        descriptionBox.setMaxLines(10);
+                        descriptionBox.setHint("Notice Body");
 //        descriptionBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        layout.addView(descriptionBox); // Another add method
+                        layout.addView(descriptionBox); // Another add method
 
-        builder.setView(layout);
+                        builder.setView(layout);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = getIntent();
-                String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-                String Head = titleBox.getText().toString().trim();
-                String Body = descriptionBox.getText().toString().trim();
-                if(Head.length()==0|| Body.length()==0)
-                {
-                    alertDialogempty();
-                    return;
-                }
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = getIntent();
+                                String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+                                String Head = titleBox.getText().toString().trim();
+                                String Body = descriptionBox.getText().toString().trim();
+                                if(Head.length()==0|| Body.length()==0)
+                                {
+                                    alertDialogempty();
+                                    return;
+                                }
 
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                Map<String, Object> data = new HashMap<>();
-                data.put("Author", "Udbhav Chugh");
-                data.put("NoticeHead", Head);
-                data.put("NoticeBody",Body);
-                data.put("NoticeTime", FieldValue.serverTimestamp());
 
-                db.collection("Courses").document(message).collection("Notices")
-                        .add(data);
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("Author", username);
+                                data.put("NoticeHead", Head);
+                                data.put("NoticeBody",Body);
+                                data.put("NoticeTime", FieldValue.serverTimestamp());
+
+                                db.collection("Courses").document(message).collection("Notices")
+                                        .add(data);
 //                finish();
 //                startActivity(getIntent());
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        builder.show();
+                    }else {
+                        return;
+                    }
+                } else{
+                    return;
+                }
             }
         });
 
-        builder.show();
+
+
 
     }
 
     private void alertDialogempty() {
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
         dialog.setMessage("Text field has no text added");
+        dialog.setTitle("Error Message");
+        dialog.setPositiveButton("Close",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+//                        Toast.makeText(getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
+                    }
+                });
+//        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG).show();
+//            }
+//        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
+    }
+
+    private void alertDialog() {
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setMessage("You are not authorized to add notice.");
         dialog.setTitle("Error Message");
         dialog.setPositiveButton("Close",
                 new DialogInterface.OnClickListener() {
