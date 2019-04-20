@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +29,14 @@ import java.util.List;
 import java.util.Map;
 
 public class AllDiscussionRooms extends AppCompatActivity {
-    public List<HashMap> CourseUser;
+    public List<HashMap> CourseUser=new ArrayList<>();
+    public List CourseUser2;
+    public List CourseUser3;
+    public List<HashMap> CourseUser1;
+    private ProgressBar spinner1;
+    private ProgressBar spinner2;
+
+
     public static final String EXTRA_MESSAGE = "com.example.iitg_speech_lab.MESSAGE";
     public List<String> lst=new ArrayList<String>();
     public List<String> lst2=new ArrayList<String>();
@@ -42,6 +50,14 @@ public class AllDiscussionRooms extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_discussion_rooms);
+
+        spinner1 = (ProgressBar) findViewById(R.id.progressBar7);
+
+        spinner1.setVisibility(View.VISIBLE);
+
+        spinner2 = (ProgressBar) findViewById(R.id.progressBar8);
+
+        spinner2.setVisibility(View.VISIBLE);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -59,9 +75,20 @@ public class AllDiscussionRooms extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 //
-                        CourseUser= (List<HashMap>)document.get("CourseList");
-                        if(CourseUser==null)
-                            return;
+                        CourseUser1= (List<HashMap>)document.get("CourseList");
+                        CourseUser2= (List)document.get("ProfCourseList");
+                        CourseUser3= (List)document.get("CoursesListAsTA");
+
+
+                        if(CourseUser1!=null)
+                            CourseUser.addAll(CourseUser1);
+//                        if(CourseUser2!=null)
+//                            CourseUser.addAll(CourseUser2);
+//                        if(CourseUser3!=null)
+//                            CourseUser.addAll(CourseUser3);
+//                        if(CourseUser1==null && CourseUser2 == null && CourseUser3 == null )
+//                            return;
+
 //
                         for (int i=0; i<CourseUser.size(); i++){
 
@@ -69,6 +96,26 @@ public class AllDiscussionRooms extends AppCompatActivity {
                             String doc=((DocumentReference)CourseUser.get(i).get("CourseID")).getId();
                             lst.add(doc);
                         }
+                        if(CourseUser3!=null)
+                        {
+                            for(int i=0;i<CourseUser3.size();i++){
+                                String doc=((DocumentReference)CourseUser3.get(i)).getId();
+                                if(lst.contains(doc))
+                                    continue;
+                                lst.add(doc);
+                            }
+                        }
+                        if(CourseUser2!=null)
+                        {
+                            for(int i=0;i<CourseUser2.size();i++){
+                                String doc=((DocumentReference)CourseUser2.get(i)).getId();
+                                if(lst.contains(doc))
+                                    continue;
+                                lst.add(doc);
+                            }
+                        }
+
+                        spinner1.setVisibility(View.GONE);
 
                         ListView lv = (ListView) findViewById(R.id.DiscussionRoomListView);
 //                        String items[] = {"a","b","c"};
@@ -110,6 +157,9 @@ public class AllDiscussionRooms extends AppCompatActivity {
                                                                                     lst5.add(tt);
                                                                                     ListView lv2 = (ListView) findViewById(R.id.DiscussionRoomAssigmentListView);
                                                                                     if(lst2.size()>0){
+                                                                                        spinner2.setVisibility(View.GONE);
+
+
                                                                                         final String[] items2 = new String[lst2.size()];
                                                                                         final String[] items3 = new String[lst3.size()];
                                                                                         final String[] items4 = new String[lst4.size()];

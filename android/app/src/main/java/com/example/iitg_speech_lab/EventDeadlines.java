@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,12 +30,18 @@ import java.util.List;
 
 public class EventDeadlines extends AppCompatActivity {
     public List<HashMap> CourseUser;
+    private ProgressBar spinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_deadlines);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        spinner = (ProgressBar) findViewById(R.id.progressBar12);
+
+        spinner.setVisibility(View.VISIBLE);
 
         String username=getIntent().getStringExtra("username");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -61,6 +69,7 @@ public class EventDeadlines extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
+                                                    spinner.setVisibility(View.GONE);
                                                     TextView events2 = findViewById(R.id.eventDeadline);
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                                         try {

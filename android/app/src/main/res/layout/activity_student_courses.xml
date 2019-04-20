@@ -27,8 +27,11 @@
             android:id="@+id/textView14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="5sp"
+            android:paddingBottom="0sp"
             android:text="Registered Courses"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp" />
 
         <android.support.v7.widget.RecyclerView
@@ -44,12 +47,15 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="1">
+
         <TextView
             android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="5sp"
             android:text="Courses as TA"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp" />
 
         <android.support.v7.widget.RecyclerView

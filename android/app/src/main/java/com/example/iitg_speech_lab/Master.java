@@ -546,7 +546,7 @@ public class Master<sampleApp> extends AppCompatActivity
             intent.putExtra("username", "");
             startActivity(intent);
         } else if(id == R.id.NoticeBoard) {
-            Intent intent = new Intent(Master.this, PublicNoticeBoard.class);
+            Intent intent = new Intent(Master.this, PublicNoticeBoardMaster.class);
             intent.putExtra("username", "");
             startActivity(intent);
         }

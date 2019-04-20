@@ -228,6 +228,10 @@ public class AfterLoginHomePage extends AppCompatActivity
             startActivity(intent);
         } else if(id == R.id.AfterLoginLogOut){
             onSignOutClicked();
+        }else if(id == R.id.AfterLoginNoticeBoard) {
+            Intent intent = new Intent(AfterLoginHomePage.this, PublicNoticeBoard.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
