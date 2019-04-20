@@ -69,23 +69,19 @@
             android:name=".AdminDashboard"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddProject"
-            android:parentActivityName=".ProfileProjectDashboard" />
+            android:name=".AddProject" />
         <activity android:name=".EditContactUs" />
         <activity android:name=".Login_activity" />
         <activity android:name=".EditAboutUs" />
         <activity
-            android:name=".AboutUs"
-            android:parentActivityName=".Master" />
+            android:name=".AboutUs"/>
         <activity
-            android:name=".FAQ"
-            android:parentActivityName=".Master" />
+            android:name=".FAQ" />
         <activity android:name=".AddFaq" />
         <activity android:name=".EditProfile" />
         <activity android:name=".PrivateProfileDetails" />
         <activity
-            android:name=".ContactUs"
-            android:parentActivityName=".Master" />
+            android:name=".ContactUs"/>
         <activity
             android:name=".ViewProject"
             android:parentActivityName=".ProjectsActivity" />
