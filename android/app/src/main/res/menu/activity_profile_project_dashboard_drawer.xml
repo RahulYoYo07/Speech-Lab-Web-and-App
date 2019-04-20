@@ -23,6 +23,10 @@
             android:id = "@+id/ProfileDashboardDiscussion"
             android:title="Discussion Rooms"
             android:icon ="@drawable/ic_chat"/>
+        <item
+            android:id = "@+id/ProfileDashboardNotice"
+            android:title="Course Notices"
+            android:icon ="@drawable/ic_receipt_black_24dp"/>
 
         <item
             android:id = "@+id/ProfileDashboardDeadline"

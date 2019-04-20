@@ -34,6 +34,7 @@ public class AllDiscussionRooms extends AppCompatActivity {
     public List<String> lst2=new ArrayList<String>();
     public List<String> lst3=new ArrayList<String>();
     public List<String> lst4=new ArrayList<String>();
+    public List<String> lst5=new ArrayList<String>();
 
 
 
@@ -105,36 +106,44 @@ public class AllDiscussionRooms extends AppCompatActivity {
                                                                                     lst2.add(courseInfo);
                                                                                     lst3.add(assignmentID);
                                                                                     lst4.add(groupID);
+                                                                                    String tt=courseInfo+" "+assignmentID+" "+groupID;
+                                                                                    lst5.add(tt);
                                                                                     ListView lv2 = (ListView) findViewById(R.id.DiscussionRoomAssigmentListView);
                                                                                     if(lst2.size()>0){
-                                                                                    final String[] items2 = new String[lst2.size()];
-                                                                                    final String[] items3 = new String[lst3.size()];
-                                                                                    final String[] items4 = new String[lst4.size()];
+                                                                                        final String[] items2 = new String[lst2.size()];
+                                                                                        final String[] items3 = new String[lst3.size()];
+                                                                                        final String[] items4 = new String[lst4.size()];
+                                                                                        final String[] items5 = new String[lst5.size()];
+
 //                        System.out.println("lol"+lst2.size());
 
-                                                                                    // ArrayList to Array Conversion
-                                                                                    for (int i =0; i < lst2.size(); i++){
-                                                                                        items2[i] = lst2.get(i);
-                                                                                        items3[i]=lst3.get(i);
-                                                                                        items4[i]=lst4.get(i);
+                                                                                        // ArrayList to Array Conversion
+                                                                                        for (int i =0; i < lst2.size(); i++){
+                                                                                            items2[i] = lst2.get(i);
+                                                                                            items3[i]=lst3.get(i);
+                                                                                            items4[i]=lst4.get(i);
+                                                                                            items5[i]=lst5.get(i);
 
-                                                                                    }
-                                                                                        System.out.println(items2[0]);
-                                                                                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(help,android.R.layout.simple_list_item_1,items4);
-                                                                                    lv2.setAdapter(adapter2);
-                                                                                    lv2.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                                                                                        @Override
-                                                                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-//                                                                                            System.out.println("la");
-                                                                                            Intent intent = new Intent(help, Discussion_Room.class);
-                                                                                            intent.putExtra(EXTRA_MESSAGE, items2[position]);
-                                                                                            intent.putExtra("assignmentID",items3[position]);
-                                                                                            intent.putExtra("groupID",items4[position]);
-                                                                                            startActivity(intent);
 
                                                                                         }
+                                                                                        System.out.println(items2[0]);
+                                                                                        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(help,android.R.layout.simple_list_item_1,items5);
+                                                                                        lv2.setAdapter(adapter2);
+                                                                                        lv2.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                                                                                            @Override
+                                                                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+//                                                                                            System.out.println("la");
+                                                                                                Intent intent = new Intent(help, Discussion_Room_Assignment_Groups.class);
+                                                                                                intent.putExtra(EXTRA_MESSAGE, items2[position]);
+                                                                                                intent.putExtra("assignmentID",items3[position]);
+                                                                                                intent.putExtra("groupID",items4[position]);
+                                                                                                intent.putExtra("username",username);
+                                                                                                startActivity(intent);
 
-                                                                                    });}
+
+                                                                                            }
+
+                                                                                        });}
 
 
                                                                                 }
@@ -152,18 +161,19 @@ public class AllDiscussionRooms extends AppCompatActivity {
 
                         }
                         if(lst.size()>0){
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(help,android.R.layout.simple_list_item_1,items);
-                        lv.setAdapter(adapter);
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                                Intent intent = new Intent(help, Discussion_Room.class);
-                                intent.putExtra(EXTRA_MESSAGE, items[position]);
-                                startActivity(intent);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(help,android.R.layout.simple_list_item_1,items);
+                            lv.setAdapter(adapter);
+                            lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                                    Intent intent = new Intent(help, Discussion_Room.class);
+                                    intent.putExtra(EXTRA_MESSAGE, items[position]);
+                                    intent.putExtra("username",username);
+                                    startActivity(intent);
 
-                            }
+                                }
 
-                        });}
+                            });}
 
 
                     } else {

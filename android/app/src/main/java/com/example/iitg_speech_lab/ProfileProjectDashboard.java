@@ -229,7 +229,11 @@ public class ProfileProjectDashboard extends AppCompatActivity
             intent.putExtra("username", getIntent().getStringExtra("username"));
             startActivity(intent);
 
-        } else if(id == R.id.RedirectCourses){
+        } else if (id == R.id.ProfileDashboardNotice){
+            Intent intent = new Intent(ProfileProjectDashboard.this, AllNoticeCourses.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
+        }else if(id == R.id.RedirectCourses){
             final String username = getIntent().getStringExtra("username");
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             final DocumentReference userRef = db.collection("Users").document(username);
@@ -267,6 +271,10 @@ public class ProfileProjectDashboard extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.ProfileDashboardDeadline) {
             Intent intent = new Intent(ProfileProjectDashboard.this, EventDeadlines.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
+        } else if (id == R.id.DashAdmin){
+            Intent intent = new Intent(ProfileProjectDashboard.this, AdminDashboard.class);
             intent.putExtra("username", getIntent().getStringExtra("username"));
             startActivity(intent);
         }
