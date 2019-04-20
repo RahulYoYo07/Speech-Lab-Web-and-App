@@ -68,7 +68,6 @@ public class ViewPeople extends AppCompatActivity {
                                                 final Button btn = new Button(ViewPeople.this);
                                                 btn.setTag(document.getId());
                                                 btn.setText(document.getString("FullName"));
-
                                                 btn.setOnClickListener(new View.OnClickListener(){
                                                     @Override
                                                     public void onClick(View v) {

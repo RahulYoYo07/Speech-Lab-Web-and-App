@@ -51,7 +51,7 @@
 
     <style name="EditAboutUs">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">32dp</item>
+        <item name="android:textSize">25dp</item>
     </style>
 
     <style name="EditAboutUsDetail">
