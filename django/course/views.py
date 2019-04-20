@@ -237,6 +237,7 @@ def Update_Attendance(request, cinfo, aid, gid):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+    context['Designation']=Designation
 
     if request.method == 'POST':
         checkedstudent = request.POST.getlist('checks[]')
@@ -343,6 +344,7 @@ def Add_Grade(request, cinfo, aid, gid):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+    context['Designation'] = Designation
 
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').document(gid)
