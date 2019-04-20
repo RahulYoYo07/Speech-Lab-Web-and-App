@@ -1,11 +1,16 @@
 package com.example.iitg_speech_lab;
 
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,25 +21,41 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.microsoft.identity.client.IAccount;
+import com.microsoft.identity.client.PublicClientApplication;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PrivateProfileDetails extends AppCompatActivity {
+    private static final String TAG = PrivateProfileDetails.class.getSimpleName();
+    private static final long START_TIME_IN_MILLIS = 600000;
+    private CountDownTimer mCountDownTimer;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    static int check=0;
+    static int  kyaadminh=1;
+    static Boolean adminhkya=false;
+    static String isfirst;
     private ProgressBar spinner;
     static String GetUsername;
+    private PublicClientApplication sampleApp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_profile_details);
+        isfirst=getIntent().getStringExtra("isfirst");
         GetUsername = getIntent().getStringExtra("username");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Profile");
+        //Code For Sliding Images
+
         final TextView Name = (TextView) findViewById(R.id.DisplayNameDetail);
         final TextView Username = (TextView) findViewById(R.id.DisplayUsernameDetail);
         final TextView Program = (TextView) findViewById(R.id.DisplayProgramDetail);
@@ -92,4 +113,5 @@ public class PrivateProfileDetails extends AppCompatActivity {
                     }
                 });
     }
+
 }
