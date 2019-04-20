@@ -47,6 +47,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
     public String p_head;
     public String AssignmentId="As_01";
     public String GroupId="1";
+    public String username="1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,10 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
         heading.append(message);
         AssignmentId=intent.getStringExtra("assignmentID");
         GroupId=intent.getStringExtra("groupID");
+        username=intent.getStringExtra("username");
 
         TextView DiscussionHeading = findViewById(R.id.DiscussionHeading_assignment);
-        String Heading = "<h1>" + message +" Discussion Room"+"</h1> ";
+        String Heading = "<h1>" + message +" "+AssignmentId+" Discussion Room"+"</h1> ";
         DiscussionHeading.setText(Html.fromHtml(Heading));
 
 
@@ -95,6 +97,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
 
                             switch (dc.getType()) {
+
                                 case ADDED:
                                 case MODIFIED:
                                     Boolean isPoll=dc.getDocument().getBoolean("IsPoll");
@@ -138,7 +141,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 
 
                                                 Map<String, Object> data = new HashMap<>();
-                                                data.put("Author", "Udbhav Chugh");
+                                                data.put("Author", username);
                                                 data.put("ReplyBody",Body);
                                                 data.put("PostTime", FieldValue.serverTimestamp());
                                                 data.put("MessageID",messageID);
@@ -327,7 +330,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                                                     arr[val2]++;
                                                                     String voter=doc.getString("Author");
                                                                     System.out.println(voter);
-                                                                    if(voter.equals("Udbhav Chugh"))
+                                                                    if(voter.equals(username))
                                                                     {
                                                                         int oo=rdbtn.getId();
                                                                         System.out.println(Integer.toString(oo));
@@ -380,12 +383,12 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 
                                                 Map<String, Object> data = new HashMap<>();
 
-                                                data.put("Author", "Udbhav Chugh");
+                                                data.put("Author", username);
                                                 data.put("ReplyBody",finvote);
                                                 data.put("PostTime", FieldValue.serverTimestamp());
                                                 data.put("MessageID",messageID2);
 
-                                                db.collection("Courses").document(message).collection("Assignments").document(AssignmentId).collection("Groups").document(GroupId).collection("Messages").document(messageID2).collection("Replies").document("Udbhav Chugh")
+                                                db.collection("Courses").document(message).collection("Assignments").document(AssignmentId).collection("Groups").document(GroupId).collection("Messages").document(messageID2).collection("Replies").document(username)
                                                         .set(data);
 //                                                et.setText("");
 
@@ -456,7 +459,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Map<String, Object> data = new HashMap<>();
-                data.put("Author", "Udbhav Chugh");
+                data.put("Author", username);
                 data.put("MessageHead", Head);
                 data.put("MessageBody",Body);
                 data.put("PostTime", FieldValue.serverTimestamp());
@@ -564,7 +567,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                 String pollques = p_head;
 //        List<String> vowelsList = Arrays.asList(pollop);
                 Map<String, Object> data = new HashMap<>();
-                data.put("Author", "Udbhav Chugh");
+                data.put("Author", username);
                 data.put("PollQues", pollques);
                 data.put("PollOpt", pollop2);
                 data.put("PostTime", FieldValue.serverTimestamp());
