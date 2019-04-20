@@ -79,7 +79,7 @@ public class EditContactUs extends AppCompatActivity {
 
         Map<String,String> map = new HashMap<>();
         map.put("Email",Email.getText().toString());
-        map.put("Phone Number",Phone.getText().toString());
+        map.put("PhoneNumber",Phone.getText().toString());
         map.put("Website",Website.getText().toString());
         map.put("Location",Location.getText().toString());
 

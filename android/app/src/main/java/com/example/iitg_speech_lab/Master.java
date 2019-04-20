@@ -109,23 +109,6 @@ public class Master<sampleApp> extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
         boolean bo=internetIsConnected();
-        if(bo==false)
-        {
-            AlertDialog.Builder dialog=new AlertDialog.Builder(this);
-            dialog.setMessage("No Internet Connection");
-            dialog.setTitle("Error Message");
-            dialog.setPositiveButton("Close",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            finish();
-                            System.exit(0);
-                        }
-                    });
-            AlertDialog alertDialog=dialog.create();
-            alertDialog.show();
-
-        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("SPEECH LAB IITG");
         spinner = (ProgressBar) findViewById(R.id.progressBar2);

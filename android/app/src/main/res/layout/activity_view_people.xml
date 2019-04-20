@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ViewPeople">
+
     <ProgressBar
         android:id="@+id/progress_discussion"
         style="?android:attr/progressBarStyleLarge"
@@ -30,7 +31,9 @@
         app:layout_constraintStart_toEndOf="@+id/Student"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -45,7 +48,9 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="8dp"></LinearLayout>
+            tools:layout_editor_absoluteX="8dp">
+
+        </LinearLayout>
     </ScrollView>
 
     <Button
@@ -67,8 +72,8 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Search User by name"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Student" />

@@ -119,48 +119,47 @@ public class ViewPeople extends AppCompatActivity {
         spinner.setVisibility(View.VISIBLE);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
         ll.removeAllViews();
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference userRef = db.collection("Users");
-        userRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            ll.removeAllViews();
-                            spinner.setVisibility(View.GONE);
-                            for (final QueryDocumentSnapshot document : task.getResult()) {
+        final LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        try {
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference userRef = db.collection("Users");
+            userRef.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ll.removeAllViews();
+                                spinner.setVisibility(View.GONE);
+                                for (final QueryDocumentSnapshot document : task.getResult()) {
 
-                                if (document.getString("Designation").equals("Student"))
-                                {
-                                    final Button btn = new Button(ViewPeople.this);
-                                    btn.setTag(document.getId());
-                                    btn.setText(document.getString("FullName"));
-                                    btn.setBackgroundColor(Color.WHITE);
+                                    if (document.getString("Designation").equals("Student")) {
+                                        final Button btn = new Button(ViewPeople.this);
+                                        btn.setTag(document.getId());
+                                        btn.setText(document.getString("FullName"));
+                                        btn.setBackgroundColor(Color.WHITE);
 
-                                    btn.setOnClickListener(new View.OnClickListener(){
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intent = new Intent(ViewPeople.this, PrivateProfileDetails.class);
-                                            intent.putExtra("username",document.getId());
-                                            startActivity(intent);
-                                        }
-                                    });
-                                    ll.addView(btn);
+                                        btn.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent intent = new Intent(ViewPeople.this, PrivateProfileDetails.class);
+                                                intent.putExtra("username", document.getId());
+                                                startActivity(intent);
+                                            }
+                                        });
+                                        ll.addView(btn);
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+        }finally {
+            //ll.setLayoutParams(params1);
+        }
     }
 
     public void FacultyClick(View view){
-        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.main_layout);
-
-        // create the layout params that will be used to define how your
-        // button will be displayed
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
+
         ll.removeAllViews();
         spinner = (ProgressBar) findViewById(R.id.progress_discussion);
         spinner.setVisibility(View.VISIBLE);
