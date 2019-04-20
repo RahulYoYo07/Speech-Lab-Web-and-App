@@ -9,6 +9,9 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
 
+import hashlib
+import time
+
 # cred = credentials.Certificate("iitg-speech-lab-firebase-adminsdk-ggn1f-2f757184a1.json")
 cred = credentials.Certificate({
     "type": "service_account",
@@ -102,9 +105,16 @@ class ChatConsumer(WebsocketConsumer):
         # ReplyBody = ''
         print(text_data_json)
         if (IsPoll == False):
+            # hash = hashlib.sha1()
+            # hash.update(str(time.time()))
+            # print(hash.hexdigest())
+            # MessageID = hash.hexdigest()[:20]
+
             client = ntplib.NTPClient()
             response = client.request('pool.ntp.org')
-            MessageID = str(response.tx_time)
+            # MessageID = str(response.tx_time)
+            MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+
             ShowReply = text_data_json['ShowReply']
             if (ShowReply == False):
                 IsReply = text_data_json['IsReply']
@@ -112,9 +122,15 @@ class ChatConsumer(WebsocketConsumer):
                 messageHead = text_data_json['messageHead']
                 ReplyBody = text_data_json['ReplyBody']
                 if not IsReply:
+                    # hash = hashlib.sha1()
+                    # hash.update(str(time.time()))
+                    # print(hash.hexdigest())
+                    # MessageID = hash.hexdigest()[:20]
                     client = ntplib.NTPClient()
                     response = client.request('pool.ntp.org')
-                    MessageID = str(response.tx_time)
+                    # MessageID = str(response.tx_time)
+                    MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+
                     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).set({'Author' : curAuthor,'MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
 
                 else:
@@ -149,6 +165,7 @@ class ChatConsumer(WebsocketConsumer):
                     'ShowReply': True,
                     'IsReply': True,
                     'Replies': replies,
+                    'MessageID' : MessageID,
                 })
                 # print(text_data)
                 self.send(text_data)
@@ -171,7 +188,9 @@ class ChatConsumer(WebsocketConsumer):
                     }
                     client = ntplib.NTPClient()
                     response = client.request('pool.ntp.org')
-                    MessageID = str(response.tx_time)
+                    # MessageID = str(response.tx_time)
+                    MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+
                     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).set(DBPoll)
 
                     async_to_sync(self.channel_layer.group_send)(
@@ -343,7 +362,13 @@ class ChatConsumer2(WebsocketConsumer):
         if (IsPoll == False):
             client = ntplib.NTPClient()
             response = client.request('pool.ntp.org')
-            MessageID = str(response.tx_time)
+            # MessageID = str(response.tx_time)
+            MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+
+            # hash = hashlib.sha1()
+            # hash.update(str(time.time()))
+            # print(hash.hexdigest())
+            # MessageID = hash.hexdigest()[:20]
             ShowReply = text_data_json['ShowReply']
             if (ShowReply == False):
                 IsReply = text_data_json['IsReply']
@@ -353,7 +378,13 @@ class ChatConsumer2(WebsocketConsumer):
                 if not IsReply:
                     client = ntplib.NTPClient()
                     response = client.request('pool.ntp.org')
-                    MessageID = str(response.tx_time)
+                    # MessageID = str(response.tx_time)
+                    MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+
+                    # hash = hashlib.sha1()
+                    # hash.update(str(time.time()))
+                    # print(hash.hexdigest())
+                    # MessageID = hash.hexdigest()[:20]
                     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Assignments').document(AssignmentID).collection(u'Groups').document(GroupID).collection(u'Messages').document(MessageID).set({'Author' : curAuthor,'MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
 
                 else:
@@ -410,7 +441,13 @@ class ChatConsumer2(WebsocketConsumer):
                     }
                     client = ntplib.NTPClient()
                     response = client.request('pool.ntp.org')
-                    MessageID = str(response.tx_time)
+                    # MessageID = str(response.tx_time)
+                    MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+
+                    # hash = hashlib.sha1()
+                    # hash.update(str(time.time()))
+                    # print(hash.hexdigest())
+                    # MessageID = hash.hexdigest()[:20]
                     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Assignments').document(AssignmentID).collection(u'Groups').document(GroupID).collection(u'Messages').document(MessageID).set(DBPoll)
 
                     async_to_sync(self.channel_layer.group_send)(
