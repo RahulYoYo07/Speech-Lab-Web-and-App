@@ -1,5 +1,53 @@
-<form method="POST">
-    {% csrf_token %}
-    <input name='NumGroups'></input>
-    <button type="submit">Create Groups</button>
-</form>
+{% extends "base_generic.html" %}
+
+{% block sidebar %}
+  <li>
+    <a href="#">Set Deadline</a>
+  </li>
+  <li>
+    <a href="#">Grading</a>
+  </li>
+  <li>
+    <a href="#">Manually Form Group</a>
+  </li>
+  <li>
+    <a href="#">Randomly Allocate Groups</a>
+  </li>
+  <li>
+    <a href="#">View Submissions</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:events' cinfo %}">Events</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
+  </li>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <form name="myForm" onsubmit="return validateForm()" method="POST">
+      <div class="form-group">
+        {% csrf_token %}
+        <p class='options'>Enter number of groups to be formed</p>
+        <input type="number" name="NumGroups" placeholder="Number of groups" value=0></input>
+        <button type="submit" class="btn btn-success">Create Groups</button>
+      </div>
+    </form>
+</div>
+
+
+<script>
+  function validateForm() {
+      if(document.forms["myForm"]["NumGroups"].value <= 0){
+          alert ("Number of groups should be greater than 0");
+          return false;
+      }
+      else return true;
+  }
+</script>
+
+{% endblock %}

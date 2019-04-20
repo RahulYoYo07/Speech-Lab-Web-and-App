@@ -549,6 +549,7 @@ def viewTA(request, cinfo):
 
 def ViewAssgn(request, cinfo, aid):
     Designation = getDesig(request, cinfo)
+    print(Designation)
     if Designation == "UnRegStu":
         return HttpResponse(status=511)
 
@@ -564,7 +565,7 @@ def ViewAssgn(request, cinfo, aid):
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    Designation = user_dict['Designation']
+    # Designation = user_dict['Designation']
 
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').get()
@@ -783,7 +784,7 @@ def Update_Submission(request, cinfo, aid, gid):
     else:
         if Designation != "Faculty" and Designation != "TA":
             return HttpResponse(status=511)
-    
+
 
     group = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').document(gid)
@@ -916,7 +917,8 @@ def RandomGroups(request, cinfo, aid):
     username = context['username']
 
     if request.method == 'GET':
-        return render(request, 'course/random_groups.html')
+        context['cinfo'] = cinfo
+        return render(request, 'course/random_groups.html', context)
     elif request.method == 'POST':
         NumGroups = request.POST['NumGroups']
         NumGroups = int(NumGroups)

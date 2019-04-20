@@ -40,9 +40,11 @@
       <div class = "card">
       <div class="card__content">
         <div class="card__title"><a href="{% url 'course:view_group' cinfo aid group.GroupID %}">{{ group.GroupID }}</a></div>
-        <a href="{% url 'course:update_attendance' cinfo aid group.GroupID %}"><button class="btn btn--block card_btn">Update Attandance</button></a>
+        <a href="{% url 'course:update_attendance' cinfo aid group.GroupID %}"><button class="btn btn--block card_btn">Update Attendance</button></a>
         <a href="{% url 'course:add_grade' cinfo aid group.GroupID %}"><button class="btn btn--block card_btn">Add Grade</button></a>
-        <a href="{% url 'discussion:group' cinfo aid group.GroupID %}" class="card-link"><button class="btn btn--block card_btn">Discussion Group Link</button></a>
+        {% if Designation == 'Student' %}
+        <a href="{% url 'discussion:group' cinfo aid group.GroupID %}" class="card-link"><button class="btn btn--block card_btn">Group Chat</button></a>
+        {% endif %}
       </div>
       </div>
     </li>

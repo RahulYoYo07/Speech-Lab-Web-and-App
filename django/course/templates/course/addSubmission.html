@@ -3,11 +3,13 @@
 {% block content %}
 
 <div>
-<h1> Current Submissions </h1>
+<h1> Current Submission </h1>
 <h3>
     <a href="{{sub.Url}}">{{ sub.Name }}</a>
 </h3>
 </div>
+
+{% if Designation == 'Student' %}
 <h1>Add Submission</h1>
 
 
@@ -27,7 +29,7 @@
 <input type="hidden" name="filename" id="filename">
 </form>
 </div>
-
+{% endif %}
 
 {% endblock %}
 
@@ -55,7 +57,7 @@ $(".custom-file-input").on("change", function() {
   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
-function uploadcm() 
+function uploadcm()
 {
     var cmuploader = document.getElementById('cmuploader');
     var progrescmupload = document.getElementById('progrescmupload');
