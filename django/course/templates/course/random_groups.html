@@ -1,20 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block sidebar %}
+  {% if Designation == 'Faculty' %}
   <li>
-    <a href="#">Set Deadline</a>
+    <a href="{% url 'course:random_groups' cinfo aid %}">Randomly Allocate Groups</a>
   </li>
   <li>
-    <a href="#">Grading</a>
-  </li>
-  <li>
-    <a href="#">Manually Form Group</a>
-  </li>
-  <li>
-    <a href="#">Randomly Allocate Groups</a>
-  </li>
-  <li>
-    <a href="#">View Submissions</a>
+    <a href="{% url 'course:view_course' cinfo%}">Assignments</a>
   </li>
   <li>
     <a href="{% url 'discussion:events' cinfo %}">Events</a>
@@ -25,6 +17,21 @@
   <li>
     <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
   </li>
+  {% else %}
+  <li>
+    <a href="{% url 'course:view_course' cinfo%}">Assignments</a>
+  </li>
+  
+  <li>
+    <a href="{% url 'discussion:events' cinfo %}">Events</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:notice_board' cinfo %}">Noticeboard</a>
+  </li>
+  <li>
+    <a href="{% url 'discussion:course_group' cinfo 1 %}">Discussion Room</a>
+  </li>
+  {% endif %}
 {% endblock %}
 
 {% block content %}

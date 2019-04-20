@@ -984,6 +984,8 @@ def RandomGroups(request, cinfo, aid):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+    context['Designation'] = Designation
+    context['aid'] = aid
 
     if request.method == 'GET':
         context['cinfo'] = cinfo
