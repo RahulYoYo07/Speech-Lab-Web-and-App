@@ -2,6 +2,7 @@ package com.example.iitg_speech_lab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,6 +33,10 @@ import java.util.List;
 
 public class AdminDashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final long START_TIME_IN_MILLIS = 600000;
+    private CountDownTimer mCountDownTimer;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    static int check=0;
     private static final String TAG = AfterLoginHomePage.class.getSimpleName();
     private PublicClientApplication sampleApp;
     private ProgressBar spinner;
@@ -99,16 +104,6 @@ public class AdminDashboard extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         return true;
@@ -148,12 +143,13 @@ public class AdminDashboard extends AppCompatActivity
         } else if (id == R.id.AdminEditDeleteFaq){
             Intent intent = new Intent(AdminDashboard.this, EditDeleteFaq.class);
             startActivity(intent);
-        } else if (id == R.id.AdminHome){
-            Intent intent = new Intent(AdminDashboard.this, AfterLoginHomePage.class);
-            intent.putExtra("username", getIntent().getStringExtra("username"));
-            startActivity(intent);
         } else if (id == R.id.AdminLogOut){
             onSignOutClicked();
+        } else if (id == R.id.AdminDash){
+//            finish();
+            Intent intent = new Intent(AdminDashboard.this, ProfileProjectDashboard.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -196,5 +192,46 @@ public class AdminDashboard extends AppCompatActivity
     private void updateSignedOutUI() {
         Intent intent = new Intent(AdminDashboard.this, Master.class);
         startActivity(intent);
+    }
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                if (check>0) {
+                    backButtonCount = 0;
+                    check = 0;
+                }
+                else {
+                    check++;
+                }
+            }
+            @Override
+            public void onFinish() {resetTimer();
+            }
+        }.start();
+    }
+
+    private void resetTimer() {
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    }
+    int backButtonCount = 0;
+    @Override
+    public void onBackPressed()
+    {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (backButtonCount >= 1) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+                backButtonCount++;
+            }
+        }
     }
 }

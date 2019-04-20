@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbarAlwaysDrawVerticalTrack="false"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    app:layout_scrollFlags="scroll">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -40,12 +41,12 @@
         android:id="@+id/aboutProjTitle"
         android:layout_width="355dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:editable="false"
+        android:gravity="center"
         android:text="Title:  "
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
