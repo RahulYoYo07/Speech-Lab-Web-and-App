@@ -40,6 +40,7 @@ db = firestore.client()
 
 def home(request):
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
+    
     sign_in_url = get_signin_url(redirect_uri)
     data = db.collection(u'Homepage').document("homepage").get().to_dict()
     pics = db.collection(u'Homepage').document("HomeImages").get().to_dict()
@@ -77,7 +78,7 @@ def addProject(request, uinfo):
     else:
         context["isAdmin"] = "False"
     context["Designation"] = user_dict['Designation']
-    
+
     return render(request, 'home/addproject.html', context)
 
 def projectDelete(request, pinfo):
@@ -123,10 +124,10 @@ def projectUpdate(request, pinfo):
 
         project_dict = db.collection(u'Projects').document(pinfo).get().to_dict()
         creator = project_dict['Creator'].get().id
-        
+
         if context['username'] != creator:
             return HttpResponse("You are not authorized")
-        
+
         updated_project = {}
         updated_project['Title'] = request.POST.get('title')
         updated_project['AboutProject'] = request.POST.get('about')
@@ -172,6 +173,7 @@ def gettoken(request):
     except:
         return HttpResponseRedirect(reverse('home:home'))
     redirect_uri = request.build_absolute_uri(reverse('home:gettoken'))
+    print(redirect_uri)
     token = get_token_from_code(auth_code, redirect_uri)
     access_token = token['access_token']
     user = get_me(access_token)
@@ -316,7 +318,7 @@ def faculty(request):
     uc_list = zip(user_list, counter_list)
     context = {'uc_list': uc_list}
     context = loginFLOW(request, context)
-    
+
     return render(request, 'home/people.html', context)
 
 

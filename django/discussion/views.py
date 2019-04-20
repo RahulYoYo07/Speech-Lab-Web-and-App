@@ -1,8 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
 import json
 from django.shortcuts import redirect
+from django.urls import reverse
 
 import firebase_admin
 from firebase_admin import credentials
@@ -112,8 +113,8 @@ def notice_board(request,CourseID):
         temp={
             'NoticeHead' : doc['NoticeHead'],
             'NoticeBody': doc['NoticeBody'],
-            # 'NoticeAuthor': doc['Author'],
-            # 'NoticeTime': doc['NoticeTime'],
+            'Author': doc['Author'],
+            'NoticeTime': doc['NoticeTime'],
         }
         all_notice.append(temp)
 
@@ -140,7 +141,7 @@ def add_notice(request,CourseID):
     NoticeBody = request.POST['NoticeBody']
     print(NoticeHead)
     print(NoticeBody)
-    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices').add({'Author' : 'Udbhav Chugh','NoticeHead' : NoticeHead, 'NoticeBody' : NoticeBody, 'NoticeTime':firestore.SERVER_TIMESTAMP})
+    doc_ref = db.collection(u'Courses').document(CourseID).collection(u'Notices').add({'Author' : username,'NoticeHead' : NoticeHead, 'NoticeBody' : NoticeBody, 'NoticeTime':firestore.SERVER_TIMESTAMP})
     return redirect('/discussion/courses/'+CourseID+'/noticeboard')
 
 def view_calendar(request, CourseID):

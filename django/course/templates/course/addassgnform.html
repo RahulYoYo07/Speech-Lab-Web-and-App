@@ -1,47 +1,62 @@
 {% extends "base_generic.html"%}
 {% block content %}
 <form method="POST">
-  {% csrf_token %}
-
-  <div class="form-group">
-    <label for="Name">Name</label>
-    <input type="text" rows="4" class="form-control" name="Name" placeholder="Name Of The Assignment" value="{{AssgnDetails.Name}}" required>
-  </div>
-
-  <div class="form-group">
-    <label for="exampleInputEmail1">About</label>
-    <textarea rows="4" class="form-control" name="About" aria-describedby="about" placeholder="Tell Us Something About Assignment"
-    value="{{AssgnDetails.About}}" required></textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="Deadline">Deadline</label>
-    <input type="text" data-type="date" id="date-input" name="Deadline" id="trying" value="{{ AssgnDetails.Deadline }}" required/>
-    <div id="material-header-holder" style="display:none">
-      <div class="ui-datepicker-material-header">
-        <div class="ui-datepicker-material-day">
-        </div>
-        <div class="ui-datepicker-material-date">
-          <div class="ui-datepicker-material-month">
-          </div>
-          <div class="ui-datepicker-material-day-num">
-          </div>
-          <div class="ui-datepicker-material-year">
-          </div>
-        </div>
+   {% csrf_token %}
+   <div class="form-group">
+      <label for="Name">Name</label>
+      <input type="text" rows="4" class="form-control" name="Name" placeholder="Name Of The Assignment" value="{{AssgnDetails.Name}}" required>
+   </div>
+   <div class="form-group">
+      <label for="exampleInputEmail1">About</label>
+      <textarea rows="4" class="form-control" name="About" aria-describedby="about" placeholder="Tell Us Something About Assignment"
+         value="{{AssgnDetails.About}}" required></textarea>
+   </div>
+   <div class="form-group">
+      <label for="Deadline">Deadline</label>
+      <input type="text" data-type="date" id="date-input" autocomplete="off" name="Deadline" id="trying" value="{{ AssgnDetails.Deadline }}" required/>
+      <div id="material-header-holder" style="display:none">
+         <div class="ui-datepicker-material-header">
+            <div class="ui-datepicker-material-day">
+            </div>
+            <div class="ui-datepicker-material-date">
+               <div class="ui-datepicker-material-month">
+               </div>
+               <div class="ui-datepicker-material-day-num">
+               </div>
+               <div class="ui-datepicker-material-year">
+               </div>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+   </div>
+   {% comment %} <div class = "form-group"> {% endcomment %}
+      {% comment %} <div class="file-upload__modal" role="section">
+         <h1 class="file-upload__modal-title" role="heading">Upload File</h1>
+         <p class="file-upload__error" role="alertdialog"></p>
+         <ul class="file__list js-file__list" role="list"></ul>
+         <div class="file-upload__form js-dropzone" role="form">
+            <input
+               type="file"
+               id="file-dropzone"
+               class="file__input js-file__input"
+               single
+               >
+            <label
+               class="file__input-label"
+               for="file-dropzone"
+               >Drag file here or <button class="file__input-label-button" role="button">browse</button></label>
+         </div>
+      </div> {% endcomment %}
+   {% comment %} </div> {% endcomment %}
+   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}
-
 {% block scripts %}
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
 {% endblock %}
-
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto"/>
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto"/>
 {% endblock css %}

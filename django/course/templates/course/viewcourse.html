@@ -2,7 +2,9 @@
 
 {% block sidebar %}
   <li>
-    <a href="{% url 'course:show_attendance' CourseInfo %}">Attendance and Grading</a>
+    <a class="s-sidebar__nav-link" href="{% url 'course:show_attendance' CourseInfo %}">
+    Attendance and Grading
+    </a>
   </li>
   <li>
     <a href="{% url 'course:view_course_material' CourseInfo %}">Study Material</a>

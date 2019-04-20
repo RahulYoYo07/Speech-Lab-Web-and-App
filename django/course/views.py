@@ -1,3 +1,4 @@
+from home.authhelper import loginFLOW
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 
@@ -14,7 +15,7 @@ from firebase_admin import firestore
 
 import random
 
-#cred = credentials.Certificate('./iitg-speech-lab-firebase-adminsdk-ggn1f-2f757184a1.json')
+# cred = credentials.Certificate('./iitg-speech-lab-firebase-adminsdk-ggn1f-2f757184a1.json')
 cred = credentials.Certificate({
     "type": "service_account",
     "project_id": "iitg-speech-lab",
@@ -31,7 +32,7 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 # Create your views here.
-from home.authhelper import loginFLOW
+
 
 def dashboard(request):
     context = {}
@@ -61,20 +62,60 @@ def dashboard(request):
             StudCourseList = []
         else:
             StudCourseList = user_dict['CourseList']
+
         # print(StudCourseList)
         RegisteredCourses = []
         TotalCourses = []
+        TotalCourses1 = []
         for course in StudCourseList:
             RegisteredCourses.append(course['CourseID'].get().to_dict())
 
         Courses = db.collection(u'Courses').get()
         for course in Courses:
-            TotalCourses.append(course.to_dict())
+            TotalCourses1.append(course.to_dict())
+
+        for course in TotalCourses1:
+            if course not in RegisteredCourses:
+                TotalCourses.append(course)
 
         context['RegisteredCourses'] = RegisteredCourses
         context['TotalCourses'] = TotalCourses
 
         return render(request, 'course/main_page_stud.html', context)
+
+
+def getDesig(request, cinfo):
+    context = {}
+    context = loginFLOW(request, context)
+    username = context['username']
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    Designation = user_dict['Designation']
+    if Designation == "Faculty":
+        return "Faculty"
+
+    CourseDict = db.collection("Courses").document(
+        cinfo).get().to_dict()
+
+    try:
+        TAListref = CourseDict["TAList"]
+        for TA in TAListref:
+            if username == TA.get().to_dict()["Username"]:
+                return "TA"
+    except:
+        pass
+
+    try:
+        StuRef = db.collection("Courses").document(
+            cinfo).get().to_dict()["StudentList"]
+
+        for Stu in StuRef:
+            if username == Stu["StudentID"].get().to_dict()["Username"]:
+                return "Student"
+    except:
+        pass
+
+    return "UnRegStu"
 
 
 def Enroll_CoursePage(request, cinfo):
@@ -84,10 +125,13 @@ def Enroll_CoursePage(request, cinfo):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
-    user_ref = db.collection(u'Users').document(username).get()
-    user_dict = user_ref.to_dict()
-    Designation = user_dict['Designation']
-
+    # user_ref = db.collection(u'Users').document(username).get()
+    # user_dict = user_ref.to_dict()
+    Designation = getDesig(request, cinfo)
+    print(Designation)
+    if Designation != "UnRegStu":
+        return HttpResponse(status=511)
+    print(Designation)
     context['CourseInfo'] = cinfo
 
     if request.method == 'POST':
@@ -147,13 +191,14 @@ def Enroll_CoursePage(request, cinfo):
             db.collection(u'Courses').document(cinfo).update(StnList)
         return HttpResponseRedirect(reverse('course:dashboard'))
     else:
-        if Designation == 'Student':
-            return render(request, 'course/enrollcourse.html', context)
-        elif Designation == 'Faculty':
-            return HttpResponseNotFound('<h1>Page not found</h1>')
+        return render(request, 'course/enrollcourse.html', context)
 
 
 def Update_Attendance(request, cinfo, aid, gid):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty" and Designation != "TA":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -172,7 +217,7 @@ def Update_Attendance(request, cinfo, aid, gid):
             while (check == 0):
                 try:
                     stud_username = attendance_list[index]['StudentID'].get().to_dict()[
-                        'username']
+                        'Username']
                     if stud_username == student:
                         attendance_list[index]['TotalAttendance'] = attendance_list[index]['TotalAttendance'] + 1
                         data = {
@@ -190,7 +235,10 @@ def Update_Attendance(request, cinfo, aid, gid):
         aid = "As_01"
         group_ref = db.collection(u'Courses').document(cinfo).collection(
             u'Assignments').document(aid).collection(u'Groups').document(gid).get()
-        studentlist = group_ref.to_dict()['StudentList']
+        try:
+            studentlist = group_ref.to_dict()['StudentList']
+        except:
+            studentlist = ""
         index = 0
         studentinfo = []
         check = 0
@@ -251,6 +299,10 @@ def Show_Attendance(request, cinfo):
 
 
 def Add_Grade(request, cinfo, aid, gid):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty" and Designation != "TA":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -302,6 +354,10 @@ def Add_Grade(request, cinfo, aid, gid):
 
 
 def AddCourse(request):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -328,7 +384,8 @@ def AddCourse(request):
                 u'Session': int(request.POST.get("StartSemesterSession", ""))
             },
             u'FacultyList': [ref_prof],
-            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", "")
+            u'CourseInfo': request.POST.get("CourseID", "") + "_" + username + "_" + request.POST.get("StartSemesterSession", ""),
+
         }
         cid = request.POST.get("CourseID", "")
 
@@ -354,6 +411,9 @@ def AddCourse(request):
 
 
 def ViewCourse(request, cinfo):
+    Designation = getDesig(request, cinfo)
+    if Designation == "UnRegStu":
+        return HttpResponse(status=511)
 
     context = {}
     context = loginFLOW(request, context)
@@ -364,7 +424,7 @@ def ViewCourse(request, cinfo):
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
-    #cid += "_" + username + " _" + cyear
+    # cid += "_" + username + " _" + cyear
     assgn_ref = db.collection(u'Courses').document(
         cinfo).collection(u'Assignments').get()
     AssgnDetails = []
@@ -381,6 +441,10 @@ def ViewCourse(request, cinfo):
 
 
 def AddAssgn(request, cinfo):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty" and Designation != "TA":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -409,6 +473,10 @@ def AddAssgn(request, cinfo):
 
 
 def UpAssgn(request, cinfo, aid):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty" and Designation != "TA":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -442,6 +510,10 @@ def UpAssgn(request, cinfo, aid):
 
 
 def viewTA(request, cinfo):
+    Designation = getDesig(request, cinfo)
+    if Designation == "UnRegStu":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -453,8 +525,11 @@ def viewTA(request, cinfo):
     user_dict = user_ref.to_dict()
     Designation = user_dict['Designation']
 
-    TAList = db.collection(u'Courses').document(
-        cinfo).get().to_dict()["TAList"]
+    try:
+        TAList = db.collection(u'Courses').document(
+            cinfo).get().to_dict()["TAList"]
+    except:
+        TAList = ""
 
     talist = list()
 
@@ -473,12 +548,19 @@ def viewTA(request, cinfo):
 
 
 def ViewAssgn(request, cinfo, aid):
+    Designation = getDesig(request, cinfo)
+    if Designation == "UnRegStu":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+    user_ref = db.collection(u'Users').document(username).get()
+    user_dict = user_ref.to_dict()
+    context['Designation'] = user_dict['Designation']
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
@@ -503,6 +585,10 @@ def ViewAssgn(request, cinfo, aid):
 
 
 def AddTA(request, cinfo):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -530,7 +616,7 @@ def AddTA(request, cinfo):
 
         if 'TAList' not in ref_course.get().to_dict():
             currTA = []
-        else :
+        else:
             currTA = ref_course.get().to_dict()['TAList']
 
         if ref_TA not in currTA:
@@ -556,10 +642,10 @@ def AddTA(request, cinfo):
             pass
 
         ref_TA.update({
-            u'CoursesListAsTA' : coursesAsTA
+            u'CoursesListAsTA': coursesAsTA
         })
 
-        return render(request, 'course/AddTA.html', context)
+        return HttpResponseRedirect(reverse('course:view_course', kwargs={'cinfo': cinfo}))
 
     return render(request, 'course/AddTA.html', context)
 
@@ -590,6 +676,10 @@ def getStudents():
 
 
 def AddCourseMaterial(request, cinfo):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty" and Designation != "TA":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -604,6 +694,10 @@ def AddCourseMaterial(request, cinfo):
 
 
 def ViewCourseMaterial(request, cinfo):
+    Designation = getDesig(request, cinfo)
+    if Designation == "UnRegStu":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -667,12 +761,29 @@ def StoreCMinDb(request, cinfo):
 
 
 def Update_Submission(request, cinfo, aid, gid):
+    Designation = getDesig(request, cinfo)
+    if Designation == "UnRegStu":
+        return HttpResponse(status=511)
+
+    StudentList = db.collection('Courses').document(cinfo).collection("Assignments").document(
+        aid).collection("Groups").document(gid).get().to_dict()["StudentList"]
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+
+    updPer = False
+    for stu in StudentList:
+        if username == stu["StudentID"].get().to_dict()["Username"]:
+            updPer = True
+            break
+    else:
+        if Designation != "Faculty" and Designation != "TA":
+            return HttpResponse(status=511)
+    
 
     group = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').document(gid)
@@ -715,13 +826,17 @@ def Update_Submission(request, cinfo, aid, gid):
 
 
 def ViewGroup(request, cinfo, aid, gid):
+    Designation = getDesig(request, cinfo)
+    if Designation == "UnRegStu":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
-    #cid += "_" + username + " _" + cyear
+    # cid += "_" + username + " _" + cyear
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
@@ -757,7 +872,7 @@ def UpdateGroup(request, cinfo, aid, gid):
     username = context['username']
 
     if request.method == 'POST':
-        #ref_prof = db.collection(u'Users').document(username)
+        # ref_prof = db.collection(u'Users').document(username)
         data = {
             u'ProjectTitle': request.POST.get("ProjectTitle", ""),
             u'ProblemStatement': request.POST.get("ProblemStatement", "")
@@ -787,7 +902,12 @@ def UpdateGroup(request, cinfo, aid, gid):
 
     return render(request, 'course/updategroupform.html')
 
+
 def RandomGroups(request, cinfo, aid):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty" and Designation != "TA":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
@@ -801,14 +921,15 @@ def RandomGroups(request, cinfo, aid):
         NumGroups = request.POST['NumGroups']
         NumGroups = int(NumGroups)
 
-        StudList = db.collection(u'Courses').document(cinfo).get().to_dict()['StudentList']
+        StudList = db.collection(u'Courses').document(
+            cinfo).get().to_dict()['StudentList']
         random.shuffle(StudList)
 
         GroupList = []
         for i in range(NumGroups):
             GroupList.append([])
         for i in range(len(StudList)):
-            GroupList[i%NumGroups].append(StudList[i])
+            GroupList[i % NumGroups].append(StudList[i])
 
         print(GroupList)
 
@@ -821,6 +942,7 @@ def RandomGroups(request, cinfo, aid):
                     u'StudentList': GroupList[i],
                 }
 
-                db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(aid).collection(u'Groups').document('GID_'+str(i+1)).set(data)
+                db.collection(u'Courses').document(cinfo).collection(u'Assignments').document(
+                    aid).collection(u'Groups').document('GID_'+str(i+1)).set(data)
 
         return redirect('/courses/'+cinfo+'/assignments/'+aid)
