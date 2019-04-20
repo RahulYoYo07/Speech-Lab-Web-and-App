@@ -2,10 +2,12 @@ package com.example.iitg_speech_lab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,27 +17,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.microsoft.identity.client.IAccount;
+import com.microsoft.identity.client.PublicClientApplication;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminDashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private static final long START_TIME_IN_MILLIS = 600000;
+    private CountDownTimer mCountDownTimer;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    static int check=0;
+    private static final String TAG = AfterLoginHomePage.class.getSimpleName();
+    private PublicClientApplication sampleApp;
+    private ProgressBar spinner;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Administrator");
         setSupportActionBar(toolbar);
-
         //Code For Sliding Images
-
+        spinner = (ProgressBar) findViewById(R.id.progressBar5);
+        spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db1 = FirebaseFirestore.getInstance();
         DocumentReference userRef = db1.collection("Homepage").document("HomeImages");
         userRef.get()
@@ -50,21 +64,35 @@ public class AdminDashboard extends AppCompatActivity
                                 ViewPager viewPager = findViewById(R.id.AdminViewPager);
                                 SliderImageAdapter adapter = new SliderImageAdapter(getApplicationContext(),imageUrls);
                                 viewPager.setAdapter(adapter);
+                                spinner.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
                 });
         //Code for Sliding Images ends
+        /* Configure your sample app and save state for this activity */
+        sampleApp = null;
+        if (sampleApp == null) {
+            sampleApp = new PublicClientApplication(this.getApplicationContext(),
+                    R.raw.auth_config);
+        }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+        /* Attempt to get a user and acquireTokenSilent
+         * If this fails we do an interactive request
+         */
+        List<IAccount> accounts = null;
+
+        try {
+            accounts = sampleApp.getAccounts();
+
+            if (accounts != null && accounts.size() == 1) {
+                /* We have 1 account */
+            } else {
+                /* We have no account or >1 account */
             }
-        });
-
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, "Account at this position does not exist: " + e.toString());
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,16 +101,6 @@ public class AdminDashboard extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -122,16 +140,99 @@ public class AdminDashboard extends AppCompatActivity
         } else if (id == R.id.AdminEditContactUs) {
             Intent intent = new Intent(AdminDashboard.this, EditContactUs.class);
             startActivity(intent);
-        } else if (id == R.id.AdminAddProject){
-            Intent intent = new Intent(AdminDashboard.this, AddProject.class);
-            startActivity(intent);
         } else if (id == R.id.AdminEditDeleteFaq){
             Intent intent = new Intent(AdminDashboard.this, EditDeleteFaq.class);
+            startActivity(intent);
+        } else if (id == R.id.AdminLogOut){
+            onSignOutClicked();
+        } else if (id == R.id.AdminDash){
+            finish();
+            Intent intent = new Intent(AdminDashboard.this, ProfileProjectDashboard.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            intent.putExtra("isfirst", getIntent().getStringExtra("isfirst"));
             startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void onSignOutClicked() {
+
+        /* Attempt to get a account and remove their cookies from cache */
+        List<IAccount> accounts = null;
+
+        try {
+            accounts = sampleApp.getAccounts();
+            if (accounts == null) {
+                /* We have no accounts */
+
+            } else if (accounts.size() == 1) {
+                /* We have 1 account */
+                /* Remove from token cache */
+                sampleApp.removeAccount(accounts.get(0));
+                updateSignedOutUI();
+            }
+            else {
+                /* We have multiple accounts */
+                for (int i = 0; i < accounts.size(); i++) {
+                    sampleApp.removeAccount(accounts.get(i));
+                }
+            }
+
+            Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+                    .show();
+
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, "User at this position does not exist: " + e.toString());
+        }
+    }
+
+    /* Set the UI for signed out account */
+    private void updateSignedOutUI() {
+        Intent intent = new Intent(AdminDashboard.this, Master.class);
+        startActivity(intent);
+    }
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                if (check>0) {
+                    backButtonCount = 0;
+                    check = 0;
+                }
+                else {
+                    check++;
+                }
+            }
+            @Override
+            public void onFinish() {resetTimer();
+            }
+        }.start();
+    }
+
+    private void resetTimer() {
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    }
+    int backButtonCount = 0;
+    @Override
+    public void onBackPressed()
+    {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (backButtonCount >= 1) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+                backButtonCount++;
+            }
+        }
     }
 }

@@ -73,9 +73,9 @@ public class ProjectsMyData {
 
                                 for (final QueryDocumentSnapshot document : task.getResult()) {
 //                                    if((DocumentReference)document.get("Creator")==userRef){
-                                        projectsIDList.add(document.getId());
-                                        projectsNameList.add(document.getString("Title"));
-                                        projectsInfoList.add(document.getString("Mentor"));
+                                    projectsIDList.add(document.getId());
+                                    projectsNameList.add(document.getString("Title"));
+                                    projectsInfoList.add(document.getString("Mentor"));
 //                                    }
 
                                     if(projectsIDList.size()==task.getResult().size()){

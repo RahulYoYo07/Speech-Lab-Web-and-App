@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditContactUs extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,13 +79,24 @@ public class EditContactUs extends AppCompatActivity {
 
         Map<String,String> map = new HashMap<>();
         map.put("Email",Email.getText().toString());
-        map.put("Phone Number",Phone.getText().toString());
+        map.put("PhoneNumber",Phone.getText().toString());
         map.put("Website",Website.getText().toString());
         map.put("Location",Location.getText().toString());
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Homepage").document("contactUs");
-        userRef.set(map);
-        Toast.makeText(EditContactUs.this,"Details Edited Successfully",Toast.LENGTH_LONG).show();
+
+        if(Email.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Email field",Toast.LENGTH_LONG).show();
+        } else if(Phone.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Phone Number field",Toast.LENGTH_LONG).show();
+        }else if(Website.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Website field",Toast.LENGTH_LONG).show();
+        }else if(Location.getText().toString().length() ==0){
+            Toast.makeText(getApplicationContext(),"Please enter non-empty valid Location(Address)",Toast.LENGTH_LONG).show();
+        }else {
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference userRef = db.collection("Homepage").document("contactUs");
+            userRef.set(map);
+            Toast.makeText(getApplicationContext(),"Details Edited Successfully",Toast.LENGTH_LONG).show();
+        }
     }
 }

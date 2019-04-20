@@ -1,6 +1,7 @@
 package com.example.iitg_speech_lab;
 
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,11 +26,16 @@ import java.util.Map;
 public class ViewFaqListView extends AppCompatActivity {
     final ArrayList<String> questionList = new ArrayList<>();
     final ArrayList<String> answerList = new ArrayList<>();
+    private ProgressBar spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_faq_list_view);
         final ListView listView = (ListView) findViewById(R.id.ViewFaqListView);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("View FAQ");
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Homepage").document("faq");
         userRef.get()
@@ -37,6 +44,7 @@ public class ViewFaqListView extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
+                            spinner.setVisibility(View.GONE);
                             if(user.exists()){
                                 final ArrayList<Map<String,String>> ans = (ArrayList<Map<String,String>>) user.get("qa");
                                 int i=0;

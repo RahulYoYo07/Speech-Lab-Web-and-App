@@ -14,15 +14,7 @@ import java.net.InetAddress;
 
 public class MainActivity extends AppCompatActivity {
 
-    public boolean internetIsConnected(){
-        try{
-            String cmd="ping -c 1 google.com";
-            return (Runtime.getRuntime().exec(cmd).waitFor()==0);
-        }
-        catch (Exception e){
-            return false;
-        }
-    }
+
 
     public static final String EXTRA_MESSAGE = "com.example.iitg_speech_lab.MESSAGE";
 
@@ -30,24 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        boolean bo=internetIsConnected();
-        if(bo==false)
-        {
-            AlertDialog.Builder dialog=new AlertDialog.Builder(this);
-            dialog.setMessage("No Internet Connection");
-            dialog.setTitle("Error Message");
-            dialog.setPositiveButton("Close",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            finish();
-                            System.exit(0);
-                        }
-                    });
-            AlertDialog alertDialog=dialog.create();
-            alertDialog.show();
 
-        }
     }
 
     public void sendMessage(View view) {

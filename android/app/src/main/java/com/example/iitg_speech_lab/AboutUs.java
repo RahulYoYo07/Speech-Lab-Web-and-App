@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class AboutUs extends AppCompatActivity {
+    private ProgressBar spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,8 @@ public class AboutUs extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("About Us");
         final LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
+        spinner = (ProgressBar) findViewById(R.id.progress_discussion);
+        spinner.setVisibility(View.VISIBLE);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Homepage").document("AboutUs");
         userRef.get()
@@ -34,6 +39,7 @@ public class AboutUs extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot user = task.getResult();
                             if(user.exists()){
+                                spinner.setVisibility(View.GONE);
                                 final String Head_detail = user.getString("Head");
                                 final String Establish_detail = user.getString("Established");
                                 final String People_detail = user.getString("ImportantPeople");

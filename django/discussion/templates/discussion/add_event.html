@@ -39,7 +39,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
       <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src={{CalendarID}}&amp;color=%231B887A&amp;ctz=Asia%2FKolkata" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
   <div class="card">
@@ -58,7 +58,7 @@
 
 
     </div>
-      <div class="col-lg-6">
+      <div class="col">
       <div id='DeleteEvents'>
         {% for event in events %}
         <form method="post" enctype="multipart/form-data" action="{% url 'discussion:delete_event' CourseID event.id %}">
