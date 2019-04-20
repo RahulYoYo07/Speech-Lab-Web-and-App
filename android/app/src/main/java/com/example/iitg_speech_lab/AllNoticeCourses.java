@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +33,7 @@ public class AllNoticeCourses extends AppCompatActivity {
     public List CourseUser2;
     public List CourseUser3;
     public List<HashMap> CourseUser1;
+    private ProgressBar spinner;
     public static final String EXTRA_MESSAGE = "com.example.iitg_speech_lab.MESSAGE";
     public List<String> lst=new ArrayList<String>();
     public List<String> lst2=new ArrayList<String>();
@@ -45,6 +47,10 @@ public class AllNoticeCourses extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_notice_courses);
+
+        spinner = (ProgressBar) findViewById(R.id.progressBar9);
+
+        spinner.setVisibility(View.VISIBLE);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -61,6 +67,7 @@ public class AllNoticeCourses extends AppCompatActivity {
 
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        spinner.setVisibility(View.GONE);
 //
                         CourseUser1= (List<HashMap>)document.get("CourseList");
                         CourseUser2= (List)document.get("ProfCourseList");

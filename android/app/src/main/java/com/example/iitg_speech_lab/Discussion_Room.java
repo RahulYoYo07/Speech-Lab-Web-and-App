@@ -248,11 +248,11 @@ public class Discussion_Room extends AppCompatActivity {
                                         ll.addView(replybtn);
                                         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) btn.getLayoutParams();
                                         params1.width=300;
-                                        params1.height=100;
+                                        params1.height=150;
                                         btn.setLayoutParams(params1);
                                         LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
                                         params3.width=300;
-                                        params3.height=100;
+                                        params3.height=150;
                                         replybtn.setLayoutParams(params3);
 
                                     }
@@ -422,7 +422,7 @@ public class Discussion_Room extends AppCompatActivity {
                                         ll.addView(replybtn);
                                         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) replybtn.getLayoutParams();
                                         params1.width=300;
-                                        params1.height=100;
+                                        params1.height=150;
                                         replybtn.setLayoutParams(params1);
                                     }
 
