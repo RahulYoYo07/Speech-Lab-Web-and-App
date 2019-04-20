@@ -124,7 +124,7 @@ def getDesig(request, cinfo):
         TAListref = CourseDict["TAList"]
         for TA in TAListref:
             if username == TA.get().to_dict()["Username"]:
-                return "TA"
+                return "Faculty"
     except:
         pass
 
@@ -254,8 +254,6 @@ def Update_Attendance(request, cinfo, aid, gid):
 
         return HttpResponseRedirect(reverse('course:dashboard'))
     else:
-        cinfo = "CS243"
-        aid = "As_01"
         group_ref = db.collection(u'Courses').document(cinfo).collection(
             u'Assignments').document(aid).collection(u'Groups').document(gid).get()
         try:
@@ -294,6 +292,9 @@ def Show_Attendance(request, cinfo):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+    Designation = getDesig(request, cinfo)
+
+    context['Designation'] = Designation
 
     course_ref = db.collection(u'Courses').document(cinfo).get()
     course_arr = course_ref.to_dict()['AttendanceList']
@@ -457,7 +458,6 @@ def ViewCourse(request, cinfo):
     username = context['username']
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    Designation = user_dict['Designation']
     # cid += "_" + username + " _" + cyear
     assgn_ref = db.collection(u'Courses').document(
         cinfo).collection(u'Assignments').get()
@@ -557,7 +557,6 @@ def viewTA(request, cinfo):
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    Designation = user_dict['Designation']
 
     try:
         TAList = db.collection(u'Courses').document(
@@ -595,7 +594,6 @@ def ViewAssgn(request, cinfo, aid):
     username = context['username']
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    context['Designation'] = user_dict['Designation']
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
@@ -647,6 +645,7 @@ def AddTA(request, cinfo):
     context['BTech'] = BTech
     context['MTech'] = MTech
     context['Phd'] = Phd
+    context['CourseInfo'] = cinfo
     # {
     #     'BTech': BTech,
     #     'MTech': MTech,
@@ -754,7 +753,7 @@ def ViewCourseMaterial(request, cinfo):
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    Designation = user_dict['Designation']
+    # Designation = user_dict['Designation']
 
     course_data = db.collection(u'Courses').document(cinfo).get().to_dict()
 
@@ -821,6 +820,11 @@ def Update_Submission(request, cinfo, aid, gid):
         return HttpResponseRedirect(reverse('home:home'))
 
     username = context['username']
+    context['sub'] = ''
+    context['cinfo'] = cinfo
+    context['aid'] = aid
+    context['gid'] = gid
+    context['Designation'] = Designation
 
     updPer = False
     for stu in StudentList:
@@ -837,10 +841,7 @@ def Update_Submission(request, cinfo, aid, gid):
 
     print(group.get().to_dict())
 
-    context['sub'] = ''
-    context['CourseInfo'] = cinfo
-    context['aid'] = aid
-    context['gid'] = gid
+    
     # {
     #     'sub': '',
     #     'CourseInfo': cinfo,
@@ -887,7 +888,8 @@ def ViewGroup(request, cinfo, aid, gid):
 
     user_ref = db.collection(u'Users').document(username).get()
     user_dict = user_ref.to_dict()
-    Designation = user_dict['Designation']
+    # Designation = user_dict['Designation']
+    context['Designation'] = Designation
 
     group_ref = db.collection(u'Courses').document(cinfo).collection(
         u'Assignments').document(aid).collection(u'Groups').document(gid).get()
@@ -911,10 +913,19 @@ def ViewGroup(request, cinfo, aid, gid):
 
 
 def UpdateGroup(request, cinfo, aid, gid):
+    Designation = getDesig(request, cinfo)
+    if Designation != "Faculty":
+        return HttpResponse(status=511)
+
     context = {}
     context = loginFLOW(request, context)
     if context['username'] == '':
         return HttpResponseRedirect(reverse('home:home'))
+
+    context['cinfo'] = cinfo
+    context['aid'] = aid
+    context['gid'] = gid
+    context['Designation'] = Designation
 
     username = context['username']
 
@@ -936,6 +947,7 @@ def UpdateGroup(request, cinfo, aid, gid):
             StudentDetails.append(stud['StudentID'].get().to_dict())
         context['cinfo'] = cinfo
         context['aid'] = aid
+        context['gid'] = gid
         context['GroupDetails'] = GroupDetails
         context['StudentDetails'] = StudentDetails
         # {
@@ -947,7 +959,7 @@ def UpdateGroup(request, cinfo, aid, gid):
 
         return render(request, 'course/viewgroup.html', context)
 
-    return render(request, 'course/updategroupform.html')
+    return render(request, 'course/updategroupform.html',context)
 
 
 def RandomGroups(request, cinfo, aid):
