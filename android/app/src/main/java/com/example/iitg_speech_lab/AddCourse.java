@@ -68,6 +68,8 @@ public class AddCourse extends AppCompatActivity {
                 CourseMap.put("CourseID",Cid);
                 CourseMap.put("EnrollmentKey",CEnroll);
                 CourseMap.put("CourseName",Cname);
+                String s = Cid + "_" + CoursesActivity.username + "_" + Integer.toString(CStartYear);                        ;
+                CourseMap.put("CourseInfo",s);
                 Map<String,Object> StartSem = new HashMap<>();
                 StartSem.put("SemesterType",CStartType);
                 StartSem.put("Session",CStartYear);

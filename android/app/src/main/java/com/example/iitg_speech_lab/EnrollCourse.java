@@ -7,12 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.format.InputAccessor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +41,22 @@ public class EnrollCourse extends AppCompatActivity {
                             String EnrollmentKey = (String) doc.get("EnrollmentKey");
                             EditText ET = findViewById(R.id.enrollkey);
                             String EnrollKey1 = ET.getText().toString();
-                            final ArrayList<Map<Object,Object>> StdList = (ArrayList<Map<Object,Object>>) doc.get("StudentList");
-                            final ArrayList<Map<Object,Object>> AttnList = (ArrayList<Map<Object,Object>>) doc.get("AttendanceList");
+                            ArrayList<Map<Object,Object>> StdList = new ArrayList<Map<Object,Object>>();
+                            ArrayList<Map<Object,Object>> AttnList = new ArrayList<Map<Object,Object>>();
+                            try {
+                                ArrayList<Map<Object,Object>> StdLis = (ArrayList<Map<Object, Object>>) doc.get("StudentList");
+                                StdList = StdLis;
+                            }
+                            catch (Exception e) {
+                                System.out.println("eedbdbqwdigdigqduigqwidugquigd");
+                            }
+                            try {
+                                ArrayList<Map<Object,Object>> StdLispy = (ArrayList<Map<Object,Object>>) doc.get("AttendanceList");
+                                StdList = StdLispy;
+                            }
+                            catch (Exception e) {
+                                System.out.println("eedbdbqwdigdigqduigqwidugquigd");
+                            }
                             if (EnrollKey1.equals(EnrollmentKey)) {
                                 FirebaseFirestore dc = FirebaseFirestore.getInstance();
                                 final DocumentReference usr = dc.collection("Users").document(Username);
@@ -52,11 +68,20 @@ public class EnrollCourse extends AppCompatActivity {
                                 mp2.put("TotalAttendance",0);
                                 mp2.put("StudentID",usr);
                                 mp3.put("CourseID",assignsRef);
-                                StdList.add(mp1);
-                                AttnList.add(mp2);
+                                ArrayList<Map<Object,Object>> xrd = new ArrayList<Map<Object,Object>>();
+                                if (StdList != null){
+                                    xrd = StdList;
+                                }
+                                xrd.add(mp1);
+                                ArrayList<Map<Object,Object>> xrdud = new ArrayList<Map<Object,Object>>();
+                                if (AttnList != null) {
+                                    xrdud = AttnList;
+                                }
+                                xrdud.add(mp2);
                                 Map<String,Object> pushdata = new HashMap<>();
-                                pushdata.put("AttendanceList",AttnList);
-                                pushdata.put("StudentList",StdList);
+                                pushdata.put("AttendanceList",xrdud);
+                                pushdata.put("StudentList",xrd);
+
                                 System.out.print(pushdata);
                                 System.out.println("addcdcdvvv");
                                 dc.collection("Courses").document(CourseInfo).update(pushdata);
@@ -67,14 +92,18 @@ public class EnrollCourse extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     DocumentSnapshot df = task.getResult();
                                                     ArrayList<Map<Object,Object>> curselist = (ArrayList<Map<Object,Object>>) df.get("CourseList");
-                                                    curselist.add(mp3);
+
+                                                    ArrayList<Map<Object,Object>> ganndu = new ArrayList<Map<Object,Object>>();
+                                                    if (curselist != null ){
+                                                        ganndu = curselist;
+                                                    }
+                                                    ganndu.add(mp3);
                                                     Map<String,Object> cursedata = new HashMap<>();
-                                                    cursedata.put("CourseList",curselist);
+                                                    cursedata.put("CourseList",ganndu);
                                                     System.out.print(cursedata);
                                                     System.out.println("addcdcdvvv");
                                                     usr.update(cursedata);
-                                                    StdList.clear();
-                                                    AttnList.clear();
+
                                                     Check = 1;
                                                 }
                                             }
