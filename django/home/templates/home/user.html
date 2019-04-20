@@ -27,6 +27,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="/users/{{username}}/editContact/">Edit Contact Us</a>
             </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="/users/{{username}}/addNotice/">Add Notice</a>
+            </li>
+            {% elif Designation == "Faculty" %}
+            <li class="nav-item">
+                <a class="nav-link" href="/users/{{username}}/addNotice/">Add Notice</a>
+            </li>
             {% endif %}
 
         </ul>
