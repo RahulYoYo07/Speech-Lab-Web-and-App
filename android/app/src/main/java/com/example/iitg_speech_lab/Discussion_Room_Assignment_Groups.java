@@ -55,24 +55,26 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         final Discussion_Room_Assignment_Groups help=this;
         Intent intent = getIntent();
-        final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView heading=(TextView) findViewById(R.id.DiscussionHeading);
+        final String message = intent.getStringExtra(AllDiscussionRooms.EXTRA_MESSAGE);
+//        final String message="CS243_2018";
+        TextView heading=(TextView) findViewById(R.id.DiscussionHeading_assignment);
         heading.append(message);
+        AssignmentId=intent.getStringExtra("assignmentID");
+        GroupId=intent.getStringExtra("groupID");
 
-        TextView DiscussionHeading = findViewById(R.id.DiscussionHeading);
+        TextView DiscussionHeading = findViewById(R.id.DiscussionHeading_assignment);
         String Heading = "<h1>" + message +" Discussion Room"+"</h1> ";
         DiscussionHeading.setText(Html.fromHtml(Heading));
 
 
-
-        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout);
+        final ConstraintLayout lm = (ConstraintLayout) findViewById(R.id.discussion_layout_assignment);
 
         // create the layout params that will be used to define how your
         // button will be displayed
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
 
-        final LinearLayout ll = (LinearLayout) findViewById(R.id.lol);
+        final LinearLayout ll = (LinearLayout) findViewById(R.id.lol_assignment);
 //        ll.setOrientation(LinearLayout.VERTICAL);
 
 
@@ -103,7 +105,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 
                                         // Create TextView
                                         String helpid=dc.getDocument().getId();
-                                        View parrentView = findViewById( R.id.lol );
+                                        View parrentView = findViewById( R.id.lol_assignment );
                                         TextView helptext = (TextView) parrentView.findViewWithTag(helpid);
 //                                        System.out.println(helptext);
                                         if(helptext!=null)
@@ -234,7 +236,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 
                                         // Create TextView
                                         String helpid=dc.getDocument().getId();
-                                        View parrentView = findViewById( R.id.lol );
+                                        View parrentView = findViewById( R.id.lol_assignment );
                                         TextView helptext = (TextView) parrentView.findViewWithTag(helpid);
 //                                        System.out.println(helptext);
                                         if(helptext!=null)
@@ -264,7 +266,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                                     int ii;
                                                     for(ii=0;ii<pollop.size();ii++)
                                                     {
-                                                        View parrentView = findViewById( R.id.lol );
+                                                        View parrentView = findViewById( R.id.lol_assignment );
                                                         String hel=messageID2+Integer.toString(ii);
                                                         RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
 //                                                                System.out.println(rdbtn);
@@ -297,7 +299,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
                                                             int iii=0;
                                                             for(iii=0;iii<pollop.size();iii++)
                                                             {
-                                                                View parrentView = findViewById( R.id.lol );
+                                                                View parrentView = findViewById( R.id.lol_assignment );
                                                                 String hel=messageID2+Integer.toString(iii);
                                                                 RadioButton rdbtn3=(RadioButton) parrentView.findViewWithTag(hel);
                                                                 String rdb=pollop.get(iii) +"<b>: Vote Count</b>="+Integer.toString(0);
@@ -311,7 +313,7 @@ public class Discussion_Room_Assignment_Groups extends AppCompatActivity {
 //                                                                         voted.add(voter);
                                                                     long val = doc.getLong("ReplyBody");
                                                                     int val2 = (int) val;
-                                                                    View parrentView = findViewById( R.id.lol );
+                                                                    View parrentView = findViewById( R.id.lol_assignment );
                                                                     String hel=messageID2+Integer.toString(val2);
                                                                     RadioButton rdbtn=(RadioButton) parrentView.findViewWithTag(hel);
                                                                     if (rdbtn == null) {

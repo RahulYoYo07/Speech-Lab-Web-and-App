@@ -261,6 +261,14 @@ public class ProfileProjectDashboard extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.ProfileLogout){
             onSignOutClicked();
+        } else if (id == R.id.ProfileDashboardDiscussion) {
+            Intent intent = new Intent(ProfileProjectDashboard.this, AllDiscussionRooms.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
+        } else if (id == R.id.ProfileDashboardDeadline) {
+            Intent intent = new Intent(ProfileProjectDashboard.this, EventDeadlines.class);
+            intent.putExtra("username", getIntent().getStringExtra("username"));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

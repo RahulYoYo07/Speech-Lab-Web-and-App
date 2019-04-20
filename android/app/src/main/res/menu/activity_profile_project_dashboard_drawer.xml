@@ -20,6 +20,16 @@
             android:title="Your Courses" />
 
         <item
+            android:id = "@+id/ProfileDashboardDiscussion"
+            android:title="Discussion Rooms"
+            android:icon ="@drawable/ic_chat"/>
+
+        <item
+            android:id = "@+id/ProfileDashboardDeadline"
+            android:title="Deadlines"
+            android:icon ="@drawable/ic_deadline"/>
+
+        <item
             android:id="@+id/ProfileDashboardMyProjects"
             android:icon="@drawable/ic_project"
             android:title="My Projects" />

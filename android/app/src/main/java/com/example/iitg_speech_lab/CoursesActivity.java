@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 
 public class CoursesActivity extends AppCompatActivity {
-
+    public static String username;
     private static RecyclerView.Adapter adapter;
     private RecyclerView recyclerView;
     private static ArrayList<CoursesDataModel> data;
@@ -36,8 +36,7 @@ public class CoursesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String username = getIntent().getStringExtra("username");
-        //String username = "pradip";
+        username = getIntent().getStringExtra("username");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
         Toolbar toolbar = findViewById(R.id.toolbar);

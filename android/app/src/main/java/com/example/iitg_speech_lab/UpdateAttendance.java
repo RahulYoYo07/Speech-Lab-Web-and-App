@@ -72,11 +72,10 @@ public class UpdateAttendance extends AppCompatActivity {
     }
     public static ArrayList<Map<Object,Object>> push = new ArrayList<Map<Object,Object>>();
     public static int cnt;
+    public static int pp = 0;
     public void Update_Attendance_Group(final View view){
 
         final String CourseInfo = getIntent().getStringExtra("courseInfo");
-        String AssignmentID = getIntent().getStringExtra("assignmentID");
-        String GroupID = getIntent().getStringExtra("groupID");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference assignsRef = db.collection("Courses").document(CourseInfo);
         assignsRef.get()
@@ -88,8 +87,9 @@ public class UpdateAttendance extends AppCompatActivity {
                             final ArrayList<Map<Object,Object>> mps = (ArrayList<Map<Object, Object>>) course.get("AttendanceList");
                             final int lengthy = mps.size();
                             cnt = 0;
-                            final ArrayList<DocumentReference> listy = new ArrayList<DocumentReference>();
-                            for (Map<Object,Object>mp:mps) {
+                            push.clear();
+                            for (Map<Object,Object>mp : mps) {
+                                pp = 0;
                                 final DocumentReference usr = (DocumentReference) mp.get("StudentID");
                                 final Long Attendance = (Long) mp.get("TotalAttendance");
 
@@ -101,52 +101,49 @@ public class UpdateAttendance extends AppCompatActivity {
                                                     cnt++;
                                                     DocumentSnapshot user = task.getResult();
                                                     String UserName = (String) user.get("Username");
+                                                    int x = 0;
                                                     for (int i=0;i<TickBoxes.size();i++) {
-                                                        final Map<Object,Object> mp = new HashMap<>();
+                                                        final Map<Object,Object> mpt = new HashMap<>();
                                                         if (TickBoxes.get(i).getTag().toString().equals(UserName) && TickBoxes.get(i).isChecked()) {
                                                             Long Atd = Attendance + 1;
-                                                            mp.put("TotalAttendance", Atd);
+                                                            mpt.put("StudentID",usr);
+                                                            mpt.put("TotalAttendance", Atd);
+                                                            x = 1;
+                                                            push.add(mpt);
                                                         }
-                                                        else{
-                                                            mp.put("TotalAttendance",Attendance);
-                                                        }
-                                                        listy.add(usr);
-                                                        mp.put("StudentID",usr);
-                                                        push.add(mp);
                                                     }
-                                                    if (cnt == lengthy) {
-                                                        int country = mps.size();
-                                                        int gh = 0;
-                                                        for (Map<Object,Object>mp : mps) {
-                                                            gh++;
-                                                            DocumentReference lo = (DocumentReference) mp.get("StudentID");
-                                                            Long Attndd = (Long) mp.get("TotalAttendance");
-                                                            int check = 0;
-                                                            for (int i=0;i<listy.size();i++){
-                                                                if (listy.get(i).equals(lo)) {
-                                                                     check = 1;
-                                                                }
-                                                            }
-                                                            if (check == 0) {
-                                                                Map<Object, Object> xmlk = new HashMap<>();
-                                                                xmlk.put("TotalAttendance",Attndd);
-                                                                xmlk.put("StudentID",lo);
-                                                                push.add(xmlk);
-                                                            }
-                                                            if(gh==country){
-                                                                System.out.print(push);
-                                                                System.out.println("trrvdvdvd");
-                                                                FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-                                                                DocumentReference assignsRef = db2.collection("Courses").document(CourseInfo);
-                                                                Map<String, Object> mpdgrd = new HashMap<>();
-                                                                mpdgrd.put("AttendanceList", push);
-                                                                System.out.print(mpdgrd);
-                                                                assignsRef.update(mpdgrd);
-                                                                mpdgrd.clear();
-                                                                push.clear();
+                                                    if(x == 0){
+                                                        for (int i=0;i<TickBoxes.size();i++) {
+                                                            final Map<Object,Object> mpt = new HashMap<>();
+                                                            if (TickBoxes.get(i).getTag().toString().equals(UserName)) {
+                                                                Long Atd = Attendance ;
+                                                                mpt.put("StudentID",usr);
+                                                                mpt.put("TotalAttendance", Atd);
+                                                                x = 1;
+                                                                push.add(mpt);
                                                             }
                                                         }
-
+                                                    }
+                                                    if(x == 0){
+                                                        final Map<Object,Object> mpt = new HashMap<>();
+                                                        Long Atd = Attendance ;
+                                                        mpt.put("StudentID",usr);
+                                                        mpt.put("TotalAttendance", Atd);
+                                                        x = 1;
+                                                        push.add(mpt);
+                                                    }
+                                                    pp = 1;
+                                                    if (cnt == lengthy) {
+                                                        FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                                                        DocumentReference assignsRef = db2.collection("Courses").document(CourseInfo);
+                                                        Map<String, Object> mpdgrd = new HashMap<>();
+                                                        mpdgrd.put("AttendanceList", push);
+                                                        System.out.print(mpdgrd);
+                                                        System.out.println("drdfsdgdgdsgsd");
+                                                        assignsRef.update(mpdgrd);
+                                                        pp = 1;
+                                                        mpdgrd.clear();
+                                                        push.clear();
                                                     }
                                                 }
                                             }

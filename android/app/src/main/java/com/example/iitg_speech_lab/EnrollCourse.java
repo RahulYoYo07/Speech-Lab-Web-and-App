@@ -59,7 +59,7 @@ public class EnrollCourse extends AppCompatActivity {
                                 pushdata.put("StudentList",StdList);
                                 System.out.print(pushdata);
                                 System.out.println("addcdcdvvv");
-//                                dc.collection("Courses").document(CourseInfo).update(pushdata);
+                                dc.collection("Courses").document(CourseInfo).update(pushdata);
                                 usr.get()
                                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
@@ -72,7 +72,7 @@ public class EnrollCourse extends AppCompatActivity {
                                                     cursedata.put("CourseList",curselist);
                                                     System.out.print(cursedata);
                                                     System.out.println("addcdcdvvv");
-//                                                    usr.update(cursedata);
+                                                    usr.update(cursedata);
                                                     StdList.clear();
                                                     AttnList.clear();
                                                     Check = 1;
