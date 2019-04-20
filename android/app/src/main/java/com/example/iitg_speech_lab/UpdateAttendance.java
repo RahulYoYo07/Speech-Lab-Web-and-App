@@ -59,8 +59,9 @@ public class UpdateAttendance extends AppCompatActivity {
                                                     tv.setText(FullName);
                                                     tv.setTag(UserName);
                                                     et.setTag(UserName);
+                                                    et.setText(FullName.toUpperCase());
+                                                    et.setTextSize(18);
                                                     TickBoxes.add(et);
-                                                    myLayout.addView(tv);
                                                     myLayout.addView(et);
                                                 }
                                             }
