@@ -113,7 +113,7 @@ class ChatConsumer(WebsocketConsumer):
             client = ntplib.NTPClient()
             response = client.request('pool.ntp.org')
             # MessageID = str(response.tx_time)
-            MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+            MessageID = 'a' + hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
 
             ShowReply = text_data_json['ShowReply']
             if (ShowReply == False):
@@ -129,7 +129,7 @@ class ChatConsumer(WebsocketConsumer):
                     client = ntplib.NTPClient()
                     response = client.request('pool.ntp.org')
                     # MessageID = str(response.tx_time)
-                    MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+                    MessageID = 'a' + hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
 
                     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).set({'Author' : curAuthor,'MessageHead' : messageHead, 'MessageBody' : message,'IsPoll': False,'PostTime':firestore.SERVER_TIMESTAMP})
 
@@ -189,7 +189,7 @@ class ChatConsumer(WebsocketConsumer):
                     client = ntplib.NTPClient()
                     response = client.request('pool.ntp.org')
                     # MessageID = str(response.tx_time)
-                    MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+                    MessageID = 'a' + hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
 
                     doc_ref = db.collection(u'Courses').document(CourseID).collection(u'CourseGroup').document(CourseGroupID).collection(u'Messages').document(MessageID).set(DBPoll)
 
@@ -363,7 +363,7 @@ class ChatConsumer2(WebsocketConsumer):
             client = ntplib.NTPClient()
             response = client.request('pool.ntp.org')
             # MessageID = str(response.tx_time)
-            MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+            MessageID = 'a' + hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
 
             # hash = hashlib.sha1()
             # hash.update(str(time.time()))
@@ -379,7 +379,7 @@ class ChatConsumer2(WebsocketConsumer):
                     client = ntplib.NTPClient()
                     response = client.request('pool.ntp.org')
                     # MessageID = str(response.tx_time)
-                    MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+                    MessageID = 'a' + hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
 
                     # hash = hashlib.sha1()
                     # hash.update(str(time.time()))
@@ -442,7 +442,7 @@ class ChatConsumer2(WebsocketConsumer):
                     client = ntplib.NTPClient()
                     response = client.request('pool.ntp.org')
                     # MessageID = str(response.tx_time)
-                    MessageID = hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
+                    MessageID = 'a' + hashlib.sha224(str(response.tx_time).encode()).hexdigest()[:25]
 
                     # hash = hashlib.sha1()
                     # hash.update(str(time.time()))
