@@ -46,8 +46,8 @@ public class StudentCoursesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        username = "gulat170123030";
-
+//        username = "gulat170123030";
+        username = getIntent().getStringExtra("username");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
 //        Toolbar toolbar = findViewById(R.id.toolbar);

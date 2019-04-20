@@ -36,8 +36,8 @@ public class CoursesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-      // String username = getIntent().getStringExtra("username");
-        String username = "pradip";
+        String username = getIntent().getStringExtra("username");
+        //String username = "pradip";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -109,12 +109,10 @@ public class CoursesActivity extends AppCompatActivity {
             }
             String selectedName = ( String ) textViewName.getText();
 
-            Log.d("aman",selectedName);
             String cinfo = null;
             if (viewHolder != null) {
                 cinfo = (String) viewHolder.itemView.getTag();
             }
-            Log.d("aman",cinfo);
             Intent intent = new Intent(CoursesActivity.this, ViewCourse.class);
             intent.putExtra("courseInfo",cinfo);
             startActivity(intent);
